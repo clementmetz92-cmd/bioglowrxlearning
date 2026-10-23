@@ -205,3 +205,46 @@ a { color: inherit; }
 .br-mc.clue .t.is-long { font-size: 13px; line-height: 1.2; }
 .br-mc.clue { padding-top: 18px; }
 @media (max-width: 520px) { .br-mc.clue .t.is-long { font-size: 9.5px; } .br-mc.clue { padding: 14px 3px 3px; } }
+
+/* ---------- lab mini games ---------- */
+.lab-intro { display: grid; grid-template-columns: 1.4fr 1fr; gap: 12px 18px; padding: var(--space-4); border: 1px solid var(--line); border-radius: var(--radius-inner); margin-top: 4px; }
+.lab-intro p { margin: 0 0 8px; font-size: 15px; line-height: 1.5; }
+.lab-intro .life { border-left: 3px solid var(--accent); padding-left: var(--space-3); }
+.lab-eq { font: 600 15px var(--font-mono); color: var(--accent); }
+.lab-stage { display: grid; grid-template-columns: minmax(0, 1fr) 220px; gap: 16px; align-items: center; margin-top: 10px; }
+.lab-scenewrap { display: grid; place-items: center; background: linear-gradient(180deg, var(--surface), var(--bg)); border: 1px solid var(--line); border-radius: var(--radius-inner); padding: 6px; }
+.lab-scene { width: 100%; max-width: 330px; height: auto; display: block; }
+.lab-side { display: flex; flex-direction: column; gap: 10px; }
+.lab-read { padding: 12px 14px; border: 1px solid var(--line); border-radius: var(--radius-inner); background: var(--bg); }
+.lab-read .br-label { margin: 0 0 4px; }
+.lab-read b { font: 800 34px var(--font-mono); font-variant-numeric: tabular-nums; letter-spacing: -.02em; }
+.lab-read span { display: block; font: 400 12px var(--font-mono); color: var(--muted); }
+.lab-read.is-flask span { font-size: 13px; color: var(--ink); }
+.lab-hint { margin: 0; font-size: 14px; line-height: 1.45; color: var(--muted); min-height: 3em; }
+.lab-hint b { color: var(--ink); }
+.lab-controls { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 14px; }
+.lab-btn { min-width: 96px; padding: 14px 18px; border-radius: var(--radius-inner); border: 2px solid var(--line); background: var(--bg); font-weight: 800; font-size: 16px; touch-action: none; user-select: none; -webkit-user-select: none; -webkit-touch-callout: none; transition: transform .1s ease, border-color .12s, background .12s; }
+.lab-btn:active:not(:disabled) { transform: scale(.96); }
+.lab-btn.is-pour { flex: 1; max-width: 220px; border-color: var(--accent); color: var(--accent); }
+.lab-btn.is-pour.is-on { background: var(--accent); color: var(--accent-ink); transform: scale(.97); }
+.lab-btn:disabled { opacity: .5; cursor: default; }
+.lab-end { font-size: 17px; padding: 14px 32px; }
+.lab-end:disabled { opacity: .5; }
+.lab-calc { margin: 14px auto 0; max-width: 520px; text-align: left; padding: 14px; border: 1px solid var(--line); border-radius: var(--radius-inner); background: var(--bg); }
+.lab-calc p { margin: 0 0 8px; color: var(--ink); }
+.lab-calc .br-answers { margin-top: 10px; }
+.lab-result { margin-top: 12px; }
+.lab-result p { color: var(--ink); max-width: 56ch; margin: 6px auto 0; }
+.lab-stars { font-size: 40px; color: var(--streak-hot); letter-spacing: 4px; line-height: 1; }
+.lab-stars span { color: var(--line); }
+.br-chap.is-lab { border: 2px dashed var(--accent); }
+.br-chap.is-lab .lab-tag { margin-left: auto; }
+.br-labs { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-top: -8px; }
+@media (max-width: 700px) {
+  .lab-intro { grid-template-columns: 1fr; }
+  .lab-stage { grid-template-columns: 1fr; }
+  .lab-side { display: grid; grid-template-columns: 1fr 1fr; }
+  .lab-side .lab-hint { grid-column: 1 / -1; min-height: 2.6em; }
+  .lab-scene { max-width: 260px; }
+  .br-labs { grid-template-columns: 1fr; }
+}

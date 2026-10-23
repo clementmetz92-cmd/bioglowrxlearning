@@ -4,7 +4,7 @@
   "use strict";
   const BGX = window.BGX, C = window.BGX_CATALOG, esc = BGX.esc, R = BGX.root;
   const view = document.getElementById("br-view"), page = document.body.dataset.page;
-  const liveCount = s => s.chapters.filter(c => c.status === "live").length;
+  const liveCount = s => s.chapters.filter(c => c.status === "live").length + (s.labs || []).filter(l => l.status === "live").length;
   const nextCount = s => s.chapters.filter(c => c.status === "next").length;
   const tile = (t, cls = "") => t.ghost ? `<div class="br-tile ${cls} ghost-tile"><small>?</small><b>?</b></div>`
     : `<div class="br-tile ${cls}${t.icon ? " is-icon" : ""}" style="background:var(--${t.color})"><small>${esc(t.corner)}</small><b>${t.icon ? BGX.icon(t.icon) : esc(t.big)}</b>${t.label ? `<em>${esc(t.label)}</em>` : ""}</div>`;
@@ -51,12 +51,22 @@
           <div class="ic" style="background:var(--${s.color})"><small>${String(C.subjects.indexOf(s) + 1).padStart(2, "0")}</small>${BGX.icon(s.icon)}</div>
           <div><p class="br-label" style="margin:0">${esc(s.count || "")} · ${liveCount(s)} live · ${nextCount(s)} up next</p><h1>${esc(s.name)}</h1><p>${esc(s.blurb)}</p></div>
         </section>
-        <div class="br-seg" role="group" aria-label="Filter chapters" style="margin-top:22px">
+        ${s.labs && s.labs.length ? `<p class="br-label" style="margin:10px 0 0">Hands-on lab</p><div class="br-labs">${s.labs.map(labCard).join("")}</div>` : ""}
+        <p class="br-label" style="margin:10px 0 0">Chapters</p>
+        <div class="br-seg" role="group" aria-label="Filter chapters" style="margin-top:-8px">
           ${[["all", "All chapters"], ["live", "Live"], ["next", "Up next"]].map(([k, l]) => `<button data-f="${k}" aria-pressed="${filter === k}">${l}</button>`).join("")}
         </div>
         <div class="br-chaps">${list.length ? list.map(card).join("") : `<p class="br-empty">Nothing here yet. The first games are on their way.</p>`}</div>
         <p class="br-hint" style="margin-top:18px">Built from ${esc(s.source)}. Every game is written in our own words.</p>`;
       view.querySelectorAll("[data-f]").forEach(b => b.onclick = () => { BGX.sfx.tap(); filter = b.dataset.f; draw(); });
+    };
+    const labCard = l => {
+      const live = l.status === "live", next = l.status === "next";
+      const inner = `<div class="top"><span class="ic" style="background:var(--${s.color})"><small>Lab</small>${BGX.icon(l.icon)}</span>
+          <span><span class="ch">Ch. ${esc(l.ch)}${next ? ' <span class="br-star">★</span>' : ""}</span><h3>${esc(l.title)}</h3></span></div>
+        <p class="plan">${esc(l.text)}</p>
+        <div class="game"><span class="br-fmt">Lab mini game</span>${live ? '<span class="br-chip is-live lab-tag">Live</span>' : `<span class="br-chip lab-tag">${next ? "Up next" : "Soon"}</span>`}</div>`;
+      return live ? `<a class="br-chap is-lab" href="${R}${l.url}">${inner}</a>` : `<div class="br-chap is-lab is-soon">${inner}</div>`;
     };
     const card = c => {
       const fm = c.formats.map(x => `<span class="br-fmt">${esc(x)}</span>`).join("");

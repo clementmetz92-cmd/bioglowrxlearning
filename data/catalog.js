@@ -4,15 +4,15 @@
    To launch a game: set its status to "live" and add  url: "games/<game-id>/index.html". */
 window.BGX_CATALOG = {
   featured: {
-    game: "heart-flow", eyebrow: "Featured · New in Anatomy & Physiology", title: "Heart Flow",
-    text: "Follow the blood through every chamber and valve, then put each heartbeat in order with the new Sequence game.",
-    url: "games/heart-flow/index.html", explore: "subjects/anatomy/index.html",
+    game: "titration-lab", eyebrow: "New · Hands-on lab in Chemistry", title: "Titration Lab",
+    text: "Your first lab mini game: hold to pour, swirl the flask and stop at the exact moment it turns pink. Three levels, up to three stars each.",
+    url: "games/titration-lab/index.html", explore: "subjects/chemistry/index.html",
     tiles: [
-      { corner: "1", icon: "heart", label: "Atrium", color: "cat-coral" },
-      { corner: "5", icon: "drop", label: "Tricuspid", color: "cat-amber" },
-      { corner: "12", icon: "wave", label: "Aorta", color: "cat-sky" },
-      { corner: "14", icon: "zap", label: "SA node", color: "cat-lemon" },
-      { corner: "4", icon: "heart", label: "Ventricle", color: "cat-coral" },
+      { corner: "1", icon: "flask", label: "Burette", color: "cat-sky" },
+      { corner: "2", icon: "drop", label: "1 drop", color: "cat-orchid" },
+      { corner: "3", icon: "beaker", label: "Endpoint", color: "cat-orchid" },
+      { corner: "pH", big: "7", label: "Neutral", color: "cat-sage" },
+      { corner: "★", big: "3", label: "Stars", color: "cat-amber" },
       { corner: "?", big: "?", label: "", ghost: true }
     ]
   },
@@ -20,6 +20,9 @@ window.BGX_CATALOG = {
     {
       id: "chemistry", count: "24 chapters", name: "Chemistry", color: "cat-sky", icon: "flask", source: "Averill, Chemistry",
       blurb: "Atoms, elements, reactions and the chemistry behind everyday things.",
+      labs: [
+        { id: "titration-lab", ch: "16–17", title: "Titration Lab", icon: "flask", text: "Hold to pour from the burette, swirl the flask and stop at the exact pink endpoint. Level 3 adds the concentration calculation.", status: "live", url: "games/titration-lab/index.html" }
+      ],
       chapters: [
         { ch: "1", title: "What chemistry is: units and lab safety", icon: "beaker", game: "Lab Basics", formats: ["Quick Quiz", "Match Pairs"], status: "soon" },
         { ch: "2", title: "Molecules, ions and formulas", icon: "molecule", game: "Formula Forge", formats: ["Explore", "Quick Quiz", "Match Pairs", "Sort It"], status: "live", url: "games/formula-forge/index.html",
@@ -47,6 +50,9 @@ window.BGX_CATALOG = {
     {
       id: "anatomy", count: "29 chapters", name: "Anatomy & Physiology", color: "cat-peach", icon: "body", source: "Saladin, Anatomy & Physiology",
       blurb: "How the human body is built and how each system keeps you alive.",
+      labs: [
+        { id: "microscope-lab", ch: "3–5", title: "Microscope Lab", icon: "search", text: "Focus the microscope, then identify the cells and tissues you see.", status: "next" }
+      ],
       chapters: [
         { ch: "1 + Atlas A", title: "Finding your way around the body", icon: "body", game: "Body Map", formats: ["Find It"], status: "soon" },
         { ch: "2", title: "The chemistry of life", icon: "molecule", game: "Biomolecule Sort", formats: ["Sort It"], status: "soon" },
@@ -77,6 +83,9 @@ window.BGX_CATALOG = {
     {
       id: "pharmacology", count: "10 chapters", name: "Pharmacology", color: "cat-lilac", icon: "capsule", source: "Open RN, Nursing Pharmacology (CC BY 4.0)",
       blurb: "How medicines work, how they are given safely, and the main drug families.",
+      labs: [
+        { id: "syringe-prep", ch: "2 + All", title: "Syringe Prep", icon: "pill", text: "Work out the dose, then draw it up to the exact line on the syringe.", status: "soon" }
+      ],
       chapters: [
         { ch: "1", title: "How a drug travels through the body", icon: "steps", game: "Drug Journey", formats: ["Explore", "Sequence", "Quick Quiz", "Sort It", "Match Pairs"], status: "live", url: "games/drug-journey/index.html",
           tiles: [{corner: "1", icon: "steps", color: "cat-sky"}, {corner: "7", icon: "zap", color: "cat-lilac"}, {corner: "10", icon: "chart", color: "cat-amber"}] },
@@ -95,6 +104,9 @@ window.BGX_CATALOG = {
     {
       id: "nutrition", count: "17 chapters", name: "Nutrition", color: "cat-sage", icon: "apple", source: "Deen & Hark, The Complete Guide to Nutrition in Primary Care",
       blurb: "What we eat, what the body needs at each age, and how diet helps prevent and manage disease.",
+      labs: [
+        { id: "food-test-lab", ch: "11–12", title: "Food Test Lab", icon: "beaker", text: "Use iodine, Benedict's and biuret tests to find starch, sugar and protein in foods.", status: "soon" }
+      ],
       chapters: [
         { ch: "1–2", title: "Nutrition at the doctor's office", icon: "chat", game: "Clinic Basics", formats: ["Quick Quiz"], status: "soon" },
         { ch: "3", title: "Weight and energy balance", icon: "scale", game: "Energy Balance", formats: ["Calculator"], status: "soon" },
@@ -111,6 +123,9 @@ window.BGX_CATALOG = {
     {
       id: "wellness", count: "Coursework", name: "Health & Wellness", color: "cat-mint", icon: "sprout", source: "Coursework: HW315, HS305, statistics",
       blurb: "Health behaviour models, spotting reliable health information, and the statistics behind studies.",
+      labs: [
+        { id: "pulse-lab", ch: "Stats", title: "Pulse Lab", icon: "heart", text: "Measure a pulse at rest and after exercise, then calculate beats per minute.", status: "soon" }
+      ],
       chapters: [
         { ch: "HW315", title: "Models of health behaviour", icon: "steps", game: "Model Match", formats: ["Explore", "Quick Quiz", "Sort It", "Match Pairs", "Sequence"], status: "live", url: "games/model-match/index.html",
           tiles: [{corner: "1", icon: "steps", color: "cat-mint"}, {corner: "6", icon: "question", color: "cat-sky"}, {corner: "12", icon: "chat", color: "cat-amber"}] },
