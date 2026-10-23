@@ -7,7 +7,7 @@
   const liveCount = s => s.chapters.filter(c => c.status === "live").length;
   const nextCount = s => s.chapters.filter(c => c.status === "next").length;
   const tile = (t, cls = "") => t.ghost ? `<div class="br-tile ${cls} ghost-tile"><small>?</small><b>?</b></div>`
-    : `<div class="br-tile ${cls}" style="background:var(--${t.color})"><small>${esc(t.corner)}</small><b>${esc(t.big)}</b>${t.label ? `<em>${esc(t.label)}</em>` : ""}</div>`;
+    : `<div class="br-tile ${cls}${t.icon ? " is-icon" : ""}" style="background:var(--${t.color})"><small>${esc(t.corner)}</small><b>${t.icon ? BGX.icon(t.icon) : esc(t.big)}</b>${t.label ? `<em>${esc(t.label)}</em>` : ""}</div>`;
 
   BGX.shell();
 

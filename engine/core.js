@@ -141,7 +141,7 @@
     BGX.sfx.big(); BGX.rain(n >= 20 ? 200 : 140);
     const t = tileFn ? tileFn(n) : { bg: "var(--cat-mint)", corner: n, big: n, label: "in a row", text: "" };
     const ov = document.createElement("div"); ov.className = "br-milestone"; ov.setAttribute("role", "dialog"); ov.setAttribute("aria-label", n + " in a row");
-    ov.innerHTML = `<div class="box"><div class="mtile" style="background:${t.bg}"><small>${BGX.esc(t.corner)}</small><b>${BGX.esc(t.big)}</b><em>${BGX.esc(t.label)}</em></div>
+    ov.innerHTML = `<div class="box"><div class="mtile" style="background:${t.bg}"><small>${BGX.esc(t.corner)}</small><b>${t.bigHTML || BGX.esc(t.big)}</b><em>${BGX.esc(t.label)}</em></div>
       <h2>${n} in a row!</h2><p>${CHEERS[n] || "Incredible streak!"} ${t.text || ""}</p><button class="br-next" id="br-mclose">Keep going</button></div>`;
     document.body.appendChild(ov);
     const close = () => { ov.remove(); document.removeEventListener("keydown", k, true); };

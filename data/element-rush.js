@@ -4,6 +4,7 @@ BGX.registerGame({
 "id": "element-rush",
 "title": "Element Rush",
 "subject": "chemistry",
+"subjectName": "Chemistry",
 "chapter": "7",
 "tagline": "Learn the periodic table, one element at a time",
 "itemNoun": "element",
@@ -192,7 +193,8 @@ BGX.registerGame({
 "desc": "Name the element's group.",
 "icon": "Ne",
 "color": "cat-orchid",
-"prompt": "Which family does this belong to?"
+"prompt": "Which family does this belong to?",
+"sub": "{symbol} · atomic number {num}"
 },
 {
 "id": "explore",

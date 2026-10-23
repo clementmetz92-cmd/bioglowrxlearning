@@ -16,9 +16,11 @@
   const val = (field, it) => field.indexOf("{") >= 0 ? fill(field, it) : (field === "category" ? catOf(it).name : it[field]);
   const confHTML = c => esc(c).replace(/(\d[spdf])(\d+)/g, "$1<sup>$2</sup>");
   const pool = () => G.items.slice(0, S.set || G.items.length);
+  const bigHTML = it => G.tile.big === "@icon" ? BGX.icon(it.icon || catOf(it).icon || "lab") : esc(val(G.tile.big, it));
+  const bigText = it => G.tile.big === "@icon" ? "" : val(G.tile.big, it);
   const tileHTML = (it, cls = "", extra = "") => {
     const t = G.tile;
-    return `<div class="br-tile ${cls}" style="background:${catBg(it)}"><small>${esc(val(t.corner, it))}</small><b>${esc(val(t.big, it))}</b>${extra}</div>`;
+    return `<div class="br-tile ${cls}${t.big === "@icon" ? " is-icon" : ""}" style="background:${catBg(it)}"><small>${esc(val(t.corner, it))}</small><b>${bigHTML(it)}</b>${extra}</div>`;
   };
   BGX.fill = fill;
 
@@ -58,7 +60,7 @@
       <div class="br-hero"><h2>${esc(G.title)}</h2><p>${esc(G.tagline || "")}</p></div>
       ${G.sets ? `<p class="br-label">Practise with</p>
       <div class="br-seg" role="group" aria-label="${esc(G.itemNoun || "item")}s to practise">${G.sets.map(x => `<button data-set="${x.size}" aria-pressed="${S.set == x.size}">${esc(x.label)}</button>`).join("")}</div>` : ""}
-      ${G.hint ? `<p class="br-hint">${esc(G.hint)}</p>` : ""}
+      ${G.hint ? `<p class="br-hint">${esc(G.hint)}</p>` : ""}${G.note ? `<p class="br-hint"><b>${esc(G.note)}</b></p>` : ""}
       <p class="br-label" style="margin-top:22px">Choose a game</p>
       <div class="br-modes">${G.modes.map(m => `<button class="br-mode${m._ready ? "" : " is-soon"}" data-mode="${m.id}"${m._ready ? "" : ' aria-disabled="true"'}>
         <span class="ic" style="background:var(--${m.color || "cat-mint"})">${esc(m.icon || "")}</span>
@@ -112,7 +114,7 @@
   function milestoneTile(n) {
     const ms = G.milestone || {};
     const it = ms.field ? (G.items.find(x => x[ms.field] === Math.min(n, G.items.length)) || G.items[G.items.length - 1]) : G.items[(n - 1) % G.items.length];
-    return { bg: catBg(it), corner: val(G.tile.corner, it), big: val(G.tile.big, it), label: val(G.tile.label, it), text: ms.text ? fill(ms.text, it) : "" };
+    return { bg: catBg(it), corner: val(G.tile.corner, it), big: bigText(it), bigHTML: bigHTML(it), label: val(G.tile.label, it), text: ms.text ? fill(ms.text, it) : "" };
   }
 
   function finish(extra) {
@@ -151,9 +153,9 @@
       const it = q.item, p = `<div class="q">${esc(fill(m.prompt, it))}</div>`;
       if (m.showAs === "tile") return p + tileHTML(it, "br-pop");
       if (m.showAs === "mono") return p + `<div class="big mono">${esc(val(m.show, it))}</div>`;
-      return p + `<div class="big">${esc(val(m.show, it))}</div>` + (m.sub ? `<div class="sub">${esc(fill(m.sub, it))}</div>` : "");
+      return p + `<div class="big${m.showAs === "text" ? " is-text" : ""}">${esc(val(m.show, it))}</div>` + (m.sub ? `<div class="sub">${esc(fill(m.sub, it))}</div>` : "");
     },
-    body: (m, q) => `<div class="br-answers">${q.opts.map(o => `<button class="br-ans${m.answerAs === "symbol" ? " is-sym" : ""}" data-i="${o._i}">${esc(val(m.answer, o))}</button>`).join("")}</div>`,
+    body: (m, q) => `<div class="br-answers">${q.opts.map(o => `<button class="br-ans${m.answerAs === "symbol" ? " is-sym" : m.answerAs === "small" ? " is-small" : ""}" data-i="${o._i}">${esc(val(m.answer, o))}</button>`).join("")}</div>`,
     bind: (m, q, answer) => view.querySelectorAll(".br-ans").forEach(b => b.onclick = () => answer(+b.dataset.i === q.item._i, b)),
     reveal: (m, q, correct, el) => {
       view.querySelectorAll(".br-ans").forEach(b => { b.disabled = true; if (+b.dataset.i === q.item._i) b.classList.add("is-correct"); });
@@ -164,9 +166,9 @@
   /* ---------- format: Sort It (pick the item's group) ---------- */
   BGX.formats.sortit = {
     scored: true,
-    makeRound: m => BGX.shuffle(pool()).slice(0, ROUND).map(item => ({ item, opts: BGX.shuffle([item.cat, ...BGX.shuffle(G.categories.map(c => c.id).filter(c => c !== item.cat)).slice(0, 3)]) })),
-    prompt: (m, q) => `<div class="q">${esc(m.prompt)}</div><div class="big">${esc(q.item.name)}</div>` +
-      (G.tile ? `<div class="sub">${esc(val(G.tile.big, q.item))} · ${esc(G.itemNoun === "element" ? "atomic number " + q.item.num : "No. " + q.item.num)}</div>` : ""),
+    makeRound: m => BGX.shuffle(pool()).slice(0, ROUND).map(item => ({ item, opts: BGX.shuffle([item.cat, ...BGX.shuffle(G.categories.map(c => c.id).filter(c => c !== item.cat)).slice(0, (m.choices || 4) - 1)]) })),
+    prompt: (m, q) => `<div class="q">${esc(m.prompt)}</div><div class="big${m.showAs === "text" ? " is-text" : ""}">${esc(q.item.name)}</div>` +
+      (m.sub ? `<div class="sub">${esc(fill(m.sub, q.item))}</div>` : ""),
     body: (m, q) => `<div class="br-answers">${q.opts.map(c => `<button class="br-ans is-small" data-c="${c}">${esc(G.catMap[c].name)}</button>`).join("")}</div>`,
     bind: (m, q, answer) => view.querySelectorAll(".br-ans").forEach(b => b.onclick = () => answer(b.dataset.c === q.item.cat, b)),
     reveal: (m, q, correct, el) => {
@@ -182,7 +184,7 @@
     const cells = G.items.map(it => {
       const bg = blank ? `color-mix(in srgb,${catBg(it)} 55%,var(--blank))` : catBg(it);
       const dim = dimBeyond && it._i >= dimBeyond ? " is-dim" : "";
-      return `<button class="br-cell${blank ? " is-blank" : ""}${dim}" data-i="${it._i}" style="grid-row:${rowOf(it.row)};grid-column:${it.col};background:${bg}" aria-label="${blank ? "Tile " + (it._i + 1) : esc(it.name)}">${blank ? "" : `<small>${esc(val(G.tile.corner, it))}</small>${esc(val(G.tile.big, it))}`}</button>`;
+      return `<button class="br-cell${blank ? " is-blank" : ""}${dim}" data-i="${it._i}" style="grid-row:${rowOf(it.row)};grid-column:${it.col};background:${bg}" aria-label="${blank ? "Tile " + (it._i + 1) : esc(it.name)}">${blank ? "" : `<small>${esc(val(G.tile.corner, it))}</small>${bigHTML(it)}`}</button>`;
     });
     (M.placeholders || []).forEach(p => cells.push(`<div class="br-cell is-ph" style="grid-row:${rowOf(p.row)};grid-column:${p.col}">${esc(p.label)}</div>`));
     if (gap != null) cells.push(`<div class="br-gaprow" style="grid-row:${gap + 1}"></div>`);
@@ -190,14 +192,14 @@
   }
   function revealCell(cell, it, ok) {
     cell.classList.remove("is-blank"); cell.classList.add(ok ? "is-ok" : "is-no");
-    cell.style.background = catBg(it); cell.innerHTML = `<small>${esc(val(G.tile.corner, it))}</small>${esc(val(G.tile.big, it))}`;
+    cell.style.background = catBg(it); cell.innerHTML = `<small>${esc(val(G.tile.corner, it))}</small>${bigHTML(it)}`;
   }
 
   /* ---------- format: Find It ---------- */
   BGX.formats.findit = {
     scored: true,
     makeRound: m => BGX.shuffle(pool()).slice(0, ROUND).map(item => ({ item })),
-    prompt: (m, q) => `<div class="q">${esc(m.prompt)}</div><div class="big">${esc(q.item.name)} <span style="color:var(--muted)">(${esc(val(G.tile.big, q.item))})</span></div>`,
+    prompt: (m, q) => `<div class="q">${esc(m.prompt)}</div><div class="big">${esc(q.item.name)}${bigText(q.item) ? ` <span style="color:var(--muted)">(${esc(bigText(q.item))})</span>` : ""}</div>`,
     body: () => mapHTML({ blank: true }) + (G.map.tip ? `<p class="br-tip">${esc(G.map.tip)}</p>` : ""),
     bind: (m, q, answer) => view.querySelectorAll(".br-cell[data-i]").forEach(c => c.onclick = () => { S.picked = +c.dataset.i; answer(S.picked === q.item._i, c); }),
     reveal: (m, q, correct, el) => {
@@ -212,7 +214,7 @@
       view.classList.remove("menu-in");
       const dim = G.sets && S.set < G.items.length ? S.set : 0;
       view.innerHTML = `<div class="br-top"><button class="br-quit" id="br-quit">✕ Menu</button><span class="br-label" style="margin:0">Tap any ${esc(G.itemNoun || "card")}</span></div>`
-        + (G.map ? mapHTML({ dimBeyond: dim }) : `<div class="br-cardlist">${pool().map(it => `<button class="br-cell" data-i="${it._i}" style="background:${catBg(it)}"><small>${esc(val(G.tile.corner, it))}</small>${esc(val(G.tile.big, it))}</button>`).join("")}</div>`)
+        + (G.map ? mapHTML({ dimBeyond: dim }) : `<div class="br-cardlist">${pool().map(it => `<button class="br-cell br-card-tile" data-i="${it._i}" style="background:${catBg(it)}" aria-label="${esc(it.name)}"><small>${esc(val(G.tile.corner, it))}</small>${bigHTML(it)}<em>${esc(it.name)}</em></button>`).join("")}</div>`)
         + `<div class="br-legend">${G.categories.map(c => `<span><i style="background:var(--${c.color})"></i>${esc(c.name)}</span>`).join("")}</div><div id="br-detail"></div>`;
       $("#br-quit").onclick = menu;
       view.querySelectorAll(".br-cell[data-i]").forEach(c => c.onclick = () => { BGX.sfx.tap(); detail(G.items[+c.dataset.i]); if (innerWidth < 700) $("#br-detail").scrollIntoView({ behavior: "smooth", block: "nearest" }); });
@@ -234,8 +236,8 @@
         <dl>${(G.detail || []).map(d => `<dt>${esc(d.label)}</dt><dd>${d.format === "config" ? confHTML(val(d.field, it)) : esc(val(d.field, it))}</dd>`).join("")}</dl></div></div>
       ${figs ? `<div class="br-pics br-pop">${figs}</div>` : ""}
       <div class="br-about br-pop">
-        <div class="sum"><p class="br-label">Quick summary</p><p>${esc(it.summary || "")}</p>
-          ${it.discovered || it.nameFrom ? `<dl>${it.discovered ? `<dt>Discovered</dt><dd>${esc(it.discovered)}</dd>` : ""}${it.nameFrom ? `<dt>Name comes from</dt><dd>${esc(it.nameFrom)}</dd>` : ""}</dl>` : ""}</div>
+        ${it.summary || it.discovered || it.nameFrom ? `<div class="sum"><p class="br-label">Quick summary</p>${it.summary ? `<p>${esc(it.summary)}</p>` : ""}
+          ${it.discovered || it.nameFrom ? `<dl>${it.discovered ? `<dt>Discovered</dt><dd>${esc(it.discovered)}</dd>` : ""}${it.nameFrom ? `<dt>Name comes from</dt><dd>${esc(it.nameFrom)}</dd>` : ""}</dl>` : ""}</div>` : ""}
         ${it.life ? `<div class="life"><p class="br-label">In everyday life</p><p>${esc(it.life)}</p></div>` : ""}
         ${it.link ? `<a class="more" href="${esc(it.link)}" target="_blank" rel="noopener">Read more on Wikipedia ↗</a>` : ""}
       </div>`;
@@ -245,7 +247,7 @@
   BGX.formats.matchpairs = {
     scored: true,
     open: m => {
-      const n = m.pairs || 8, items = BGX.shuffle(pool().filter(it => it[m.clue])).slice(0, n);
+      const used = new Set(), items = BGX.shuffle(pool().filter(it => it[m.clue])).filter(it => !used.has(it[m.clue]) && used.add(it[m.clue])).slice(0, m.pairs || 8), n = items.length;   // one card per clue, so every pair is unambiguous
       const cards = BGX.shuffle(items.flatMap(it => [{ it, kind: "item" }, { it, kind: "clue" }]));
       S = Object.assign(S, { screen: "game", mode: m, i: 0, score: 0, wrong: [], tries: 0, misses: 0, seen: new Set(), open: [], lock: false, found: 0, qs: items });
       view.innerHTML = topBar(n).replace(`<b>${S.score}</b> / ${S.i}`, `<b>0</b> / ${n}`) +
@@ -255,7 +257,7 @@
       $("#br-quit").onclick = menu;
       const face = (btn, c) => {
         btn.classList.remove("is-down");
-        if (c.kind === "item") { btn.className = "br-mc item"; btn.style.background = catBg(c.it); btn.innerHTML = `<small>${esc(val(G.tile.corner, c.it))}</small><b>${esc(val(G.tile.big, c.it))}</b><em>${esc(val(G.tile.label, c.it))}</em>`; }
+        if (c.kind === "item") { btn.className = "br-mc item"; btn.style.background = catBg(c.it); btn.innerHTML = `<small>${esc(val(G.tile.corner, c.it))}</small><b>${bigHTML(c.it)}</b><em>${esc(val(G.tile.label, c.it))}</em>`; }
         else { btn.className = "br-mc clue"; btn.style.background = ""; btn.innerHTML = `<small>${esc(m.clueLabel || "Clue")}</small><span class="t">${esc(c.it[m.clue])}</span>`; }
         btn.setAttribute("aria-label", c.kind === "item" ? c.it.name : c.it[m.clue]);
       };
@@ -266,7 +268,7 @@
         BGX.sfx.tap(); face(btn, c); S.open.push({ k, c, btn });
         if (S.open.length < 2) return;
         const [a, b] = S.open; S.tries++;
-        const ok = a.c.it === b.c.it && a.c.kind !== b.c.kind;
+        const ok = a.c.kind !== b.c.kind && a.c.it[m.clue] === b.c.it[m.clue];
         const known = S.seen.has(a.k) || S.seen.has(b.k);   // a miss only counts if you'd already seen one of the cards
         S.seen.add(a.k); S.seen.add(b.k);
         [a, b].forEach(o => { o.btn.classList.add(ok ? "is-ok" : "is-no"); o.btn.insertAdjacentHTML("beforeend", `<i class="bd${ok ? "" : " no"}">${ok ? "✓" : "✕"}</i>`); });
@@ -283,7 +285,7 @@
         } else {
           if (known) { S.misses++; if (S.wrong.indexOf(it) < 0) S.wrong.push(it); }
           $("#br-fb").innerHTML = a.c.kind === b.c.kind
-            ? `<span class="no">Not quite.</span> Pair each ${esc(G.itemNoun || "card")} with its ${esc((m.clueLabel || "clue").toLowerCase())} card.`
+            ? `<span class="no">Not quite.</span> A pair is one ${esc(G.itemNoun || "item")} card and one “${esc(m.clueLabel || "Clue")}” card.`
             : `<span class="no">Not quite.</span> <b>${esc(it.name)}</b> doesn't go with that card.`;
           S.lock = true;
           setTimeout(() => { [a, b].forEach(o => down(o.btn)); S.open = []; S.lock = false; }, 1200);
