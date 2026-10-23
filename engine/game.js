@@ -70,7 +70,8 @@
     view.querySelectorAll("[data-set]").forEach(b => b.onclick = () => { BGX.sfx.tap(); S.set = +b.dataset.set; BGX.store.set("set_" + G.id, S.set); menu(); });
     view.querySelectorAll("[data-mode]").forEach(b => b.onclick = () => { const m = G.modes.find(x => x.id === b.dataset.mode); if (m._ready) start(m); });
   }
-  const roundSize = m => m.format === "matchpairs" ? (m.pairs || 8) : ROUND;
+  const roundSize = m => m.format === "matchpairs" ? Math.min(m.pairs || 8, G.items.length)
+    : m.format === "sequence" ? Math.min(m.rounds || 6, (G.sequences || []).length) : Math.min(ROUND, G.items.length);
 
   /* ---------- round runner (question formats) ---------- */
   function start(mode) {
@@ -243,57 +244,156 @@
       </div>`;
   }
 
-  /* ---------- format: Match Pairs ---------- */
+  /* ---------- format: Match Pairs ----------
+     Two decks, each with its own colour back: the items (teal) and the clues (amber).
+     A short preview shows every card first; you then flip one item and one clue. */
   BGX.formats.matchpairs = {
     scored: true,
     open: m => {
-      const used = new Set(), items = BGX.shuffle(pool().filter(it => it[m.clue])).filter(it => !used.has(it[m.clue]) && used.add(it[m.clue])).slice(0, m.pairs || 8), n = items.length;   // one card per clue, so every pair is unambiguous
-      const cards = BGX.shuffle(items.flatMap(it => [{ it, kind: "item" }, { it, kind: "clue" }]));
-      S = Object.assign(S, { screen: "game", mode: m, i: 0, score: 0, wrong: [], tries: 0, misses: 0, seen: new Set(), open: [], lock: false, found: 0, qs: items });
+      const used = new Set();
+      const items = BGX.shuffle(pool().filter(it => it[m.clue])).filter(it => !used.has(it[m.clue]) && used.add(it[m.clue])).slice(0, m.pairs || 8);
+      const n = items.length, noun = G.itemNoun || "item", clueL = m.clueLabel || "Clue";
+      const itemCards = BGX.shuffle(items.map(it => ({ it, kind: "item" }))), clueCards = BGX.shuffle(items.map(it => ({ it, kind: "clue" })));
+      const cards = itemCards.concat(clueCards);
+      const peek = m.peek == null ? Math.min(6, 2 + Math.ceil(n / 2)) : m.peek;
+      S = Object.assign(S, { screen: "game", mode: m, i: 0, score: 0, wrong: [], tries: 0, misses: 0, seen: new Set(), open: [], lock: true, found: 0, qs: items });
+      const grid = (from, to) => `<div class="br-mgrid">${cards.slice(from, to).map((c, j) => `<button class="br-mc" data-k="${from + j}"></button>`).join("")}</div>`;
       view.innerHTML = topBar(n).replace(`<b>${S.score}</b> / ${S.i}`, `<b>0</b> / ${n}`) +
-        `<div class="br-prompt"><div class="q">${esc(m.prompt || "Flip two cards to make a pair")}</div></div>
-        <div class="br-mgrid">${cards.map((c, k) => `<button class="br-mc is-down" data-k="${k}" aria-label="Face-down card"><span class="q">?</span></button>`).join("")}</div>
-        <div class="br-feedback" id="br-fb" aria-live="polite"></div>`;
-      $("#br-quit").onclick = menu;
-      const face = (btn, c) => {
-        btn.classList.remove("is-down");
-        if (c.kind === "item") { btn.className = "br-mc item"; btn.style.background = catBg(c.it); btn.innerHTML = `<small>${esc(val(G.tile.corner, c.it))}</small><b>${bigHTML(c.it)}</b><em>${esc(val(G.tile.label, c.it))}</em>`; }
-        else { btn.className = "br-mc clue"; btn.style.background = ""; btn.innerHTML = `<small>${esc(m.clueLabel || "Clue")}</small><span class="t">${esc(c.it[m.clue])}</span>`; }
-        btn.setAttribute("aria-label", c.kind === "item" ? c.it.name : c.it[m.clue]);
+        `<div class="br-prompt"><div class="q" id="br-mphase">Memorise the cards</div>
+          <div class="br-mhow">Each pair is one <span class="br-mkey is-item">${esc(noun)}</span> card and one <span class="br-mkey is-clue">${esc(clueL)}</span> card.</div></div>
+        <p class="br-mrow"><span class="br-mkey is-item">${esc(noun)}s</span></p>${grid(0, n)}
+        <p class="br-mrow"><span class="br-mkey is-clue">${esc(clueL)}</span></p>${grid(n, 2 * n)}
+        <div class="br-feedback" id="br-fb" aria-live="polite"><button class="br-next" id="br-ready">I'm ready (${peek})</button></div>`;
+      $("#br-quit").onclick = () => { clearInterval(S.peekTimer); menu(); };
+      const btn = k => view.querySelector(`.br-mc[data-k="${k}"]`);
+      const face = (b, c) => {
+        if (c.kind === "item") { b.className = "br-mc item"; b.style.background = catBg(c.it); b.innerHTML = `<small>${esc(val(G.tile.corner, c.it))}</small><b>${bigHTML(c.it)}</b><em>${esc(val(G.tile.label, c.it))}</em>`; }
+        else { b.className = "br-mc clue"; b.style.background = ""; b.innerHTML = `<small>${esc(clueL)}</small><span class="t${String(c.it[m.clue]).length > 22 ? " is-long" : ""}">${esc(c.it[m.clue])}</span>`; }
+        b.setAttribute("aria-label", c.kind === "item" ? c.it.name : clueL + ": " + c.it[m.clue]);
       };
-      const down = btn => { btn.className = "br-mc is-down"; btn.style.background = ""; btn.innerHTML = '<span class="q">?</span>'; btn.setAttribute("aria-label", "Face-down card"); };
-      view.querySelectorAll(".br-mc").forEach(btn => btn.onclick = () => {
-        const k = +btn.dataset.k, c = cards[k];
-        if (S.lock || c.done || S.open.some(o => o.k === k)) return;
-        BGX.sfx.tap(); face(btn, c); S.open.push({ k, c, btn });
-        if (S.open.length < 2) return;
-        const [a, b] = S.open; S.tries++;
-        const ok = a.c.kind !== b.c.kind && a.c.it[m.clue] === b.c.it[m.clue];
-        const known = S.seen.has(a.k) || S.seen.has(b.k);   // a miss only counts if you'd already seen one of the cards
-        S.seen.add(a.k); S.seen.add(b.k);
-        [a, b].forEach(o => { o.btn.classList.add(ok ? "is-ok" : "is-no"); o.btn.insertAdjacentHTML("beforeend", `<i class="bd${ok ? "" : " no"}">${ok ? "✓" : "✕"}</i>`); });
-        if (ok || known) BGX.reward(ok, b.btn, { flash: view, milestoneTile }); else BGX.sfx.no();
-        const it = a.c.kind === "item" ? a.c.it : b.c.it;
+      const down = (b, c) => { b.className = "br-mc is-down " + (c.kind === "item" ? "back-item" : "back-clue"); b.style.background = ""; b.innerHTML = `<span class="q">?</span><em>${esc(c.kind === "item" ? noun : clueL)}</em>`; b.setAttribute("aria-label", "Face-down " + (c.kind === "item" ? noun : clueL) + " card"); };
+      const lockKind = kind => cards.forEach((c, k) => { if (!c.done && c.kind === kind && !S.open.some(o => o.k === k)) btn(k).classList.add("is-locked"); });
+      const unlock = () => view.querySelectorAll(".br-mc.is-locked").forEach(b => b.classList.remove("is-locked"));
+      // preview: everything face up, then flip down
+      cards.forEach((c, k) => face(btn(k), c));
+      let left = peek;
+      const startPlay = () => {
+        clearInterval(S.peekTimer); if (!S.lock) return;
+        cards.forEach((c, k) => down(btn(k), c)); S.lock = false; BGX.sfx.tap();
+        $("#br-mphase").textContent = `Flip a ${noun} card, then find its ${clueL.toLowerCase()} card`;
+        $("#br-fb").innerHTML = "";
+      };
+      $("#br-ready").onclick = startPlay;
+      S.peekTimer = setInterval(() => { left--; const r = $("#br-ready"); if (r) r.textContent = `I'm ready (${left})`; if (left <= 0) startPlay(); }, 1000);
+      cards.forEach((c, k) => btn(k).onclick = () => {
+        const b = btn(k);
+        if (S.lock || c.done || S.open.some(o => o.k === k) || b.classList.contains("is-locked")) return;
+        BGX.sfx.tap(); face(b, c); S.open.push({ k, c, b });
+        if (S.open.length === 1) { lockKind(c.kind); $("#br-fb").innerHTML = `Now find the matching <b>${esc(c.kind === "item" ? clueL.toLowerCase() : noun)}</b> card.`; return; }
+        const [a, o] = S.open; S.tries++;
+        const ok = a.c.it[m.clue] === o.c.it[m.clue];
+        const known = S.seen.has(a.k) || S.seen.has(o.k);   // a miss only counts if you'd already seen one of the cards
+        S.seen.add(a.k); S.seen.add(o.k);
+        [a, o].forEach(x => { x.b.classList.add(ok ? "is-ok" : "is-no"); x.b.insertAdjacentHTML("beforeend", `<i class="bd${ok ? "" : " no"}">${ok ? "✓" : "✕"}</i>`); });
+        if (ok || known) BGX.reward(ok, o.b, { flash: view, milestoneTile }); else BGX.sfx.no();
+        const itemCard = a.c.kind === "item" ? a : o, clueCard = a.c.kind === "item" ? o : a;
+        S.open = []; S.lock = true;
         if (ok) {
-          S.found++; S.score++; a.c.done = b.c.done = true;
-          $("#br-fb").innerHTML = `<span class="ok">Pair!</span> <b>${esc(it.name)}</b> · ${esc(it[m.clue])}`;
-          const bar = view.querySelector(".br-bar i"); bar.style.width = (S.found / n * 100) + "%";
+          S.found++; S.score++; a.c.done = o.c.done = true;
+          $("#br-fb").innerHTML = `<span class="ok">Pair!</span> <b>${esc(itemCard.c.it.name)}</b> · ${esc(itemCard.c.it[m.clue])}`;
+          view.querySelector(".br-bar i").style.width = (S.found / n * 100) + "%";
           view.querySelector(".br-count b").textContent = S.found;
-          S.open = []; S.lock = true;
-          setTimeout(() => { [a, b].forEach(o => { o.btn.classList.remove("is-ok"); o.btn.classList.add("is-done"); o.btn.style.background = ""; }); S.lock = false;
+          setTimeout(() => { [a, o].forEach(x => { x.b.classList.remove("is-ok"); x.b.classList.add("is-done"); x.b.style.background = ""; }); S.lock = false; unlock();
             if (S.found === n) { S.score = Math.max(0, n - S.misses); finish({ total: n, note: `${n} pairs found in ${S.tries} tries. Only misses on cards you had already seen count against you.` }); } }, 800);
         } else {
-          if (known) { S.misses++; if (S.wrong.indexOf(it) < 0) S.wrong.push(it); }
-          $("#br-fb").innerHTML = a.c.kind === b.c.kind
-            ? `<span class="no">Not quite.</span> A pair is one ${esc(G.itemNoun || "item")} card and one “${esc(m.clueLabel || "Clue")}” card.`
-            : `<span class="no">Not quite.</span> <b>${esc(it.name)}</b> doesn't go with that card.`;
-          S.lock = true;
-          setTimeout(() => { [a, b].forEach(o => down(o.btn)); S.open = []; S.lock = false; }, 1200);
+          if (known && S.wrong.indexOf(itemCard.c.it) < 0) S.wrong.push(itemCard.c.it);
+          $("#br-fb").innerHTML = `<span class="no">Not quite.</span> <b>${esc(itemCard.c.it.name)}</b> goes with “${esc(itemCard.c.it[m.clue])}”, and “${esc(clueCard.c.it[m.clue])}” belongs to another ${esc(noun)}.`;
+          setTimeout(() => { down(a.b, a.c); down(o.b, o.c); S.lock = false; unlock(); }, 1600);
         }
       });
     }
   };
 
+  /* ---------- format: Sequence (put steps in the right order) ----------
+     Uses game.sequences: [{ title, steps: [...], note, icon }] */
+  BGX.formats.sequence = {
+    scored: true,
+    makeRound: m => BGX.shuffle((G.sequences || []).filter(s => !m.only || m.only.indexOf(s.id) >= 0)).slice(0, m.rounds || 6)
+      .map(s => ({ item: { name: s.title, life: s.note, icon: s.icon, cat: s.cat || (G.categories[0] || {}).id, num: "", seq: s }, steps: BGX.shuffle(s.steps.map((t, i) => ({ t, i }))), picked: [] })),
+    prompt: (m, q) => `<div class="q">${esc(m.prompt || "Put these steps in order")}</div><div class="big is-text">${esc(q.item.name)}</div>`,
+    body: (m, q) => `<ol class="br-seq" id="br-seq">${q.steps.map((_, i) => `<li class="br-slot" data-pos="${i}"><span class="n">${i + 1}</span><span class="t"></span></li>`).join("")}</ol>
+      <p class="br-label" style="margin-top:16px">Tap the steps in order</p>
+      <div class="br-pool" id="br-pool">${q.steps.map((s, j) => `<button class="br-step" data-j="${j}">${esc(s.t)}</button>`).join("")}</div>
+      <div class="br-btns" style="margin-top:14px"><button class="br-ghost" id="br-undo" disabled>Undo</button><button class="br-next" id="br-check" disabled>Check order</button></div>`,
+    bind: (m, q, answer) => {
+      const paint = () => {
+        view.querySelectorAll(".br-slot").forEach((li, i) => { const p = q.picked[i]; li.querySelector(".t").textContent = p != null ? q.steps[p].t : ""; li.classList.toggle("is-filled", p != null); });
+        view.querySelectorAll(".br-step").forEach(b => b.classList.toggle("is-used", q.picked.indexOf(+b.dataset.j) >= 0));
+        $("#br-check").disabled = q.picked.length < q.steps.length; $("#br-undo").disabled = !q.picked.length;
+      };
+      view.querySelectorAll(".br-step").forEach(b => b.onclick = () => { if (S.answered || b.classList.contains("is-used")) return; BGX.sfx.tap(); q.picked.push(+b.dataset.j); paint(); });
+      view.querySelectorAll(".br-slot").forEach(li => li.onclick = () => { if (S.answered) return; const i = +li.dataset.pos; if (q.picked[i] == null) return; q.picked.splice(i); paint(); });
+      $("#br-undo").onclick = () => { if (S.answered) return; q.picked.pop(); paint(); };
+      $("#br-check").onclick = () => answer(q.picked.every((p, i) => q.steps[p].i === i), $("#br-check"));
+    },
+    reveal: (m, q, correct) => {
+      view.querySelectorAll(".br-slot").forEach((li, i) => li.classList.add(q.steps[q.picked[i]].i === i ? "is-ok" : "is-no"));
+      $("#br-check").disabled = true; $("#br-undo").disabled = true;
+      if (!correct) $("#br-pool").outerHTML = `<div class="br-correct"><p class="br-label">Correct order</p><ol>${q.item.seq.steps.map(t => `<li>${esc(t)}</li>`).join("")}</ol></div>`;
+      else $("#br-pool").remove();
+    }
+  };
+
+  /* ---------- format: True or Myth ----------
+     Items carry: claim, verdict (true/false), why. Labels can be renamed (e.g. "Trust signal" / "Red flag"). */
+  BGX.formats.truemyth = {
+    scored: true,
+    makeRound: m => BGX.shuffle(pool()).slice(0, ROUND).map(item => ({ item })),
+    prompt: (m, q) => `<div class="q">${esc(m.prompt || "True or myth?")}</div><div class="big is-text">${esc(q.item.claim)}</div>`,
+    body: (m, q) => { const L = m.labels || ["True", "Myth"]; return `<div class="br-answers br-tm"><button class="br-ans is-true" data-v="1">✓ ${esc(L[0])}</button><button class="br-ans is-myth" data-v="0">✕ ${esc(L[1])}</button></div>`; },
+    bind: (m, q, answer) => view.querySelectorAll(".br-ans").forEach(b => b.onclick = () => answer((b.dataset.v === "1") === !!q.item.verdict, b)),
+    reveal: (m, q, correct, el) => {
+      view.querySelectorAll(".br-ans").forEach(b => { b.disabled = true; if ((b.dataset.v === "1") === !!q.item.verdict) b.classList.add("is-correct"); });
+      if (!correct) el.classList.add("is-wrong");
+    }
+  };
+
+  /* ---------- format: Build It (set counts with steppers, e.g. protons / neutrons / electrons) ---------- */
+  function atomSVG(p, nn, e) {
+    const caps = [2, 8, 8, 18], sh = []; let left = e;
+    for (const c of caps) { if (left <= 0) break; sh.push(Math.min(c, left)); left -= c; }
+    let o = `<circle cx="90" cy="90" r="20" fill="var(--cat-coral)" stroke="var(--line)"/><text x="90" y="86" text-anchor="middle" font-size="10" font-weight="700" fill="var(--tile-ink)" font-family="var(--font-mono)">${p}p</text><text x="90" y="99" text-anchor="middle" font-size="10" font-weight="700" fill="var(--tile-ink)" font-family="var(--font-mono)">${nn}n</text>`;
+    sh.forEach((cnt, i) => { const r = 32 + i * 17; o += `<circle cx="90" cy="90" r="${r}" fill="none" stroke="var(--muted)" stroke-opacity=".45"/>`;
+      for (let j = 0; j < cnt; j++) { const a = j / cnt * Math.PI * 2 - Math.PI / 2 + i * .4; o += `<circle cx="${(90 + Math.cos(a) * r).toFixed(1)}" cy="${(90 + Math.sin(a) * r).toFixed(1)}" r="3.4" fill="var(--accent)"/>`; } });
+    return `<svg viewBox="0 0 180 180" class="br-atom" role="img" aria-label="Your atom: ${p} protons, ${nn} neutrons, ${e} electrons">${o}</svg>`;
+  }
+  BGX.formats.buildit = {
+    scored: true,
+    makeRound: m => BGX.shuffle(pool()).slice(0, ROUND).map(item => ({ item, vals: m.parts.map(() => 0) })),
+    prompt: (m, q) => `<div class="q">${esc(m.prompt || "Build")}</div><div class="big">${esc(q.item.name)}</div>${m.sub ? `<div class="sub">${esc(fill(m.sub, q.item))}</div>` : ""}`,
+    body: (m, q) => `<div class="br-build">${m.draw === "atom" ? `<div class="br-atomwrap" id="br-atom">${atomSVG(0, 0, 0)}</div>` : ""}
+      <div class="br-steppers">${m.parts.map((p, i) => `<div class="br-stepper" data-p="${i}"><span class="lb">${esc(p.label)}</span>
+        <button class="br-ghost minus" aria-label="Fewer ${esc(p.label)}">−</button><b class="v">0</b><button class="br-ghost plus" aria-label="More ${esc(p.label)}">+</button><span class="want"></span></div>`).join("")}</div></div>
+      <div class="br-btns" style="margin-top:14px"><button class="br-next" id="br-check">Check</button></div>`,
+    bind: (m, q, answer) => {
+      const paint = () => {
+        view.querySelectorAll(".br-stepper").forEach((s, i) => s.querySelector(".v").textContent = q.vals[i]);
+        if (m.draw === "atom") $("#br-atom").innerHTML = atomSVG(q.vals[0], q.vals[1], q.vals[2]);
+      };
+      view.querySelectorAll(".br-stepper").forEach((s, i) => {
+        const max = m.parts[i].max || 30;
+        s.querySelector(".minus").onclick = () => { if (S.answered) return; q.vals[i] = Math.max(0, q.vals[i] - 1); BGX.sfx.tap(); paint(); };
+        s.querySelector(".plus").onclick = () => { if (S.answered) return; q.vals[i] = Math.min(max, q.vals[i] + 1); BGX.sfx.tap(); paint(); };
+      });
+      $("#br-check").onclick = () => answer(m.parts.every((p, i) => q.vals[i] === +q.item[p.field]), $("#br-check"));
+    },
+    reveal: (m, q) => {
+      view.querySelectorAll(".br-stepper").forEach((s, i) => { const want = +q.item[m.parts[i].field], ok = q.vals[i] === want;
+        s.classList.add(ok ? "is-ok" : "is-no"); s.querySelector(".want").textContent = ok ? "✓" : "should be " + want; s.querySelectorAll("button").forEach(b => b.disabled = true); });
+      $("#br-check").disabled = true;
+    }
+  };
+
   /* ---------- formats planned in the platform plan (not built yet) ---------- */
-  ["sequence", "cases", "truemyth", "buildit", "calculator"].forEach(f => BGX.formats[f] = { soon: true });
+  ["cases", "calculator"].forEach(f => BGX.formats[f] = { soon: true });
 })();

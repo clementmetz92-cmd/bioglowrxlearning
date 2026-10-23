@@ -154,3 +154,54 @@ a { color: inherit; }
 .br-milestone .mtile b svg { width: 64px; height: 64px; }
 .br-prompt .big.is-text { font-size: clamp(22px, 5.2vw, 32px); font-weight: 800; letter-spacing: -.01em; max-width: 30ch; margin-inline: auto; }
 @media (max-width: 520px) { .br-mc.item b svg { width: 30px; height: 30px; margin-top: -6px; } .br-card-tile em { font-size: 9px; } }
+
+/* ---------- Match Pairs v2: two decks with their own backs ---------- */
+.br-mhow { font-size: 14px; color: var(--muted); margin-top: 8px; }
+.br-mkey { display: inline-block; padding: 1px 8px; border-radius: var(--radius-pill); font: 600 11px var(--font-mono); letter-spacing: .06em; text-transform: uppercase; }
+.br-mkey.is-item { background: var(--accent); color: var(--accent-ink); }
+.br-mkey.is-clue { background: var(--cat-amber); color: var(--tile-ink); }
+.br-mrow { margin: 16px 0 8px; text-align: center; }
+.br-mgrid { margin-top: 0; }
+.br-mc.is-down { background-image: none; }
+.br-mc.is-down em { position: absolute; bottom: 8px; left: 0; right: 0; text-align: center; font: 600 10px var(--font-mono); font-style: normal; letter-spacing: .08em; text-transform: uppercase; opacity: .85; }
+.br-mc.back-item { background: var(--accent); color: var(--accent-ink); }
+.br-mc.back-clue { background: var(--cat-amber); color: var(--tile-ink); }
+.br-mc.is-locked { opacity: .45; cursor: not-allowed; }
+.br-mc.is-locked:active { transform: none; }
+@media (max-width: 520px) { .br-mc.is-down em { font-size: 7.5px; bottom: 5px; } .br-mrow { margin: 10px 0 6px; } }
+
+/* ---------- Sequence ---------- */
+.br-seq { list-style: none; margin: 16px auto 0; padding: 0; display: grid; gap: 6px; max-width: 560px; }
+.br-slot { display: flex; align-items: center; gap: 10px; min-height: 44px; padding: 6px 10px; border-radius: var(--radius-inner); border: 2px dashed var(--line); background: var(--bg); cursor: pointer; }
+.br-slot .n { flex: none; width: 26px; height: 26px; border-radius: 50%; display: grid; place-items: center; font: 600 12px var(--font-mono); background: var(--surface); border: 1px solid var(--line); color: var(--muted); }
+.br-slot .t { font-weight: 700; font-size: 15px; }
+.br-slot.is-filled { border-style: solid; background: var(--surface); }
+.br-slot.is-ok { border-color: var(--good); background: var(--good-tint); }
+.br-slot.is-no { border-color: var(--bad); background: var(--bad-tint); }
+.br-pool { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; max-width: 640px; margin: 0 auto; }
+.br-step { padding: 10px 14px; border-radius: var(--radius-pill); border: 2px solid var(--line); background: var(--surface); font-weight: 700; font-size: 14px; transition: transform .12s ease, opacity .12s; }
+.br-step:hover { border-color: var(--accent); }
+.br-step:active { transform: scale(.96); }
+.br-step.is-used { opacity: .25; pointer-events: none; }
+.br-correct { max-width: 560px; margin: 14px auto 0; padding: 12px 16px; border-radius: var(--radius-inner); border: 1px solid var(--line); background: var(--bg); }
+.br-correct ol { margin: 0; padding-left: 22px; display: grid; gap: 4px; font-size: 14px; }
+.br-ghost:disabled, .br-next:disabled { opacity: .45; cursor: default; }
+
+/* ---------- True or Myth ---------- */
+.br-tm .br-ans { min-height: 72px; font-size: 20px; }
+
+/* ---------- Build It ---------- */
+.br-build { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 18px; margin-top: 14px; }
+.br-atom { width: 180px; height: 180px; }
+.br-steppers { display: grid; gap: 10px; }
+.br-stepper { display: grid; grid-template-columns: 92px 44px 48px 44px auto; align-items: center; gap: 8px; padding: 6px 8px; border-radius: var(--radius-inner); border: 2px solid transparent; }
+.br-stepper .lb { font: 600 12px var(--font-mono); text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
+.br-stepper .br-ghost { padding: 6px 0; font-size: 20px; font-weight: 800; text-align: center; }
+.br-stepper .v { font-size: 26px; font-weight: 900; text-align: center; font-variant-numeric: tabular-nums; }
+.br-stepper .want { font: 600 12px var(--font-mono); color: var(--bad); }
+.br-stepper.is-ok { border-color: var(--good); background: var(--good-tint); } .br-stepper.is-ok .want { color: var(--good); }
+.br-stepper.is-no { border-color: var(--bad); background: var(--bad-tint); }
+
+.br-mc.clue .t.is-long { font-size: 13px; line-height: 1.2; }
+.br-mc.clue { padding-top: 18px; }
+@media (max-width: 520px) { .br-mc.clue .t.is-long { font-size: 9.5px; } .br-mc.clue { padding: 14px 3px 3px; } }

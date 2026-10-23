@@ -91,6 +91,14 @@ BGX.registerGame({
 "color": "cat-lemon",
 "clue": "meaning",
 "clueLabel": "Means"
+},
+{
+"id": "stages",
+"format": "sequence",
+"title": "Stages in order",
+"desc": "Put the Stages of Change in the right order.",
+"icon": "1→",
+"color": "cat-sage"
 }
 ],
 "items": [
@@ -168,7 +176,7 @@ BGX.registerGame({
 "name": "Self-efficacy",
 "cat": "sct",
 "meaning": "My confidence that I can do the behaviour",
-"life": "Leo feels sure he can cook a healthy meal even on a busy weeknight.",
+"life": "Leo feels sure he can cook a healthy meal on a busy weeknight. (Bandura's idea, later added to the Health Belief Model too.)",
 "num": 11
 },
 {
@@ -198,6 +206,36 @@ BGX.registerGame({
 "meaning": "Person, behaviour and environment all influence each other",
 "life": "Leo's gym friends make exercise easier; as he gets fitter and more confident, he brings more friends along.",
 "num": 15
+}
+],
+"sequences": [
+{
+"id": "ttm",
+"title": "The Stages of Change, from first to last",
+"icon": "steps",
+"cat": "ttm",
+"steps": [
+"Precontemplation",
+"Contemplation",
+"Preparation",
+"Action",
+"Maintenance"
+],
+"note": "People often move back a stage or two before a change sticks; relapse is part of the model."
+},
+{
+"id": "sam",
+"title": "Sam's journey to quitting smoking",
+"icon": "steps",
+"cat": "ttm",
+"steps": [
+"Knows smoking is harmful but has no plans to quit",
+"Keeps saying he should quit 'one day soon'",
+"Sets a quit date and buys nicotine patches",
+"Has not smoked for two months",
+"Has been smoke-free for over a year"
+],
+"note": "Each step matches one stage: precontemplation, contemplation, preparation, action, maintenance."
 }
 ]
 });
