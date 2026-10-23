@@ -9,6 +9,7 @@
   const tile = (t, cls = "") => t.ghost ? `<div class="br-tile ${cls} ghost-tile"><small>?</small><b>?</b></div>`
     : `<div class="br-tile ${cls}${t.icon ? " is-icon" : ""}" style="background:var(--${t.color})"><small>${esc(t.corner)}</small><b>${t.icon ? BGX.icon(t.icon) : esc(t.big)}</b>${t.label ? `<em>${esc(t.label)}</em>` : ""}</div>`;
 
+  const art = id => BGX.ART && BGX.ART[id] ? BGX.ART[id]() : "";
   BGX.shell();
 
   /* ---------- hub ---------- */
@@ -21,13 +22,13 @@
         const live = liveCount(s);
         return `<a class="br-subj" href="${R}subjects/${s.id}/index.html" style="background:var(--${s.color})">
           <span class="no">0${i + 1}</span><span class="br-chip${live ? " is-live" : ""}">${live ? live + " live" : "Soon"}</span>
-          <span class="icon">${BGX.icon(s.icon)}</span>
+          ${art(s.id) ? `<span class="art" aria-hidden="true">${art(s.id)}</span>` : `<span class="icon">${BGX.icon(s.icon)}</span>`}
           <span><span class="nm">${esc(s.name)}</span><span class="ct">${esc(s.count || s.chapters.length + " chapters")}</span></span></a>`;
       }).join("")}</section>
       <section class="br-featured">
         <div><p class="eyebrow">${esc(f.eyebrow)}</p><h2>${esc(f.title)}</h2><p>${esc(f.text)}</p>
           <div class="btns"><a class="go" href="${R}${f.url}">Play ${esc(f.title)}</a>${f.explore ? `<a class="alt" href="${R}${f.explore}">See all games</a>` : ""}</div></div>
-        <div class="tiles" aria-hidden="true">${f.tiles.map(t => tile(t)).join("")}</div>
+        ${f.game && art(f.game) ? `<div class="art" aria-hidden="true">${art(f.game)}</div>` : `<div class="tiles" aria-hidden="true">${f.tiles.map(t => tile(t)).join("")}</div>`}
       </section>
       ${last ? `<a class="br-continue" href="${R}${esc(last.url)}">
           <div class="br-tile is-sm" style="background:var(--${lastSubj ? lastSubj.color : "cat-mint"})"><b>${lastSubj ? BGX.icon(lastSubj.icon) : "▶"}</b></div>
@@ -48,7 +49,7 @@
       view.innerHTML = `
         <a class="br-crumb" href="${R}index.html">← All subjects</a>
         <section class="br-subhero" style="margin-top:12px">
-          <div class="ic" style="background:var(--${s.color})"><small>${String(C.subjects.indexOf(s) + 1).padStart(2, "0")}</small>${BGX.icon(s.icon)}</div>
+          <div class="ic${art(s.id) ? " has-art" : ""}" style="background:var(--${s.color})"><small>${String(C.subjects.indexOf(s) + 1).padStart(2, "0")}</small>${art(s.id) || BGX.icon(s.icon)}</div>
           <div><p class="br-label" style="margin:0">${esc(s.count || "")} · ${liveCount(s)} live · ${nextCount(s)} up next</p><h1>${esc(s.name)}</h1><p>${esc(s.blurb)}</p></div>
         </section>
         ${s.labs && s.labs.length ? `<p class="br-label" style="margin:10px 0 0">Hands-on lab</p><div class="br-labs">${s.labs.map(labCard).join("")}</div>` : ""}
@@ -62,7 +63,7 @@
     };
     const labCard = l => {
       const live = l.status === "live", next = l.status === "next";
-      const inner = `<div class="top"><span class="ic" style="background:var(--${s.color})"><small>Lab</small>${BGX.icon(l.icon)}</span>
+      const inner = `${art(l.id) ? `<div class="labart" aria-hidden="true">${art(l.id)}</div>` : ""}<div class="top"><span class="ic" style="background:var(--${s.color})"><small>Lab</small>${BGX.icon(l.icon)}</span>
           <span><span class="ch">Ch. ${esc(l.ch)}${next ? ' <span class="br-star">★</span>' : ""}</span><h3>${esc(l.title)}</h3></span></div>
         <p class="plan">${esc(l.text)}</p>
         <div class="game"><span class="br-fmt">Lab mini game</span>${live ? '<span class="br-chip is-live lab-tag">Live</span>' : `<span class="br-chip lab-tag">${next ? "Up next" : "Soon"}</span>`}</div>`;

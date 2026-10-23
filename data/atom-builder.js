@@ -199,7 +199,13 @@ BGX.registerGame({
 "massNum": 1,
 "neutrons": 0,
 "shellText": "1",
-"num": 1
+"num": 1,
+"facts": [
+"Atomic number 1, mass number 1: 1 proton, 1 − 1 = 0 neutrons, 1 electron.",
+"The only common atom with no neutrons at all.",
+"Its single electron sits alone in the first shell: pattern 1.",
+"Has one outer electron like alkali metals, but is a nonmetal gas."
+]
 },
 {
 "name": "Helium",
@@ -224,7 +230,12 @@ BGX.registerGame({
 "massNum": 4,
 "neutrons": 2,
 "shellText": "2",
-"num": 2
+"num": 2,
+"facts": [
+"Atomic number 2, mass number 4: 2 protons, 4 − 2 = 2 neutrons, 2 electrons.",
+"Its 2 electrons completely fill the first shell, so it is unreactive.",
+"A noble gas with a shell pattern of just 2, not 2·8."
+]
 },
 {
 "name": "Lithium",
@@ -245,7 +256,12 @@ BGX.registerGame({
 "massNum": 7,
 "neutrons": 4,
 "shellText": "2 · 1",
-"num": 3
+"num": 3,
+"facts": [
+"Atomic number 3, mass number 7: 3 protons, 7 − 3 = 4 neutrons, 3 electrons.",
+"Shells: 2 fill the first shell, 1 starts the second: 2·1.",
+"The first alkali metal: one outer electron, easily lost."
+]
 },
 {
 "name": "Beryllium",
@@ -266,7 +282,12 @@ BGX.registerGame({
 "massNum": 9,
 "neutrons": 5,
 "shellText": "2 · 2",
-"num": 4
+"num": 4,
+"facts": [
+"Atomic number 4, mass number 9: 4 protons, 9 − 4 = 5 neutrons, 4 electrons.",
+"Shells: 2·2, so two outer electrons, like magnesium and calcium.",
+"One more neutron than protons: watch for this when building it."
+]
 },
 {
 "name": "Boron",
@@ -291,7 +312,12 @@ BGX.registerGame({
 "massNum": 11,
 "neutrons": 6,
 "shellText": "2 · 3",
-"num": 5
+"num": 5,
+"facts": [
+"Atomic number 5, mass number 11: 5 protons, 11 − 5 = 6 neutrons, 5 electrons.",
+"Shells: 2·3, with three outer electrons.",
+"A metalloid, unlike its neighbour carbon, which is a nonmetal."
+]
 },
 {
 "name": "Carbon",
@@ -316,7 +342,12 @@ BGX.registerGame({
 "massNum": 12,
 "neutrons": 6,
 "shellText": "2 · 4",
-"num": 6
+"num": 6,
+"facts": [
+"Atomic number 6, mass number 12: 6 protons, 12 − 6 = 6 neutrons, 6 electrons.",
+"Shells: 2·4. Four outer electrons let it form four bonds.",
+"Carbon-14, a rarer isotope with 8 neutrons, is used for radiocarbon dating."
+]
 },
 {
 "name": "Nitrogen",
@@ -341,7 +372,12 @@ BGX.registerGame({
 "massNum": 14,
 "neutrons": 7,
 "shellText": "2 · 5",
-"num": 7
+"num": 7,
+"facts": [
+"Atomic number 7, mass number 14: 7 protons, 14 − 7 = 7 neutrons, 7 electrons.",
+"Shells: 2·5, so five outer electrons, the same as phosphorus.",
+"Usually forms three bonds, as in ammonia, NH₃."
+]
 },
 {
 "name": "Oxygen",
@@ -366,7 +402,12 @@ BGX.registerGame({
 "massNum": 16,
 "neutrons": 8,
 "shellText": "2 · 6",
-"num": 8
+"num": 8,
+"facts": [
+"Atomic number 8, mass number 16: 8 protons, 16 − 8 = 8 neutrons, 8 electrons.",
+"Shells: 2·6. It gains 2 electrons to form the oxide ion, O²⁻.",
+"Six outer electrons, the same as sulfur directly below it."
+]
 },
 {
 "name": "Fluorine",
@@ -391,7 +432,12 @@ BGX.registerGame({
 "massNum": 19,
 "neutrons": 10,
 "shellText": "2 · 7",
-"num": 9
+"num": 9,
+"facts": [
+"Atomic number 9, mass number 19: 9 protons, 19 − 9 = 10 neutrons, 9 electrons.",
+"Shells: 2·7, one short of a full second shell.",
+"Gains 1 electron to become fluoride, F⁻, with the same arrangement as neon."
+]
 },
 {
 "name": "Neon",
@@ -416,7 +462,12 @@ BGX.registerGame({
 "massNum": 20,
 "neutrons": 10,
 "shellText": "2 · 8",
-"num": 10
+"num": 10,
+"facts": [
+"Atomic number 10, mass number 20: 10 protons, 20 − 10 = 10 neutrons, 10 electrons.",
+"Shells: 2·8. Both shells are full, so it does not react.",
+"Comes right after fluorine (2·7) and right before sodium (2·8·1)."
+]
 },
 {
 "name": "Sodium",
@@ -437,7 +488,12 @@ BGX.registerGame({
 "massNum": 23,
 "neutrons": 12,
 "shellText": "2 · 8 · 1",
-"num": 11
+"num": 11,
+"facts": [
+"Atomic number 11, mass number 23: 11 protons, 23 − 11 = 12 neutrons, 11 electrons.",
+"Shells: 2·8·1. The 11th electron must start the third shell.",
+"Loses that one outer electron to form Na⁺, with neon's arrangement."
+]
 },
 {
 "name": "Magnesium",
@@ -462,7 +518,12 @@ BGX.registerGame({
 "massNum": 24,
 "neutrons": 12,
 "shellText": "2 · 8 · 2",
-"num": 12
+"num": 12,
+"facts": [
+"Atomic number 12, mass number 24: 12 protons, 24 − 12 = 12 neutrons, 12 electrons.",
+"Shells: 2·8·2, two outer electrons.",
+"Loses both outer electrons to form Mg²⁺."
+]
 },
 {
 "name": "Aluminium",
@@ -487,7 +548,12 @@ BGX.registerGame({
 "massNum": 27,
 "neutrons": 14,
 "shellText": "2 · 8 · 3",
-"num": 13
+"num": 13,
+"facts": [
+"Atomic number 13, mass number 27: 13 protons, 27 − 13 = 14 neutrons, 13 electrons.",
+"Shells: 2·8·3, three outer electrons.",
+"Loses all three to form Al³⁺; a thin oxide layer stops it corroding."
+]
 },
 {
 "name": "Silicon",
@@ -512,7 +578,12 @@ BGX.registerGame({
 "massNum": 28,
 "neutrons": 14,
 "shellText": "2 · 8 · 4",
-"num": 14
+"num": 14,
+"facts": [
+"Atomic number 14, mass number 28: 14 protons, 28 − 14 = 14 neutrons, 14 electrons.",
+"Shells: 2·8·4, four outer electrons, just like carbon above it.",
+"A metalloid, while carbon in the same column is a nonmetal."
+]
 },
 {
 "name": "Phosphorus",
@@ -537,7 +608,12 @@ BGX.registerGame({
 "massNum": 31,
 "neutrons": 16,
 "shellText": "2 · 8 · 5",
-"num": 15
+"num": 15,
+"facts": [
+"Atomic number 15, mass number 31: 15 protons, 31 − 15 = 16 neutrons, 15 electrons.",
+"Shells: 2·8·5, five outer electrons, like nitrogen.",
+"Part of phosphate groups in DNA, bones and the energy molecule ATP."
+]
 },
 {
 "name": "Sulfur",
@@ -562,7 +638,12 @@ BGX.registerGame({
 "massNum": 32,
 "neutrons": 16,
 "shellText": "2 · 8 · 6",
-"num": 16
+"num": 16,
+"facts": [
+"Atomic number 16, mass number 32: 16 protons, 32 − 16 = 16 neutrons, 16 electrons.",
+"Shells: 2·8·6, six outer electrons, like oxygen.",
+"Found in some amino acids, such as cysteine and methionine."
+]
 },
 {
 "name": "Chlorine",
@@ -587,7 +668,12 @@ BGX.registerGame({
 "massNum": 35,
 "neutrons": 18,
 "shellText": "2 · 8 · 7",
-"num": 17
+"num": 17,
+"facts": [
+"Atomic number 17, mass number 35: 17 protons, 35 − 17 = 18 neutrons, 17 electrons.",
+"Shells: 2·8·7, one short of a full third shell, like fluorine.",
+"Gains 1 electron to form chloride, Cl⁻, the main negative ion in fluid outside cells."
+]
 },
 {
 "name": "Argon",
@@ -612,7 +698,12 @@ BGX.registerGame({
 "massNum": 40,
 "neutrons": 22,
 "shellText": "2 · 8 · 8",
-"num": 18
+"num": 18,
+"facts": [
+"Atomic number 18, mass number 40: 18 protons, 40 − 18 = 22 neutrons, 18 electrons.",
+"Shells: 2·8·8, a full outer shell.",
+"Has 4 more neutrons than protons, the biggest gap in this game."
+]
 },
 {
 "name": "Potassium",
@@ -633,7 +724,12 @@ BGX.registerGame({
 "massNum": 39,
 "neutrons": 20,
 "shellText": "2 · 8 · 8 · 1",
-"num": 19
+"num": 19,
+"facts": [
+"Atomic number 19, mass number 39: 19 protons, 39 − 19 = 20 neutrons, 19 electrons.",
+"Shells: 2·8·8·1. The 19th electron starts the fourth shell.",
+"Forms K⁺, the main positive ion inside body cells."
+]
 },
 {
 "name": "Calcium",
@@ -654,7 +750,93 @@ BGX.registerGame({
 "massNum": 40,
 "neutrons": 20,
 "shellText": "2 · 8 · 8 · 2",
-"num": 20
-}
+"num": 20,
+"facts": [
+"Atomic number 20, mass number 40: 20 protons, 40 − 20 = 20 neutrons, 20 electrons.",
+"Shells: 2·8·8·2, two outer electrons, like magnesium.",
+"Same mass number as argon (40), but argon has 18 protons and 22 neutrons.",
+"Forms Ca²⁺, needed for bones, muscle contraction and blood clotting."
 ]
+}
+],
+"notes": {
+"intro": "Every atom has a tiny nucleus of protons (positive) and neutrons (no charge), with electrons (negative) moving in shells around it. To build any atom you need two numbers. The atomic number is the number of protons, and it alone decides which element the atom is; in a neutral atom the electrons equal the protons, so the charges cancel. The mass number is protons plus neutrons, so neutrons = mass number minus atomic number. Electrons then fill shells from the inside out: the first shell holds up to 2, the second up to 8, and for the first 20 elements the third holds 8 before the fourth shell starts.",
+"sections": [
+{
+"cat": "am",
+"title": "Alkali metals (group 1)",
+"about": "Alkali metals sit in the first column of the periodic table. Every one has a single electron in its outer shell, which it gives away very easily to form a +1 ion. That makes them soft, shiny and extremely reactive, especially with water, and they get more reactive going down the group. They are never found pure in nature. In this game lithium, sodium and potassium are alkali metals; hydrogen also has one outer electron but is a nonmetal gas.",
+"points": [
+"Shell pattern ends in 1: Li 2·1, Na 2·8·1, K 2·8·8·1.",
+"Lose one electron to form ions such as Na⁺ and K⁺.",
+"Reactivity with water: Li fizzes, Na fizzes fast, K catches fire."
+],
+"tip": "One lonely outer electron, desperate to leave."
+},
+{
+"cat": "ae",
+"title": "Alkaline earth metals (group 2)",
+"about": "Alkaline earth metals form the second column. They have two electrons in their outer shell and lose both to form +2 ions. They are reactive metals, but less so than the alkali metal beside them in the same row. Beryllium, magnesium and calcium are the members in this game. Magnesium and calcium are vital minerals in the body.",
+"points": [
+"Shell pattern ends in 2: Be 2·2, Mg 2·8·2, Ca 2·8·8·2.",
+"Form 2+ ions such as Mg²⁺ and Ca²⁺.",
+"Helium also has 2 electrons but is a noble gas, because its only shell is full."
+],
+"tip": "Group 2 = two to give away."
+},
+{
+"cat": "pt",
+"title": "Post-transition metals",
+"about": "Post-transition metals sit to the right of the transition metals and to the left of the metalloids. They are softer and have lower melting points than most transition metals. Aluminium is the only one among the first 20 elements. With three outer electrons, it tends to lose all three to form Al³⁺ ions.",
+"points": [
+"Aluminium: 2·8·3, forms Al³⁺.",
+"Others include tin and lead."
+],
+"tip": "Aluminium: the light metal just before the staircase line."
+},
+{
+"cat": "md",
+"title": "Metalloids",
+"about": "Metalloids sit along the staircase line that separates metals from nonmetals, and they have properties of both. They look somewhat metallic but are brittle, and many are semiconductors, conducting electricity only partly or under certain conditions. Boron and silicon are the metalloids in this game. Silicon's semiconductor behaviour is the basis of computer chips.",
+"points": [
+"Boron 2·3; silicon 2·8·4.",
+"Semiconductor: conducts electricity better than a nonmetal but worse than a metal."
+],
+"tip": "Metalloids sit on the fence (the staircase) between metals and nonmetals."
+},
+{
+"cat": "nm",
+"title": "Reactive nonmetals",
+"about": "Reactive nonmetals are on the right side of the periodic table, apart from hydrogen at the top left. They tend to gain or share electrons rather than lose them, forming covalent bonds with each other and negative ions with metals. They are poor conductors of heat and electricity. In this game hydrogen, carbon, nitrogen, oxygen, phosphorus and sulfur are reactive nonmetals; they are also the main elements of living things.",
+"points": [
+"H 1; C 2·4; N 2·5; O 2·6; P 2·8·5; S 2·8·6.",
+"Same column = same outer electrons: N and P both have 5; O and S both have 6.",
+"CHNOPS are the six key elements of life."
+],
+"tip": "CHNOPS: the elements that build you."
+},
+{
+"cat": "ha",
+"title": "Halogens (group 17)",
+"about": "Halogens are one electron short of a full outer shell, with 7 outer electrons. They grab one electron to form a -1 ion (fluoride, chloride), which makes them very reactive nonmetals; reactivity falls going down the group, so fluorine is the most reactive of all. They often pair up with alkali metals to make salts, such as sodium chloride. Fluorine and chlorine are the halogens in this game.",
+"points": [
+"Shell pattern ends in 7: F 2·7, Cl 2·8·7.",
+"Form 1− ions: F⁻ (fluoride), Cl⁻ (chloride).",
+"Exist as pairs of atoms: F₂, Cl₂."
+],
+"tip": "Halogens are seven, one short of heaven (a full shell)."
+},
+{
+"cat": "ng",
+"title": "Noble gases (group 18)",
+"about": "Noble gases already have a full outer shell, so they have no need to gain, lose or share electrons. That makes them almost completely unreactive, colourless gases that exist as single atoms. Helium has a full first shell of 2; neon and argon have a full outer shell of 8. Other atoms often react in ways that give them the same electron arrangement as a noble gas.",
+"points": [
+"He 2; Ne 2·8; Ar 2·8·8.",
+"Full outer shell = stable and unreactive."
+],
+"tip": "Noble gases are 'full up' and need nobody."
+}
+],
+"outro": "To build an atom: protons = atomic number; electrons = protons; neutrons = mass number − atomic number. Then fill shells 2, 8, 8, then the 4th; the last number in the pattern tells you the family."
+}
 });

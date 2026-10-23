@@ -31,6 +31,7 @@
     g.catMap = {}; (g.categories || []).forEach(c => g.catMap[c.id] = c);
     g.items.forEach((it, i) => { if (it.num == null) it.num = i + 1; it._i = i; });
     g.byNum = n => g.items.find(it => it.num === n);
+    if (g.notes && !g.modes.some(m => m.format === "notes")) g.modes.unshift({ id: "notes", format: "notes", title: "Study notes", desc: "Read the key ideas first: everything the games ask is in here.", icon: "✎", color: "cat-lemon" });
     g.modes.forEach(m => { const f = BGX.formats[m.format]; m._ready = !!(f && !f.soon); });
     if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", boot); else boot();
   };
@@ -57,7 +58,7 @@
     const best = BGX.store.get("best_" + G.id, {});
     const subj = G.subject ? `<a class="br-crumb" href="${BGX.root}subjects/${G.subject}/index.html">← ${esc(G.subjectName || G.subject.charAt(0).toUpperCase() + G.subject.slice(1))}</a>` : "";
     view.innerHTML = `
-      <div class="br-hero"><h2>${esc(G.title)}</h2><p>${esc(G.tagline || "")}</p></div>
+      <div class="br-hero${diagramSVG(null) ? " has-art" : ""}"><div><h2>${esc(G.title)}</h2><p>${esc(G.tagline || "")}</p></div>${diagramSVG(null) ? `<div class="br-heroart" aria-hidden="true">${diagramSVG(null)}</div>` : ""}</div>
       ${G.sets ? `<p class="br-label">Practise with</p>
       <div class="br-seg" role="group" aria-label="${esc(G.itemNoun || "item")}s to practise">${G.sets.map(x => `<button data-set="${x.size}" aria-pressed="${S.set == x.size}">${esc(x.label)}</button>`).join("")}</div>` : ""}
       ${G.hint ? `<p class="br-hint">${esc(G.hint)}</p>` : ""}${G.note ? `<p class="br-hint"><b>${esc(G.note)}</b></p>` : ""}
@@ -107,10 +108,18 @@
   }
   function feedbackHTML(it, correct) {
     const parts = (G.factLine || ["name"]).map((f, i) => i === 0 ? `<b>${esc(val(f, it))}</b>` : esc(val(f, it))).join(" · ");
-    const pic = (G.explore && (G.explore.pictures || []).indexOf("object") >= 0 && BGX.illus) ? BGX.illus.object(it) : "";
+    const pic = diagramSVG(it) || ((G.explore && (G.explore.pictures || []).indexOf("object") >= 0 && BGX.illus) ? BGX.illus.object(it) : "");
     const verdict = correct ? BGX.pick(["Correct!", "Spot on.", "Nailed it.", "Yes!"]) : "Not quite.";
     return `<span class="${correct ? "ok" : "no"}">${verdict}</span> ${parts}${it.life ? `<div class="br-fbpic">${pic}<span>${esc(it.life)}</span></div>` : ""}`;
   }
+  /* Diagrams: engine/dg-*.js register BGX.DIAGRAMS[name] = (item|null) => "<svg…>".
+     A game sets  diagram: "skeleton"  and each item an optional  spot  to highlight. */
+  function diagramSVG(it) {
+    const D = BGX.DIAGRAMS && G.diagram && BGX.DIAGRAMS[G.diagram];
+    if (!D || (it && G.diagramNeedsSpot !== false && it.spot == null && !G.diagramPerItem)) return "";
+    try { return D(it || null) || ""; } catch (e) { console.warn("diagram", e); return ""; }
+  }
+  BGX.diagramSVG = diagramSVG;
   function nextQ() { S.i++; if (S.i < S.qs.length) renderQ(); else finish(); }
   function milestoneTile(n) {
     const ms = G.milestone || {};
@@ -209,6 +218,32 @@
     }
   };
 
+  /* ---------- format: Study notes ----------
+     g.notes = { intro, sections: [{ cat, title?, about, tip }], outro? }. Each section lists its items with a one-line summary. */
+  BGX.formats.notes = {
+    open: m => {
+      view.classList.remove("menu-in");
+      const N = G.notes, line = it => it.summary || it.life || "";
+      const keyField = G.notesFields || (G.factLine || []).slice(1).filter(f => f !== "{category}" && f !== "category");
+      view.innerHTML = `<div class="br-top"><button class="br-quit" id="br-quit">✕ Menu</button><span class="br-label" style="margin:0">Study notes · ${esc(G.title)}</span></div>
+        <div class="br-notes">
+          ${diagramSVG(null) ? `<div class="br-notesart" aria-hidden="true">${diagramSVG(null)}</div>` : ""}
+          <p class="intro">${esc(N.intro || "")}</p>
+          ${(N.sections || []).map((sec, si) => {
+            const c = G.catMap[sec.cat] || {}, its = G.items.filter(it => sec.cat && it.cat === sec.cat);
+            return `<section class="br-note"><h3><i style="background:var(--${c.color || "cat-mint"})">${c.icon && BGX.icon ? BGX.icon(c.icon) : ""}</i>${esc(sec.title || c.name || "")}</h3>
+              <p>${esc(sec.about || "")}</p>
+              ${sec.points && sec.points.length ? `<ul class="pts">${sec.points.map(x => `<li>${esc(x)}</li>`).join("")}</ul>` : ""}
+              ${its.length ? `<details${si < 2 ? " open" : ""}><summary>${its.length} ${esc(G.itemNoun || "item")}${its.length > 1 ? "s" : ""} in this group</summary><ul class="its">${its.map(it => `<li><b>${esc(it.name)}</b>${keyField.map(f => { const v = val(f, it); return v && v !== c.name ? ` <span class="k">${esc(v)}</span>` : ""; }).join("")}${line(it) ? ` — ${esc(line(it))}` : ""}</li>`).join("")}</ul></details>` : ""}
+              ${sec.tip ? `<p class="tip"><b>Memory tip</b> ${esc(sec.tip)}</p>` : ""}</section>`;
+          }).join("")}
+          ${N.outro ? `<p class="intro">${esc(N.outro)}</p>` : ""}
+          <div class="br-btns" style="margin-top:18px"><button class="br-next" id="br-play">I'm ready: choose a game</button></div>
+        </div>`;
+      $("#br-quit").onclick = menu; $("#br-play").onclick = () => { BGX.sfx.tap(); menu(); window.scrollTo({ top: 0, behavior: BGX.RM ? "auto" : "smooth" }); };
+    }
+  };
+
   /* ---------- format: Card Explorer ---------- */
   BGX.formats.explorer = {
     open: m => {
@@ -230,7 +265,7 @@
       if (p === "object") return `<figure>${I.object(it)}<figcaption>Where you meet it: ${esc(I.objOf(it)[1])}</figcaption></figure>`;
       if (p === "shells") return `<figure>${I.shells(it)}<figcaption>Electron shells: ${I.shellCounts(it).join(" · ")}</figcaption></figure>`;
       return "";
-    }).join("");
+    }).join("") + (diagramSVG(it) ? `<figure class="is-dg">${diagramSVG(it)}<figcaption>${esc(it.spotCaption || G.diagramCaption || "Where it is")}</figcaption></figure>` : "");
     $("#br-detail").innerHTML = `<div class="br-detail br-pop">
       ${tileHTML(it, "is-md")}
       <div style="min-width:0"><h3>${esc(it.name)}</h3>
@@ -239,6 +274,7 @@
       <div class="br-about br-pop">
         ${it.summary || it.discovered || it.nameFrom ? `<div class="sum"><p class="br-label">Quick summary</p>${it.summary ? `<p>${esc(it.summary)}</p>` : ""}
           ${it.discovered || it.nameFrom ? `<dl>${it.discovered ? `<dt>Discovered</dt><dd>${esc(it.discovered)}</dd>` : ""}${it.nameFrom ? `<dt>Name comes from</dt><dd>${esc(it.nameFrom)}</dd>` : ""}</dl>` : ""}</div>` : ""}
+        ${it.facts && it.facts.length ? `<div class="facts"><p class="br-label">Key facts</p><ul>${it.facts.map(f => `<li>${esc(f)}</li>`).join("")}</ul></div>` : ""}
         ${it.life ? `<div class="life"><p class="br-label">In everyday life</p><p>${esc(it.life)}</p></div>` : ""}
         ${it.link ? `<a class="more" href="${esc(it.link)}" target="_blank" rel="noopener">Read more on Wikipedia ↗</a>` : ""}
       </div>`;

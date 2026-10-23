@@ -2678,5 +2678,121 @@ BGX.registerGame({
 "syn": 1,
 "link": "https://en.wikipedia.org/wiki/Oganesson"
 }
-]
+],
+"notes": {
+"intro": "The periodic table arranges all 118 elements by atomic number, the number of protons in each atom's nucleus. Rows are periods: each new row adds a new electron shell. Columns are groups: elements in the same column have the same number of outer electrons, so they behave alike chemically, which is why families exist. Metals fill the left and centre, nonmetals sit at the top right, and a staircase of metalloids runs between them. The lanthanides and actinides are pulled out into two rows at the bottom just to keep the table from becoming too wide.",
+"sections": [
+{
+"cat": "am",
+"title": "Alkali metals (group 1)",
+"about": "Lithium, sodium, potassium, rubidium, caesium and francium make up group 1, the first column (hydrogen sits above them but is a nonmetal). Each has a single outer electron that it gives away very easily, forming ions with a +1 charge. That makes them the most reactive metals: they are soft enough to cut with a knife, react with water to make hydrogen gas and an alkaline solution, and are stored under oil. Reactivity increases going down the group because the outer electron is further from the nucleus, so lithium fizzes while caesium explodes. They are never found pure in nature, only in compounds such as table salt (sodium chloride).",
+"points": [
+"One outer electron; form +1 ions",
+"Reactivity rises down the group: Li < Na < K < Rb < Cs",
+"Soft, low-density, shiny when freshly cut; lithium, sodium and potassium float on water"
+],
+"tip": "'Little Naughty Kids Rub Cats Fur' gives Li, Na, K, Rb, Cs, Fr in order."
+},
+{
+"cat": "ae",
+"title": "Alkaline earth metals (group 2)",
+"about": "Beryllium, magnesium, calcium, strontium, barium and radium form group 2. They have two outer electrons and form +2 ions. They are reactive, though less so than the alkali metals next door, and are harder and denser. As in group 1, reactivity increases down the group: magnesium reacts slowly with cold water, calcium more quickly, barium vigorously. Calcium and magnesium are vital in the body and common in rocks such as limestone and chalk; radium is radioactive.",
+"points": [
+"Two outer electrons; form +2 ions",
+"Less reactive than group 1 neighbours; reactivity rises down the group",
+"Many give coloured flames: strontium red, barium green (used in fireworks)"
+],
+"tip": "'Beer Mugs Can Smash Big Rooms' for Be, Mg, Ca, Sr, Ba, Ra."
+},
+{
+"cat": "tm",
+"title": "Transition metals (groups 3–12)",
+"about": "The transition metals fill the wide central block of the table, from scandium to zinc in period 4 and down to copernicium. They are the 'typical' metals: mostly hard, strong, shiny, good conductors of heat and electricity, with high melting points (mercury, a liquid, is the famous exception). Many can form ions with different charges, such as iron(II) and iron(III), and their compounds are often brightly coloured. Many act as catalysts that speed up reactions, and several are essential trace elements in the body, including iron, zinc, copper and cobalt (in vitamin B12). The heavy ones at the bottom (from rutherfordium, 104) are synthetic and short-lived.",
+"points": [
+"Groups 3–12, the central block; 38 elements in this game",
+"Variable charges, coloured compounds, catalysts",
+"Precious metals here: gold, silver, platinum; mercury is the only liquid metal at room temperature"
+],
+"tip": "Think of the 'workhorse' metals: if it's used to build bridges, wire houses or make jewellery, it's probably a transition metal."
+},
+{
+"cat": "pt",
+"title": "Post-transition metals",
+"about": "These metals sit to the right of the transition block and below-left of the metalloid staircase: aluminium, gallium, indium, tin, thallium, lead, bismuth, polonium and the heavy synthetic elements 113–116. They are true metals but are generally softer, weaker and have lower melting points than transition metals; gallium can melt in your hand. Their chemistry is less metallic than the metals on the left, and some, like aluminium and tin, react with both acids and bases. Familiar uses include aluminium cans and foil, tin coatings and solder, and lead in batteries and old pipes (lead is toxic).",
+"points": [
+"Located between the transition metals and the metalloid staircase",
+"Soft, low melting points, often dull or grey",
+"Aluminium is the most common metal in Earth's crust"
+],
+"tip": "'Poor metals': they are metals, but weaker and softer, sitting just before the staircase."
+},
+{
+"cat": "md",
+"title": "Metalloids",
+"about": "Metalloids sit along the zigzag staircase that separates metals from nonmetals: boron, silicon, germanium, arsenic, antimony and tellurium in this game. They have properties in between: they often look shiny like metals but are brittle like nonmetals. Most are semiconductors, conducting electricity better than nonmetals but less than metals, and this can be controlled. That is why silicon and germanium are the basis of computer chips and solar cells. Arsenic is famously poisonous.",
+"points": [
+"On the staircase line between metals and nonmetals",
+"Mixed properties: metallic look, brittle, semiconductors",
+"Silicon is the second most common element in Earth's crust, after oxygen"
+],
+"tip": "Metalloid = 'metal-like': halfway on the staircase, half metal, half nonmetal."
+},
+{
+"cat": "nm",
+"title": "Reactive nonmetals",
+"about": "In this game the reactive nonmetals are hydrogen, carbon, nitrogen, oxygen, phosphorus, sulfur and selenium. Nonmetals are poor conductors of heat and electricity, are brittle when solid and are often gases at room temperature. They tend to gain or share electrons rather than lose them, so they form covalent bonds with each other and negative ions with metals. Carbon, hydrogen, oxygen, nitrogen, phosphorus and sulfur are the main building blocks of living things: they make up proteins, DNA, fats and carbohydrates. Hydrogen sits above group 1 but is a nonmetal gas.",
+"points": [
+"Top right of the table, plus hydrogen at top left",
+"Poor conductors, low melting points, gain or share electrons",
+"Life's elements: CHNOPS (carbon, hydrogen, nitrogen, oxygen, phosphorus, sulfur)"
+],
+"tip": "'CHNOPS' are the six elements of life, and all six are reactive nonmetals."
+},
+{
+"cat": "ha",
+"title": "Halogens (group 17)",
+"about": "Fluorine, chlorine, bromine, iodine, astatine and tennessine make up group 17, next to the noble gases. They have seven outer electrons and need just one more for a full shell, so they grab electrons strongly and form -1 ions. This makes them the most reactive nonmetals; fluorine is the most reactive element of all. Unlike the metal groups, reactivity decreases going down the group. At room temperature they show all three states: fluorine and chlorine are gases, bromine is a liquid, and iodine is a solid. 'Halogen' means 'salt-former', because they react with metals to make salts such as sodium chloride.",
+"points": [
+"Seven outer electrons; form -1 ions",
+"Reactivity falls down the group: F > Cl > Br > I",
+"Uses: chlorine to disinfect water, fluoride in toothpaste, iodine in the thyroid"
+],
+"tip": "Halogens are one electron short of a full set: like a puzzle missing one piece, they snatch it from anyone nearby."
+},
+{
+"cat": "ng",
+"title": "Noble gases (group 18)",
+"about": "Helium, neon, argon, krypton, xenon, radon and oganesson sit in the last column. Their outer shell is already full, so they have no need to gain, lose or share electrons and are extremely unreactive. They are colourless, odourless gases made of single atoms. They glow brightly when electricity passes through them, which is used in neon and other lighting signs. Helium is lighter than air and used in balloons and for cooling MRI scanner magnets; argon fills light bulbs and is about 1% of air; radon is radioactive and can build up in homes.",
+"points": [
+"Full outer shell, so almost unreactive",
+"All gases at room temperature, single atoms",
+"Boiling points and density rise down the group"
+],
+"tip": "Noble gases are 'too posh to mix': with a full shell, they don't bond with anyone."
+},
+{
+"cat": "la",
+"title": "Lanthanides",
+"about": "The lanthanides are the 15 elements from lanthanum (57) to lutetium (71), shown in the first separate row under the main table. They are often called rare earth elements, although most are not truly rare. They are soft, silvery, reactive metals with very similar chemistry to each other, which makes them hard to separate. They are filling an inner electron shell (the 4f subshell), which is why their outer behaviour barely changes from one to the next. They are essential to modern technology: neodymium in strong magnets for headphones, motors and wind turbines, europium in screen colours, gadolinium as an MRI contrast agent.",
+"points": [
+"Atomic numbers 57–71, first bottom row",
+"Very similar to each other; soft, silvery, reactive metals",
+"Used in magnets, lasers, screens and MRI contrast"
+],
+"tip": "Lanthanides = 'La' row, the top bottom row; actinides = 'Ac' row underneath."
+},
+{
+"cat": "ac",
+"title": "Actinides",
+"about": "The actinides are the 15 elements from actinium (89) to lawrencium (103), shown in the second separate row at the bottom. All of them are radioactive. Only actinium, thorium, protactinium and uranium (plus traces of neptunium and plutonium) occur naturally; the rest are synthetic, made in nuclear reactors or particle accelerators, and many exist only briefly. Uranium and plutonium are used as nuclear fuel and in nuclear weapons, and americium is found in household smoke detectors. Several are named after scientists and places, such as einsteinium, curium, nobelium and californium.",
+"points": [
+"Atomic numbers 89–103, second bottom row",
+"All radioactive; most are synthetic",
+"Elements beyond uranium (92) are called transuranium elements"
+],
+"tip": "Actinides are the 'Action' row: all radioactive, all unstable."
+}
+],
+"outro": "For 'Which family?', use position: column 1 alkali, column 2 alkaline earth, the middle block transition metals, column 17 halogens, column 18 noble gases, the staircase metalloids, and the two bottom rows lanthanides and actinides."
+}
 });

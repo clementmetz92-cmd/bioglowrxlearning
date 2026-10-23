@@ -1,0 +1,54 @@
+/* Pulse Lab (engine/lab-pulse.js) — styles only used by this lab */
+.pl-run [hidden] { display: none !important; }
+.pl-wrap.lab-stage { align-items: start; }
+.pl-left { min-width: 0; }
+.pl-scene { max-width: 360px; touch-action: manipulation; user-select: none; -webkit-user-select: none; }
+.pl-tool { cursor: grab; touch-action: none; }
+.pl-tool.is-drag { cursor: grabbing; filter: drop-shadow(0 6px 6px rgba(0,0,0,.25)); }
+.pl-sites, .pl-dur { display: flex; gap: 6px; justify-content: center; margin: 0 0 8px; }
+.pl-seg { min-height: 44px; padding: 8px 14px; border-radius: var(--radius-pill); border: 2px solid var(--line); background: var(--bg); font-weight: 700; font-size: 14px; color: var(--ink); }
+.pl-seg.is-on { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 14%, var(--bg)); color: var(--accent); }
+.pl-seg:disabled { opacity: .55; cursor: default; }
+.pl-ctrls { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; align-items: center; margin-top: 10px; }
+.pl-ctrls .pl-dur { flex-basis: 100%; margin: 0; }
+.pl-start { min-height: 56px; padding: 12px 22px; }
+.pl-start:disabled { opacity: .5; cursor: default; }
+.pl-beat { min-height: 64px; min-width: 132px; padding: 10px 26px; border-radius: var(--radius-pill); border: 3px solid #e53935; background: var(--bg); color: #c62828; font: 900 20px var(--font-display, inherit); letter-spacing: .02em; touch-action: manipulation; user-select: none; -webkit-user-select: none; -webkit-touch-callout: none; transition: transform .08s, background .12s; }
+.pl-beat:disabled { opacity: .45; cursor: default; }
+.pl-beat.is-hit { animation: pl-hit .22s ease-out; }
+.pl-beat.is-cue { animation: pl-cue .35s ease-out; }
+@keyframes pl-hit { 0% { transform: scale(.92); background: #e53935; color: #fff; } 100% { transform: scale(1); } }
+@keyframes pl-cue { 0% { box-shadow: 0 0 0 0 rgba(229,57,53,.55); } 100% { box-shadow: 0 0 0 14px rgba(229,57,53,0); } }
+.pl-jogbtn { min-height: 60px; max-width: 260px; }
+.pl-rlist { font-size: 14px; color: var(--muted); }
+.pl-rlist div { display: flex; gap: 6px; align-items: baseline; }
+.pl-rlist span { flex: 1; color: var(--ink); }
+.pl-rlist b { font: 800 20px var(--font-mono); }
+.pl-calc, .pl-stats { text-align: left; }
+.pl-eq { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; font: 600 18px var(--font-mono); color: var(--ink); margin: 6px 0; }
+.pl-eq input, .pl-q input { width: 96px; min-height: 48px; padding: 6px 10px; border: 2px solid var(--line); border-radius: 10px; background: var(--bg); color: var(--ink); font: 700 20px var(--font-mono); text-align: center; }
+.pl-eq input:focus, .pl-q input:focus { outline: none; border-color: var(--accent); }
+input.is-ok { border-color: var(--good) !important; background: var(--good-tint) !important; }
+input.is-bad { border-color: var(--bad) !important; background: var(--bad-tint) !important; }
+input.is-empty { border-color: var(--bad); }
+.pl-fbline { margin: 10px 0 0; text-align: center; }
+.pl-cls { margin-top: 10px; }
+.pl-cls p { margin: 0 0 6px; }
+.pl-clsbtns { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+.pl-clsbtns .br-ans { min-height: 52px; font-size: 15px; padding: 6px; }
+.pl-table { display: grid; gap: 6px; margin: 8px 0 12px; }
+.pl-row { display: flex; justify-content: space-between; align-items: center; min-height: 46px; padding: 8px 14px; border: 2px solid var(--line); border-radius: 10px; background: var(--bg); color: var(--ink); font-size: 15px; text-align: left; }
+.pl-row span { flex: 1; }
+.pl-row b { font: 800 18px var(--font-mono); }
+.pl-row.is-on { border-color: #e05a47; background: color-mix(in srgb, #e05a47 12%, var(--bg)); }
+.pl-row.is-out { border-color: var(--good); }
+.pl-row.is-out::after { content: "outlier"; font: 600 11px var(--font-mono); color: var(--good); margin-left: 8px; }
+.pl-row:disabled { cursor: default; }
+.pl-q { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-top: 10px; font-weight: 700; color: var(--ink); }
+.pl-q small { font-weight: 400; color: var(--muted); }
+.pl-tl { max-width: 400px; }
+@media (max-width: 700px) {
+  .pl-scene { max-width: 300px; }
+  .pl-seg { padding: 8px 10px; font-size: 13px; }
+  .pl-start, .pl-beat { flex: 1 1 140px; }
+}

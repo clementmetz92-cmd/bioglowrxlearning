@@ -4,16 +4,13 @@
    To launch a game: set its status to "live" and add  url: "games/<game-id>/index.html". */
 window.BGX_CATALOG = {
   featured: {
-    game: "titration-lab", eyebrow: "New · Hands-on lab in Chemistry", title: "Titration Lab",
-    text: "Your first lab mini game: hold to pour, swirl the flask and stop at the exact moment it turns pink. Three levels, up to three stars each.",
-    url: "games/titration-lab/index.html", explore: "subjects/chemistry/index.html",
+    game: "microscope-lab", eyebrow: "New · 5 hands-on labs, one per subject", title: "Microscope Lab",
+    text: "Clip the slide, focus from 4× to 40× and name the tissue. Also new: Syringe Prep, Food Test Lab and Pulse Lab, plus a clearer Titration Lab with hints. Every game now has study notes and pictures.",
+    url: "games/microscope-lab/index.html", explore: "subjects/anatomy/index.html",
     tiles: [
-      { corner: "1", icon: "flask", label: "Burette", color: "cat-sky" },
-      { corner: "2", icon: "drop", label: "1 drop", color: "cat-orchid" },
-      { corner: "3", icon: "beaker", label: "Endpoint", color: "cat-orchid" },
-      { corner: "pH", big: "7", label: "Neutral", color: "cat-sage" },
-      { corner: "★", big: "3", label: "Stars", color: "cat-amber" },
-      { corner: "?", big: "?", label: "", ghost: true }
+      { corner: "1", icon: "search", label: "Focus", color: "cat-peach" },
+      { corner: "2", icon: "cell", label: "Tissue", color: "cat-lilac" },
+      { corner: "3", icon: "lab", label: "Lab", color: "cat-sky" }
     ]
   },
   subjects: [
@@ -51,7 +48,7 @@ window.BGX_CATALOG = {
       id: "anatomy", count: "29 chapters", name: "Anatomy & Physiology", color: "cat-peach", icon: "body", source: "Saladin, Anatomy & Physiology",
       blurb: "How the human body is built and how each system keeps you alive.",
       labs: [
-        { id: "microscope-lab", ch: "3–5", title: "Microscope Lab", icon: "search", text: "Focus the microscope, then identify the cells and tissues you see.", status: "next" }
+        { id: "microscope-lab", ch: "3–5", title: "Microscope Lab", icon: "search", text: "Focus the microscope, then identify the cells and tissues you see.", status: "live", url: "games/microscope-lab/index.html" }
       ],
       chapters: [
         { ch: "1 + Atlas A", title: "Finding your way around the body", icon: "body", game: "Body Map", formats: ["Find It"], status: "soon" },
@@ -84,7 +81,7 @@ window.BGX_CATALOG = {
       id: "pharmacology", count: "10 chapters", name: "Pharmacology", color: "cat-lilac", icon: "capsule", source: "Open RN, Nursing Pharmacology (CC BY 4.0)",
       blurb: "How medicines work, how they are given safely, and the main drug families.",
       labs: [
-        { id: "syringe-prep", ch: "2 + All", title: "Syringe Prep", icon: "pill", text: "Work out the dose, then draw it up to the exact line on the syringe.", status: "soon" }
+        { id: "syringe-prep", ch: "2 + All", title: "Syringe Prep", icon: "pill", text: "Work out the dose, then draw it up to the exact line on the syringe.", status: "live", url: "games/syringe-prep/index.html" }
       ],
       chapters: [
         { ch: "1", title: "How a drug travels through the body", icon: "steps", game: "Drug Journey", formats: ["Explore", "Sequence", "Quick Quiz", "Sort It", "Match Pairs"], status: "live", url: "games/drug-journey/index.html",
@@ -105,7 +102,7 @@ window.BGX_CATALOG = {
       id: "nutrition", count: "17 chapters", name: "Nutrition", color: "cat-sage", icon: "apple", source: "Deen & Hark, The Complete Guide to Nutrition in Primary Care",
       blurb: "What we eat, what the body needs at each age, and how diet helps prevent and manage disease.",
       labs: [
-        { id: "food-test-lab", ch: "11–12", title: "Food Test Lab", icon: "beaker", text: "Use iodine, Benedict's and biuret tests to find starch, sugar and protein in foods.", status: "soon" }
+        { id: "food-test-lab", ch: "11–12", title: "Food Test Lab", icon: "beaker", text: "Use iodine, Benedict's and biuret tests to find starch, sugar and protein in foods.", status: "live", url: "games/food-test-lab/index.html" }
       ],
       chapters: [
         { ch: "1–2", title: "Nutrition at the doctor's office", icon: "chat", game: "Clinic Basics", formats: ["Quick Quiz"], status: "soon" },
@@ -124,7 +121,7 @@ window.BGX_CATALOG = {
       id: "wellness", count: "Coursework", name: "Health & Wellness", color: "cat-mint", icon: "sprout", source: "Coursework: HW315, HS305, statistics",
       blurb: "Health behaviour models, spotting reliable health information, and the statistics behind studies.",
       labs: [
-        { id: "pulse-lab", ch: "Stats", title: "Pulse Lab", icon: "heart", text: "Measure a pulse at rest and after exercise, then calculate beats per minute.", status: "soon" }
+        { id: "pulse-lab", ch: "Stats", title: "Pulse Lab", icon: "heart", text: "Measure a pulse at rest and after exercise, then calculate beats per minute.", status: "live", url: "games/pulse-lab/index.html" }
       ],
       chapters: [
         { ch: "HW315", title: "Models of health behaviour", icon: "steps", game: "Model Match", formats: ["Explore", "Quick Quiz", "Sort It", "Match Pairs", "Sequence"], status: "live", url: "games/model-match/index.html",

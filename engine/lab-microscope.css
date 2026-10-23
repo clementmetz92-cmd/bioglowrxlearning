@@ -1,0 +1,89 @@
+/* Microscope Lab (engine/lab-microscope.js) */
+.mic-slidecount { margin: 8px 0 0; text-align: center; font: 600 12px var(--font-mono); color: var(--muted); }
+.mic-tip { text-align: center; margin: 6px auto 0; max-width: 620px; min-height: 2.9em; color: var(--ink); }
+.mic-grid { display: grid; grid-template-columns: minmax(0, 300px) minmax(0, 1fr); gap: 18px; align-items: center; margin-top: 8px; }
+.mic-scenebox { background: linear-gradient(180deg, var(--surface), var(--bg)); border: 1px solid var(--line); border-radius: var(--radius-inner); padding: 6px; display: grid; place-items: center; }
+.mic-scene { width: 100%; max-width: 300px; height: auto; display: block; user-select: none; -webkit-user-select: none; }
+.mic-scene.is-shake { animation: mic-shake .4s; }
+#mic-turret.is-spin { animation: mic-spin .35s ease-out; }
+@keyframes mic-shake { 0%, 100% { transform: none; } 20% { transform: translate(-4px, 2px); } 40% { transform: translate(4px, -2px); } 60% { transform: translate(-3px, 1px); } 80% { transform: translate(2px, 0); } }
+@keyframes mic-spin { from { transform: rotate(-40deg); } to { transform: none; } }
+
+.mic-eyebox { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+.mic-eye { position: relative; width: min(100%, 420px); aspect-ratio: 1; border-radius: 50%; overflow: hidden; background: #0b0d0f; box-shadow: 0 0 0 10px #1d2328, 0 0 0 12px #49535b, 0 10px 30px rgba(0,0,0,.35); touch-action: none; cursor: grab; user-select: none; -webkit-user-select: none; isolation: isolate; }
+.mic-eye.is-grab { cursor: grabbing; }
+.mic-blur { position: absolute; inset: -8%; background: #F3EEE8; will-change: filter; }
+.mic-blur svg { width: 100%; height: 100%; display: block; }
+.mic-over { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+.mic-warn { position: absolute; left: 10%; right: 10%; bottom: 14%; padding: 8px 12px; border-radius: 12px; background: rgba(20, 24, 28, .86); color: #fff; font-size: 13px; line-height: 1.35; text-align: center; opacity: 0; transform: translateY(8px); transition: opacity .2s, transform .2s; pointer-events: none; }
+.mic-warn.is-on { opacity: 1; transform: none; }
+.mic-warn.is-bad { background: rgba(190, 30, 40, .92); font-weight: 700; }
+.mic-readout { margin: 6px 0 0; font: 400 12px var(--font-mono); color: var(--muted); text-align: center; line-height: 1.5; }
+.mic-readout b { color: var(--ink); }
+.mic-chips { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; }
+.mic-chips[hidden] { display: none; }
+.mic-chip { font: 600 12px var(--font-mono); padding: 5px 10px; border-radius: 99px; border: 1.5px solid var(--line); background: var(--bg); }
+.mic-chip.is-ok { border-color: var(--good); color: var(--good); }
+.mic-chip.is-mid { border-color: #E8A33A; color: #B06F00; }
+.mic-chip.is-bad { border-color: var(--bad); color: var(--bad); }
+
+.mic-panel { display: grid; grid-template-columns: 1.25fr 1fr 1fr 1.25fr; gap: 10px; margin-top: 16px; }
+.mic-box { border: 1px solid var(--line); border-radius: var(--radius-inner); background: var(--bg); padding: 10px; display: flex; flex-direction: column; align-items: center; gap: 6px; min-width: 0; }
+.mic-box .br-label { margin: 0; text-align: center; }
+.mic-objs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; width: 100%; }
+.mic-obj { min-height: 56px; border-radius: 10px; border: 2px solid var(--line); background: var(--surface); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; position: relative; padding: 4px 2px 8px; transition: transform .1s, border-color .12s, background .12s; }
+.mic-obj::after { content: ""; position: absolute; left: 18%; right: 18%; bottom: 5px; height: 4px; border-radius: 2px; background: var(--oc); }
+.mic-obj b { font: 800 17px var(--font-mono); }
+.mic-obj small { font-size: 10px; color: var(--muted); }
+.mic-obj.is-on { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 14%, var(--bg)); }
+.mic-obj:active { transform: scale(.96); }
+.mic-obj:disabled, .mic-nudge:disabled { opacity: .5; }
+.mic-dialrow { display: flex; align-items: center; gap: 6px; }
+.mic-dial { width: 104px; height: 104px; border-radius: 50%; touch-action: none; cursor: grab; user-select: none; -webkit-user-select: none; flex: none; }
+.mic-dial.is-fine { width: 84px; height: 84px; }
+.mic-dial.is-grab { cursor: grabbing; }
+.mic-dial:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+.mic-dial svg { width: 100%; height: 100%; display: block; }
+.mic-nudge { width: 44px; height: 44px; border-radius: 50%; border: 2px solid var(--line); background: var(--surface); font-size: 20px; font-weight: 800; flex: none; }
+.mic-nudge:active { transform: scale(.94); }
+.mic-kn { font-size: 11px; color: var(--muted); text-align: center; }
+.mic-light input { width: 100%; height: 44px; accent-color: var(--accent); touch-action: none; }
+.mic-lightends { display: flex; justify-content: space-between; width: 100%; font: 400 11px var(--font-mono); color: var(--muted); }
+
+.mic-q { max-width: 640px; margin: 14px auto 0; text-align: center; }
+.mic-q .br-answers { margin-top: 8px; }
+.mic-q .br-ans { font-size: 15px; line-height: 1.25; }
+.mic-clue { margin: 12px 0 0; padding: 10px 12px; border-radius: 10px; text-align: left; font-size: 14px; line-height: 1.5; color: var(--ink); background: var(--good-tint); }
+.mic-clue.is-no { background: var(--bad-tint); }
+.mic-calc { margin-top: 14px; max-width: none; }
+.mic-nextslide { display: block; margin: 14px auto 0; }
+.mic-lines { display: block; text-align: left; margin-top: 6px; }
+.mic-lines span { display: block; margin-top: 4px; }
+.mic-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; margin: 16px auto 0; max-width: 760px; text-align: left; }
+.mic-card { margin: 0; display: grid; grid-template-columns: 110px 1fr; gap: 12px; align-items: start; padding: 10px; border: 1px solid var(--line); border-radius: var(--radius-inner); background: var(--bg); }
+.mic-thumb { width: 110px; height: 110px; display: block; }
+.mic-card figcaption { font-size: 13px; line-height: 1.45; color: var(--ink); }
+.mic-cardmeta { font: 400 11px var(--font-mono); color: var(--muted); }
+.mic-rules { max-width: 560px; margin: 14px auto 0; text-align: left; padding: 12px 14px; border: 1px solid var(--line); border-radius: var(--radius-inner); }
+.mic-rules ol { margin: 4px 0 0; padding-left: 20px; font-size: 14px; line-height: 1.5; color: var(--ink); }
+
+@media (max-width: 760px) {
+  .mic-grid { grid-template-columns: 1fr; gap: 12px; }
+  .mic-scenebox { padding: 2px; }
+  .mic-scene { max-width: 240px; }
+  .mic-panel { grid-template-columns: 1fr 1fr; }
+  .mic-nose, .mic-light { grid-column: 1 / -1; }
+  .mic-dial { width: 92px; height: 92px; }
+  .mic-dial.is-fine { width: 80px; height: 80px; }
+  .mic-dialrow { gap: 3px; }
+  .mic-dialrow .mic-nudge { width: 44px; height: 44px; font-size: 18px; }
+  .mic-knob { padding: 8px 2px; }
+  .mic-q .br-answers { grid-template-columns: 1fr; }
+  .mic-card { grid-template-columns: 90px 1fr; }
+  .mic-thumb { width: 90px; height: 90px; }
+}
+@media (max-width: 520px) {
+  .mic-dialrow { display: grid; grid-template-columns: 44px 44px; justify-content: center; gap: 6px 14px; }
+  .mic-dialrow .mic-dial { grid-column: 1 / -1; grid-row: 1; justify-self: center; width: 100px; height: 100px; }
+  .mic-dialrow .mic-dial.is-fine { width: 88px; height: 88px; }
+}

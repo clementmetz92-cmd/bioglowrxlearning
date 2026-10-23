@@ -90,7 +90,13 @@ BGX.registerGame({
 "life": "Your pupils grow large in a scary film or a dark room.",
 "icon": "eye",
 "num": 1,
-"messenger": "Norepinephrine (noradrenaline), plus adrenaline from the adrenal glands"
+"messenger": "Norepinephrine (noradrenaline), plus adrenaline from the adrenal glands",
+"spot": "eyes",
+"facts": [
+"The medical word is dilation (mydriasis); a radial muscle in the iris pulls the pupil open.",
+"More light reaches the retina, helping you see threats.",
+"Opposite of 'Pupils narrow', which is the rest and digest effect on the same eyes."
+]
 },
 {
 "name": "Pupils narrow",
@@ -100,7 +106,13 @@ BGX.registerGame({
 "life": "Pupils shrink when you read calmly in good light.",
 "icon": "eye",
 "num": 2,
-"messenger": "Acetylcholine"
+"messenger": "Acetylcholine",
+"spot": "eyes",
+"facts": [
+"The medical word is constriction (miosis); a ring muscle in the iris tightens.",
+"Helps focus on close objects, such as reading.",
+"Controlled by acetylcholine; opposite of 'Pupils widen' (fight or flight)."
+]
 },
 {
 "name": "Heart beats faster and harder",
@@ -110,7 +122,14 @@ BGX.registerGame({
 "life": "Your heart pounds before a speech or a race.",
 "icon": "heart",
 "num": 3,
-"messenger": "Norepinephrine (noradrenaline), plus adrenaline from the adrenal glands"
+"messenger": "Norepinephrine (noradrenaline), plus adrenaline from the adrenal glands",
+"spot": "heart",
+"facts": [
+"Norepinephrine acts on beta-1 receptors in the heart to raise rate and force.",
+"Pumps more blood to muscles and brain for action.",
+"Beta blockers such as metoprolol block this effect.",
+"Opposite of 'Heart rate slows', which is the parasympathetic effect."
+]
 },
 {
 "name": "Heart rate slows",
@@ -120,7 +139,13 @@ BGX.registerGame({
 "life": "Your heart rate drops as you fall asleep.",
 "icon": "heart",
 "num": 4,
-"messenger": "Acetylcholine"
+"messenger": "Acetylcholine",
+"spot": "heart",
+"facts": [
+"The vagus nerve releases acetylcholine onto the heart's pacemaker, slowing it down.",
+"Saves energy when the body is at rest or asleep.",
+"Opposite of 'Heart beats faster and harder' (fight or flight)."
+]
 },
 {
 "name": "Airways widen",
@@ -130,17 +155,36 @@ BGX.registerGame({
 "life": "Asthma relievers copy this effect to open the airways.",
 "icon": "lungs",
 "num": 5,
-"messenger": "Norepinephrine (noradrenaline), plus adrenaline from the adrenal glands"
+"messenger": "Norepinephrine (noradrenaline), plus adrenaline from the adrenal glands",
+"spot": [
+"lungs",
+"airways"
+],
+"facts": [
+"Adrenaline acts on beta-2 receptors, relaxing smooth muscle in the airways.",
+"The medical word is bronchodilation; it lets more oxygen in for effort.",
+"Albuterol (salbutamol) inhalers copy this beta-2 effect.",
+"Opposite of 'Airways narrow' (rest and digest)."
+]
 },
 {
 "name": "Airways narrow",
 "cat": "rest",
 "organ": "Lungs",
 "summary": "At rest the body needs less airflow.",
-"life": "This is why some asthma is worse at night.",
+"life": "This may be one reason some asthma is worse at night.",
 "icon": "lungs",
 "num": 6,
-"messenger": "Acetylcholine"
+"messenger": "Acetylcholine",
+"spot": [
+"lungs",
+"airways"
+],
+"facts": [
+"Acetylcholine tightens airway smooth muscle (bronchoconstriction).",
+"At rest the body needs less air, so wide airways are not needed.",
+"Opposite of 'Airways widen', which is the fight or flight effect."
+]
 },
 {
 "name": "Digestion slows",
@@ -150,7 +194,16 @@ BGX.registerGame({
 "life": "Butterflies or a lost appetite when you are nervous.",
 "icon": "stomach",
 "num": 7,
-"messenger": "Norepinephrine (noradrenaline), plus adrenaline from the adrenal glands"
+"messenger": "Norepinephrine (noradrenaline), plus adrenaline from the adrenal glands",
+"spot": [
+"stomach",
+"intestines"
+],
+"facts": [
+"Blood is diverted away from the gut towards skeletal muscles.",
+"Gut movement and digestive juices drop, so appetite falls.",
+"Opposite of 'Digestion speeds up' (rest and digest)."
+]
 },
 {
 "name": "Digestion speeds up",
@@ -160,7 +213,16 @@ BGX.registerGame({
 "life": "A relaxed meal is easier to digest than one eaten in a rush.",
 "icon": "stomach",
 "num": 8,
-"messenger": "Acetylcholine"
+"messenger": "Acetylcholine",
+"spot": [
+"stomach",
+"intestines"
+],
+"facts": [
+"Acetylcholine increases gut muscle movement (peristalsis) and digestive secretions.",
+"The vagus nerve carries most of these signals to the stomach and intestines.",
+"Opposite of 'Digestion slows', which is fight or flight."
+]
 },
 {
 "name": "Less saliva, dry mouth",
@@ -170,7 +232,13 @@ BGX.registerGame({
 "life": "A dry mouth before an exam or interview.",
 "icon": "drop",
 "num": 9,
-"messenger": "Norepinephrine (noradrenaline), plus adrenaline from the adrenal glands"
+"messenger": "Norepinephrine (noradrenaline), plus adrenaline from the adrenal glands",
+"spot": "salivary",
+"facts": [
+"Saliva becomes scant and thick under stress.",
+"Eating is not a priority during danger, so saliva is turned down.",
+"Opposite of 'More watery saliva' (rest and digest)."
+]
 },
 {
 "name": "More watery saliva",
@@ -180,7 +248,13 @@ BGX.registerGame({
 "life": "Your mouth waters when you smell a favourite meal.",
 "icon": "drop",
 "num": 10,
-"messenger": "Acetylcholine"
+"messenger": "Acetylcholine",
+"spot": "salivary",
+"facts": [
+"Acetylcholine makes salivary glands release lots of thin, watery saliva.",
+"Saliva starts digesting starch and makes food easier to swallow.",
+"The S in the SLUDD rest and digest mnemonic stands for salivation."
+]
 },
 {
 "name": "Liver releases glucose",
@@ -190,7 +264,13 @@ BGX.registerGame({
 "life": "The energy surge in a sudden emergency.",
 "icon": "zap",
 "num": 11,
-"messenger": "Norepinephrine (noradrenaline), plus adrenaline from the adrenal glands"
+"messenger": "Norepinephrine (noradrenaline), plus adrenaline from the adrenal glands",
+"spot": "liver",
+"facts": [
+"The liver breaks down stored glycogen into glucose (glycogenolysis).",
+"Extra blood sugar fuels muscles and the brain in an emergency.",
+"Only sympathetic in this game: there is no rest and digest partner card."
+]
 },
 {
 "name": "Sweating increases",
@@ -200,7 +280,13 @@ BGX.registerGame({
 "life": "Sweaty palms when you are nervous.",
 "icon": "drop",
 "num": 12,
-"messenger": "Acetylcholine (sweat glands are the sympathetic exception)"
+"messenger": "Acetylcholine (sweat glands are the sympathetic exception)",
+"spot": "skin",
+"facts": [
+"Sweat glands are controlled only by the sympathetic side.",
+"Unusually, these sympathetic nerves release acetylcholine, not norepinephrine.",
+"Sweating cools the body during effort; it is fight or flight despite the acetylcholine."
+]
 },
 {
 "name": "Bladder holds urine",
@@ -210,7 +296,13 @@ BGX.registerGame({
 "life": "You rarely need the toilet in the middle of a sprint.",
 "icon": "kidney",
 "num": 13,
-"messenger": "Norepinephrine (noradrenaline), plus adrenaline from the adrenal glands"
+"messenger": "Norepinephrine (noradrenaline), plus adrenaline from the adrenal glands",
+"spot": "bladder",
+"facts": [
+"The bladder wall muscle (detrusor) relaxes and the internal sphincter tightens.",
+"Emptying is postponed until the danger is over.",
+"Opposite of 'Bladder empties' (rest and digest)."
+]
 },
 {
 "name": "Bladder empties",
@@ -220,7 +312,45 @@ BGX.registerGame({
 "life": "It is easier to go to the toilet when you are calm.",
 "icon": "kidney",
 "num": 14,
-"messenger": "Acetylcholine"
-}
+"messenger": "Acetylcholine",
+"spot": "bladder",
+"facts": [
+"Acetylcholine makes the detrusor muscle contract and the internal sphincter relax.",
+"The U in the SLUDD mnemonic stands for urination.",
+"Opposite of 'Bladder holds urine', which is fight or flight."
 ]
+}
+],
+"diagram": "body",
+"diagramCaption": "Organ affected",
+"notes": {
+"intro": "The autonomic nervous system runs the body's automatic jobs, such as heart rate, breathing, digestion and pupil size, without you thinking about them. It has two sides that usually pull in opposite directions on the same organ. The sympathetic side prepares you for danger or effort (fight or flight). The parasympathetic side calms you down and looks after digestion, rest and repair (rest and digest). Most organs appear twice in the game, once for each side, so ask yourself: would this help me run from a bear, or help me relax after dinner?",
+"sections": [
+{
+"cat": "fight",
+"title": "Fight or flight (sympathetic)",
+"about": "The sympathetic side gets the body ready for action. It sends more blood and oxygen to the muscles, raises blood sugar for fuel, and widens the pupils and airways. Anything not urgent, like digesting food, making saliva or emptying the bladder, is put on hold. Its nerve endings mostly release norepinephrine (noradrenaline), and the adrenal glands add adrenaline (epinephrine) to the blood, which spreads the effect across the whole body. Sweat glands are the exception: they are sympathetic but use acetylcholine.",
+"points": [
+"Speeds up: heart, breathing, glucose release, sweating.",
+"Widens: pupils, airways.",
+"Slows or holds: digestion, saliva, bladder emptying.",
+"Messenger: norepinephrine plus adrenaline; sweat glands use acetylcholine."
+],
+"tip": "Picture running from a bear: big eyes, pounding heart, dry mouth, no time to eat or wee."
+},
+{
+"cat": "rest",
+"title": "Rest and digest (parasympathetic)",
+"about": "The parasympathetic side takes over when you are safe and relaxed. It slows the heart, narrows the pupils for close focus and narrows the airways because less air is needed. It switches digestion on: more saliva, more gut movement and more digestive juices. It also lets the bladder empty. Its main messenger is acetylcholine, carried largely by the vagus nerve. Each of these effects is the mirror image of a fight or flight effect on the same organ.",
+"points": [
+"Slows: heart rate.",
+"Narrows: pupils, airways.",
+"Switches on: saliva, digestion, bladder emptying.",
+"Messenger: acetylcholine, mostly via the vagus nerve."
+],
+"tip": "Rest and digest = SLUDD: Salivation, Lacrimation (tears), Urination, Digestion, Defecation."
+}
+],
+"outro": "In Match Pairs, remember most organs appear on both sides; only the liver glucose release and sweating have no parasympathetic partner here."
+}
 });
