@@ -213,6 +213,8 @@ const ITEMS = [
     "claim": "Mercury is a liquid at room temperature.", "verdict": true,
     "why": "True. Mercury melts at −39 °C, the only metal that is liquid at room temperature." }
 ];
+/* the trend reason behind each True-or-Myth claim is shown after every answer and listed with the facts */
+ITEMS.forEach(it => { it.trend = it.why.replace(/^(True|Myth)\. /, ""); it.facts.push("Trend check: " + it.trend); });
 const taken = new Set(ITEMS.map(it => it.row + "," + it.col));
 const placeholders = [];
 PERIODS.forEach((r, ri) => r.forEach((sym, ci) => { if (sym && !taken.has(ri + "," + (ci + 1))) placeholders.push({ row: ri, col: ci + 1, label: sym }); }));
@@ -233,7 +235,8 @@ BGX.registerGame({
 "categoryLabel": "Block",
 "hint": "The block tells you which kind of orbital the last electron goes into: s on the left (groups 1–2), d in the middle (groups 3–12), p on the right (groups 13–18).",
 "tile": { "big": "symbol", "corner": "num", "label": "name" },
-"factLine": ["name", "symbol", "{group}", "{category}"],
+"factLine": ["name", "{group}", "{trend}"],
+"notesFields": ["symbol", "{group}"],
 "detail": [
   { "label": "Symbol", "field": "symbol" },
   { "label": "Atomic number", "field": "num" },
