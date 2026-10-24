@@ -121,7 +121,7 @@ BGX.registerGame({
     "key": "Half-life 2–3 days",
     "tells": "Short-term protein status, if there is no inflammation",
     "summary": "Prealbumin is a liver protein with a short half-life, so it responds within days, but like albumin it falls with inflammation.",
-    "facts": ["Normal: roughly 15–35 mg/dL (labs vary).", "Half-life only 2–3 days, so it was used to track feeding in hospital.", "It drops sharply in infection and inflammation and rises in kidney failure, so it misleads without a CRP.", "Current guidance (ASPEN, 2018) says neither albumin nor prealbumin should be used alone to diagnose malnutrition."],
+    "facts": ["Normal: roughly 15–35 mg/dL (labs vary).", "Half-life only 2–3 days, so it was used to track feeding in hospital.", "It drops sharply in infection and inflammation and rises in kidney failure, so it misleads without a CRP.", "An ASPEN position paper (2021) says neither albumin nor prealbumin should be used alone to diagnose malnutrition."],
     "life": "A low prealbumin in a patient with a high CRP says more about the inflammation than about her diet." },
   { "name": "Haemoglobin", "cat": "bio", "icon": "drop", "spot": ["tube", "Haemoglobin"], "ref": "<13 M · <12 F g/dL",
     "key": "Anaemia: under 13 men, under 12 women",
