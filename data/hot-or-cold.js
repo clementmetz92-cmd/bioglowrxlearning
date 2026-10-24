@@ -14,7 +14,7 @@ BGX.registerGame({
 "title": "Hot or Cold?",
 "subject": "chemistry",
 "subjectName": "Chemistry",
-"chapter": "5",
+"chapter": "5", "thousand": "J ↔ kJ, g ↔ kg",
 "tagline": "Does it give out heat or soak it up? Energy changes, ΔH and q = m·c·ΔT",
 "itemNoun": "card",
 "categories": [

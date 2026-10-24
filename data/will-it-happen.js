@@ -15,7 +15,7 @@ BGX.registerGame({
 "title": "Will It Happen?",
 "subject": "chemistry",
 "subjectName": "Chemistry",
-"chapter": "18",
+"chapter": "18", "thousand": "J ↔ kJ",
 "tagline": "Entropy, free energy and whether a reaction goes by itself",
 "itemNoun": "idea",
 "categories": [
