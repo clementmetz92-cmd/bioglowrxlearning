@@ -78,6 +78,7 @@
   /* ---------- round runner (question formats) ---------- */
   function start(mode) {
     BGX.sfx.tap();
+    S.xpStart = BGX.xp.total;
     const f = BGX.formats[mode.format];
     if (f.open) { S.screen = mode.format; S.mode = mode; f.open(mode); return; }
     S = Object.assign(S, { screen: "game", mode, f, i: 0, score: 0, wrong: [], answered: false });
@@ -102,7 +103,7 @@
     const q = S.qs[S.i], it = q.item;
     if (correct) S.score++; else if (S.wrong.indexOf(it) < 0) S.wrong.push(it);
     S.f.reveal(S.mode, q, correct, el);
-    BGX.reward(correct, el, { flash: view, milestoneTile: milestoneTile });
+    BGX.reward(correct, el, { flash: view, milestoneTile: milestoneTile, xpScale: q.helped ? 0.5 : 1 });
     const sc = view.querySelector(".br-count"); if (sc) sc.innerHTML = `<b>${S.score}</b> / ${S.i + 1}`;
     $("#br-fb").innerHTML = (S.f.feedback ? S.f.feedback(S.mode, q, correct) : feedbackHTML(it, correct)) + `<button class="br-next" id="br-next">${S.i + 1 < S.qs.length ? "Next" : "See score"}</button>`;
     const nx = $("#br-next"); nx.focus({ preventScroll: true }); nx.onclick = nextQ;
@@ -135,15 +136,20 @@
     if (isBest) { best[k] = S.score; BGX.store.set("best_" + G.id, best); }
     const msg = S.score === total ? "Perfect round!" : S.score >= total * .8 ? "Excellent work." : S.score >= total * .5 ? "Getting there." : "Keep practising — it sticks fast.";
     const setLabel = G.sets ? " · " + (G.sets.find(x => x.size == S.set) || {}).label : "";
+    const roundXP = total >= 3 ? BGX.xp.add(BGX.xp.roundBonus(S.score === total)) : 0;
+    const earned = Math.max(0, BGX.xp.total - (S.xpStart == null ? BGX.xp.total : S.xpStart)), lv = BGX.xp.level();
     view.innerHTML = `<div class="br-end">${BGX.logo()}
       <p class="br-label">${esc(m.title)}${esc(setLabel)}</p>
       <div class="br-score br-pop">${S.score}<span>/${total}</span></div>
       <p style="margin:0;font-weight:700">${msg}${isBest && S.score > 0 ? " New best!" : ""}</p>
       ${extra && extra.note ? `<p class="br-hint" style="margin:6px auto 0">${esc(extra.note)}</p>` : ""}
+      ${earned ? `<button class="br-xpline" id="br-xpline" type="button" aria-label="+${earned} XP this round. See all levels">${BGX.levelBadge(lv)}<span><b>+${earned.toLocaleString("en-US")} XP</b> this round${roundXP ? ` <em>(incl. ${S.score === total ? "perfect-round" : "round"} bonus +${roundXP})</em>` : ""}
+        <i class="bar"><i style="width:${lv.pct.toFixed(1)}%"></i></i><small>Lv ${lv.n} ${esc(lv.name)}${lv.next ? ` · ${(lv.next.xp - BGX.xp.total).toLocaleString("en-US")} XP to Lv ${lv.n + 1}` : ""}</small></span></button>` : ""}
       ${S.wrong.length ? `<p class="br-label" style="margin-top:22px">Review these</p>
         <div class="br-review">${S.wrong.map(it => tileHTML(it, "is-sm", `<em>${esc(val(G.tile.label, it))}</em>`)).join("")}</div>` : ""}
       <div class="br-btns"><button class="br-next" id="br-again">Play again</button><button class="br-ghost" id="br-back">Menu</button></div></div>`;
     $("#br-again").onclick = () => start(m); $("#br-back").onclick = menu;
+    const xl = $("#br-xpline"); if (xl) xl.onclick = () => BGX.showLevels();
     if (S.score === total) { BGX.sfx.big(); BGX.rain(220); } else if (isBest && S.score > 0) { BGX.sfx.win(); BGX.rain(90); } else if (S.score >= total / 2) BGX.sfx.win();
   }
 
@@ -242,6 +248,8 @@
           <div class="br-btns" style="margin-top:18px"><button class="br-next" id="br-play">I'm ready: choose a game</button></div>
         </div>`;
       $("#br-quit").onclick = menu; $("#br-play").onclick = () => { BGX.sfx.tap(); menu(); window.scrollTo({ top: 0, behavior: BGX.RM ? "auto" : "smooth" }); };
+      const got = BGX.xp.once("notes_" + G.id, 25);
+      if (got) setTimeout(() => BGX.toast(`+${got} XP for opening the study notes`), 400);
     }
   };
 

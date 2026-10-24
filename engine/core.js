@@ -38,11 +38,14 @@
     if (header) header.innerHTML = `
       <a class="br-brand" href="${BGX.root}index.html" aria-label="BioglowRX Sciences Learning home">${BGX.logo()}
         <div class="br-word"><div class="br-word-name">Bioglow<span>RX</span></div><p>Sciences Learning</p></div></a>
+      <button class="br-lvl" id="br-lvl" type="button"></button>
       <div class="br-stat"><div class="br-streak" id="br-streakbox">streak <b id="br-streak">${BGX.streak}</b></div>best <span id="br-best">${BGX.bestStreak}</span><br><button class="br-sound" id="br-sound" aria-pressed="true">Sound on</button></div>`;
     if (foot) foot.innerHTML = `${BGX.logo("br-footlogo")}<span>A BioglowRX Sciences Learning game · free to play, no login</span>`;
     const s = document.getElementById("br-sound");
     if (s) { BGX.paintSound(); s.onclick = () => { BGX.soundOn = !BGX.soundOn; BGX.store.set("sound", BGX.soundOn); BGX.paintSound(); if (BGX.soundOn) BGX.tone([660], .08); }; }
     BGX.paintStreak();
+    const lv = document.getElementById("br-lvl");
+    if (lv) { lv.onclick = () => { BGX.sfx.tap(); BGX.showLevels(); }; BGX.paintLevel(); }
   };
 
   /* ---------- streaks (shared across every game) ---------- */
@@ -121,33 +124,146 @@
   BGX.center = el => { const r = el.getBoundingClientRect(); return [r.left + r.width / 2, r.top + r.height / 2]; };
   BGX.plus = (el, txt = "+1") => {
     const [x, y] = BGX.center(el), d = document.createElement("div");
-    d.className = "br-plus"; d.textContent = txt; d.style.left = x + "px"; d.style.top = (y - 20) + "px";
+    d.className = "br-plus"; d.textContent = txt; d.style.left = Math.max(txt.length * 6 + 8, Math.min(innerWidth - txt.length * 6 - 8, x)) + "px"; d.style.top = (y - 20) + "px";
     document.body.appendChild(d); setTimeout(() => d.remove(), 950);
+  };
+  BGX.toast = txt => {
+    const d = document.createElement("div"); d.className = "br-toast"; d.setAttribute("role", "status"); d.textContent = txt;
+    document.body.appendChild(d); setTimeout(() => d.classList.add("is-out"), 2200); setTimeout(() => d.remove(), 2700);
   };
   BGX.flash = el => { el.classList.remove("br-wrong-flash"); void el.offsetWidth; el.classList.add("br-wrong-flash"); };
 
-  /* correct / wrong in one call: sound, confetti, +1, streak, milestone */
+  /* correct / wrong in one call: sound, confetti, XP, streak, milestone.
+     opts: flash (element to flash on a miss), milestoneTile, xpScale (e.g. 0.5 when a helper was used) */
   BGX.reward = (correct, el, opts = {}) => {
     const hit = BGX.scoreStreak(correct);
     if (correct) {
-      BGX.sfx.ok(); if (el) { const [x, y] = BGX.center(el); BGX.burst(x, y, BGX.streak >= 3 ? 40 : 24); BGX.plus(el, BGX.streak >= 3 ? `+1 · ${BGX.streak} in a row` : "+1"); }
+      const gain = BGX.xp.forAnswer(BGX.streak, opts.xpScale);
+      BGX.sfx.ok();
+      if (el) { const [x, y] = BGX.center(el); BGX.burst(x, y, BGX.streak >= 3 ? 40 : 24); BGX.plus(el, BGX.streak >= 3 ? `+${gain} XP · ${BGX.streak} in a row` : `+${gain} XP`); }
+      BGX.xp.add(gain);
     } else { BGX.sfx.no(); if (opts.flash) BGX.flash(opts.flash); }
-    if (hit) setTimeout(() => BGX.milestone(BGX.streak, opts.milestoneTile), 450);
+    if (hit) { const bonus = BGX.xp.milestoneBonus(BGX.streak); BGX.xp.add(bonus); setTimeout(() => BGX.milestone(BGX.streak, opts.milestoneTile, bonus), 450); }
   };
+
+  /* ---------- pop-ups (one at a time: a streak milestone and a level-up never overlap) ---------- */
+  const popQ = []; let popping = false;
+  BGX.popup = (label, html, opts = {}) => { popQ.push({ label, html, opts }); if (!popping) nextPop(); };
+  function nextPop() {
+    const p = popQ.shift(); if (!p) { popping = false; return; }
+    popping = true;
+    const ov = document.createElement("div"); ov.className = "br-milestone" + (p.opts.cls ? " " + p.opts.cls : ""); ov.setAttribute("role", "dialog"); ov.setAttribute("aria-modal", "true"); ov.setAttribute("aria-label", p.label);
+    ov.innerHTML = `<div class="box">${p.html}</div>`;
+    document.body.appendChild(ov);
+    if (p.opts.onOpen) p.opts.onOpen(ov);
+    const close = () => { ov.remove(); document.removeEventListener("keydown", k, true); setTimeout(nextPop, 120); };
+    const k = ev => { if (ev.key === "Escape" || (ev.key === "Enter" && !p.opts.noEnter)) { ev.preventDefault(); ev.stopPropagation(); close(); } };
+    document.addEventListener("keydown", k, true);
+    ov.querySelectorAll("[data-close]").forEach(b => b.onclick = close); ov.onclick = ev => { if (ev.target === ov) close(); };
+    const f = ov.querySelector("[data-close]"); if (f) f.focus({ preventScroll: true });
+  }
 
   /* ---------- milestones ---------- */
   const CHEERS = { 5: "Warming up!", 10: "On fire!", 20: "Unstoppable!", 30: "Subject master!", 40: "Lab legend!", 50: "Half a century!", 60: "Science genius!" };
-  BGX.milestone = (n, tileFn) => {
+  BGX.milestone = (n, tileFn, bonus) => {
     BGX.sfx.big(); BGX.rain(n >= 20 ? 200 : 140);
     const t = tileFn ? tileFn(n) : { bg: "var(--cat-mint)", corner: n, big: n, label: "in a row", text: "" };
-    const ov = document.createElement("div"); ov.className = "br-milestone"; ov.setAttribute("role", "dialog"); ov.setAttribute("aria-label", n + " in a row");
-    ov.innerHTML = `<div class="box"><div class="mtile" style="background:${t.bg}"><small>${BGX.esc(t.corner)}</small><b>${t.bigHTML || BGX.esc(t.big)}</b><em>${BGX.esc(t.label)}</em></div>
-      <h2>${n} in a row!</h2><p>${CHEERS[n] || "Incredible streak!"} ${t.text || ""}</p><button class="br-next" id="br-mclose">Keep going</button></div>`;
-    document.body.appendChild(ov);
-    const close = () => { ov.remove(); document.removeEventListener("keydown", k, true); };
-    const k = ev => { if (ev.key === "Escape" || ev.key === "Enter") { ev.preventDefault(); ev.stopPropagation(); close(); } };
-    document.addEventListener("keydown", k, true);
-    ov.querySelector("#br-mclose").onclick = close; ov.onclick = ev => { if (ev.target === ov) close(); };
-    ov.querySelector("#br-mclose").focus({ preventScroll: true });
+    BGX.popup(n + " in a row", `<div class="mtile" style="background:${t.bg}"><small>${BGX.esc(t.corner)}</small><b>${t.bigHTML || BGX.esc(t.big)}</b><em>${BGX.esc(t.label)}</em></div>
+      <h2>${n} in a row!</h2><p>${CHEERS[n] || "Incredible streak!"} ${t.text || ""}</p>${bonus ? `<p class="br-xpbonus">+${bonus} XP streak bonus</p>` : ""}<button class="br-next" data-close>Keep going</button>`);
+  };
+
+  /* ---------- XP and levels ----------
+     Every correct answer: 10 XP, plus 2 XP for each answer already in the current streak (up to +40).
+     Streak milestones (5, 10, 20, 30…) add 5 XP per answer in the streak. Finishing a round adds 20 XP,
+     a perfect round 50 more. Reading a game's study notes the first time: 25 XP. Labs: 20 XP per star
+     plus 10 per level above 1. Saved on this device. */
+  const T = [
+    { tier: "Lab bench", color: "cat-sky" }, { tier: "Research lab", color: "cat-mint" }, { tier: "Clinic", color: "cat-lilac" },
+    { tier: "Faculty", color: "cat-amber" }, { tier: "Hall of fame", color: "cat-coral" }];
+  BGX.LEVELS = [
+    [0, "Lab Trainee", "beaker", "Goggles on, gloves on. Every great scientist starts here."],
+    [100, "Beaker Washer", "drop", "Clean glassware, clean results. You're learning the ropes."],
+    [250, "Pipette Apprentice", "lab", "Steady hands, exact drops. Precision is your new hobby."],
+    [450, "Microscope Rookie", "eye", "Coarse focus, fine focus… and suddenly cells everywhere."],
+    [700, "Sample Sleuth", "search", "You spot what others miss. Nothing gets past you."],
+    [1000, "Lab Assistant", "flask", "Trusted at the bench. The lab can't run without you."],
+    [1400, "Cell Spotter", "cell", "Mitochondria, ribosomes, nuclei: you know every neighbourhood."],
+    [1900, "Lab Technician", "gauge", "Calibrated, careful and quick. Machines obey you."],
+    [2500, "Data Wrangler", "chart", "Means, medians and outliers: your numbers tell stories."],
+    [3200, "Junior Scientist", "molecule", "Halfway there! You think in molecules now."],
+    [4000, "Research Assistant", "layers", "Reading the literature for fun. Footnotes fear you."],
+    [5000, "Clinical Intern", "heart", "From the bench to the bedside. Patients, here you come."],
+    [6200, "Case Solver", "clipboard", "Symptoms in, diagnosis out. Detective mode: on."],
+    [7600, "Senior Scientist", "dna", "Your knowledge has its own double helix."],
+    [9200, "Lab Lead", "steps", "You run the lab now. Someone fetch you a coffee."],
+    [11000, "Clinical Specialist", "pill", "Doses, drugs and diets: you know the right one."],
+    [13000, "Principal Investigator", "brain", "Your name goes first on the grant. Big ideas only."],
+    [15500, "Professor", "book", "Students take notes when you speak."],
+    [18500, "Chief Scientist", "globe", "The whole institute comes to you with questions."],
+    [22000, "Doctor Researcher", "atom", "The top of the table. Science bows to you!"]
+  ].map(([xp, name, icon, line], i) => Object.assign({ n: i + 1, xp, name, icon, line }, T[i === 19 ? 4 : Math.floor(i / 5) > 3 ? 3 : Math.floor(i / 5)]));
+  const L = BGX.LEVELS;
+  BGX.xp = {
+    total: BGX.store.get("xp", 0),
+    STREAK_STEP: 2, STREAK_CAP: 40,
+    forAnswer: (streak, scale) => Math.max(1, Math.round((10 + Math.min(BGX.xp.STREAK_CAP, BGX.xp.STREAK_STEP * Math.max(0, streak - 1))) * (scale == null ? 1 : scale))),
+    milestoneBonus: n => 5 * n,
+    roundBonus: perfect => 20 + (perfect ? 50 : 0),
+    labBonus: (stars, level) => stars > 0 ? 20 * stars + 10 * (level - 1) : 0,
+    level: t => {
+      t = t == null ? BGX.xp.total : t;
+      let i = 0; while (i + 1 < L.length && t >= L[i + 1].xp) i++;
+      const cur = L[i], next = L[i + 1] || null;
+      return Object.assign({}, cur, { next, into: t - cur.xp, need: next ? next.xp - cur.xp : 0, pct: next ? Math.min(100, (t - cur.xp) / (next.xp - cur.xp) * 100) : 100 });
+    },
+    add: n => {
+      n = Math.round(n || 0); if (n <= 0) return 0;
+      BGX.xp.total = BGX.store.get("xp", BGX.xp.total) + n;   // re-read: another tab may have added XP
+      const before = BGX.xp.level(BGX.xp.total - n).n;
+      BGX.store.set("xp", BGX.xp.total);
+      const after = BGX.xp.level();
+      BGX.paintLevel(true);
+      if (after.n > before) setTimeout(() => BGX.levelUp(after), 700);
+      return n;
+    },
+    /* one-time rewards (e.g. reading a game's notes) */
+    once: (key, n) => { const done = BGX.store.get("xponce", {}); if (done[key]) return 0; done[key] = 1; BGX.store.set("xponce", done); return BGX.xp.add(n); }
+  };
+  const badge = (lv, cls) => `<span class="br-badge ${cls || ""}" style="background:var(--${lv.color})">${BGX.icon ? BGX.icon(lv.icon) : ""}<small>${lv.n}</small></span>`;
+  BGX.levelBadge = badge;
+  BGX.paintLevel = bump => {
+    const el = document.getElementById("br-lvl"); if (!el) return;
+    const lv = BGX.xp.level();
+    el.setAttribute("aria-label", `Level ${lv.n}, ${lv.name}. ${BGX.xp.total} XP${lv.next ? `, ${lv.next.xp - BGX.xp.total} to level ${lv.n + 1}` : ""}. See all levels`);
+    el.innerHTML = `${badge(lv)}<span class="tx"><b>Lv ${lv.n} <em>${BGX.esc(lv.name)}</em></b><i class="bar"><i style="width:${lv.pct.toFixed(1)}%"></i></i>
+      <small>${lv.next ? `${lv.into.toLocaleString("en-US")} / ${lv.need.toLocaleString("en-US")} XP` : `${BGX.xp.total.toLocaleString("en-US")} XP · top level`}</small></span>`;
+    if (bump) { el.classList.remove("bump"); void el.offsetWidth; el.classList.add("bump"); }
+  };
+  BGX.levelUp = lv => {
+    BGX.sfx.big(); BGX.rain(240);
+    BGX.popup("Level " + lv.n, `${badge(lv, "is-big")}
+      <p class="br-label" style="margin:6px 0 0">Level up · ${BGX.esc(lv.tier)}</p>
+      <h2>Level ${lv.n}!</h2><p class="br-lvname">${BGX.esc(lv.name)}</p><p>${BGX.esc(lv.line)}</p>
+      ${lv.next ? `<p class="br-hint" style="margin:0">Next: <b>${BGX.esc(lv.next.name)}</b> at ${lv.next.xp.toLocaleString("en-US")} XP</p>` : `<p class="br-hint" style="margin:0"><b>You've reached the top level.</b></p>`}
+      <div class="br-btns" style="margin-top:6px"><button class="br-next" data-close>Keep going</button><button class="br-ghost" id="br-lvlall">All levels</button></div>`,
+      { cls: "is-level", onOpen: ov => { ov.querySelector("#br-lvlall").onclick = () => { ov.querySelector("[data-close]").click(); BGX.showLevels(); }; } });
+  };
+  BGX.showLevels = () => {
+    const lv = BGX.xp.level(), tiers = [];
+    L.forEach(l => { let t = tiers.find(x => x.tier === l.tier); if (!t) tiers.push(t = { tier: l.tier, color: l.color, ls: [] }); t.ls.push(l); });
+    BGX.popup("Your level", `<button class="br-quit br-lvclose" data-close aria-label="Close">✕ Close</button>
+      <div class="br-lvnow">${badge(lv, "is-big")}<div><p class="br-label" style="margin:0">${BGX.esc(lv.tier)} · Level ${lv.n} of 20</p><h2>${BGX.esc(lv.name)}</h2><p>${BGX.esc(lv.line)}</p>
+        <i class="bar"><i style="width:${lv.pct.toFixed(1)}%"></i></i>
+        <p class="br-hint" style="margin:4px 0 0">${BGX.xp.total.toLocaleString("en-US")} XP${lv.next ? ` · ${(lv.next.xp - BGX.xp.total).toLocaleString("en-US")} XP to <b>${BGX.esc(lv.next.name)}</b>` : " · top level reached"}</p></div></div>
+      <details class="br-xphow"><summary>How to earn XP</summary><ul>
+        <li><b>10 XP</b> for every correct answer</li>
+        <li><b>+2 XP</b> for each answer already in your streak (up to +40): a 10-answer streak earns 28 XP per answer</li>
+        <li><b>Streak bonus</b> at 5, 10, 20, 30… in a row: 5 XP per answer in the streak</li>
+        <li><b>+20 XP</b> for finishing a round, <b>+50 XP</b> more if it's perfect</li>
+        <li><b>+25 XP</b> the first time you read a game's study notes</li>
+        <li><b>Labs:</b> 20 XP per star, plus 10 for level 2 and 20 for level 3</li>
+        <li>Using "Show me how" halves the XP for that answer. A wrong answer costs nothing, but ends the streak.</li></ul></details>
+      <div class="br-lvlist">${tiers.map(t => `<p class="br-label">${BGX.esc(t.tier)}</p><ol>${t.ls.map(l => `<li class="${l.n < lv.n ? "is-done" : l.n === lv.n ? "is-now" : "is-locked"}">${badge(l)}<span><b>${BGX.esc(l.name)}</b><small>${l.n === 1 ? "Start" : l.xp.toLocaleString("en-US") + " XP"}</small></span>${l.n < lv.n ? '<i aria-label="reached">✓</i>' : l.n === lv.n ? '<i class="you">You</i>' : ""}</li>`).join("")}</ol>`).join("")}</div>
+      <p class="br-hint" style="margin:0">XP and levels are saved in this browser on this device.</p>`, { cls: "is-levels", noEnter: true });
   };
 })();

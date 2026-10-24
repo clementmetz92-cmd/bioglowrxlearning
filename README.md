@@ -36,3 +36,9 @@ Note: "continue where you left off" and best scores are saved per browser and pe
 - Ads, consent banner and privacy page: Phase 3.
 - New game content (Bone Rush, Drug Class Sort, Nutrient Rush, pH Patrol): Phase 2.
 - All game formats are now built: Study notes, Card Explorer, Quick Quiz, Find It, Sort It, Match Pairs, Sequence, True or Myth, Build It, Case Files and Calculator Challenge (see `data/README.md`).
+
+## XP and levels
+
+Every game and lab shares one XP total (saved per browser, `bgx_xp`). 20 levels from Lab Trainee to Doctor Researcher;
+the table, XP rules and level-up pop-up live in `engine/core.js` (`BGX.LEVELS`, `BGX.xp`). Change a level's name,
+line or XP threshold there. The header chip and the hub card open the full list of levels.

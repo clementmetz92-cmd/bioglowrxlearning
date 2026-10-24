@@ -12,6 +12,17 @@
   const art = id => BGX.ART && BGX.ART[id] ? BGX.ART[id]() : "";
   BGX.shell();
 
+  /* ---------- level card (XP and levels live in core.js) ---------- */
+  function levelCard() {
+    if (!BGX.xp) return "";
+    const lv = BGX.xp.level();
+    return `<button class="br-levelcard" id="br-levelcard" type="button">${BGX.levelBadge(lv, "is-mid")}
+      <span class="t"><span class="br-label" style="margin:0">Your level · ${esc(lv.tier)}</span><b>Lv ${lv.n} · ${esc(lv.name)}</b><span class="line">${esc(lv.line)}</span>
+        <i class="bar"><i style="width:${lv.pct.toFixed(1)}%"></i></i>
+        <small>${BGX.xp.total.toLocaleString("en-US")} XP${lv.next ? ` · ${(lv.next.xp - BGX.xp.total).toLocaleString("en-US")} XP to ${esc(lv.next.name)}` : " · top level"}</small></span>
+      <span class="go">All 20 levels →</span></button>`;
+  }
+
   /* ---------- hub ---------- */
   function hub() {
     const last = BGX.lastPlay(), f = C.featured;
@@ -34,7 +45,9 @@
           <div class="br-tile is-sm" style="background:var(--${lastSubj ? lastSubj.color : "cat-mint"})"><b>${lastSubj ? BGX.icon(lastSubj.icon) : "▶"}</b></div>
           <div class="t"><p class="br-label" style="margin:0">Continue where you left off</p><h3>${esc(last.title)}</h3><p>${esc(lastSubj ? lastSubj.name : "")}${last.tagline ? " · " + esc(last.tagline) : ""}</p></div>
           <span class="br-next">Play</span></a>`
-        : `<div class="br-continue" style="cursor:default"><div class="t"><p class="br-label" style="margin:0">Continue where you left off</p><h3>Your last game will show here</h3><p>Start with ${esc(f.title)} above; your progress is saved on this device.</p></div></div>`}`;
+        : `<div class="br-continue" style="cursor:default"><div class="t"><p class="br-label" style="margin:0">Continue where you left off</p><h3>Your last game will show here</h3><p>Start with ${esc(f.title)} above; your progress is saved on this device.</p></div></div>`}
+      ${levelCard()}`;
+    const lc = document.getElementById("br-levelcard"); if (lc) lc.onclick = () => { BGX.sfx.tap(); BGX.showLevels(); };
     view.querySelectorAll(".br-continue .br-tile b svg").forEach(s => { s.setAttribute("width", "30"); s.setAttribute("height", "30"); });
   }
 
