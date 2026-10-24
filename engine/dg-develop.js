@@ -39,7 +39,7 @@
     }).join("");
   }
   const DAYTXT = { zygote: "day 0: the fertilised egg (2n)", cleavage: "days 1–3: 2 → 4 → 8 cells", morula: "day 3–4: solid ball of 16+ cells",
-    blastocyst: "day 5: hollow ball with inner cell mass", embryo: "weeks 3–8: organs form", fetus: "week 9 to birth: growth" };
+    blastocyst: "days 4–5: hollow ball, inner cell mass", embryo: "day 16 to week 8: organs form", fetus: "week 9 to birth: growth" };
   function stageView(sp) {
     if (sp === "implant") return strip("blastocyst", 22, false) + `
       <rect x="10" y="98" width="140" height="40" fill="#f2c3c3"/><path d="M10 98 H150" stroke="#d99a9a" stroke-width="2"/>
@@ -159,7 +159,7 @@
     const sp = dg.spots(item)[0];
     let inner, bg, tag = true;
     if (STAGE[sp]) { inner = stageView(sp); bg = BG.stage; }
-    else if (["gastrulation", "ecto", "meso", "endo"].indexOf(sp) >= 0) { inner = T(80, 22, 8, 800, "#1B2430", "The three germ layers (week 3)") + disc(sp, 40); bg = BG.disc; }
+    else if (["gastrulation", "ecto", "meso", "endo"].indexOf(sp) >= 0) { inner = T(80, 22, 8, 800, "#1B2430", "The three germ layers (from day 16)") + disc(sp, 40); bg = BG.disc; }
     else if (["amnion", "chorion", "yolk", "allantois", "placenta", "cord"].indexOf(sp) >= 0) { inner = membranes(sp); bg = BG.mem; }
     else if (["fo", "da", "dv", "route"].indexOf(sp) >= 0) { inner = circ(sp); bg = BG.circ; tag = false; }
     else if (["labour", "stage1", "stage2", "stage3"].indexOf(sp) >= 0) { inner = labour(sp); bg = BG.mem; tag = false; }

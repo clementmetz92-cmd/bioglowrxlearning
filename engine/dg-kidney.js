@@ -100,8 +100,8 @@
     s += `<rect x="14" y="26" width="86" height="92" rx="6" fill="${icfH ? HL : "#8FC7B8"}"${icfH ? ' class="dg-hl"' : ""}/>`;
     s += `<rect x="104" y="26" width="42" height="74" rx="6" fill="${ecfH ? HL : "#9CC4E4"}"${ecfH ? ' class="dg-hl"' : ""}/><rect x="104" y="102" width="42" height="16" rx="4" fill="${ecfH ? HL : "#D98C8C"}" opacity="${ecfH ? .75 : 1}"/>`;
     s += T(57, 60, 9, 900, "#fff", "ICF") + T(57, 72, 7.5, 700, "#fff", "≈ 2/3 · 25 L") + T(57, 96, 11, 900, "#fff", "K⁺");
-    s += T(125, 52, 9, 900, "#fff", "ECF") + T(125, 63, 7, 700, "#fff", "≈ 1/3") + T(125, 84, 10, 900, "#fff", "Na⁺") + T(125, 113, 6.5, 800, "#fff", "plasma");
-    s += T(57, 130, 7, 700, "#3F5F6A", "inside cells") + T(125, 130, 7, 700, "#3F5F6A", "tissue fluid");
+    s += T(125, 52, 9, 900, "#fff", "ECF") + T(125, 63, 7, 700, "#fff", "≈ 1/3 · 15 L") + T(125, 84, 10, 900, "#fff", "Na⁺") + T(125, 113, 6.5, 800, "#fff", "plasma 8%");
+    s += T(57, 130, 7, 700, "#3F5F6A", "inside cells") + T(125, 130, 7, 700, "#3F5F6A", "tissue fluid 25%");
     if (on("ca")) s += `<g class="dg-hl"><rect x="10" y="22" width="140" height="112" rx="8" fill="#fff" opacity=".88"/><path d="M50 60 h60 M50 60 q-8 -8 -12 0 q4 8 12 0 M110 60 q8 -8 12 0 q-4 8 -12 0" stroke="${HL}" stroke-width="7" fill="none" stroke-linecap="round"/></g>` +
       T(80, 92, 9, 900, HL, "99% of Ca²⁺ is in bone") + T(80, 106, 7.5, 700, "#55616E", "blood 2.2–2.6 mmol/L");
     return s;

@@ -27,7 +27,7 @@
     cranial: "Cranial cavity + vertebral canal", supdeep: "Superficial / deep", pleural: "Pleural cavities", pericardial: "Pericardial cavity",
     mediastinum: "Mediastinum", abdominopelvic: "Abdominopelvic cavity", ruq: "Right upper quadrant", luq: "Left upper quadrant",
     rlq: "Right lower quadrant", llq: "Left lower quadrant", hypochondriac: "Hypochondriac regions", epigastric: "Epigastric region",
-    umbilical: "Umbilical region", lumbar: "Lumbar regions", iliac: "Iliac (inguinal) regions", hypogastric: "Hypogastric region",
+    umbilical: "Umbilical region", lumbar: "Lateral (lumbar) regions", iliac: "Inguinal (iliac) regions", hypogastric: "Hypogastric region",
     negative: "Negative feedback", positive: "Positive feedback" };
 
   /* ---------- front view, anatomical position ---------- */
