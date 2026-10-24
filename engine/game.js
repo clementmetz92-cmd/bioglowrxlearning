@@ -495,6 +495,7 @@
                        steps: ["…{x}… = {answer}"], tip? }]
      mode: { rounds, only: [cats], help: true (a "Show me how" button), formula: true (show item formula chip) } */
   const nf = (x, dp) => typeof x === "number" ? (+x.toFixed(dp == null ? 4 : dp)).toLocaleString("en-US", { maximumFractionDigits: dp == null ? 4 : dp }) : x;
+  const nfd = (x, dp) => (+x.toFixed(dp || 0)).toLocaleString("en-US", { minimumFractionDigits: dp || 0, maximumFractionDigits: dp || 0 }).replace(/^-/, "−");   // answers keep their decimals: 0.80
   const roundTo = (x, dp) => Math.round(x * Math.pow(10, dp) + 1e-9) / Math.pow(10, dp);
   function makeVars(p) {
     for (let t = 0; t < 80; t++) {
@@ -510,8 +511,8 @@
     }
     throw new Error("calculator: no valid numbers for " + p.id);
   }
-  const ctext = (tpl, v, p) => esc(String(tpl)).replace(/\{(\w+)\}/g, (mm, k) => k === "answer" ? `<b>${nf(roundTo(v.answer, p.dp || 0), p.dp || 0)} ${esc(p.unit || "")}</b>` : (v[k] == null ? mm : nf(v[k])));
-  const parseNum = s => { s = String(s).trim().replace(/\s/g, ""); if (/^\d{1,3}(,\d{3})+(\.\d+)?$/.test(s)) s = s.replace(/,/g, ""); else s = s.replace(",", "."); return s === "" || isNaN(+s) ? NaN : +s; };
+  const ctext = (tpl, v, p) => esc(String(tpl)).replace(/\{(\w+)\}/g, (mm, k) => k === "answer" ? `<b>${nfd(roundTo(v.answer, p.dp || 0), p.dp)} ${esc(p.unit || "")}</b>` : (v[k] == null ? mm : nf(v[k])));
+  const parseNum = s => { s = String(s).trim().replace(/\s/g, "").replace(/^[−–]/, "-"); if (/^-?\d{1,3}(,\d{3})+(\.\d+)?$/.test(s)) s = s.replace(/,/g, ""); else s = s.replace(",", "."); return s === "" || isNaN(+s) ? NaN : +s; };
   const calcPool = m => (G.problems || []).filter(p => !m.only || m.only.indexOf(p.cat) >= 0);
   const probItem = p => p._item || (p._item = { name: p.title, cat: p.cat, icon: p.icon, num: "", spot: p.spot, _i: -1 });
   BGX.formats.calculator = {
@@ -572,7 +573,7 @@
         else if (p.hint) nudge = p.hint(v, x) || "";
       }
       const verdict = correct ? BGX.pick(["Correct!", "Spot on.", "Nailed it.", "Yes!"]) + (q.helped ? " (with help)" : "") : `Not quite: you said ${nf(x)} ${esc(p.unit || "")}.`;
-      return `<span class="${correct ? "ok" : "no"}">${verdict}</span> Answer: <b>${nf(roundTo(a, p.dp || 0), p.dp || 0)} ${esc(p.unit || "")}</b>
+      return `<span class="${correct ? "ok" : "no"}">${verdict}</span> Answer: <b>${nfd(roundTo(a, p.dp || 0), p.dp)} ${esc(p.unit || "")}</b>
         ${nudge ? `<div class="br-why">${esc(nudge)}</div>` : ""}
         <div class="br-correct br-worked"><p class="br-label">Worked answer</p><ol>${p.steps.map(t => `<li>${ctext(t, v, p)}</li>`).join("")}</ol>${p.tip ? `<p class="br-tipline">${esc(p.tip)}</p>` : ""}</div>`;
     }
