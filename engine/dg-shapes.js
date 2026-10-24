@@ -29,12 +29,12 @@
   const halfB = 104.5 / 2 * deg;
   const S = {
     linear:     { name: "Linear", angle: "180°", view: [0, 18], b: [[-1, 0, 0], [1, 0, 0]], lp: [], arc: [0, 1] },
-    bent:       { name: "Bent", angle: "104.5°", view: [0, 8], b: [[-Math.sin(halfB), -Math.cos(halfB), 0], [Math.sin(halfB), -Math.cos(halfB), 0]], lp: [v(-.4, .6, .7), v(.4, .6, -.7)], arc: [0, 1] },
+    bent:       { name: "Bent (V-shaped)", short: "Bent", angle: "104.5°", view: [0, 8], b: [[-Math.sin(halfB), -Math.cos(halfB), 0], [Math.sin(halfB), -Math.cos(halfB), 0]], lp: [v(-.4, .6, .7), v(.4, .6, -.7)], arc: [0, 1] },
     trigplanar: { name: "Trigonal planar", angle: "120°", view: [0, 62], b: [[0, 0, 1], v(Math.cos(-30 * deg), 0, Math.sin(-30 * deg)), v(-Math.cos(-30 * deg), 0, Math.sin(-30 * deg))].map(x => [x[0], x[1], -x[2]]), lp: [], arc: [1, 2] },
     trigpyr:    { name: "Trigonal pyramidal", angle: "107°", view: [-10, 14], b: [0, 1, 2].map(k => { const t = tetLow(k); return v(t[0], t[1] - .06, t[2]); }), lp: [tetUp], arc: [0, 1] },
     tetra:      { name: "Tetrahedral", angle: "109.5°", view: [-10, 14], b: [tetUp, tetLow(0), tetLow(1), tetLow(2)], lp: [], arc: [0, 1] },
     tbp:        { name: "Trigonal bipyramidal", short: "Trig. bipyramidal", angle: "90° · 120°", view: [-18, 14], b: [[0, 1, 0], [0, -1, 0], eq(0), eq(1), eq(2)], lp: [], arc: [0, 3] },
-    seesaw:     { name: "See-saw", angle: "≈102°", view: [55, 22], b: [v(0, 1, -.06), v(0, -1, -.06), eq(1), eq(2)], lp: [eq(0)], arc: [2, 3] },
+    seesaw:     { name: "Seesaw", angle: "≈102°", view: [55, 22], b: [v(0, 1, -.06), v(0, -1, -.06), eq(1), eq(2)], lp: [eq(0)], arc: [2, 3] },
     tshape:     { name: "T-shaped", angle: "≈87.5°", view: [35, 14], b: [v(-.05, 1, 0), v(-.05, -1, 0), [-1, 0, 0]], lp: [[.5, 0, .87], [.5, 0, -.87]], arc: [0, 2] },
     octa:       { name: "Octahedral", angle: "90°", view: [-22, 16], b: [[1, 0, 0], [-1, 0, 0], [0, 1, 0], [0, -1, 0], [0, 0, 1], [0, 0, -1]], lp: [], arc: [0, 2] },
     sqplanar:   { name: "Square planar", angle: "90°", view: [-20, 18], b: [[1, 0, 0], [-1, 0, 0], [0, 0, 1], [0, 0, -1]], lp: [[0, 1, 0], [0, -1, 0]], arc: [0, 2] }
@@ -133,7 +133,7 @@ ${dg.tag(46, 122, ci)}${dg.tag(114, 122, ai)}
   };
 
   const NAMES = { linear: "Linear", bent: "Bent", trigplanar: "Trigonal planar", trigpyr: "Trigonal pyramidal", tetra: "Tetrahedral", tbp: "Trigonal bipyramidal",
-    seesaw: "See-saw", tshape: "T-shaped", octa: "Octahedral", sqplanar: "Square planar" };
+    seesaw: "Seesaw", tshape: "T-shaped", octa: "Octahedral", sqplanar: "Square planar" };
 
   BGX.DIAGRAMS.shapes = item => {
     const p = dg.uid(), sp = dg.spots(item)[0];
