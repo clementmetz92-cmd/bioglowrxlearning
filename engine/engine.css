@@ -564,3 +564,12 @@ body.br-hasdock { padding-bottom: 62vh; }
   .lab-nowbar { flex-wrap: wrap; }
   .lab-dock { max-height: 58vh; }
 }
+
+/* ---------- Explore: cards grouped by family ---------- */
+.br-group { margin-top: 18px; }
+.br-group:first-of-type { margin-top: 14px; }
+.br-grouphead { display: flex; align-items: center; gap: 10px; margin: 0 0 10px; font-size: 17px; font-weight: 900; }
+.br-grouphead i { flex: none; width: 30px; height: 30px; border-radius: 9px; display: grid; place-items: center; color: var(--tile-ink); }
+.br-grouphead i svg { width: 18px; height: 18px; }
+.br-grouphead small { font: 700 12px var(--font-mono); color: var(--muted); padding: 2px 8px; border: 1px solid var(--line); border-radius: var(--radius-pill); }
+.br-grouphead::after { content: ""; flex: 1; height: 1px; background: var(--line); margin-left: 4px; }

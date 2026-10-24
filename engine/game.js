@@ -284,10 +284,18 @@
     open: m => {
       view.classList.remove("menu-in");
       const dim = G.sets && S.set < G.items.length ? S.set : 0;
-      const list = G.map ? G.items : pool();
+      const items = G.map ? G.items : pool();
+      // card layout: one titled group per family (category), in the game's category order; the map layout keeps its legend
+      const groups = G.map ? [] : (G.categories || []).map(c => ({ c, its: items.filter(it => it.cat === c.id) })).filter(g => g.its.length);
+      const loose = G.map ? [] : items.filter(it => !G.catMap[it.cat]);
+      if (loose.length) groups.push({ c: { name: "Other", color: "cat-sand" }, its: loose });
+      const list = G.map ? items : groups.reduce((a, g) => a.concat(g.its), []);
+      const card = it => `<button class="br-cell br-card-tile" data-i="${it._i}" style="background:${catBg(it)}" aria-label="${esc(it.name)}"><small>${esc(val(G.tile.corner, it))}</small>${bigHTML(it)}<em>${esc(it.name)}</em></button>`;
       view.innerHTML = `<div class="br-top"><button class="br-quit" id="br-quit" aria-label="Back to the game menu"><span aria-hidden="true">←</span> Menu</button><span class="br-label" style="margin:0">Tap any ${esc(G.itemNoun || "card")} to open it</span></div>`
-        + (G.map ? mapHTML({ dimBeyond: dim }) : `<div class="br-cardlist">${list.map(it => `<button class="br-cell br-card-tile" data-i="${it._i}" style="background:${catBg(it)}" aria-label="${esc(it.name)}"><small>${esc(val(G.tile.corner, it))}</small>${bigHTML(it)}<em>${esc(it.name)}</em></button>`).join("")}</div>`)
-        + `<div class="br-legend">${G.categories.map(c => `<span><i style="background:var(--${c.color})"></i>${esc(c.name)}</span>`).join("")}</div>`;
+        + (G.map ? mapHTML({ dimBeyond: dim }) + `<div class="br-legend">${G.categories.map(c => `<span><i style="background:var(--${c.color})"></i>${esc(c.name)}</span>`).join("")}</div>`
+          : groups.map(g => `<section class="br-group" aria-label="${esc(g.c.name)}">
+              <h3 class="br-grouphead"><i style="background:var(--${g.c.color || "cat-mint"})">${g.c.icon ? BGX.icon(g.c.icon) : ""}</i><span>${esc(g.c.name)}</span><small>${g.its.length}</small></h3>
+              <div class="br-cardlist">${g.its.map(card).join("")}</div></section>`).join(""));
       $("#br-quit").onclick = menu;
       view.querySelectorAll(".br-cell[data-i]").forEach(c => c.onclick = () => {
         BGX.sfx.tap();
