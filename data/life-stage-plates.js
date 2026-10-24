@@ -69,7 +69,7 @@ BGX.registerGame({
     "key": "0 / +340 / +450 kcal a day",
     "claim": "A pregnant woman needs to eat for two from the first week.", "verdict": false,
     "summary": "Extra energy is needed only in the second and third trimesters, and the amount is modest.",
-    "facts": ["First trimester: no extra kcal.", "Second trimester: about +340 kcal a day; third: about +450 kcal a day.", "340 kcal is roughly a sandwich and a glass of milk.", "Quality matters more than quantity: needs for some nutrients rise far more than energy does."],
+    "facts": ["First trimester: no extra kcal.", "Second trimester: about +340 kcal a day; third: about +450 kcal a day. (These are the IOM 2005 figures; newer NASEM (2023) equations vary with pre-pregnancy BMI.)", "340 kcal is roughly a sandwich and a glass of milk.", "Quality matters more than quantity: needs for some nutrients rise far more than energy does."],
     "life": "Myth: 'eating for two' means about one extra snack a day later in pregnancy, not double portions." },
   { "name": "Pregnancy weight gain", "cat": "preg", "icon": "scale", "spot": ["gain", "normal"],
     "key": "Healthy BMI: 11.5–16 kg",
