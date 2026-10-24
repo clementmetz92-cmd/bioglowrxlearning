@@ -26,7 +26,7 @@
   /* ---------- featured: a carousel of several games (catalog featuredList), or one slab (catalog featured) ---------- */
   const slideHTML = (f, i, n) => `<div class="br-slide${i === 0 ? " is-on" : ""}" role="group" aria-roledescription="slide" aria-label="${i + 1} of ${n}: ${esc(f.title)}"${i ? ' aria-hidden="true"' : ""}>
       <div><p class="eyebrow">${esc(f.eyebrow)}</p><h2>${esc(f.title)}</h2><p>${esc(f.text)}</p>
-        <div class="btns"><a class="go" href="${R}${f.url}"${i ? ' tabindex="-1"' : ""}>Play ${esc(f.title)}</a>${f.explore ? `<a class="alt" href="${R}${f.explore}"${i ? ' tabindex="-1"' : ""}>${esc(f.exploreLabel || "See all games")}</a>` : ""}</div></div>
+        <div class="btns"><a class="go" href="${R}${f.url}"${i ? ' tabindex="-1"' : ""}>${esc(f.play || "Play " + f.title)}</a>${f.explore ? `<a class="alt" href="${R}${f.explore}"${i ? ' tabindex="-1"' : ""}>${esc(f.exploreLabel || "See all games")}</a>` : ""}</div></div>
       ${f.game && art(f.game) ? `<div class="art" aria-hidden="true">${art(f.game)}</div>` : `<div class="tiles" aria-hidden="true">${(f.tiles || []).map(t => tile(t)).join("")}</div>`}
     </div>`;
   function featuredHTML() {

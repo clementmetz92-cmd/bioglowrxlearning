@@ -9,7 +9,7 @@ BGX.registerGame({
 "title": "Dose Calc",
 "subject": "pharmacology",
 "subjectName": "Pharmacology",
-"chapter": "All",
+"chapter": "All", "thousand": "g ↔ mg ↔ mcg, L ↔ mL",
 "tagline": "Tablets, liquids, weight-based doses and IV rates, step by step",
 "itemNoun": "formula",
 "note": "Practice simulation, not medical advice. Real doses are always checked against the order, the label and local policy.",

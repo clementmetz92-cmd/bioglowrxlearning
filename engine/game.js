@@ -567,7 +567,7 @@
       let nudge = "";
       if (!correct) {
         const near = r => Math.abs(x - a * r) <= Math.max(Math.abs(a * r) * 0.01, 0.5 * Math.pow(10, -(p.dp || 0)));
-        if (near(1000) || near(0.001)) nudge = "You're out by 1,000: check the unit conversion (" + (p.thousand || G.thousand || "g ↔ mg ↔ mcg, L ↔ mL") + ").";
+        if (near(1000) || near(0.001)) nudge = "You're out by 1,000: check the unit conversion (" + (p.thousand || G.thousand || "× or ÷ 1,000: g ↔ mg ↔ mcg, L ↔ mL, J ↔ kJ") + ").";
         else if (p.signed && near(-1)) nudge = "Right size, wrong sign: check whether the answer should be negative.";
         else if (near(10) || near(0.1) || near(100) || near(0.01)) nudge = "Your answer is off by a power of ten: check the decimal point.";
         else if (p.hint) nudge = p.hint(v, x) || "";
