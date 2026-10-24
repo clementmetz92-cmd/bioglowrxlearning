@@ -103,6 +103,7 @@ BGX.registerGame({
 ],
 "items": [
 {
+"icon": "pharm-sofa",
 "name": "Precontemplation",
 "cat": "ttm",
 "meaning": "Not thinking about changing in the next six months",
@@ -116,6 +117,7 @@ BGX.registerGame({
 ]
 },
 {
+"icon": "pharm-thought",
 "name": "Contemplation",
 "cat": "ttm",
 "meaning": "Thinking about changing within the next six months",
@@ -129,6 +131,7 @@ BGX.registerGame({
 ]
 },
 {
+"icon": "pharm-calendar-date",
 "name": "Preparation",
 "cat": "ttm",
 "meaning": "Planning to act within the next month and taking small steps",
@@ -142,6 +145,7 @@ BGX.registerGame({
 ]
 },
 {
+"icon": "run",
 "name": "Action",
 "cat": "ttm",
 "meaning": "Has changed the behaviour within the last six months",
@@ -155,6 +159,7 @@ BGX.registerGame({
 ]
 },
 {
+"icon": "pharm-trophy",
 "name": "Maintenance",
 "cat": "ttm",
 "meaning": "Has kept the change going for more than six months",
@@ -168,6 +173,7 @@ BGX.registerGame({
 ]
 },
 {
+"icon": "pharm-target",
 "name": "Perceived susceptibility",
 "cat": "hbm",
 "meaning": "How likely I think I am to get the condition",
@@ -181,6 +187,7 @@ BGX.registerGame({
 ]
 },
 {
+"icon": "pharm-warning",
 "name": "Perceived severity",
 "cat": "hbm",
 "meaning": "How serious I think the condition would be",
@@ -194,6 +201,7 @@ BGX.registerGame({
 ]
 },
 {
+"icon": "pharm-thumbsup",
 "name": "Perceived benefits",
 "cat": "hbm",
 "meaning": "How much I believe acting would lower my risk",
@@ -207,6 +215,7 @@ BGX.registerGame({
 ]
 },
 {
+"icon": "pharm-barrier",
 "name": "Perceived barriers",
 "cat": "hbm",
 "meaning": "What I think stands in the way of acting",
@@ -220,6 +229,7 @@ BGX.registerGame({
 ]
 },
 {
+"icon": "pharm-bell",
 "name": "Cues to action",
 "cat": "hbm",
 "meaning": "A trigger that prompts me to act",
@@ -233,6 +243,7 @@ BGX.registerGame({
 ]
 },
 {
+"icon": "muscle",
 "name": "Self-efficacy",
 "cat": "sct",
 "meaning": "My confidence that I can do the behaviour",
@@ -247,6 +258,7 @@ BGX.registerGame({
 ]
 },
 {
+"icon": "eye",
 "name": "Observational learning",
 "cat": "sct",
 "meaning": "Learning a behaviour by watching others",
@@ -263,6 +275,7 @@ BGX.registerGame({
 ]
 },
 {
+"icon": "pharm-flag",
 "name": "Outcome expectations",
 "cat": "sct",
 "meaning": "The results, good or bad, I expect from doing the behaviour",
@@ -276,6 +289,7 @@ BGX.registerGame({
 ]
 },
 {
+"icon": "pharm-medal",
 "name": "Reinforcement",
 "cat": "sct",
 "meaning": "Rewards or consequences that make a behaviour more or less likely",
@@ -292,6 +306,7 @@ BGX.registerGame({
 ]
 },
 {
+"icon": "pharm-triad",
 "name": "Reciprocal determinism",
 "cat": "sct",
 "meaning": "Person, behaviour and environment all influence each other",

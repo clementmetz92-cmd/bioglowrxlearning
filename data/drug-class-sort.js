@@ -131,7 +131,7 @@ BGX.registerGame({
 "cls": "ACE inhibitor",
 "use": "High blood pressure and heart failure",
 "life": "Names ending in -pril are ACE inhibitors; a dry cough is a well-known side effect.",
-"icon": "heart",
+"icon": "pharm-bp-gauge",
 "num": 1,
 "spot": [
 "heart",
@@ -151,7 +151,7 @@ BGX.registerGame({
 "cls": "ARB (angiotensin receptor blocker)",
 "use": "High blood pressure, often when ACE inhibitors cause a cough",
 "life": "Names ending in -sartan are ARBs, often used when an ACE inhibitor causes a cough.",
-"icon": "heart",
+"icon": "pharm-heart-tablet",
 "num": 2,
 "spot": [
 "heart",
@@ -170,7 +170,7 @@ BGX.registerGame({
 "cls": "Calcium channel blocker",
 "use": "High blood pressure and angina",
 "life": "It relaxes artery walls; swollen ankles are a common side effect.",
-"icon": "heart",
+"icon": "pharm-vessel-wide",
 "num": 3,
 "spot": [
 "heart",
@@ -190,7 +190,7 @@ BGX.registerGame({
 "cls": "Beta blocker",
 "use": "Fast heart rate and high blood pressure",
 "life": "Names ending in -olol are beta blockers; they slow the heart.",
-"icon": "heart",
+"icon": "pharm-heart-slow",
 "num": 4,
 "spot": [
 "heart",
@@ -210,7 +210,7 @@ BGX.registerGame({
 "cls": "Statin",
 "use": "High cholesterol",
 "life": "Statins (-statin) lower LDL 'bad' cholesterol made by the liver.",
-"icon": "heart",
+"icon": "pharm-plaque",
 "num": 5,
 "spot": [
 "liver",
@@ -230,7 +230,7 @@ BGX.registerGame({
 "cls": "Loop diuretic",
 "use": "Fluid build-up and heart failure",
 "life": "A strong 'water tablet' that makes you pass more urine.",
-"icon": "drop",
+"icon": "pharm-loop",
 "num": 6,
 "spot": [
 "kidneys",
@@ -250,7 +250,7 @@ BGX.registerGame({
 "cls": "Thiazide diuretic",
 "use": "Mild high blood pressure, often added to other tablets",
 "life": "A milder water tablet often combined with other blood pressure medicines.",
-"icon": "drop",
+"icon": "pharm-tablet-drop",
 "num": 7,
 "spot": [
 "kidneys",
@@ -269,7 +269,7 @@ BGX.registerGame({
 "cls": "Anticoagulant",
 "use": "Preventing blood clots",
 "life": "People on warfarin have regular blood tests (INR) and watch their vitamin K intake.",
-"icon": "heart",
+"icon": "pharm-drop-thin",
 "num": 8,
 "spot": [
 "heart",
@@ -289,7 +289,7 @@ BGX.registerGame({
 "cls": "Short-acting bronchodilator",
 "use": "Quick relief of asthma attacks",
 "life": "The blue 'reliever' inhaler opens the airways within minutes.",
-"icon": "lungs",
+"icon": "pharm-inhaler",
 "num": 9,
 "spot": [
 "lungs",
@@ -309,7 +309,7 @@ BGX.registerGame({
 "cls": "Inhaled corticosteroid",
 "use": "Preventing asthma attacks (inhaled preventer)",
 "life": "A 'preventer' inhaler used every day to calm airway inflammation.",
-"icon": "lungs",
+"icon": "pharm-diskus",
 "num": 10,
 "spot": [
 "lungs",
@@ -348,7 +348,7 @@ BGX.registerGame({
 "cls": "Antihistamine",
 "use": "Hay fever, hives and itchy allergies",
 "life": "A common over-the-counter hay fever tablet.",
-"icon": "leaf",
+"icon": "pharm-flower",
 "num": 12,
 "spot": [
 "lungs",
@@ -385,7 +385,7 @@ BGX.registerGame({
 "cls": "H2 blocker",
 "use": "Occasional heartburn and indigestion",
 "life": "Names ending in -tidine reduce acid by blocking histamine in the stomach.",
-"icon": "stomach",
+"icon": "flame",
 "num": 14,
 "spot": "stomach",
 "facts": [
@@ -401,7 +401,7 @@ BGX.registerGame({
 "cls": "Antiemetic",
 "use": "Nausea and vomiting",
 "life": "Often given to stop sickness after surgery or chemotherapy.",
-"icon": "stomach",
+"icon": "pharm-nausea",
 "num": 15,
 "spot": [
 "stomach",
@@ -420,7 +420,7 @@ BGX.registerGame({
 "cls": "Antidiarrhoeal",
 "use": "Diarrhoea",
 "life": "It slows the gut down; a common travel first-aid tablet.",
-"icon": "stomach",
+"icon": "pharm-snail",
 "num": 16,
 "spot": "intestines",
 "facts": [
@@ -468,7 +468,7 @@ BGX.registerGame({
 "cls": "Benzodiazepine",
 "use": "Anxiety and seizures",
 "life": "Names ending in -azepam calm the nervous system; they can be habit-forming.",
-"icon": "brain",
+"icon": "moon",
 "num": 19,
 "spot": "brain",
 "facts": [
@@ -485,7 +485,7 @@ BGX.registerGame({
 "cls": "Antiseizure medicine",
 "use": "Epilepsy",
 "life": "Taken every day to prevent seizures.",
-"icon": "brain",
+"icon": "bolt",
 "num": 20,
 "spot": "brain",
 "facts": [
@@ -502,7 +502,7 @@ BGX.registerGame({
 "cls": "Cholinesterase inhibitor",
 "use": "Alzheimer's disease",
 "life": "It boosts acetylcholine to support memory for a while.",
-"icon": "brain",
+"icon": "pharm-thought",
 "num": 21,
 "spot": "brain",
 "facts": [
@@ -519,7 +519,7 @@ BGX.registerGame({
 "cls": "Biguanide",
 "use": "Type 2 diabetes",
 "life": "Usually the first tablet for type 2 diabetes; it lowers sugar made by the liver.",
-"icon": "gland",
+"icon": "pharm-glucometer",
 "num": 22,
 "spot": "liver",
 "spotCaption": "Acts mainly on the liver",
@@ -537,7 +537,7 @@ BGX.registerGame({
 "cls": "Long-acting insulin",
 "use": "Diabetes that needs insulin (type 1 or type 2)",
 "life": "A once-a-day 'background' insulin injection.",
-"icon": "gland",
+"icon": "pharm-insulin-pen",
 "num": 23,
 "spot": "pancreas",
 "spotCaption": "Replaces insulin from the pancreas",
@@ -555,7 +555,7 @@ BGX.registerGame({
 "cls": "Thyroid hormone replacement",
 "use": "Underactive thyroid",
 "life": "A daily tablet that replaces missing thyroxine (T4).",
-"icon": "gland",
+"icon": "pharm-thyroid",
 "num": 24,
 "spot": "thyroid",
 "spotCaption": "Replaces the thyroid hormone T4",
@@ -573,7 +573,7 @@ BGX.registerGame({
 "cls": "Oral corticosteroid",
 "use": "Inflammation and immune conditions",
 "life": "A steroid tablet that copies cortisol; doses are reduced slowly, not stopped suddenly.",
-"icon": "gland",
+"icon": "pharm-taper",
 "num": 25,
 "spot": "adrenals",
 "spotCaption": "Copies cortisol from the adrenal glands",

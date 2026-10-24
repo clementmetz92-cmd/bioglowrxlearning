@@ -95,7 +95,7 @@ BGX.registerGame({
 "check": "Check two identifiers, such as name and date of birth",
 "summary": "Confirm the medicine is for the person in front of you.",
 "life": "Hospital wristbands exist for this check.",
-"icon": "check",
+"icon": "pharm-wristband",
 "num": 1,
 "spot": "patient",
 "facts": [
@@ -110,7 +110,7 @@ BGX.registerGame({
 "check": "Compare the label with the order",
 "summary": "Make sure the medicine is exactly the one prescribed.",
 "life": "Look-alike packaging is a common cause of mix-ups.",
-"icon": "pill",
+"icon": "pharm-bottle",
 "num": 2,
 "spot": "drug",
 "facts": [
@@ -140,7 +140,7 @@ BGX.registerGame({
 "check": "Give it by the way ordered: mouth, injection, IV…",
 "summary": "The same drug can act very differently by another route.",
 "life": "A tablet meant to be swallowed should not be crushed into a feeding tube without checking.",
-"icon": "steps",
+"icon": "pharm-signpost",
 "num": 4,
 "spot": "route",
 "facts": [
@@ -215,7 +215,7 @@ BGX.registerGame({
 "check": "Respect the patient's choice, then report and record it",
 "summary": "Patients can say no to a medicine.",
 "life": "A refused dose is documented and the prescriber is informed.",
-"icon": "chat",
+"icon": "hand",
 "num": 9,
 "spot": "refuse",
 "facts": [
@@ -230,7 +230,7 @@ BGX.registerGame({
 "check": "Write 'units' in full",
 "summary": "A handwritten U can look like a 0 or a 4.",
 "life": "'10U' of insulin misread as 100 units is a classic, dangerous error.",
-"icon": "ban",
+"icon": "pharm-abbr-u",
 "num": 10,
 "spot": "dose",
 "facts": [
@@ -245,7 +245,7 @@ BGX.registerGame({
 "check": "Write 'international units' in full",
 "summary": "IU can be misread as IV or the number 10.",
 "life": "Vitamin D doses are written as 'international units'.",
-"icon": "ban",
+"icon": "pharm-abbr-iu",
 "num": 11,
 "spot": "dose",
 "facts": [
@@ -260,7 +260,7 @@ BGX.registerGame({
 "check": "Write 'daily' or 'every other day'",
 "summary": "QD and QOD are easily confused with each other.",
 "life": "Writing words removes the risk of a dose given twice as often.",
-"icon": "ban",
+"icon": "pharm-calendar",
 "num": 12,
 "spot": "time",
 "facts": [
@@ -275,7 +275,7 @@ BGX.registerGame({
 "check": "Write 5 mg, never 5.0 mg",
 "summary": "If the decimal point is missed, 5.0 reads as 50.",
 "life": "Trailing zeros are banned on prescriptions and labels.",
-"icon": "ban",
+"icon": "pharm-zero-trailing",
 "num": 13,
 "spot": "dose",
 "facts": [
@@ -290,7 +290,7 @@ BGX.registerGame({
 "check": "Write 0.5 mg, never .5 mg",
 "summary": "If the decimal point is missed, .5 reads as 5.",
 "life": "Always put a zero before a decimal point.",
-"icon": "ban",
+"icon": "pharm-zero-leading",
 "num": 14,
 "spot": "dose",
 "facts": [
@@ -305,7 +305,7 @@ BGX.registerGame({
 "check": "Write morphine sulfate or magnesium sulfate in full",
 "summary": "These abbreviations are easily confused with each other.",
 "life": "Mixing up morphine and magnesium can be fatal.",
-"icon": "ban",
+"icon": "pharm-abbr-ms",
 "num": 15,
 "spot": "drug",
 "facts": [

@@ -113,7 +113,7 @@ BGX.registerGame({
 "cat": "wall",
 "example": "Amoxicillin",
 "life": "Penicillin was the first antibiotic found in nature to become a medicine; penicillin allergy is the most commonly reported drug allergy.",
-"icon": "shield",
+"icon": "pharm-petri",
 "num": 1,
 "spot": "wall",
 "facts": [
@@ -129,7 +129,7 @@ BGX.registerGame({
 "cat": "wall",
 "example": "Cefalexin",
 "life": "Close cousins of penicillins, used for skin and urinary infections.",
-"icon": "shield",
+"icon": "pharm-rod-crack",
 "num": 2,
 "spot": "wall",
 "facts": [
@@ -159,7 +159,7 @@ BGX.registerGame({
 "cat": "wall",
 "example": "Vancomycin",
 "life": "A key treatment for MRSA; blood levels are monitored.",
-"icon": "shield",
+"icon": "pharm-staph",
 "num": 4,
 "spot": "wall",
 "facts": [
@@ -175,7 +175,7 @@ BGX.registerGame({
 "cat": "protein",
 "example": "Azithromycin",
 "life": "Often used for chest infections, and for people allergic to penicillin.",
-"icon": "factory",
+"icon": "pharm-ribosome",
 "num": 5,
 "spot": "ribosome",
 "facts": [
@@ -191,7 +191,7 @@ BGX.registerGame({
 "cat": "protein",
 "example": "Doxycycline",
 "life": "Usually avoided in young children and pregnancy because they can stain growing teeth.",
-"icon": "factory",
+"icon": "pharm-tooth",
 "num": 6,
 "spot": "ribosome",
 "facts": [
@@ -207,7 +207,7 @@ BGX.registerGame({
 "cat": "protein",
 "example": "Gentamicin",
 "life": "Given by injection; levels are checked because it can harm the kidneys and hearing.",
-"icon": "factory",
+"icon": "pharm-ear",
 "num": 7,
 "spot": "ribosome",
 "facts": [
@@ -239,7 +239,7 @@ BGX.registerGame({
 "cat": "dna",
 "example": "Trimethoprim",
 "life": "A common tablet for urinary tract infections; it blocks the germ's folate.",
-"icon": "dna",
+"icon": "pharm-folate-block",
 "num": 9,
 "spot": "folate",
 "facts": [
@@ -254,7 +254,7 @@ BGX.registerGame({
 "cat": "dna",
 "example": "Metronidazole",
 "life": "Patients are told to avoid alcohol while taking it.",
-"icon": "dna",
+"icon": "pharm-no-alcohol",
 "num": 10,
 "spot": "dna",
 "facts": [
@@ -270,7 +270,7 @@ BGX.registerGame({
 "cat": "fungus",
 "example": "Fluconazole",
 "life": "A single tablet is a common treatment for vaginal thrush.",
-"icon": "leaf",
+"icon": "pharm-mushroom",
 "num": 11,
 "spot": "ergosterol",
 "facts": [
@@ -286,7 +286,7 @@ BGX.registerGame({
 "cat": "virus",
 "example": "Oseltamivir",
 "life": "Known as Tamiflu; it stops new flu viruses escaping from infected cells.",
-"icon": "bug",
+"icon": "pharm-virus",
 "num": 12,
 "spot": "na",
 "facts": [
@@ -301,7 +301,7 @@ BGX.registerGame({
 "cat": "virus",
 "example": "Aciclovir",
 "life": "Used for cold sores, chickenpox and shingles.",
-"icon": "bug",
+"icon": "pharm-capsid",
 "num": 13,
 "spot": "vdna",
 "facts": [

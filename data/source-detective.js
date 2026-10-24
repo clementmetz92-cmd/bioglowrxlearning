@@ -97,6 +97,7 @@ BGX.registerGame({
 ],
 "items": [
 {
+"icon": "pharm-columns",
 "name": "Government or university site",
 "cat": "authority",
 "claim": "The website belongs to a government health agency or a university.",
@@ -112,6 +113,7 @@ BGX.registerGame({
 ]
 },
 {
+"icon": "pharm-id-badge",
 "name": "Qualified, named authors",
 "cat": "authority",
 "claim": "Articles name their authors and their medical qualifications.",
@@ -127,6 +129,7 @@ BGX.registerGame({
 ]
 },
 {
+"icon": "pharm-anon",
 "name": "No author, no 'About us'",
 "cat": "authority",
 "claim": "There is no author, no organisation name and no 'About us' page.",
@@ -145,6 +148,7 @@ BGX.registerGame({
 ]
 },
 {
+"icon": "pharm-link",
 "name": "Links to studies",
 "cat": "accuracy",
 "claim": "Claims link to published studies you can check.",
@@ -160,6 +164,7 @@ BGX.registerGame({
 ]
 },
 {
+"icon": "pharm-people",
 "name": "Agrees with major health bodies",
 "cat": "accuracy",
 "claim": "The advice matches what major health organisations say.",
@@ -175,6 +180,7 @@ BGX.registerGame({
 ]
 },
 {
+"icon": "pharm-stars",
 "name": "Testimonials only",
 "cat": "accuracy",
 "claim": "The only evidence is personal stories and five-star testimonials.",
@@ -190,6 +196,7 @@ BGX.registerGame({
 ]
 },
 {
+"icon": "pharm-doc-one",
 "name": "One small study as proof",
 "cat": "accuracy",
 "claim": "It presents one small study as final proof.",
@@ -205,6 +212,7 @@ BGX.registerGame({
 ]
 },
 {
+"icon": "pharm-wand",
 "name": "'Miracle cure' claims",
 "cat": "accuracy",
 "claim": "It promises a miracle cure but shows no research to back it up.",
@@ -220,6 +228,7 @@ BGX.registerGame({
 ]
 },
 {
+"icon": "pharm-calendar-check",
 "name": "Review date shown",
 "cat": "currency",
 "claim": "Each page shows when it was last reviewed or updated.",
@@ -235,6 +244,7 @@ BGX.registerGame({
 ]
 },
 {
+"icon": "pharm-hourglass",
 "name": "Last updated years ago",
 "cat": "currency",
 "claim": "The page was last updated many years ago.",
@@ -250,6 +260,7 @@ BGX.registerGame({
 ]
 },
 {
+"icon": "pharm-ad-box",
 "name": "Ads clearly separated",
 "cat": "objectivity",
 "claim": "Adverts are clearly marked and kept apart from the health information.",
@@ -265,6 +276,7 @@ BGX.registerGame({
 ]
 },
 {
+"icon": "pharm-cart",
 "name": "Selling what it praises",
 "cat": "objectivity",
 "claim": "The page mainly sells the product it is praising.",
@@ -280,6 +292,7 @@ BGX.registerGame({
 ]
 },
 {
+"icon": "scale",
 "name": "Risks and limits explained",
 "cat": "objectivity",
 "claim": "It explains the risks and limits as well as the benefits.",
@@ -295,6 +308,7 @@ BGX.registerGame({
 ]
 },
 {
+"icon": "pharm-seal",
 "name": "Guaranteed results",
 "cat": "accuracy",
 "claim": "It promises guaranteed results for everyone, with no evidence to back it up.",
@@ -310,6 +324,7 @@ BGX.registerGame({
 ]
 },
 {
+"icon": "pharm-alarm",
 "name": "Pressure to buy now",
 "cat": "objectivity",
 "claim": "It uses countdown timers and 'buy now' pressure.",
@@ -325,6 +340,7 @@ BGX.registerGame({
 ]
 },
 {
+"icon": "pharm-pill-ban",
 "name": "Says to stop your medicine",
 "cat": "accuracy",
 "claim": "It tells you to stop taking your prescribed medicine.",

@@ -104,6 +104,7 @@ BGX.registerGame({
 ],
 "items": [
 {
+"icon": "pharm-absorb",
 "name": "Absorption",
 "cat": "pk",
 "meaning": "The drug moving from where it was given into the blood",
@@ -119,6 +120,7 @@ BGX.registerGame({
 "summary": "The first stage of the journey: the drug moves from where it was given into the bloodstream."
 },
 {
+"icon": "pharm-distribute",
 "name": "Distribution",
 "cat": "pk",
 "meaning": "The drug spreading from the blood to the body's tissues",
@@ -137,6 +139,7 @@ BGX.registerGame({
 "summary": "The second stage: the blood carries the drug out to the body's tissues."
 },
 {
+"icon": "pharm-liver",
 "name": "Metabolism",
 "cat": "pk",
 "meaning": "The body chemically changing the drug, mostly in the liver",
@@ -152,6 +155,7 @@ BGX.registerGame({
 "summary": "The third stage: the body chemically changes the drug, mostly in the liver."
 },
 {
+"icon": "kidney",
 "name": "Excretion",
 "cat": "pk",
 "meaning": "The body getting rid of the drug, mostly through the kidneys",
@@ -167,6 +171,7 @@ BGX.registerGame({
 "summary": "The final stage: the body removes the drug, mostly in urine via the kidneys."
 },
 {
+"icon": "pharm-firstpass",
 "name": "First-pass effect",
 "cat": "pk",
 "meaning": "Part of a swallowed drug is broken down by the gut and liver before it reaches the general circulation",
@@ -186,6 +191,7 @@ BGX.registerGame({
 "summary": "Some of a swallowed drug is broken down by the gut wall and liver before it reaches the rest of the body."
 },
 {
+"icon": "pharm-pie",
 "name": "Bioavailability",
 "cat": "pk",
 "meaning": "The share of a dose that reaches the general circulation unchanged",
@@ -200,6 +206,7 @@ BGX.registerGame({
 "summary": "The percentage of a dose that reaches the general circulation unchanged and can act."
 },
 {
+"icon": "pharm-agonist",
 "name": "Agonist",
 "cat": "pd",
 "meaning": "A drug that switches a receptor on",
@@ -214,6 +221,7 @@ BGX.registerGame({
 "summary": "A drug that binds a receptor and activates it, copying the body's own messenger."
 },
 {
+"icon": "pharm-antagonist",
 "name": "Antagonist",
 "cat": "pd",
 "meaning": "A drug that sits in a receptor without switching it on, blocking others",
@@ -228,6 +236,7 @@ BGX.registerGame({
 "summary": "A drug that binds a receptor without activating it, blocking the body's messenger or other drugs."
 },
 {
+"icon": "pharm-warning",
 "name": "Side effect",
 "cat": "pd",
 "meaning": "An effect that is not the one the drug is given for",
@@ -243,6 +252,7 @@ BGX.registerGame({
 "summary": "Any effect of a drug other than the one it is given for."
 },
 {
+"icon": "pharm-halflife",
 "name": "Half-life",
 "cat": "dose",
 "meaning": "The time it takes for the drug level in the blood to halve",
@@ -257,6 +267,7 @@ BGX.registerGame({
 "summary": "The time for the amount of drug in the blood to fall by half."
 },
 {
+"icon": "pharm-steady",
 "name": "Steady state",
 "cat": "dose",
 "meaning": "When the amount going in equals the amount going out, so levels stop building up",
@@ -272,6 +283,7 @@ BGX.registerGame({
 "summary": "The point where the drug going in equals the drug going out, so levels stop rising."
 },
 {
+"icon": "pharm-range",
 "name": "Therapeutic range",
 "cat": "dose",
 "meaning": "The drug level that works without causing toxicity",
@@ -286,6 +298,7 @@ BGX.registerGame({
 "summary": "The band of blood levels where a drug works without being toxic."
 },
 {
+"icon": "pharm-peak",
 "name": "Peak level",
 "cat": "dose",
 "meaning": "The highest drug level after a dose",
@@ -300,6 +313,7 @@ BGX.registerGame({
 "summary": "The highest blood level reached after a dose."
 },
 {
+"icon": "pharm-trough",
 "name": "Trough level",
 "cat": "dose",
 "meaning": "The lowest drug level, just before the next dose",
@@ -314,6 +328,7 @@ BGX.registerGame({
 "summary": "The lowest blood level, measured just before the next dose is due."
 },
 {
+"icon": "pharm-loading",
 "name": "Loading dose",
 "cat": "dose",
 "meaning": "A bigger first dose to reach a working level quickly",
