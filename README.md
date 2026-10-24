@@ -25,6 +25,10 @@ assets/                       Design tokens, component styles, favicon
 You can also preview it before uploading: double-click `index.html` on your computer.
 Note: "continue where you left off" and best scores are saved per browser and per device.
 
+## Updating the live site
+
+Before every push run `python3 tools-bump-version.py`: it stamps the script and style links with a version so browsers load the new files at once (GitHub Pages otherwise lets them keep old copies for up to 10 minutes).
+
 ## Changing content
 
 - **Fix a fact or an everyday example:** edit the text in `data/element-rush.js`.
