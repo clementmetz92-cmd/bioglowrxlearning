@@ -214,7 +214,7 @@ const ITEMS = [
     "why": "True. Mercury melts at −39 °C, the only metal that is liquid at room temperature." }
 ];
 /* the trend reason behind each True-or-Myth claim is shown after every answer and listed with the facts */
-ITEMS.forEach(it => { it.spot = it.symbol; it.trend = it.why.replace(/^(True|Myth)\. /, ""); it.facts.push("Trend check: " + it.trend); });
+ITEMS.forEach(it => { it.spot = it.symbol; it.icon = { s: "atom", p: "molecule", d: "grid" }[it.cat]; it.trend = it.why.replace(/^(True|Myth)\. /, ""); it.facts.push("Trend check: " + it.trend); });
 const taken = new Set(ITEMS.map(it => it.row + "," + it.col));
 const placeholders = [];
 PERIODS.forEach((r, ri) => r.forEach((sym, ci) => { if (sym && !taken.has(ri + "," + (ci + 1))) placeholders.push({ row: ri, col: ci + 1, label: sym }); }));

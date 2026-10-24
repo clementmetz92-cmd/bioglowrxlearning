@@ -1,0 +1,192 @@
+/* Functional Group Hunt — game data (Chapter 24, Organic compounds). Schema in data/README.md.
+   Names use IUPAC style first, with common names in brackets where those are what you meet in a clinic. */
+(function () {
+const PRE = [
+  ["meth-", 1, "Methane, CH₄", "Methane is the main gas in natural gas, and gut bacteria make some of it too.", "Monkeys"],
+  ["eth-", 2, "Ethane, C₂H₆", "Ethanol (drinking alcohol) and ethene (fruit-ripening gas) both have two carbons: eth-.", "Eat"],
+  ["prop-", 3, "Propane, C₃H₈", "Propane fuels camping stoves; propanone (acetone) also has three carbons.", "Peeled"],
+  ["but-", 4, "Butane, C₄H₁₀", "Butane is the fuel in disposable lighters; butanoic acid gives rancid butter its smell.", "Bananas"],
+  ["pent-", 5, "Pentane, C₅H₁₂", "Pent- means five, as in a pentagon.", ""],
+  ["hex-", 6, "Hexane, C₆H₁₄", "Hexane is a lab solvent used to extract oils; a hexagon has six sides.", ""],
+  ["hept-", 7, "Heptane, C₇H₁₆", "Heptane is the zero point of the petrol octane scale.", ""],
+  ["oct-", 8, "Octane, C₈H₁₈", "The 'octane rating' on petrol pumps is named after an eight-carbon alkane.", ""],
+  ["non-", 9, "Nonane, C₉H₂₀", "Non- means nine, as in a nonagon.", ""],
+  ["dec-", 10, "Decane, C₁₀H₂₂", "Dec- means ten, as in a decade or a decimal.", ""]
+];
+const prefixItems = PRE.map(([p, n, ex, life, mn]) => {
+  const H = 2 * n + 2;
+  return { "name": p, "cat": "name", "icon": "steps", "spot": "chain", "n": n,
+    "carbons": n === 1 ? "1 carbon" : n + " carbons", "pair": n === 1 ? "1 C: CH₄" : `${n} C: C${n === 1 ? "" : String(n).split("").map(d => "₀₁₂₃₄₅₆₇₈₉"[d]).join("")}H${String(H).split("").map(d => "₀₁₂₃₄₅₆₇₈₉"[d]).join("")}`,
+    "key": `${n} carbon${n > 1 ? "s" : ""} in the main chain`,
+    "summary": `The stem for a main chain of ${n} carbon atom${n > 1 ? "s" : ""}. The alkane is ${ex}.`,
+    "facts": [`${p} = ${n} carbon${n > 1 ? "s" : ""} in the longest chain.`, `Add the ending for the group: ${p.replace("-", "")}ane, ${p.replace("-", "")}anol, ${p.replace("-", "")}anoic acid…`, n <= 4 ? `Meth, eth, prop, but (1–4) have to be learned; '${mn}' in 'Monkeys Eat Peeled Bananas'.` : "From 5 up, the stems are Greek or Latin numbers: pent, hex, hept, oct, non, dec."],
+    "life": life };
+});
+
+BGX.registerGame({
+"id": "functional-group-hunt",
+"title": "Functional Group Hunt",
+"subject": "chemistry",
+"subjectName": "Chemistry",
+"chapter": "24",
+"tagline": "Spot and name the functional groups, from ethanol to aspirin",
+"itemNoun": "group",
+"categories": [
+  { "id": "hc", "name": "Hydrocarbons (C and H only)", "color": "cat-sand", "icon": "hexagon" },
+  { "id": "oxy", "name": "Oxygen groups", "color": "cat-coral", "icon": "drop" },
+  { "id": "nit", "name": "Nitrogen, halogen and sulfur groups", "color": "cat-sky", "icon": "molecule" },
+  { "id": "name", "name": "Chain-length prefixes", "color": "cat-lemon", "icon": "steps" },
+  { "id": "iso", "name": "Isomers", "color": "cat-lilac", "icon": "recycle" }
+],
+"categoryLabel": "Family",
+"hint": "A functional group is the reactive part of an organic molecule. The prefix gives the number of carbons (meth- = 1 … dec- = 10); the ending gives the group (-ol, -al, -one, -oic acid…). R stands for the rest of the molecule, a carbon chain.",
+"tile": { "big": "@icon", "corner": "num", "label": "name" },
+"factLine": ["name", "{key}"],
+"detail": [
+  { "label": "Family", "field": "{category}" },
+  { "label": "Key feature", "field": "{key}" }
+],
+"explore": { "pictures": [] },
+"diagram": "organic",
+"diagramCaption": "The structure",
+"modes": [
+  { "id": "explore", "format": "explorer", "title": "Explore the groups", "desc": "Each group drawn, with its name ending and a drug or body example.", "icon": "◎", "color": "cat-peach" },
+  { "id": "which", "format": "quiz", "title": "Which group is this?", "desc": "Read the structure, name the group.", "icon": "?", "color": "cat-coral", "only": ["hc", "oxy", "nit"],
+    "prompt": "Which functional group has this feature?", "show": "feature", "showAs": "text", "answer": "name", "answerAs": "small" },
+  { "id": "ending", "format": "quiz", "title": "Name ending?", "desc": "See the group, pick the ending (or prefix) used in its name.", "icon": "-ol", "color": "cat-amber", "only": ["hc", "oxy", "nit"],
+    "prompt": "How do you show this group in a name?", "show": "name", "showAs": "big", "answer": "ending", "answerAs": "small" },
+  { "id": "count", "format": "quiz", "title": "How many carbons?", "desc": "meth-, eth-, prop-, but- … dec-.", "icon": "C₄", "color": "cat-lemon", "only": ["name"],
+    "prompt": "How many carbons does this stem mean?", "show": "name", "showAs": "big", "answer": "carbons", "answerAs": "small" },
+  { "id": "sort", "format": "sortit", "title": "Sort the groups", "desc": "Hydrocarbon, oxygen group, or nitrogen and others?", "icon": "⌖", "color": "cat-sky", "only": ["hc", "oxy", "nit"], "choices": 3,
+    "prompt": "Which family does this group belong to?", "sub": "{formula}" },
+  { "id": "pairs", "format": "matchpairs", "title": "Match Pairs", "desc": "Pair each group or stem with its key example.", "icon": "⇄", "color": "cat-mint", "clue": "pair", "clueLabel": "Example", "pairs": 8 },
+  { "id": "order", "format": "sequence", "title": "Put it in order", "desc": "Stems from 1 to 10 carbons, naming a molecule, making an ester.", "icon": "1→", "color": "cat-lilac" }
+],
+"items": [
+  /* ---------- hydrocarbons ---------- */
+  { "name": "Alkane", "cat": "hc", "icon": "steps", "spot": "alkane", "ending": "-ane", "formula": "CₙH₂ₙ₊₂", "key": "Only C–C single bonds · -ane",
+    "feature": "Carbon and hydrogen only, with every carbon–carbon bond single", "pair": "Propane (camping gas)",
+    "summary": "The simplest hydrocarbons: chains of carbon joined only by single bonds, with hydrogen everywhere else.",
+    "facts": ["General formula CₙH₂ₙ₊₂; name ending -ane (methane, propane, octane).", "Saturated: every carbon has as many hydrogens as it can hold.", "Unreactive apart from burning; insoluble in water.", "Not really a 'functional group': alkanes are the plain backbone the other groups hang on."],
+    "life": "Petroleum jelly and liquid paraffin, used on dry skin and as laxatives, are mixtures of long alkanes." },
+  { "name": "Alkene", "cat": "hc", "icon": "steps", "spot": "alkene", "ending": "-ene", "formula": "CₙH₂ₙ (C=C)", "key": "C=C double bond · -ene",
+    "feature": "Carbon and hydrogen only, with at least one C=C double bond", "pair": "Ethene (ripens fruit)",
+    "summary": "Hydrocarbons with a carbon–carbon double bond, which makes them reactive.",
+    "facts": ["Contains C=C; general formula CₙH₂ₙ for one double bond; ending -ene (ethene, propene).", "Unsaturated: molecules such as H₂ or Br₂ can add across the double bond.", "Turns orange bromine water colourless; alkanes do not.", "The double bond cannot rotate, which gives cis and trans isomers."],
+    "life": "Unsaturated fats (olive oil) have C=C bonds in their chains; 'polyunsaturated' means several." },
+  { "name": "Alkyne", "cat": "hc", "icon": "steps", "spot": "alkyne", "ending": "-yne", "formula": "CₙH₂ₙ₋₂ (C≡C)", "key": "C≡C triple bond · -yne",
+    "feature": "Carbon and hydrogen only, with a C≡C triple bond", "pair": "Ethyne (welding torch)",
+    "summary": "Hydrocarbons with a carbon–carbon triple bond. The two carbons and their neighbours sit in a straight line.",
+    "facts": ["Contains C≡C; general formula CₙH₂ₙ₋₂ for one triple bond; ending -yne (ethyne, propyne).", "Ethyne's common name is acetylene.", "The atoms around the triple bond are linear (180°).", "Even more unsaturated than alkenes: two molecules can add across it."],
+    "life": "Ethinylestradiol, the oestrogen in many contraceptive pills, carries an alkyne (ethynyl) group." },
+  { "name": "Aromatic ring (benzene)", "cat": "hc", "icon": "hexagon", "spot": "benzene", "ending": "benzene, or phenyl- as a branch", "formula": "C₆H₆ ring", "key": "Ring of 6 C with shared electrons · benzene / phenyl-",
+    "feature": "A flat ring of six carbons with electrons shared all round it (drawn as a hexagon with a circle)", "pair": "Benzene, C₆H₆",
+    "summary": "A flat six-carbon ring whose electrons are spread evenly round the ring, making it unusually stable.",
+    "facts": ["Benzene is C₆H₆; drawn as a hexagon with alternating double bonds or a circle inside.", "All six C–C bonds are the same length: the electrons are delocalised.", "Named as benzene, or phenyl- when the ring is a branch (phenylalanine).", "Prefers substitution reactions to addition, unlike alkenes."],
+    "life": "Aspirin, paracetamol, ibuprofen and the amino acids phenylalanine and tyrosine all contain a benzene ring." },
+
+  /* ---------- oxygen groups ---------- */
+  { "name": "Alcohol", "cat": "oxy", "icon": "drop", "spot": "alcohol", "ending": "-ol", "formula": "R–OH", "key": "–OH on a chain carbon · -ol",
+    "feature": "An –OH group on a carbon that is not part of a benzene ring", "pair": "Ethanol (drinks, hand gel)",
+    "summary": "An –OH (hydroxyl) group attached to a chain carbon.",
+    "facts": ["Written R–OH; ending -ol (methanol, ethanol, propan-2-ol).", "The –OH forms hydrogen bonds, so small alcohols mix with water and boil higher than alkanes.", "Primary, secondary or tertiary depending on how many carbons are joined to the C–OH carbon.", "Not a base: the –OH stays bonded, unlike OH⁻ in NaOH."],
+    "life": "Hand gel is about 60–80% ethanol or propan-2-ol (isopropyl alcohol); cholesterol and glycerol are alcohols too." },
+  { "name": "Ether", "cat": "oxy", "icon": "flask", "spot": "ether", "ending": "alkoxy- (or '… ether')", "formula": "R–O–R'", "key": "O between two carbons · alkoxy- / ether",
+    "feature": "An oxygen atom bonded to two carbons, C–O–C", "pair": "Early anaesthetic gas",
+    "summary": "An oxygen atom bridging two carbon groups.",
+    "facts": ["Written R–O–R'; named as alkoxy- (methoxy-) or with the common name '… ether' (diethyl ether).", "No O–H, so ethers cannot hydrogen bond to each other: lower boiling points than alcohols.", "Fairly unreactive; good solvents.", "Ethanol and dimethyl ether are isomers: both C₂H₆O."],
+    "life": "Diethyl ether was one of the first surgical anaesthetics; today's isoflurane and sevoflurane are halogenated ethers." },
+  { "name": "Aldehyde", "cat": "oxy", "icon": "beaker", "spot": "aldehyde", "ending": "-al", "formula": "R–CHO", "key": "C=O at the chain end · -al",
+    "feature": "A C=O at the end of a chain, with an H on the same carbon (–CHO)", "pair": "Formaldehyde (preserves tissue)",
+    "summary": "A carbonyl group (C=O) at the end of a chain, so the carbon also carries a hydrogen.",
+    "facts": ["Written R–CHO; ending -al (methanal, ethanal).", "The C=O is a carbonyl group: always at the end of the chain in an aldehyde.", "Easily oxidised to a carboxylic acid; this is why aldehydes give positive Benedict's and Tollens' tests.", "Look-alike: in a ketone the C=O is in the middle."],
+    "life": "Ethanal (acetaldehyde) made as the liver breaks down alcohol causes flushing and hangover symptoms; formalin (methanal in water) preserves tissue samples." },
+  { "name": "Ketone", "cat": "oxy", "icon": "beaker", "spot": "ketone", "ending": "-one", "formula": "R–CO–R'", "key": "C=O in the middle of a chain · -one",
+    "feature": "A C=O on a carbon joined to two other carbons, in the middle of a chain", "pair": "Acetone (nail polish remover)",
+    "summary": "A carbonyl group (C=O) between two carbons.",
+    "facts": ["Written R–CO–R'; ending -one (propanone, butanone).", "Propanone's common name is acetone.", "Harder to oxidise than aldehydes, so negative in Benedict's and Tollens' tests.", "Fructose is a ketone sugar (ketose); glucose is an aldehyde sugar (aldose)."],
+    "life": "In uncontrolled diabetes, the body makes 'ketone bodies'; acetone gives the breath a fruity smell in diabetic ketoacidosis." },
+  { "name": "Carboxylic acid", "cat": "oxy", "icon": "ph", "spot": "acid", "ending": "-oic acid", "formula": "R–COOH", "key": "–COOH · -oic acid",
+    "feature": "A C=O and an –OH on the same carbon (–COOH)", "pair": "Acetic acid (vinegar)",
+    "summary": "A carboxyl group, –COOH: a C=O and an –OH on the same end carbon. These are the organic acids.",
+    "facts": ["Written R–COOH; ending -oic acid (methanoic acid, ethanoic acid).", "Weak acids: they give away H⁺ to form carboxylate ions, R–COO⁻ (ethanoate, also called acetate).", "React with alcohols to make esters.", "Fatty acids, lactic acid and citric acid are carboxylic acids."],
+    "life": "Vinegar is about 5% ethanoic (acetic) acid; every amino acid has a –COOH group." },
+  { "name": "Ester", "cat": "oxy", "icon": "apple", "spot": "ester", "ending": "-oate (alkyl …oate)", "formula": "R–COO–R'", "key": "–COO– between two carbons · -oate",
+    "feature": "A C=O whose carbon is also joined to an –O– that leads to another carbon (–COO–)", "pair": "Fats and oils",
+    "summary": "Made from a carboxylic acid and an alcohol. The –COO– link sits between two carbon groups.",
+    "facts": ["Written R–COO–R'; named alkyl alkanoate: the alcohol part first, then -oate (ethyl ethanoate).", "Acid + alcohol ⇌ ester + water (esterification, with an acid catalyst).", "Hydrolysis by water, acid, base or enzymes (esterases, lipases) splits them back.", "Small esters smell fruity."],
+    "life": "Fats and oils are triglycerides: three fatty acids joined to glycerol by ester links. Aspirin is an ester too (and a carboxylic acid)." },
+  { "name": "Phenol", "cat": "oxy", "icon": "hexagon", "spot": "phenol", "ending": "phenol, or hydroxy- on a ring", "formula": "Ar–OH", "key": "–OH on a benzene ring · phenol",
+    "feature": "An –OH group joined directly to a benzene ring", "pair": "Lister's carbolic antiseptic",
+    "summary": "An –OH group fixed directly to a benzene ring. It behaves differently from an ordinary alcohol.",
+    "facts": ["Written Ar–OH (Ar = aromatic ring); named phenol, or hydroxy- with other groups.", "Weakly acidic, more acidic than an alcohol, because the ring stabilises the negative ion.", "An –OH on a chain carbon is an alcohol, not a phenol.", "Found in tyrosine, adrenaline, salbutamol and paracetamol."],
+    "life": "Joseph Lister used phenol ('carbolic acid') in the 1860s as one of the first surgical antiseptics." },
+
+  /* ---------- nitrogen, halogen, sulfur ---------- */
+  { "name": "Amine", "cat": "nit", "icon": "molecule", "spot": "amine", "ending": "-amine (or amino-)", "formula": "R–NH₂", "key": "–NH₂ (or NHR, NR₂) · -amine",
+    "feature": "A nitrogen joined to a carbon by single bonds, as in –NH₂, with no C=O next to it", "pair": "Adrenaline, dopamine",
+    "summary": "A nitrogen atom joined to one, two or three carbon groups; like ammonia with hydrogens swapped for carbons.",
+    "facts": ["Written R–NH₂ (primary), R₂NH (secondary), R₃N (tertiary); ending -amine (methylamine), or amino- as a prefix.", "Weak bases: the lone pair on N picks up H⁺ to form R–NH₃⁺.", "Small amines smell fishy.", "Every amino acid has an amine (–NH₂) group."],
+    "life": "Many neurotransmitters and drugs are amines: adrenaline, dopamine, serotonin, histamine, amphetamine." },
+  { "name": "Amide", "cat": "nit", "icon": "dna", "spot": "amide", "ending": "-amide", "formula": "R–CONH₂", "key": "C=O next to N · -amide",
+    "feature": "A C=O whose carbon is also bonded to a nitrogen (–CONH–)", "pair": "Peptide bonds in proteins",
+    "summary": "A carbonyl group (C=O) bonded directly to a nitrogen. It is the link that holds proteins together.",
+    "facts": ["Written R–CONH₂ (or –CONH–); ending -amide (ethanamide).", "Formed from a carboxylic acid and an amine, losing water.", "Not basic, unlike amines: the C=O pulls on the nitrogen's lone pair.", "The peptide bond between amino acids is an amide link."],
+    "life": "Paracetamol contains an amide group (and a phenol); penicillins contain one in their four-membered β-lactam ring." },
+  { "name": "Haloalkane", "cat": "nit", "icon": "flame", "spot": "halo", "ending": "fluoro-, chloro-, bromo- or iodo-", "formula": "R–X (X = F, Cl, Br, I)", "key": "C–halogen bond · chloro-, bromo-…",
+    "feature": "A halogen atom (F, Cl, Br or I) bonded to a chain carbon", "pair": "Chloroethane cold spray",
+    "summary": "An alkane in which a halogen has replaced a hydrogen. Also called an alkyl halide.",
+    "facts": ["Written R–X; named with a prefix: fluoro-, chloro-, bromo-, iodo- (chloromethane, 2-bromopropane).", "The C–X bond is polar, so the carbon can be attacked by OH⁻ (substitution).", "C–F is very strong and unreactive; C–I is the weakest.", "CFCs (chlorofluorocarbons) damaged the ozone layer and were phased out."],
+    "life": "Chloroethane 'freeze spray' numbs skin before an injection; halothane was a widely used anaesthetic." },
+  { "name": "Thiol", "cat": "nit", "icon": "nerve", "spot": "thiol", "ending": "-thiol", "formula": "R–SH", "key": "–SH · -thiol",
+    "feature": "An –SH group: the sulfur version of an alcohol", "pair": "Cysteine (disulfide bridges)",
+    "summary": "Like an alcohol, but with sulfur in place of oxygen. Famous for their strong smell.",
+    "facts": ["Written R–SH; ending -thiol (ethanethiol). Older name: mercaptan.", "Two thiols can be oxidised to a disulfide, R–S–S–R.", "The amino acid cysteine has a thiol; its disulfide bridges hold protein shapes.", "Detectable by smell at extremely low levels."],
+    "life": "A thiol is added to odourless natural gas so leaks can be smelled; captopril, a blood-pressure drug, contains a thiol." }
+].concat(prefixItems, [
+  /* ---------- isomers ---------- */
+  { "name": "Structural isomers", "cat": "iso", "icon": "recycle", "spot": "isomer", "key": "Same formula, atoms joined differently",
+    "pair": "Butane and methylpropane",
+    "summary": "Molecules with the same molecular formula but atoms joined in a different order.",
+    "facts": ["Same formula, different structure, so different properties.", "Butane and 2-methylpropane are both C₄H₁₀: one straight chain, one branched.", "Ethanol (alcohol) and dimethyl ether (ether) are both C₂H₆O: different functional groups.", "Branched chains are named on the longest chain, with the branch as a prefix (methyl-, ethyl-) and a number."],
+    "life": "Ethanol is a drink and dimethyl ether is an aerosol propellant gas, yet they have exactly the same atoms." },
+  { "name": "Cis–trans isomers", "cat": "iso", "icon": "recycle", "spot": "cistrans", "key": "Same groups, different sides of a C=C",
+    "pair": "Cis vs trans fats",
+    "summary": "Isomers that differ only in which side of a C=C double bond the groups are on. The double bond cannot rotate.",
+    "facts": ["Cis = the two groups on the same side; trans = on opposite sides.", "Only possible when each carbon of the C=C has two different groups.", "Also called geometric isomers (E/Z in the newer system)."],
+    "life": "Natural unsaturated fats are mostly cis (kinked chains); trans fats from partial hydrogenation raise heart-disease risk." }
+]),
+"sequences": [
+  { "id": "stems", "cat": "name", "icon": "steps", "title": "Put the stems in order, from 1 carbon to 10",
+    "steps": ["meth-", "eth-", "prop-", "but-", "pent-", "hex-", "hept-", "oct-", "non-", "dec-"],
+    "note": "Monkeys Eat Peeled Bananas for 1–4, then the Greek and Latin numbers." },
+  { "id": "naming", "cat": "name", "icon": "search", "title": "Name an organic molecule, such as propan-2-ol",
+    "steps": ["Find the functional group", "Find the longest carbon chain that contains it", "Pick the stem from the number of carbons (prop- = 3)", "Number the chain so the group gets the lowest number", "Add branch prefixes with their numbers", "Finish with the group's ending and its number (-2-ol)"],
+    "note": "The functional group sets the ending; the chain length sets the stem." },
+  { "id": "ester", "cat": "oxy", "icon": "apple", "title": "Make and name an ester (ethyl ethanoate)",
+    "steps": ["Take a carboxylic acid (ethanoic acid)", "Add an alcohol (ethanol)", "Warm with a little acid catalyst", "The –OH of the acid and the H of the alcohol leave as water", "The ester link –COO– forms", "Name it: alcohol part first, then the acid part with -oate (ethyl ethanoate)"],
+    "note": "Hydrolysis runs this backwards: water splits an ester into its acid and alcohol." }
+],
+"notes": {
+  "intro": "Organic compounds are built on carbon, which forms four bonds and long chains and rings. A functional group is the small part of the molecule that reacts and gives the compound its family. Names have two parts: the stem gives the number of carbons in the main chain (meth- 1, eth- 2, prop- 3, but- 4, pent- 5, hex- 6, hept- 7, oct- 8, non- 9, dec- 10), and the ending or prefix gives the functional group (-ane, -ene, -yne, -ol, -al, -one, -oic acid, -oate, -amine, -amide, -thiol; chloro- etc.). So ethanol = 2 carbons + alcohol. Most drug molecules carry several groups at once.",
+  "sections": [
+    { "cat": "hc", "about": "Hydrocarbons contain only carbon and hydrogen. Alkanes have only single bonds (saturated, -ane). Alkenes have a C=C double bond (-ene) and alkynes a C≡C triple bond (-yne); both are unsaturated and can add other atoms across the multiple bond. Aromatic compounds contain a benzene ring: six carbons in a flat hexagon with electrons shared round the whole ring, drawn with a circle inside.",
+      "points": ["Alkane CₙH₂ₙ₊₂, -ane · alkene CₙH₂ₙ, -ene · alkyne CₙH₂ₙ₋₂, -yne.", "Bromine water: decolourised by alkenes, not by alkanes.", "Benzene C₆H₆; as a branch it is called phenyl-.", "Unsaturated fats = C=C in the chains; aspirin, paracetamol and ibuprofen all have a benzene ring."],
+      "tip": "Count the lines: one line -ane, two lines -ene, three lines -yne (a, e, y in alphabetical order)." },
+    { "cat": "oxy", "about": "Oxygen groups are the most common in the body and in drugs. –OH on a chain is an alcohol (-ol); –OH on a benzene ring is a phenol. An O between two carbons is an ether. A C=O (carbonyl) at the end of a chain is an aldehyde (-al), in the middle a ketone (-one). C=O plus –OH on the same carbon is a carboxylic acid (-oic acid). C=O plus –O–C is an ester (-oate), made from an acid and an alcohol.",
+      "points": ["Alcohol R–OH -ol (ethanol) · phenol Ar–OH (paracetamol, tyrosine) · ether R–O–R' (anaesthetics).", "Aldehyde –CHO -al (formaldehyde) · ketone –CO– -one (acetone).", "Carboxylic acid –COOH -oic acid (vinegar, amino acids) · ester –COO– -oate (fats, aspirin).", "Aspirin = benzene ring + ester + carboxylic acid."],
+      "tip": "ALdehyde = At the Last carbon (C=O at the end); ketONE = C=O inside the chain, between two carbons." },
+    { "cat": "nit", "about": "Nitrogen groups: an amine has N joined by single bonds to carbon (–NH₂, -amine) and is a weak base. An amide has N joined to a C=O (–CONH₂, -amide) and is not basic; the peptide bond in proteins is an amide. Halogens on a chain make a haloalkane, named with a prefix (chloro-, bromo-). Sulfur in place of oxygen in an alcohol gives a thiol (–SH, -thiol), which can pair up into disulfide bridges.",
+      "points": ["Amine –NH₂ (adrenaline, dopamine, amino acids) · amide –CONH– (proteins, paracetamol, penicillin).", "Amino acid = amine + carboxylic acid on the same carbon.", "Haloalkane R–X: fluoro-, chloro-, bromo-, iodo- (chloroethane spray).", "Thiol R–SH (cysteine, gas odorant); 2 R–SH → R–S–S–R."],
+      "tip": "AmiDe: a Double-bonded O right next to the N. AmiNe: Nothing but carbons and hydrogens on the N." },
+    { "cat": "name", "about": "The stem says how many carbons are in the longest chain that holds the functional group. The first four (meth-, eth-, prop-, but-) are old names that must be learned; from five upwards they are number words: pent-, hex-, hept-, oct-, non-, dec-. To name a molecule, find the group, find the longest chain containing it, number from the end nearest the group, add any branches, then the ending.",
+      "points": ["1 meth · 2 eth · 3 prop · 4 but · 5 pent · 6 hex · 7 hept · 8 oct · 9 non · 10 dec.", "Propan-2-ol: 3 carbons, –OH on carbon 2.", "Branches are named like stems with -yl: methyl-, ethyl-."],
+      "tip": "Monkeys Eat Peeled Bananas (1–4), then pentagon, hexagon, heptagon, octopus, nonagon, decade." },
+    { "cat": "iso", "about": "Isomers have the same molecular formula but different arrangements. Structural isomers join their atoms in a different order: a straight chain versus a branched one, or even different functional groups (ethanol and dimethyl ether are both C₂H₆O). Cis–trans isomers differ only in which side of a C=C double bond the groups lie, because the double bond cannot rotate.",
+      "points": ["Butane and 2-methylpropane: both C₄H₁₀.", "Cis = same side; trans = opposite sides.", "Natural fats are mostly cis; trans fats are linked to heart disease."],
+      "tip": "Trans = across (like transatlantic); cis = same side." }
+  ],
+  "outro": "Hunting routine: look for O, N, S or a halogen first; then check for C=O; then decide where the C=O sits and what is next to it. No heteroatoms? Look at the bonds: single, double, triple or a ring."
+}
+});
+})();
