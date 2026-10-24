@@ -23,6 +23,54 @@
       <span class="go">All 20 levels →</span></button>`;
   }
 
+  /* ---------- featured: a carousel of several games (catalog featuredList), or one slab (catalog featured) ---------- */
+  const slideHTML = (f, i, n) => `<div class="br-slide${i === 0 ? " is-on" : ""}" role="group" aria-roledescription="slide" aria-label="${i + 1} of ${n}: ${esc(f.title)}"${i ? ' aria-hidden="true"' : ""}>
+      <div><p class="eyebrow">${esc(f.eyebrow)}</p><h2>${esc(f.title)}</h2><p>${esc(f.text)}</p>
+        <div class="btns"><a class="go" href="${R}${f.url}"${i ? ' tabindex="-1"' : ""}>Play ${esc(f.title)}</a>${f.explore ? `<a class="alt" href="${R}${f.explore}"${i ? ' tabindex="-1"' : ""}>${esc(f.exploreLabel || "See all games")}</a>` : ""}</div></div>
+      ${f.game && art(f.game) ? `<div class="art" aria-hidden="true">${art(f.game)}</div>` : `<div class="tiles" aria-hidden="true">${(f.tiles || []).map(t => tile(t)).join("")}</div>`}
+    </div>`;
+  function featuredHTML() {
+    const L = C.featuredList && C.featuredList.length ? C.featuredList : [C.featured], n = L.length;
+    if (n === 1) return `<section class="br-featured br-carousel">${slideHTML(L[0], 0, 1)}</section>`;
+    return `<section class="br-featured br-carousel" aria-roledescription="carousel" aria-label="Featured games" id="br-car">
+      <div class="br-slides" aria-live="off">${L.map((f, i) => slideHTML(f, i, n)).join("")}</div>
+      <div class="br-carnav">
+        <button class="br-carbtn" data-car="prev" aria-label="Previous featured game">‹</button>
+        <div class="br-dots" role="group" aria-label="Choose a featured game">${L.map((f, i) => `<button class="br-dot" data-car="${i}" aria-label="Show ${esc(f.title)}" aria-current="${i === 0}"></button>`).join("")}</div>
+        <button class="br-carbtn" data-car="next" aria-label="Next featured game">›</button>
+        <button class="br-carbtn br-carpause" data-car="pause" aria-label="Pause the slideshow">❚❚</button>
+      </div></section>`;
+  }
+  let carTimer = 0;
+  function startCarousel() {
+    const box = document.getElementById("br-car"); if (!box) return;
+    const slides = [...box.querySelectorAll(".br-slide")], dots = [...box.querySelectorAll(".br-dot")], pauseBtn = box.querySelector(".br-carpause");
+    let cur = 0, paused = BGX.RM, hold = false;          // reduced motion: never auto-advance
+    const DELAY = 6000;
+    const show = (k, user) => {
+      cur = (k + slides.length) % slides.length;
+      slides.forEach((s, i) => { const on = i === cur; s.classList.toggle("is-on", on); s.setAttribute("aria-hidden", on ? "false" : "true");
+        s.querySelectorAll("a").forEach(a => on ? a.removeAttribute("tabindex") : a.setAttribute("tabindex", "-1")); });
+      dots.forEach((d, i) => d.setAttribute("aria-current", i === cur));
+      if (user) restart();
+    };
+    const paint = () => { pauseBtn.textContent = paused ? "▶" : "❚❚"; pauseBtn.setAttribute("aria-label", paused ? "Play the slideshow" : "Pause the slideshow"); box.classList.toggle("is-paused", paused); };
+    const restart = () => { clearInterval(carTimer); if (!paused) carTimer = setInterval(() => { if (!hold && !document.hidden) show(cur + 1); }, DELAY); };
+    box.querySelectorAll("[data-car]").forEach(b => b.onclick = () => {
+      const v = b.dataset.car;
+      if (v === "pause") { paused = !paused; paint(); restart(); return; }
+      show(v === "prev" ? cur - 1 : v === "next" ? cur + 1 : +v, true);
+    });
+    box.addEventListener("mouseenter", () => hold = true); box.addEventListener("mouseleave", () => hold = false);
+    box.addEventListener("focusin", () => hold = true); box.addEventListener("focusout", () => hold = false);
+    let x0 = null;
+    box.addEventListener("touchstart", e => { x0 = e.touches[0].clientX; hold = true; }, { passive: true });
+    box.addEventListener("touchend", e => { hold = false; if (x0 == null) return; const dx = e.changedTouches[0].clientX - x0; x0 = null; if (Math.abs(dx) > 40) show(cur + (dx < 0 ? 1 : -1), true); }, { passive: true });
+    box.addEventListener("keydown", e => { if (e.key === "ArrowRight") show(cur + 1, true); if (e.key === "ArrowLeft") show(cur - 1, true); });
+    paint(); restart();
+    BGX.carousel = { show, get cur() { return cur; }, get paused() { return paused; } };   // test hook
+  }
+
   /* ---------- hub ---------- */
   function hub() {
     const last = BGX.lastPlay(), f = C.featured;
@@ -36,17 +84,14 @@
           ${art(s.id) ? `<span class="art" aria-hidden="true">${art(s.id)}</span>` : `<span class="icon">${BGX.icon(s.icon)}</span>`}
           <span><span class="nm">${esc(s.name)}</span><span class="ct">${esc(s.count || s.chapters.length + " chapters")}</span></span></a>`;
       }).join("")}</section>
-      <section class="br-featured">
-        <div><p class="eyebrow">${esc(f.eyebrow)}</p><h2>${esc(f.title)}</h2><p>${esc(f.text)}</p>
-          <div class="btns"><a class="go" href="${R}${f.url}">Play ${esc(f.title)}</a>${f.explore ? `<a class="alt" href="${R}${f.explore}">See all games</a>` : ""}</div></div>
-        ${f.game && art(f.game) ? `<div class="art" aria-hidden="true">${art(f.game)}</div>` : `<div class="tiles" aria-hidden="true">${f.tiles.map(t => tile(t)).join("")}</div>`}
-      </section>
+      ${featuredHTML()}
       ${last ? `<a class="br-continue" href="${R}${esc(last.url)}">
           <div class="br-tile is-sm" style="background:var(--${lastSubj ? lastSubj.color : "cat-mint"})"><b>${lastSubj ? BGX.icon(lastSubj.icon) : "▶"}</b></div>
           <div class="t"><p class="br-label" style="margin:0">Continue where you left off</p><h3>${esc(last.title)}</h3><p>${esc(lastSubj ? lastSubj.name : "")}${last.tagline ? " · " + esc(last.tagline) : ""}</p></div>
           <span class="br-next">Play</span></a>`
-        : `<div class="br-continue" style="cursor:default"><div class="t"><p class="br-label" style="margin:0">Continue where you left off</p><h3>Your last game will show here</h3><p>Start with ${esc(f.title)} above; your progress is saved on this device.</p></div></div>`}
+        : `<div class="br-continue" style="cursor:default"><div class="t"><p class="br-label" style="margin:0">Continue where you left off</p><h3>Your last game will show here</h3><p>Pick a featured game above to start; your progress is saved on this device.</p></div></div>`}
       ${levelCard()}`;
+    startCarousel();
     const lc = document.getElementById("br-levelcard"); if (lc) lc.onclick = () => { BGX.sfx.tap(); BGX.showLevels(); };
     view.querySelectorAll(".br-continue .br-tile b svg").forEach(s => { s.setAttribute("width", "30"); s.setAttribute("height", "30"); });
   }
@@ -60,7 +105,7 @@
     const draw = () => {
       const list = s.chapters.filter(c => filter === "all" || c.status === filter);
       view.innerHTML = `
-        <a class="br-crumb" href="${R}index.html">← All subjects</a>
+        <nav class="br-backrow" aria-label="Back"><a class="br-crumb" href="${R}index.html"><span aria-hidden="true">←</span> All subjects</a></nav>
         <section class="br-subhero" style="margin-top:12px">
           <div class="ic${art(s.id) ? " has-art" : ""}" style="background:var(--${s.color})"><small>${String(C.subjects.indexOf(s) + 1).padStart(2, "0")}</small>${art(s.id) || BGX.icon(s.icon)}</div>
           <div><p class="br-label" style="margin:0">${esc(s.count || "")} · ${liveCount(s)} live · ${nextCount(s)} up next</p><h1>${esc(s.name)}</h1><p>${esc(s.blurb)}</p></div>

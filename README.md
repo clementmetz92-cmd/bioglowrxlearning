@@ -29,6 +29,7 @@ Note: "continue where you left off" and best scores are saved per browser and pe
 
 - **Fix a fact or an everyday example:** edit the text in `data/element-rush.js`.
 - **Change a chapter's status or title:** edit `data/catalog.js`.
+- **Change the home-page carousel:** edit `featuredList` at the top of `data/catalog.js` (one entry per slide; it switches every 6 seconds and pauses on hover, focus or the pause button).
 - **Add a game:** follow `data/README.md`. You need one data file, one copied page and one line in the catalog.
 
 ## Not in Phase 1 (by plan)

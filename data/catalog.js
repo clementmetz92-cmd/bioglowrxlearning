@@ -13,6 +13,27 @@ window.BGX_CATALOG = {
       { corner: "mL/h", icon: "timer", label: "Pumps", color: "cat-coral" }
     ]
   },
+  /* Home-page carousel: switches every 6 seconds (pauses on hover, focus or the pause button). Order = order shown. */
+  featuredList: [
+    { game: "dose-calc", eyebrow: "New · Calculator game", title: "Dose Calc",
+      text: "Tablets, liquids, weight-based doses and IV rates, with new numbers every round and a \"Show me how\" helper.",
+      url: "games/dose-calc/index.html", explore: "subjects/pharmacology/index.html", exploreLabel: "All Pharmacology",
+      tiles: [{ corner: "D÷H", icon: "pill", label: "Tablets", color: "cat-lilac" }, { corner: "kg", icon: "scale", label: "Weight", color: "cat-sage" }, { corner: "mL/h", icon: "timer", label: "Pumps", color: "cat-coral" }] },
+    { game: "diet-doctor", eyebrow: "New · Case Files", title: "Diet Doctor",
+      text: "Thirteen patient cases on blood pressure, cholesterol, diabetes and gut health. Spot the problem, choose the diet, pick the food.",
+      url: "games/diet-doctor/index.html", explore: "subjects/nutrition/index.html", exploreLabel: "All Nutrition",
+      tiles: [{ corner: "1", icon: "heart", label: "Heart", color: "cat-coral" }, { corner: "2", icon: "drop", label: "Sugar", color: "cat-amber" }, { corner: "3", icon: "stomach", label: "Gut", color: "cat-sage" }] },
+    { game: "immune-defence", eyebrow: "New · Anatomy & Physiology", title: "Immune Defence",
+      text: "Barriers, first responders and the cells that remember: three lines of defence, five sequences and real-life cases.",
+      url: "games/immune-defence/index.html", explore: "subjects/anatomy/index.html", exploreLabel: "All Anatomy",
+      tiles: [{ corner: "1", icon: "shield", label: "Barriers", color: "cat-sand" }, { corner: "2", icon: "flame", label: "Innate", color: "cat-coral" }, { corner: "3", icon: "dna", label: "Adaptive", color: "cat-lilac" }] },
+    { game: "microscope-lab", eyebrow: "Hands-on lab", title: "Microscope Lab",
+      text: "Clip the slide, focus from 4× to 40× and name the tissue. One hands-on lab for every subject.",
+      url: "games/microscope-lab/index.html", explore: "subjects/anatomy/index.html", exploreLabel: "All Anatomy" },
+    { game: "titration-lab", eyebrow: "Hands-on lab · Chemistry", title: "Titration Lab",
+      text: "Pour, swirl and stop at the first lasting pale pink, then read the titration curve.",
+      url: "games/titration-lab/index.html", explore: "subjects/chemistry/index.html", exploreLabel: "All Chemistry" }
+  ],
   subjects: [
     {
       id: "chemistry", count: "24 chapters", name: "Chemistry", color: "cat-sky", icon: "flask", source: "Averill, Chemistry",

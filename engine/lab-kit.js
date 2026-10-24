@@ -20,7 +20,7 @@
     /* menu: o = { hero, introHTML, lifeHTML, steps: [..], controls, safety, levels, onStart } */
     K.menu = o => {
       const art = BGX.ART && BGX.ART[cfg.id] ? `<div class="br-heroart" aria-hidden="true">${BGX.ART[cfg.id]()}</div>` : "";
-      view.innerHTML = `
+      view.innerHTML = `<nav class="br-backrow" aria-label="Back"><a class="br-crumb" href="${BGX.root}subjects/${cfg.subject}/index.html"><span aria-hidden="true">←</span> All ${esc(cfg.subjectName)} games</a></nav>
         <div class="br-hero${art ? " has-art" : ""}"><div><h2>${esc(cfg.title)}</h2><p>${esc(o.hero || cfg.tagline)}</p></div>${art}</div>
         <div class="lab-intro">
           <div><p class="br-label">What you're doing</p>${o.introHTML}</div>
@@ -34,7 +34,7 @@
         <p class="br-hint" style="margin-top:16px"><b>Stuck?</b> Every level has a <b>Hint</b> button. Hints are free on level 1; on levels 2 and 3 a hint caps that try at 2 stars.</p>
         ${o.controls ? `<p class="br-hint"><b>Controls:</b> ${o.controls}</p>` : ""}
         ${o.safety ? `<p class="br-hint">${o.safety}</p>` : ""}
-        <p class="br-hint"><a class="br-crumb" href="${BGX.root}subjects/${cfg.subject}/index.html">← ${esc(cfg.subjectName)}</a></p>`;
+        <nav class="br-backrow is-bottom" aria-label="Back"><a class="br-crumb" href="${BGX.root}subjects/${cfg.subject}/index.html"><span aria-hidden="true">←</span> All ${esc(cfg.subjectName)} games</a></nav>`;
       view.querySelectorAll("[data-l]").forEach(b => b.onclick = () => { BGX.sfx.tap(); o.onStart(o.levels[+b.dataset.l - 1]); });
     };
 
@@ -45,7 +45,7 @@
       view.querySelectorAll(".lab-steps li").forEach((li, j) => { li.classList.toggle("is-now", j === i); li.classList.toggle("is-done", j < i); });
     };
 
-    K.topHTML = l => `<div class="br-top"><button class="br-quit" id="lab-quit">✕ Levels</button><span class="br-label" style="margin:0;flex:1">Level ${l.n} · ${esc(l.title)}</span><span class="br-count">${K.starText(stars[l.n] || 0)}</span></div>`;
+    K.topHTML = l => `<div class="br-top"><button class="br-quit" id="lab-quit" aria-label="Back to the lab levels"><span aria-hidden="true">←</span> Levels</button><span class="br-label" style="margin:0;flex:1">Level ${l.n} · ${esc(l.title)}</span><span class="br-count">${K.starText(stars[l.n] || 0)}</span></div>`;
 
     /* a run starts: resets hint state. hints = array of strings or functions returning HTML */
     K.begin = (l, hints) => { K.level = l; K.hintsUsed = 0; K._hints = hints || []; K._step = -1; K.xpStart = BGX.xp.total; K.xpPaid = false; K.xpShown = false; };

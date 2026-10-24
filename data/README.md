@@ -77,6 +77,8 @@ Write everything in our own words, never copied from the textbook.
 | `calculator` | Calculator Challenge: type a number, new numbers every time | uses `problems` (below); `rounds` (default 8), `only` (category ids), `help: true` ("Show me how"), `formula: true` (show the formula) |
 
 Every mode also takes `id`, `title`, `desc`, `icon` (a short glyph) and `color` (a `cat-*` token).
+Quiz, Sort It, True or Myth, Find It and Match Pairs modes can take `only: [category ids]` to play one group (Sort It then offers only those groups).
+Build It items can carry their own steppers: `parts: [{ label, value, start, max }]` (e.g. coefficients when balancing equations).
 Streaks, confetti, sounds, milestones and the review screen are automatic.
 
 ### Case Files (`cases`)
