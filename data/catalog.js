@@ -15,6 +15,10 @@ window.BGX_CATALOG = {
   },
   /* Home-page carousel: switches every 6 seconds (pauses on hover, focus or the pause button). Order = order shown. */
   featuredList: [
+    { game: "last-chapters", eyebrow: "New · Pharmacology complete + Statistics", title: "Pain Ladder & Odds On",
+      text: "The last chapters are in: pain relief, opioid safety, muscle and gout drugs in Pain Ladder, and averages, spread and probability with a calculator in Odds On.",
+      url: "games/pain-ladder/index.html", explore: "games/odds-on/index.html", exploreLabel: "Play Odds On", play: "Play Pain Ladder",
+      tiles: [{ corner: "10", icon: "capsule", label: "Opioids", color: "cat-coral" }, { corner: "UA", icon: "foot", label: "Gout", color: "cat-amber" }, { corner: "x̄", icon: "chart", label: "Stats", color: "cat-lilac" }] },
     { game: "nutrition-pack", eyebrow: "New · Nutrition, complete", title: "Every Nutrition chapter",
       text: "Five new games finish the course: nutrition assessment, energy balance, eating at every life stage, coaching behaviour change, and a full mock exam.",
       url: "games/exam-prep/index.html", explore: "subjects/nutrition/index.html", exploreLabel: "All Nutrition games", play: "Try the mock exam",
@@ -156,7 +160,8 @@ window.BGX_CATALOG = {
           tiles: [{corner: "1", icon: "eye", color: "cat-coral"}, {corner: "4", icon: "heart", color: "cat-sage"}, {corner: "5", icon: "lungs", color: "cat-coral"}] },
         { ch: "5–9", title: "Drug families by body system", icon: "pill", game: "Drug Class Sort", formats: ["Explore", "Sort It", "Quick Quiz", "Match Pairs"], status: "live", url: "games/drug-class-sort/index.html",
           tiles: [{corner: "1", icon: "heart", color: "cat-coral"}, {corner: "9", icon: "lungs", color: "cat-sky"}, {corner: "18", icon: "brain", color: "cat-lilac"}] },
-        { ch: "10", title: "Pain relief and muscle drugs", icon: "steps", game: "Pain Ladder", formats: ["Sequence", "Case Files"], status: "soon" },
+        { ch: "10", title: "Pain relief and muscle drugs", icon: "steps", game: "Pain Ladder", formats: ["Explore", "Quick Quiz", "Sort It", "Sequence", "Match Pairs", "True or Myth", "Case Files"], status: "live", url: "games/pain-ladder/index.html",
+          tiles: [{corner: "1", icon: "gauge", color: "cat-sky"}, {corner: "3", icon: "capsule", color: "cat-coral"}, {corner: "6", icon: "foot", color: "cat-amber"}] },
         { ch: "All", title: "Dose calculations", icon: "scale", game: "Dose Calc", formats: ["Calculator", "Explore", "Quick Quiz", "Match Pairs"], status: "live", url: "games/dose-calc/index.html",
           tiles: [{corner: "D÷H", icon: "pill", color: "cat-lilac"}, {corner: "kg", icon: "scale", color: "cat-sage"}, {corner: "mL/h", icon: "timer", color: "cat-coral"}] }
       ]
@@ -197,7 +202,8 @@ window.BGX_CATALOG = {
           tiles: [{corner: "1", icon: "steps", color: "cat-mint"}, {corner: "6", icon: "question", color: "cat-sky"}, {corner: "12", icon: "chat", color: "cat-amber"}] },
         { ch: "HS305", title: "Spotting reliable health websites", icon: "search", game: "Source Detective", formats: ["True or Myth", "Sort It", "Explore"], status: "live", url: "games/source-detective/index.html",
           tiles: [{corner: "1", icon: "shield", color: "cat-sky"}, {corner: "4", icon: "search", color: "cat-sage"}, {corner: "12", icon: "scale", color: "cat-lilac"}] },
-        { ch: "Stats", title: "Probability and averages", icon: "chart", game: "Odds On", formats: ["Calculator", "Sort It"], status: "soon" },
+        { ch: "Stats", title: "Probability and averages", icon: "chart", game: "Odds On", formats: ["Explore", "Quick Quiz", "Sort It", "Match Pairs", "True or Myth", "Case Files", "Calculator"], status: "live", url: "games/odds-on/index.html",
+          tiles: [{corner: "1", icon: "steps", color: "cat-amber"}, {corner: "4", icon: "scale", color: "cat-sky"}, {corner: "6", icon: "question", color: "cat-peach"}] },
         { ch: "Next", title: "Her next course", icon: "book", game: "To be planned", formats: [], status: "soon" }
       ]
     }
