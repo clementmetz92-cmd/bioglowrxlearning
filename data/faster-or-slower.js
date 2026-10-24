@@ -81,7 +81,7 @@ BGX.registerGame({
     "claim": "You add extra water to the reacting solution.",
     "key": "Particles further apart, fewer collisions",
     "summary": "Diluting spreads the reacting particles out, so they collide less often.",
-    "facts": ["Concentration down → fewer collisions per second → slower.", "Adding water to a gas-free solution does not change the temperature or Eₐ.", "Drugs are diluted partly to control how fast they act."],
+    "facts": ["Concentration down → fewer collisions per second → slower.", "Adding water does not change the temperature or Eₐ: only how often particles meet.", "The rate law shows how much: halve [A] in a first-order reaction and the rate halves."],
     "life": "Diluted bleach works more slowly than full-strength bleach." },
   { "name": "Use one big lump", "cat": "slower", "icon": "brick", "spot": "lump", "verdict": false,
     "claim": "You swap a powder for a single large lump of the same solid.",
@@ -139,7 +139,7 @@ BGX.registerGame({
     "key": "System uses up extra product",
     "summary": "Adding product makes Q bigger than K, so the reverse reaction runs: the shift is to the left.",
     "facts": ["Q > K → shifts left.", "Some of the added product turns back into reactants.", "K does not change."],
-    "life": "If lactic acid builds up in muscle, the reactions that make it are pushed back and slowed." },
+    "life": "Giving sodium bicarbonate adds HCO₃⁻, a product of CO₂ + H₂O ⇌ H⁺ + HCO₃⁻, so the buffer shifts left and uses up H⁺." },
   { "name": "Remove a reactant", "cat": "left", "icon": "recycle", "spot": "left", "setup": "H₂(g) + I₂(g) ⇌ 2 HI(g): some I₂ is removed.",
     "key": "System remakes the lost reactant",
     "summary": "Taking away a reactant raises Q above K, so some product breaks back down into reactants.",
@@ -171,7 +171,7 @@ BGX.registerGame({
     "key": "Partial pressures don't change",
     "summary": "Adding a gas that doesn't react, without changing the volume, raises the total pressure but not the partial pressures of the reacting gases, so nothing shifts.",
     "facts": ["Only the concentrations (partial pressures) of the reacting gases matter.", "In a fixed volume, those don't change when argon is added.", "A common exam trap: total pressure up does not always mean a shift."],
-    "life": "Argon is used as an unreactive blanket gas in welding for exactly this reason: it doesn't join in." },
+    "life": "Argon is used as an unreactive blanket gas in welding: it doesn't join in." },
 
   /* ---------- key terms ---------- */
   { "name": "Collision theory", "cat": "terms", "icon": "atom", "spot": "collide",
@@ -219,7 +219,7 @@ BGX.registerGame({
 ],
 "sequences": [
   { "id": "collide", "title": "From collision to products", "icon": "atom", "cat": "terms",
-    "steps": ["Reactant particles move towards each other", "They collide with the right orientation", "The collision has at least the activation energy", "An activated complex forms at the top of the energy hill", "New bonds finish forming and products move apart"],
+    "steps": ["Reactant particles move towards each other", "They collide with the right orientation and at least the activation energy", "Old bonds start to stretch and break as the energy rises", "An activated complex forms at the top of the energy hill", "New bonds finish forming and products move apart"],
     "note": "Only collisions that are both energetic enough and correctly aimed make it over the hill." },
   { "id": "profile", "title": "Read an exothermic energy profile, left to right", "icon": "chart", "cat": "terms",
     "steps": ["Reactants at their starting energy", "Energy rises as bonds start to stretch (activation energy)", "Peak: the activated complex", "Energy falls as new bonds form", "Products end lower than reactants: energy released (ΔH negative)"],

@@ -1,14 +1,16 @@
 /* Will It Happen? — game data (Chemistry, chapter 18: entropy, free energy and spontaneity).
    Schema in data/README.md. Thermodynamic values are typical textbook figures, rounded.
-   Note: the calculator engine only accepts answers above zero, so problems with a negative ΔG ask for its size. */
+   ΔG problems use "signed": true, so negative answers are typed with a minus sign. */
 (function () {
 const pick = a => a[Math.floor(Math.random() * a.length)];
 const r = (x, dp) => Math.round(x * Math.pow(10, dp) + 1e-9) / Math.pow(10, dp);
 const clean = (a, dp) => { const f = Math.abs(a * Math.pow(10, dp)) % 1; return Math.abs(f - 0.5) > 0.12; };
 const sg = x => (x > 0 ? "+" : "−") + Math.abs(x);
+/* display a number with a true minus sign (−) and thousands commas */
+const ms = x => (x < 0 ? "−" : "") + Math.abs(x).toLocaleString("en-US", { maximumFractionDigits: 4 });
 const gen = () => { const dH = pick([-150, -80, -45, 25, 60, 90, 180]), dS = pick([-210, -120, -60, 45, 95, 160, 240]), T = pick([250, 298, 350, 500, 800, 1200]);
   const dSk = r(dS / 1000, 3), tds = r(T * dS / 1000, 1);
-  return { dH, dS, T, dSk, tds, dHs: sg(dH), dSs: sg(dS), tdss: (tds < 0 ? "−" : "") + Math.abs(tds) }; };
+  return { dH, dS, T, dSk, tds, dHs: sg(dH), dSs: sg(dS), tdss: ms(tds), dHd: ms(dH), dSd: ms(dS), dSkd: ms(dSk) }; };
 
 BGX.registerGame({
 "id": "will-it-happen",
@@ -52,7 +54,7 @@ BGX.registerGame({
     "claim": "A puddle of water evaporates on a warm day: H₂O(l) → H₂O(g).",
     "key": "Liquid → gas: entropy up",
     "summary": "Turning a liquid into a gas spreads the molecules over a huge volume, so entropy rises a lot.",
-    "facts": ["Entropy order: solid < liquid < gas.", "Liquid → gas is the biggest jump in entropy of any phase change.", "Evaporation absorbs heat (ΔH positive) but is driven by the entropy increase."],
+    "facts": ["Entropy order: solid < liquid < gas.", "Liquid → gas is a far bigger entropy jump than solid → liquid.", "Evaporation absorbs heat (ΔH positive) but is driven by the entropy increase."],
     "life": "Sweat cools you because evaporating water takes heat from your skin." },
   { "name": "Sugar dissolving in tea", "cat": "entropy", "icon": "beaker", "spot": "dissolve", "verdict": true,
     "claim": "A sugar cube dissolves in hot tea.",
@@ -175,8 +177,8 @@ BGX.registerGame({
   { "name": "Hydrogen burning to water", "cat": "lowt", "icon": "flame", "spot": "lowt",
     "setup": "2 H₂(g) + O₂(g) → 2 H₂O(l): ΔH ≈ −572 kJ, ΔS ≈ −327 J/K",
     "key": "Huge heat release beats entropy loss",
-    "summary": "Three moles of gas become liquid water, so entropy falls, but the heat released is so large that it is spontaneous below about 1,750 K.",
-    "facts": ["ΔH −, ΔS −: spontaneous at low T.", "Here 'low' means below about 1,750 K, which includes all everyday temperatures.", "It is the reaction in hydrogen fuel cells."],
+    "summary": "Three moles of gas become liquid water, so entropy falls, but the heat released is so large that it is spontaneous below about 1,750 K (an estimate from 25 °C values).",
+    "facts": ["ΔH −, ΔS −: spontaneous at low T.", "Here 'low' means below about 1,750 K (an estimate from 25 °C values), which includes all everyday temperatures.", "It is the reaction in hydrogen fuel cells."],
     "life": "Hydrogen fuel cells in buses make electricity with water as the only exhaust." },
 
   /* ---------- key terms and laws ---------- */
@@ -202,13 +204,13 @@ BGX.registerGame({
     "def": "The entropy of a perfect crystal at absolute zero (0 K) is zero.",
     "key": "Perfect crystal at 0 K: S = 0",
     "summary": "At 0 K a perfectly ordered crystal has only one possible arrangement, so its entropy is zero. This gives a starting point for absolute entropies.",
-    "facts": ["Gives a zero point, so standard entropies (S°) are absolute values, all positive above 0 K.", "Unlike ΔH°f of elements, S° of an element is not zero at 25 °C.", "0 K = −273.15 °C, and it can never quite be reached."],
+    "facts": ["Gives a zero point, so standard entropies (S°) are absolute values, positive for every pure substance above 0 K.", "Unlike ΔH°f of elements, S° of an element is not zero at 25 °C.", "0 K = −273.15 °C, and it can never quite be reached."],
     "life": "Cryopreservation stores cells in liquid nitrogen at 77 K, slowing molecular motion almost to a stop." },
   { "name": "Gibbs free energy change (ΔG)", "cat": "terms", "icon": "scale", "spot": "ball",
     "def": "ΔG = ΔH − TΔS: negative for a spontaneous process, positive for a non-spontaneous one, zero at equilibrium.",
     "key": "ΔG < 0: spontaneous",
     "summary": "ΔG combines the heat change and the entropy change at a given temperature into one test of spontaneity.",
-    "facts": ["ΔG < 0 spontaneous; ΔG > 0 non-spontaneous (the reverse is spontaneous); ΔG = 0 at equilibrium.", "T must be in kelvin, and ΔS (usually J/K) must be changed to kJ/K before combining with ΔH in kJ.", "ΔG is also the maximum useful work the reaction can do."],
+    "facts": ["ΔG < 0 spontaneous; ΔG > 0 non-spontaneous (the reverse is spontaneous); ΔG = 0 at equilibrium.", "T must be in kelvin, and ΔS (usually J/K) must be changed to kJ/K before combining with ΔH in kJ.", "−ΔG is the maximum useful (non-expansion) work the reaction can do."],
     "life": "Biochemists call reactions with negative ΔG 'downhill': they can power other, uphill reactions in the cell." },
   { "name": "Crossover temperature", "cat": "terms", "icon": "chart", "spot": "cross",
     "def": "The temperature at which ΔG = 0 when ΔH and ΔS have the same sign: T = ΔH ÷ ΔS.",
@@ -234,26 +236,27 @@ BGX.registerGame({
     "formula": "TΔS = (°C + 273.15) × ΔS ÷ 1,000",
     "make": () => { const C = pick([25, 37, 100]); return { C, Tk: r(C + 273.15, 2), dS: pick([45, 95, 120, 160, 240]) }; },
     "ok": (v, a) => clean(a, 1),
+    "tol": 0.1,
     "text": "A reaction has ΔS = +{dS} J/(mol·K). Calculate the TΔS term at {C} °C, in kJ/mol.",
     "answer": v => v.Tk * v.dS / 1000,
     "steps": ["Temperature in kelvin: {C} + 273.15 = {Tk} K", "ΔS in kJ: {dS} J/(mol·K) ÷ 1,000", "TΔS = {Tk} K × {dS} ÷ 1,000", "= {answer}"],
-    "hint": (v, x) => Math.abs(x - v.C * v.dS / 1000) < 0.06 ? "Temperature must be in kelvin: add 273.15 to the °C value." : Math.abs(x - v.Tk * v.dS) < 1 ? "ΔS is in joules: divide by 1,000 to get kJ." : "" },
-  { "id": "dgpos", "cat": "terms", "title": "ΔG = ΔH − TΔS", "spot": "cross", "unit": "kJ/mol", "dp": 1,
+    "hint": (v, x) => Math.abs(x - v.C * v.dS / 1000) < 0.06 ? "Temperature must be in kelvin: add 273.15 to the °C value." : "" },
+  { "id": "dg", "cat": "terms", "title": "ΔG = ΔH − TΔS", "spot": "cross", "unit": "kJ/mol", "dp": 1, "signed": true,
     "formula": "ΔG = ΔH − T × (ΔS ÷ 1,000)",
     "make": gen,
     "ok": (v, a) => clean(a, 1),
-    "text": "ΔH = {dHs} kJ/mol and ΔS = {dSs} J/(mol·K). Calculate ΔG at {T} K. (Here ΔG comes out positive: the reaction is not spontaneous at this temperature.)",
+    "text": "ΔH = {dHs} kJ/mol and ΔS = {dSs} J/(mol·K). Calculate ΔG at {T} K (include the sign). Is the reaction spontaneous at this temperature?",
     "answer": v => v.dH - v.T * v.dS / 1000,
-    "steps": ["ΔS in kJ: {dS} ÷ 1,000 = {dSk} kJ/(mol·K)", "TΔS = {T} × {dSk} = {tdss} kJ/mol", "ΔG = ΔH − TΔS = {dH} − ({tdss})", "= {answer}"],
+    "steps": ["ΔS in kJ: {dSd} ÷ 1,000 = {dSkd} kJ/(mol·K)", "TΔS = {T} × ({dSkd}) = {tdss} kJ/mol", "ΔG = ΔH − TΔS = {dHd} − ({tdss})", "= {answer} (negative → spontaneous; positive → not spontaneous)"],
     "hint": (v, x) => Math.abs(x - (v.dH - v.T * v.dS)) < 1 ? "Convert ΔS from J to kJ (÷ 1,000) before multiplying by T." : Math.abs(x - (v.dH + v.T * v.dS / 1000)) < 0.06 ? "Check the sign: it is ΔH minus TΔS, and minus a negative number is plus." : "" },
-  { "id": "dgneg", "cat": "terms", "title": "How negative is ΔG?", "spot": "ball", "unit": "kJ/mol", "dp": 1,
+  { "id": "dg2", "cat": "terms", "title": "ΔG = ΔH − TΔS", "spot": "ball", "unit": "kJ/mol", "dp": 1, "signed": true,
     "formula": "ΔG = ΔH − T × (ΔS ÷ 1,000)",
     "make": gen,
     "ok": (v, a) => clean(a, 1),
-    "text": "ΔH = {dHs} kJ/mol and ΔS = {dSs} J/(mol·K). At {T} K, ΔG is negative (spontaneous). Calculate ΔG and type its size, without the minus sign.",
-    "answer": v => -(v.dH - v.T * v.dS / 1000),
-    "steps": ["ΔS in kJ: {dS} ÷ 1,000 = {dSk} kJ/(mol·K)", "TΔS = {T} × {dSk} = {tdss} kJ/mol", "ΔG = ΔH − TΔS = {dH} − ({tdss})", "= −{answer}, so type the size"],
-    "hint": (v, x) => Math.abs(x + (v.dH - v.T * v.dS)) < 1 ? "Convert ΔS from J to kJ (÷ 1,000) before multiplying by T." : "" },
+    "text": "ΔH = {dHs} kJ/mol and ΔS = {dSs} J/(mol·K). Calculate ΔG at {T} K (include the sign). Is the reaction spontaneous at this temperature?",
+    "answer": v => v.dH - v.T * v.dS / 1000,
+    "steps": ["ΔS in kJ: {dSd} ÷ 1,000 = {dSkd} kJ/(mol·K)", "TΔS = {T} × ({dSkd}) = {tdss} kJ/mol", "ΔG = ΔH − TΔS = {dHd} − ({tdss})", "= {answer} (negative → spontaneous; positive → not spontaneous)"],
+    "hint": (v, x) => Math.abs(x - (v.dH - v.T * v.dS)) < 1 ? "Convert ΔS from J to kJ (÷ 1,000) before multiplying by T." : Math.abs(x - (v.dH + v.T * v.dS / 1000)) < 0.06 ? "Check the sign: it is ΔH minus TΔS, and minus a negative number is plus." : "" },
   { "id": "cross", "cat": "terms", "title": "Crossover temperature", "spot": "cross", "unit": "K", "dp": 0,
     "formula": "T = ΔH ÷ ΔS (ΔH in J)",
     "make": () => { const x = pick([
@@ -263,20 +266,20 @@ BGX.registerGame({
         { what: "limestone breaking down, CaCO₃ → CaO + CO₂", dH: 178.3, dS: 160.6, side: "above" },
         { what: "an ammonium nitrate cold pack dissolving", dH: 25.7, dS: 108.7, side: "above" },
         { what: "making ammonia, N₂ + 3 H₂ → 2 NH₃", dH: -92.2, dS: -198.7, side: "below" }]);
-      return Object.assign({ dHJ: r(x.dH * 1000, 0), dHs: sg(x.dH), dSs: sg(x.dS) }, x); },
+      return Object.assign({ dHJd: ms(r(x.dH * 1000, 0)), dHd: ms(x.dH), dSd: ms(x.dS), dHs: sg(x.dH), dSs: sg(x.dS) }, x); },
     "tol": 1,
     "text": "For {what}, ΔH = {dHs} kJ/mol and ΔS = {dSs} J/(mol·K). At what temperature does ΔG = 0? (It is spontaneous {side} this temperature.)",
     "answer": v => v.dH * 1000 / v.dS,
-    "steps": ["At the crossover ΔG = 0, so ΔH = TΔS and T = ΔH ÷ ΔS", "Same units: ΔH = {dH} kJ × 1,000 = {dHJ} J/mol", "T = {dHJ} ÷ {dS}", "= {answer}"],
+    "steps": ["At the crossover ΔG = 0, so ΔH = TΔS and T = ΔH ÷ ΔS", "Same units: ΔH = {dHd} kJ × 1,000 = {dHJd} J/mol", "T = ({dHJd}) ÷ ({dSd})", "= {answer}"],
     "hint": (v, x) => Math.abs(x - v.dH / v.dS) < 0.5 ? "ΔH is in kJ but ΔS is in J: multiply ΔH by 1,000 first." : "" },
-  { "id": "dgk", "cat": "terms", "title": "ΔG° from K", "spot": "dgk", "unit": "kJ/mol", "dp": 1,
+  { "id": "dgk", "cat": "terms", "title": "ΔG° from K", "spot": "dgk", "unit": "kJ/mol", "dp": 1, "signed": true,
     "formula": "ΔG° = −RT ln K (R = 8.314 J/(mol·K))",
-    "make": () => { const k = pick([["1.0 × 10⁻²", 1e-2], ["4.0 × 10⁻³", 4e-3], ["1.0 × 10⁻⁴", 1e-4], ["2.5 × 10⁻⁵", 2.5e-5], ["1.0 × 10⁻⁸", 1e-8], ["5.0 × 10⁻¹⁰", 5e-10]]);
-      return { Ks: k[0], K: k[1], T: 298, lnK: r(Math.log(k[1]), 3) }; },
+    "make": () => { const k = pick([["1.0 × 10⁻²", 1e-2], ["4.0 × 10⁻³", 4e-3], ["1.0 × 10⁻⁴", 1e-4], ["2.5 × 10⁻⁵", 2.5e-5], ["1.0 × 10⁻⁸", 1e-8], ["5.0 × 10⁻¹⁰", 5e-10], ["2.0 × 10³", 2e3], ["5.0 × 10⁵", 5e5], ["1.0 × 10⁴", 1e4]]);
+      return { Ks: k[0], K: k[1], T: 298, lnKd: ms(r(Math.log(k[1]), 3)) }; },
     "tol": 0.2,
     "text": "A reaction has K = {Ks} at {T} K. Calculate ΔG° in kJ/mol. (R = 8.314 J/(mol·K))",
     "answer": v => -8.314 * v.T * Math.log(v.K) / 1000,
-    "steps": ["ln K = ln({Ks}) = {lnK} (natural log)", "ΔG° = −RT ln K = −8.314 × {T} × ({lnK}) J/mol", "Divide by 1,000 for kJ/mol", "= {answer} (positive, because K < 1)"],
+    "steps": ["ln K = ln({Ks}) = {lnKd} (natural log)", "ΔG° = −RT ln K = −8.314 × {T} × ({lnKd}) J/mol", "Divide by 1,000 for kJ/mol", "= {answer} (negative if K > 1, positive if K < 1)"],
     "hint": (v, x) => Math.abs(x + 8.314 * v.T * Math.log10(v.K) / 1000) < 0.1 ? "Use the natural log (ln), not log₁₀." : "" }
 ],
 "notes": {
@@ -295,7 +298,7 @@ BGX.registerGame({
       "points": ["Both positive → spontaneous above T = ΔH ÷ ΔS.", "Ice melting: crossover ≈ 273 K.", "An endothermic reaction can be spontaneous if ΔS is big enough (cold packs)."],
       "tip": "Plus, plus: heat it up and entropy takes over." },
     { "cat": "lowt", "about": "When ΔH and ΔS are both negative, the reaction gives out heat but lowers entropy. At low temperature the ΔH term wins, so it is spontaneous below the crossover temperature. Freezing, condensing and gas reactions that make fewer gas molecules belong here.",
-      "points": ["Both negative → spontaneous below T = ΔH ÷ ΔS.", "Haber process: crossover ≈ 464 K.", "'Low' can still be hot: hydrogen burning is spontaneous below about 1,750 K."],
+      "points": ["Both negative → spontaneous below T = ΔH ÷ ΔS.", "Haber process: crossover ≈ 464 K.", "'Low' can still be hot: hydrogen burning is spontaneous below about 1,750 K (an estimate from 25 °C values)."],
       "tip": "Minus, minus: keep it cool and the heat release wins." },
     { "cat": "terms", "about": "Second law: in a spontaneous process the entropy of the universe increases. Third law: a perfect crystal at 0 K has zero entropy. ΔG = ΔH − TΔS; ΔG < 0 spontaneous, ΔG = 0 at equilibrium. ΔG° = −RT ln K links free energy to the equilibrium constant (K > 1 when ΔG° < 0). The body runs uphill reactions by coupling them to ATP hydrolysis (ΔG°′ ≈ −30.5 kJ/mol).",
       "points": ["Spontaneous ≠ fast.", "Units: ΔS in J/K → divide by 1,000 for kJ/K; T in K = °C + 273.15.", "Crossover temperature: T = ΔH ÷ ΔS."],
