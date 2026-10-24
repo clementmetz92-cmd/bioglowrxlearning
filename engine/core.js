@@ -146,6 +146,60 @@
     if (hit) { const bonus = BGX.xp.milestoneBonus(BGX.streak); BGX.xp.add(bonus); setTimeout(() => BGX.milestone(BGX.streak, opts.milestoneTile, bonus), 450); }
   };
 
+  /* ---------- sheet: a pop-up panel for reading content without losing your place on the page ----------
+     BGX.sheet({ label, title, html, nav: { count, index, render: i => ({ title, html }) }, onOpen(body), onClose })
+     Phone: slides up from the bottom; larger screens: a centred panel. Esc / backdrop / Close button close it,
+     ← → (and the arrow buttons) move between items when nav is given. Page scroll is locked while open. */
+  BGX.sheet = o => {
+    const prev = document.activeElement, n = o.nav ? o.nav.count : 0;
+    let idx = o.nav ? o.nav.index : 0;
+    const ov = document.createElement("div");
+    ov.className = "br-sheetwrap"; ov.setAttribute("role", "dialog"); ov.setAttribute("aria-modal", "true"); ov.setAttribute("aria-label", o.label || o.title || "Details");
+    ov.innerHTML = `<div class="br-sheet${o.wide ? " is-wide" : ""}" tabindex="-1">
+      <div class="br-sheethead"><button class="br-quit" type="button" data-x aria-label="Close"><span aria-hidden="true">✕</span> Close</button>
+        ${n > 1 ? `<div class="br-sheetnav"><button class="br-carbtn" type="button" data-p aria-label="Previous">‹</button><span class="ct" aria-live="polite"></span><button class="br-carbtn" type="button" data-n aria-label="Next">›</button></div>` : ""}</div>
+      <div class="br-sheetbody"></div></div>`;
+    const body = ov.querySelector(".br-sheetbody"), ct = ov.querySelector(".ct");
+    const set = (title, html) => {
+      body.innerHTML = (title ? `<h2 class="br-sheettitle">${BGX.esc(title)}</h2>` : "") + html;
+      body.scrollTop = 0; if (ct) ct.textContent = `${idx + 1} / ${n}`;
+      if (o.onOpen) o.onOpen(body, idx);
+    };
+    const go = d => { if (!o.nav) return; idx = (idx + d + n) % n; const r = o.nav.render(idx); BGX.sfx.tap(); set(r.title, r.html); };
+    const close = () => {
+      ov.classList.add("is-out"); document.removeEventListener("keydown", key, true);
+      setTimeout(() => { ov.remove(); if (!document.querySelector(".br-sheetwrap")) document.documentElement.classList.remove("br-locked"); }, BGX.RM ? 0 : 160);
+      if (prev && prev.focus) prev.focus({ preventScroll: true });
+      if (o.onClose) o.onClose(idx);
+    };
+    const key = ev => {
+      if (!document.body.contains(ov)) return;
+      if (ev.key === "Escape") { ev.preventDefault(); ev.stopPropagation(); close(); }
+      else if (n > 1 && ev.key === "ArrowRight" && !/INPUT|TEXTAREA/.test(ev.target.tagName)) { ev.preventDefault(); ev.stopPropagation(); go(1); }
+      else if (n > 1 && ev.key === "ArrowLeft" && !/INPUT|TEXTAREA/.test(ev.target.tagName)) { ev.preventDefault(); ev.stopPropagation(); go(-1); }
+      else if (ev.key === "Tab") {   // keep focus inside the sheet
+        const f = [...ov.querySelectorAll("button, a[href], input, summary, [tabindex]:not([tabindex='-1'])")].filter(e => !e.disabled && e.offsetParent !== null);
+        if (!f.length) return; const first = f[0], last = f[f.length - 1];
+        if (ev.shiftKey && document.activeElement === first) { ev.preventDefault(); last.focus(); }
+        else if (!ev.shiftKey && document.activeElement === last) { ev.preventDefault(); first.focus(); }
+      }
+      else if (ev.key === "Enter" || ev.key === " ") ev.stopPropagation();   // don't trigger the game behind
+    };
+    document.addEventListener("keydown", key, true);
+    ov.querySelector("[data-x]").onclick = close;
+    ov.onclick = ev => { if (ev.target === ov) close(); };
+    if (n > 1) { ov.querySelector("[data-p]").onclick = () => go(-1); ov.querySelector("[data-n]").onclick = () => go(1); }
+    // swipe left/right between items on touch screens
+    let x0 = null, y0 = null;
+    body.addEventListener("touchstart", e => { x0 = e.touches[0].clientX; y0 = e.touches[0].clientY; }, { passive: true });
+    body.addEventListener("touchend", e => { if (x0 == null || n < 2) return; const dx = e.changedTouches[0].clientX - x0, dy = e.changedTouches[0].clientY - y0; x0 = null; if (Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy) * 1.5) go(dx < 0 ? 1 : -1); }, { passive: true });
+    document.documentElement.classList.add("br-locked");
+    document.body.appendChild(ov);
+    set(o.title, o.html);
+    ov.querySelector("[data-x]").focus({ preventScroll: true });
+    return { el: ov, body, close, set, go };
+  };
+
   /* ---------- pop-ups (one at a time: a streak milestone and a level-up never overlap) ---------- */
   const popQ = []; let popping = false;
   BGX.popup = (label, html, opts = {}) => { popQ.push({ label, html, opts }); if (!popping) nextPop(); };

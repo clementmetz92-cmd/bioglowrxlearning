@@ -550,7 +550,7 @@
       box.querySelectorAll("[data-tq]").forEach(b => b.onclick = () => { BGX.sfx.tap(); box.querySelectorAll("[data-tq]").forEach(x => x.setAttribute("aria-pressed", x === b ? "true" : "false")); });
       $("#ft-submit").onclick = () => submit();
     }
-    box.scrollIntoView({ behavior: BGX.RM ? "auto" : "smooth", block: "nearest" });
+    // (shown in the docked task panel: no page scrolling)
   }
   const CQ = [["It shows what \"no change\" looks like, so a faint colour in the food can be told apart from the reagent's own colour.", true],
     ["Water contains a little of every nutrient.", false], ["It makes the reagents react faster.", false], ["It dilutes the unknown food so the colours are stronger.", false]];

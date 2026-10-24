@@ -371,7 +371,7 @@
     const inp = $("#pl-ans");
     inp.addEventListener("keydown", e => { if (e.key === "Enter") { e.preventDefault(); checkCalc(); } });
     $("#pl-check").onclick = checkCalc;
-    fb.scrollIntoView({ behavior: BGX.RM ? "auto" : "smooth", block: "nearest" });
+    // (shown in the docked task panel: no page scrolling)
     if (matchMedia("(pointer: fine)").matches) inp.focus({ preventScroll: true });
   }
   function checkCalc() {
@@ -452,7 +452,7 @@
       BGX.reward(ok, b, { flash: view });
       if (st.cls.filter(Boolean).length === st.readings.length) setTimeout(finish, 350);
     }));
-    fb.scrollIntoView({ behavior: BGX.RM ? "auto" : "smooth", block: "nearest" });
+    // (shown in the docked task panel: no page scrolling)
   }
 
   /* ---------------- level 3: class statistics ---------------- */
@@ -492,7 +492,7 @@
     });
     ["#pl-mean", "#pl-median", "#pl-range"].forEach(s => $(s).addEventListener("keydown", e => { if (e.key === "Enter") { e.preventDefault(); checkStats(); } }));
     $("#pl-scheck").onclick = checkStats;
-    fb.scrollIntoView({ behavior: BGX.RM ? "auto" : "smooth", block: "nearest" });
+    // (shown in the docked task panel: no page scrolling)
   }
   function checkStats() {
     if (st.statsAns) return;

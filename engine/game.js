@@ -56,7 +56,7 @@
 
   /* ---------- menu ---------- */
   function menu() {
-    S.screen = "menu";
+    S.screen = "menu"; undock();
     const best = BGX.store.get("best_" + G.id, {});
     const sName = G.subject ? (G.subjectName || G.subject.charAt(0).toUpperCase() + G.subject.slice(1)) : "";
     const subj = G.subject ? `<a class="br-crumb" href="${BGX.root}subjects/${G.subject}/index.html"><span aria-hidden="true">←</span> All ${esc(sName)} games</a>` : "";
@@ -94,7 +94,7 @@
       <span class="br-count"><b>${S.score}</b> / ${S.i}</span></div>`;
   }
   function renderQ() {
-    view.classList.remove("menu-in");
+    view.classList.remove("menu-in"); undock();
     const q = S.qs[S.i];
     view.innerHTML = topBar(S.qs.length) + `<div class="br-prompt">${S.f.prompt(S.mode, q)}</div>` + S.f.body(S.mode, q) + `<div class="br-feedback" id="br-fb" aria-live="polite"></div>`;
     $("#br-quit").onclick = menu;
@@ -109,8 +109,18 @@
     BGX.reward(correct, el, { flash: view, milestoneTile: milestoneTile, xpScale: q.helped ? 0.5 : 1 });
     const sc = view.querySelector(".br-count"); if (sc) sc.innerHTML = `<b>${S.score}</b> / ${S.i + 1}`;
     $("#br-fb").innerHTML = (S.f.feedback ? S.f.feedback(S.mode, q, correct) : feedbackHTML(it, correct)) + `<button class="br-next" id="br-next">${S.i + 1 < S.qs.length ? "Next" : "See score"}</button>`;
-    const nx = $("#br-next"); nx.focus({ preventScroll: true }); nx.onclick = nextQ;
+    const nx = $("#br-next"); nx.onclick = nextQ;
+    dockFeedback($("#br-fb")); nx.focus({ preventScroll: true });
   }
+  /* if the explanation would land below the screen, show it in a panel docked at the bottom instead of making the player scroll */
+  function dockFeedback(fb) {
+    if (!fb) return;
+    const r = fb.getBoundingClientRect();
+    if (r.bottom <= innerHeight - 8 && r.top >= 0) return;
+    fb.classList.add("is-dock"); document.body.classList.add("br-hasdock");
+  }
+  const undock = () => document.body.classList.remove("br-hasdock");
+  BGX.undock = undock;
   function feedbackHTML(it, correct) {
     const parts = (G.factLine || ["name"]).map((f, i) => i === 0 ? `<b>${esc(val(f, it))}</b>` : esc(val(f, it))).join(" · ");
     const pic = diagramSVG(it) || ((G.explore && (G.explore.pictures || []).indexOf("object") >= 0 && BGX.illus) ? BGX.illus.object(it) : "");
@@ -133,6 +143,7 @@
   }
 
   function finish(extra) {
+    undock();
     const m = S.mode, total = extra && extra.total || S.qs.length;
     const best = BGX.store.get("best_" + G.id, {}), k = m.id + S.set;
     const isBest = best[k] == null || S.score > best[k];
@@ -235,22 +246,34 @@
       view.classList.remove("menu-in");
       const N = G.notes, line = it => it.summary || it.life || "";
       const keyField = G.notesFields || (G.factLine || []).slice(1).filter(f => f !== "{category}" && f !== "category");
+      const secs = (N.sections || []).map(sec => {
+        const c = G.catMap[sec.cat] || {}, its = G.items.filter(it => sec.cat && it.cat === sec.cat);
+        return { sec, c, its, title: sec.title || c.name || "" };
+      });
+      const iconHTML = c => `<i style="background:var(--${c.color || "cat-mint"})">${c.icon && BGX.icon ? BGX.icon(c.icon) : ""}</i>`;
+      const secBody = x => `<section class="br-note is-sheet">
+          <h3>${iconHTML(x.c)}${esc(x.title)}</h3>
+          <p>${esc(x.sec.about || "")}</p>
+          ${x.sec.points && x.sec.points.length ? `<ul class="pts">${x.sec.points.map(p => `<li>${esc(p)}</li>`).join("")}</ul>` : ""}
+          ${x.sec.tip ? `<p class="tip"><b>Memory tip</b> ${esc(x.sec.tip)}</p>` : ""}
+          ${x.its.length ? `<p class="br-label" style="margin:16px 0 6px">${x.its.length} ${esc(G.itemNoun || "item")}${x.its.length > 1 ? "s" : ""} in this group</p><ul class="its">${x.its.map(it => `<li><b>${esc(it.name)}</b>${keyField.map(f => { const v = val(f, it); return v && v !== x.c.name ? ` <span class="k">${esc(v)}</span>` : ""; }).join("")}${line(it) ? ` — ${esc(line(it))}` : ""}</li>`).join("")}</ul>` : ""}
+        </section>`;
+      const first = t => { const m = String(t || "").match(/^.*?[.!?](\s|$)/); return m ? m[0] : String(t || ""); };
       view.innerHTML = `<div class="br-top"><button class="br-quit" id="br-quit" aria-label="Back to the game menu"><span aria-hidden="true">←</span> Menu</button><span class="br-label" style="margin:0">Study notes · ${esc(G.title)}</span></div>
         <div class="br-notes">
-          ${diagramSVG(null) ? `<div class="br-notesart" aria-hidden="true">${diagramSVG(null)}</div>` : ""}
-          <p class="intro">${esc(N.intro || "")}</p>
-          ${(N.sections || []).map((sec, si) => {
-            const c = G.catMap[sec.cat] || {}, its = G.items.filter(it => sec.cat && it.cat === sec.cat);
-            return `<section class="br-note"><h3><i style="background:var(--${c.color || "cat-mint"})">${c.icon && BGX.icon ? BGX.icon(c.icon) : ""}</i>${esc(sec.title || c.name || "")}</h3>
-              <p>${esc(sec.about || "")}</p>
-              ${sec.points && sec.points.length ? `<ul class="pts">${sec.points.map(x => `<li>${esc(x)}</li>`).join("")}</ul>` : ""}
-              ${its.length ? `<details${si < 2 ? " open" : ""}><summary>${its.length} ${esc(G.itemNoun || "item")}${its.length > 1 ? "s" : ""} in this group</summary><ul class="its">${its.map(it => `<li><b>${esc(it.name)}</b>${keyField.map(f => { const v = val(f, it); return v && v !== c.name ? ` <span class="k">${esc(v)}</span>` : ""; }).join("")}${line(it) ? ` — ${esc(line(it))}` : ""}</li>`).join("")}</ul></details>` : ""}
-              ${sec.tip ? `<p class="tip"><b>Memory tip</b> ${esc(sec.tip)}</p>` : ""}</section>`;
-          }).join("")}
+          <div class="br-notesintro">${diagramSVG(null) ? `<div class="br-notesart" aria-hidden="true">${diagramSVG(null)}</div>` : ""}<p class="intro">${esc(N.intro || "")}</p></div>
+          <p class="br-label" style="margin:16px 0 8px">${secs.length} topic${secs.length > 1 ? "s" : ""}: tap one to read it</p>
+          <div class="br-notecards">${secs.map((x, i) => `<button class="br-notecard" type="button" data-s="${i}">${iconHTML(x.c)}<span><b>${esc(x.title)}</b><span class="l">${esc(first(x.sec.about))}</span>
+            <small>${x.its.length ? `${x.its.length} ${esc(G.itemNoun || "item")}${x.its.length > 1 ? "s" : ""} · ` : ""}${x.sec.tip ? "memory tip" : "key points"}</small></span><span class="go" aria-hidden="true">›</span></button>`).join("")}</div>
           ${N.outro ? `<p class="intro">${esc(N.outro)}</p>` : ""}
           <div class="br-btns" style="margin-top:18px"><button class="br-next" id="br-play">I'm ready: choose a game</button></div>
         </div>`;
       $("#br-quit").onclick = menu; $("#br-play").onclick = () => { BGX.sfx.tap(); menu(); window.scrollTo({ top: 0, behavior: BGX.RM ? "auto" : "smooth" }); };
+      view.querySelectorAll("[data-s]").forEach(btn => btn.onclick = () => {
+        BGX.sfx.tap(); const i = +btn.dataset.s;
+        BGX.sheet({ label: "Study notes: " + secs[i].title, html: secBody(secs[i]), wide: true,
+          nav: { count: secs.length, index: i, render: k => ({ html: secBody(secs[k]) }) } });
+      });
       const got = BGX.xp.once("notes_" + G.id, 25);
       if (got) setTimeout(() => BGX.toast(`+${got} XP for opening the study notes`), 400);
     }
@@ -261,16 +284,21 @@
     open: m => {
       view.classList.remove("menu-in");
       const dim = G.sets && S.set < G.items.length ? S.set : 0;
-      view.innerHTML = `<div class="br-top"><button class="br-quit" id="br-quit" aria-label="Back to the game menu"><span aria-hidden="true">←</span> Menu</button><span class="br-label" style="margin:0">Tap any ${esc(G.itemNoun || "card")}</span></div>`
-        + (G.map ? mapHTML({ dimBeyond: dim }) : `<div class="br-cardlist">${pool().map(it => `<button class="br-cell br-card-tile" data-i="${it._i}" style="background:${catBg(it)}" aria-label="${esc(it.name)}"><small>${esc(val(G.tile.corner, it))}</small>${bigHTML(it)}<em>${esc(it.name)}</em></button>`).join("")}</div>`)
-        + `<div class="br-legend">${G.categories.map(c => `<span><i style="background:var(--${c.color})"></i>${esc(c.name)}</span>`).join("")}</div><div id="br-detail"></div>`;
+      const list = G.map ? G.items : pool();
+      view.innerHTML = `<div class="br-top"><button class="br-quit" id="br-quit" aria-label="Back to the game menu"><span aria-hidden="true">←</span> Menu</button><span class="br-label" style="margin:0">Tap any ${esc(G.itemNoun || "card")} to open it</span></div>`
+        + (G.map ? mapHTML({ dimBeyond: dim }) : `<div class="br-cardlist">${list.map(it => `<button class="br-cell br-card-tile" data-i="${it._i}" style="background:${catBg(it)}" aria-label="${esc(it.name)}"><small>${esc(val(G.tile.corner, it))}</small>${bigHTML(it)}<em>${esc(it.name)}</em></button>`).join("")}</div>`)
+        + `<div class="br-legend">${G.categories.map(c => `<span><i style="background:var(--${c.color})"></i>${esc(c.name)}</span>`).join("")}</div>`;
       $("#br-quit").onclick = menu;
-      view.querySelectorAll(".br-cell[data-i]").forEach(c => c.onclick = () => { BGX.sfx.tap(); detail(G.items[+c.dataset.i]); if (innerWidth < 700) $("#br-detail").scrollIntoView({ behavior: "smooth", block: "nearest" }); });
-      const st = G.explore && G.explore.start != null ? G.items.find(x => x.num === G.explore.start) : null;
-      detail(st || G.items[0]);
+      view.querySelectorAll(".br-cell[data-i]").forEach(c => c.onclick = () => {
+        BGX.sfx.tap();
+        const it = G.items[+c.dataset.i], idx = Math.max(0, list.indexOf(it));
+        BGX.sheet({ label: it.name, html: detailHTML(it), wide: true,
+          nav: { count: list.length, index: idx, render: k => ({ html: detailHTML(list[k]) }) },
+          onClose: k => { const cell = view.querySelector(`.br-cell[data-i="${list[k]._i}"]`); if (cell) cell.focus({ preventScroll: false }); } });
+      });
     }
   };
-  function detail(it) {
+  function detailHTML(it) {
     const pics = (G.explore && G.explore.pictures) || [], I = BGX.illus;
     const figs = pics.map(p => {
       if (p === "sample") { const k = I.lookOf(it)[0]; return `<figure>${I.sample(it)}<figcaption>${it.syn || k === "r" ? "Too rare or short-lived to see" : "What it looks like"}</figcaption></figure>`; }
@@ -278,12 +306,12 @@
       if (p === "shells") return `<figure>${I.shells(it)}<figcaption>Electron shells: ${I.shellCounts(it).join(" · ")}</figcaption></figure>`;
       return "";
     }).join("") + (diagramSVG(it) ? `<figure class="is-dg">${diagramSVG(it)}<figcaption>${esc(it.spotCaption || G.diagramCaption || "Where it is")}</figcaption></figure>` : "");
-    $("#br-detail").innerHTML = `<div class="br-detail br-pop">
+    return `<div class="br-detail">
       ${tileHTML(it, "is-md")}
       <div style="min-width:0"><h3>${esc(it.name)}</h3>
         <dl>${(G.detail || []).map(d => `<dt>${esc(d.label)}</dt><dd>${d.format === "config" ? confHTML(val(d.field, it)) : esc(val(d.field, it))}</dd>`).join("")}</dl></div></div>
-      ${figs ? `<div class="br-pics br-pop">${figs}</div>` : ""}
-      <div class="br-about br-pop">
+      ${figs ? `<div class="br-pics">${figs}</div>` : ""}
+      <div class="br-about">
         ${it.summary || it.discovered || it.nameFrom ? `<div class="sum"><p class="br-label">Quick summary</p>${it.summary ? `<p>${esc(it.summary)}</p>` : ""}
           ${it.discovered || it.nameFrom ? `<dl>${it.discovered ? `<dt>Discovered</dt><dd>${esc(it.discovered)}</dd>` : ""}${it.nameFrom ? `<dt>Name comes from</dt><dd>${esc(it.nameFrom)}</dd>` : ""}</dl>` : ""}</div>` : ""}
         ${it.facts && it.facts.length ? `<div class="facts"><p class="br-label">Key facts</p><ul>${it.facts.map(f => `<li>${esc(f)}</li>`).join("")}</ul></div>` : ""}

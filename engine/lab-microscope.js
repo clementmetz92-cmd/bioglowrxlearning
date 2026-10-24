@@ -649,7 +649,7 @@
     const q = $("#mic-q");
     q.innerHTML = `<p class="br-label">What tissue is on this slide?</p><div class="br-answers">${st.P.choices.map(c => `<button class="br-ans is-small" data-c="${c}">${esc(SPECS[c].name)}</button>`).join("")}</div>`;
     q.querySelectorAll("[data-c]").forEach(b => b.onclick = () => answerId(b));
-    q.scrollIntoView({ behavior: BGX.RM ? "auto" : "smooth", block: "nearest" });
+    // (shown in the docked task panel: no page scrolling)
   }
   function answerId(b) {
     const ok = b.dataset.c === st.P.id, q = $("#mic-q");
@@ -672,7 +672,7 @@
       box.insertAdjacentHTML("beforeend", `<p class="mic-clue ${ok ? "is-ok" : "is-no"}"><b>${ok ? "Right." : "Not quite."}</b> ${explain}</p>`);
       then();
     });
-    box.scrollIntoView({ behavior: BGX.RM ? "auto" : "smooth", block: "nearest" });
+    // (shown in the docked task panel: no page scrolling)
   }
   function magQuestion() {
     choiceQ("Calculate: total magnification", `<p>The eyepiece is <b>10×</b> and you are on the <b>40×</b> objective. How many times bigger than life does the tissue look?</p>`,
@@ -704,7 +704,7 @@
         render(); BGX.sfx.tap();
         warn("Old slide off, stage lowered. The nosepiece is still on " + st.obj + "×.");
       };
-      $("#mic-nextslide").scrollIntoView({ behavior: BGX.RM ? "auto" : "smooth", block: "nearest" });
+      // (shown in the docked task panel: no page scrolling)
     } else finish();
   }
 
