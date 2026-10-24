@@ -116,4 +116,5 @@ Data files are JavaScript, so a problem can pick its own numbers:
   "tip": "Optional extra line."
 }]
 ```
+Negative answers: add `"signed": true` to the problem (type the minus sign). The out-by-1,000 nudge names `g ↔ mg ↔ mcg, L ↔ mL` unless the problem or game sets `"thousand": "J ↔ kJ"`.
 Answers off by 10, 100 or 1,000 get an automatic "check the decimal point / unit conversion" nudge. Commas are accepted as decimal points.

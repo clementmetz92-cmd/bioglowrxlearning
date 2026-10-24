@@ -22,14 +22,13 @@
     if (kind === "solid") {
       const n = 5, s = (w - 8) / n;
       for (let i = 0; i < n; i++) for (let j = 0; j < n; j++) dots.push(P(x + 4 + s * (i + .5), y + h - 4 - s * (j + .5), pr.toFixed(1)));
-      dots.push(`<path d="M${x + 4 + s * .5 - pr - 3} ${y + h - 4 - s * 4.5} q-2 -3 0 -6 M${x + 4 + s * 4.5 + pr + 3} ${y + h - 4 - s * 4.5} q2 -3 0 -6" stroke="${MUT}" fill="none" stroke-width=".8"/>`);
     } else if (kind === "liquid") {
       const cols = 5, s = (w - 8) / cols;
       for (let j = 0; j < 4; j++) for (let i = 0; i < cols; i++) { if (j === 3 && i % 2) continue; dots.push(P(x + 4 + s * (i + .5) + (r() - .5) * 4, y + h - 4 - s * (j + .5) + (r() - .5) * 3, pr.toFixed(1))); }
     } else {
-      const pts = [[.18, .2], [.7, .14], [.45, .45], [.15, .72], [.82, .6], [.58, .85]];
+      const pts = [[.22, .22], [.72, .2], [.46, .48], [.2, .74], [.78, .6], [.58, .8]];
       pts.forEach(([u, v], i) => { const cx = x + u * w, cy = y + v * h; dots.push(P(cx, cy, pr.toFixed(1)));
-        const a = i * 1.7; dots.push(`<path d="M${f1(cx + Math.cos(a) * (pr + 2))} ${f1(cy + Math.sin(a) * (pr + 2))} L${f1(cx + Math.cos(a) * (pr + 9))} ${f1(cy + Math.sin(a) * (pr + 9))}" stroke="${MUT}" stroke-width="1" stroke-linecap="round"/>`); });
+        const a = i * 1.7; dots.push(`<path d="M${f1(cx + Math.cos(a) * (pr + 2))} ${f1(cy + Math.sin(a) * (pr + 2))} L${f1(cx + Math.cos(a) * (pr * 2.4))} ${f1(cy + Math.sin(a) * (pr * 2.4))}" stroke="${MUT}" stroke-width="1" stroke-linecap="round"/>`); });
     }
     return `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="5" fill="#fff" stroke="${hl ? HL : "#9fb3c4"}" stroke-width="${hl ? 2.6 : 1.4}"${hl ? ' class="dg-hl"' : ""}/>` + dots.join("");
   }
@@ -138,7 +137,7 @@
       `<path d="M${pts.map(p => p.join(" ")).join(" L")}" fill="none" stroke="${INK}" stroke-width="2.4" stroke-linejoin="round"/>` +
       `<g class="dg-hl"><path d="M44 100 H62 M92 52 H128" stroke="${HL}" stroke-width="4" stroke-linecap="round"/></g>` +
       `<path d="M20 100 H44 M20 52 H92" stroke="${MUT}" stroke-dasharray="3 3"/>` + T(23, 98, 7, 800, INK, "0 °C", "start") + T(23, 50, 7, 800, INK, "100 °C", "start") +
-      T(53, 114, 7.5, 800, HL, "melt") + T(110, 66, 7.5, 800, HL, "boil") + T(34, 120, 7, 700, MUT, "ice", "end") + T(70, 84, 7, 700, MUT, "water", "start") + T(132, 38, 7, 700, MUT, "steam", "end");
+      T(53, 94, 7.5, 800, HL, "melt") + T(110, 66, 7.5, 800, HL, "boil") + T(38, 122, 7, 700, MUT, "ice", "start") + T(80, 92, 7, 700, MUT, "water", "start") + T(132, 38, 7, 700, MUT, "steam", "end");
   }
 
   BGX.DIAGRAMS.states = item => {

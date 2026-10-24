@@ -145,7 +145,7 @@ ${dg.tag(46, 122, ci)}${dg.tag(114, 122, ai)}
     if (item && (sp === "polar" || sp === "nonpolar")) return dg.frame(covalent(p, item, sp === "polar"), `${sp === "polar" ? "Polar" : "Non-polar"} covalent bond: ${item.name}`, ["#F7FAF3", "#E2EDD8"]);
     if (item && sp === "lonepair") return dg.frame(grads(p, ["N", "H"]) + shape3D(p, "trigpyr", "N", "H", { hlLone: true, arc: false }) + dg.tag(80, 146, "NH₃: 1 lone pair on N"), "A lone pair on nitrogen in ammonia");
     if (item && sp === "dipole") return dg.frame(grads(p, ["O", "H"]) + shape3D(p, "bent", "O", "H", { arc: false, cy: 66 }) +
-      T(40, 112, 11, 900, INK, "δ+") + T(120, 112, 11, 900, INK, "δ+") + T(80, 40, 11, 900, HL, "δ−") +
+      T(40, 112, 11, 900, INK, "δ+") + T(120, 112, 11, 900, INK, "δ+") + T(108, 72, 11, 900, HL, "δ−") +
       `<g class="dg-hl"><path d="M80 120 V92" stroke="${HL}" stroke-width="2.6"/><path d="M75 98 L80 91 L85 98" fill="none" stroke="${HL}" stroke-width="2.6"/><path d="M75 114 H85" stroke="${HL}" stroke-width="2.6"/></g>` +
       dg.tag(80, 146, "H₂O dipole ≈ 1.85 D"), "Water's dipole points towards oxygen");
     if (item && IDEA[sp]) return dg.frame(IDEA[sp](p), item.name);

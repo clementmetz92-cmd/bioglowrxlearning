@@ -249,7 +249,7 @@ BGX.registerGame({
     "answer": v => v.l * 1000, "formula": "mL = L × 1,000",
     "steps": ["Litres to the smaller unit millilitres: multiply by 1,000", "= {l} × 1,000", "= {answer}"] },
   { "id": "ug-mg", "cat": "units", "title": "Micrograms to milligrams", "spot": "p-micro", "unit": "mg", "dp": 3,
-    "make": () => pick([{ d: "folic acid", ug: 400 }, { d: "vitamin B12", ug: 1000 }, { d: "vitamin B12", ug: 250 }, { d: "vitamin D", ug: 25 }, { d: "levothyroxine", ug: 50 }, { d: "levothyroxine", ug: 125 }, { d: "vitamin K", ug: 2000 }]),
+    "make": () => pick([{ d: "folic acid", ug: 400 }, { d: "vitamin B12", ug: 1000 }, { d: "vitamin B12", ug: 250 }, { d: "vitamin D", ug: 25 }, { d: "levothyroxine", ug: 50 }, { d: "levothyroxine", ug: 125 }, { d: "vitamin B12", ug: 500 }]),
     "text": "A {d} tablet contains {ug} µg (mcg). How many milligrams is that?",
     "answer": v => v.ug / 1000, "formula": "mg = µg ÷ 1,000",
     "steps": ["1 mg = 1,000 µg, so divide by 1,000", "= {ug} ÷ 1,000", "= {answer}"] },
@@ -297,7 +297,7 @@ BGX.registerGame({
   /* ---------- temperature ---------- */
   { "id": "c-k", "cat": "units", "title": "Celsius to kelvin", "spot": "si-K", "unit": "K", "dp": 2,
     "make": () => pick([{ t: "normal body temperature", c: 37 }, { t: "room temperature", c: 25 }, { t: "water boiling at sea level", c: 100 }, { t: "water freezing", c: 0 }, { t: "a vaccine fridge", c: 4 }, { t: "liquid nitrogen boiling", c: -196 }, { t: "dry ice (solid CO₂)", c: -78.5 }]),
-    "text": "What is the temperature of {t}, {c} °C, in kelvin?",
+    "text": "Convert to kelvin: {t}, {c} °C.",
     "answer": v => v.c + 273.15, "formula": "K = °C + 273.15",
     "steps": ["K = °C + 273.15", "= {c} + 273.15", "= {answer}"],
     "hint": (v, x) => Math.abs(x - (v.c + 273)) < 0.001 ? "Add 273.15, not 273 (unless a question tells you to round to 273)." : near(x, v.c - 273.15) ? "To go from °C to K you add 273.15." : "" },
