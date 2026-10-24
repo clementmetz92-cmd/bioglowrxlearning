@@ -73,6 +73,7 @@ BGX.registerGame({
 {
 "name": "Vitamin C and colds",
 "cat": "vit",
+"icon": "nutr-citrus",
 "claim": "Taking vitamin C every day stops you catching colds.",
 "verdict": false,
 "life": "For most people it doesn't prevent colds; at best it may shorten them slightly.",
@@ -87,6 +88,7 @@ BGX.registerGame({
 {
 "name": "Too much vitamin A",
 "cat": "vit",
+"icon": "nutr-carrot",
 "claim": "You can take too much vitamin A.",
 "verdict": true,
 "life": "It is fat-soluble and builds up in the body; high doses can be toxic and harm an unborn baby.",
@@ -102,6 +104,7 @@ BGX.registerGame({
 {
 "name": "Water-soluble means safe",
 "cat": "vit",
+"icon": "nutr-dissolve",
 "claim": "Water-soluble vitamins can never harm you, however much you take.",
 "verdict": false,
 "life": "Very high doses of vitamin B6 over time, for example, can damage nerves.",
@@ -116,6 +119,7 @@ BGX.registerGame({
 {
 "name": "Folic acid and pregnancy",
 "cat": "vit",
+"icon": "nutr-pregnant",
 "claim": "Folic acid before and in early pregnancy lowers the risk of spine and brain defects such as spina bifida.",
 "verdict": true,
 "life": "This is one of the best-proven supplement benefits.",
@@ -131,6 +135,7 @@ BGX.registerGame({
 {
 "name": "Vitamin D in winter",
 "cat": "vit",
+"icon": "nutr-snowflake",
 "claim": "Vitamin D supplements are often advised in autumn and winter in northern countries.",
 "verdict": true,
 "life": "With little strong sunlight, the skin makes less vitamin D in those months.",
@@ -145,6 +150,7 @@ BGX.registerGame({
 {
 "name": "B12 for vegans",
 "cat": "vit",
+"icon": "leaf",
 "claim": "People on a vegan diet need a B12 source such as fortified foods or a supplement.",
 "verdict": true,
 "life": "Plants don't provide reliable B12, and a lack can damage nerves.",
@@ -160,6 +166,7 @@ BGX.registerGame({
 {
 "name": "Iron for energy",
 "cat": "vit",
+"icon": "battery",
 "claim": "Everyone should take iron to boost their energy.",
 "verdict": false,
 "life": "Iron only helps if you are low in it; too much iron is harmful.",
@@ -175,6 +182,7 @@ BGX.registerGame({
 {
 "name": "Calcium and constipation",
 "cat": "vit",
+"icon": "nutr-intestine",
 "claim": "Calcium supplements can cause constipation.",
 "verdict": true,
 "life": "It's one of their most common side effects.",
@@ -189,6 +197,7 @@ BGX.registerGame({
 {
 "name": "Multivitamins vs diet",
 "cat": "claim",
+"icon": "nutr-bottle",
 "claim": "A daily multivitamin can replace a healthy diet.",
 "verdict": false,
 "life": "Food provides fibre and many protective substances that a pill doesn't.",
@@ -203,6 +212,7 @@ BGX.registerGame({
 {
 "name": "Natural means safe",
 "cat": "claim",
+"icon": "nutr-herb",
 "claim": "If a product is 'natural', it is safe.",
 "verdict": false,
 "life": "Many natural substances are powerful drugs or poisons; natural doesn't mean harmless.",
@@ -217,6 +227,7 @@ BGX.registerGame({
 {
 "name": "Detox teas",
 "cat": "claim",
+"icon": "nutr-teacup",
 "claim": "Detox teas cleanse your liver and kidneys.",
 "verdict": false,
 "life": "Your liver and kidneys already do this; there is no good evidence these teas help.",
@@ -231,6 +242,7 @@ BGX.registerGame({
 {
 "name": "Tested like medicines",
 "cat": "claim",
+"icon": "nutr-stamp",
 "claim": "Supplements are tested for safety and benefit in the same way as medicines.",
 "verdict": false,
 "life": "In most countries they can go on sale without the safety and benefit trials that medicines need.",
@@ -245,6 +257,7 @@ BGX.registerGame({
 {
 "name": "Hidden drugs",
 "cat": "claim",
+"icon": "nutr-magnify-pill",
 "claim": "Some supplements sold online have been found to contain hidden prescription drugs.",
 "verdict": true,
 "life": "Health regulators regularly warn about weight-loss and 'performance' products with hidden drugs.",
@@ -259,6 +272,7 @@ BGX.registerGame({
 {
 "name": "Protein powder",
 "cat": "claim",
+"icon": "nutr-protein-tub",
 "claim": "You need protein powder to build muscle.",
 "verdict": false,
 "life": "Most people get enough protein from food; powders are just convenient.",
@@ -273,6 +287,7 @@ BGX.registerGame({
 {
 "name": "St John's wort",
 "cat": "other",
+"icon": "nutr-flower",
 "claim": "St John's wort can interfere with prescription medicines.",
 "verdict": true,
 "life": "It can make some medicines, including the contraceptive pill, work less well.",
@@ -287,6 +302,7 @@ BGX.registerGame({
 {
 "name": "Fish oil and the heart",
 "cat": "other",
+"icon": "nutr-softgel",
 "claim": "Fish oil capsules prevent heart attacks in most healthy people.",
 "verdict": false,
 "life": "Large studies show little benefit for healthy people; eating oily fish is still recommended.",
@@ -301,6 +317,7 @@ BGX.registerGame({
 {
 "name": "Vitamin K and warfarin",
 "cat": "vit",
+"icon": "drop",
 "claim": "Vitamin K supplements can change how warfarin works.",
 "verdict": true,
 "life": "Vitamin K helps blood clot, which works against warfarin.",
@@ -315,6 +332,7 @@ BGX.registerGame({
 {
 "name": "Biotin and blood tests",
 "cat": "vit",
+"icon": "nutr-tube",
 "claim": "High-dose biotin supplements can make some blood test results wrong.",
 "verdict": true,
 "life": "Tell the lab or your doctor if you take biotin, often sold for hair and nails.",
