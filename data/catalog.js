@@ -4,13 +4,13 @@
    To launch a game: set its status to "live" and add  url: "games/<game-id>/index.html". */
 window.BGX_CATALOG = {
   featured: {
-    game: "microscope-lab", eyebrow: "New · 5 hands-on labs, one per subject", title: "Microscope Lab",
-    text: "Clip the slide, focus from 4× to 40× and name the tissue. Also new: Syringe Prep, Food Test Lab and Pulse Lab, plus a clearer Titration Lab with hints. Every game now has study notes and pictures.",
-    url: "games/microscope-lab/index.html", explore: "subjects/anatomy/index.html",
+    game: "dose-calc", eyebrow: "New · Calculator and Case Files games", title: "Dose Calc",
+    text: "Tablets, liquids, weight-based doses and IV rates, with new numbers every round and a \"Show me how\" helper. Also new: Diet Doctor patient cases and Immune Defence.",
+    url: "games/dose-calc/index.html", explore: "subjects/pharmacology/index.html",
     tiles: [
-      { corner: "1", icon: "search", label: "Focus", color: "cat-peach" },
-      { corner: "2", icon: "cell", label: "Tissue", color: "cat-lilac" },
-      { corner: "3", icon: "lab", label: "Lab", color: "cat-sky" }
+      { corner: "D÷H", icon: "pill", label: "Tablets", color: "cat-lilac" },
+      { corner: "kg", icon: "scale", label: "Weight", color: "cat-sage" },
+      { corner: "mL/h", icon: "timer", label: "Pumps", color: "cat-coral" }
     ]
   },
   subjects: [
@@ -67,7 +67,8 @@ window.BGX_CATALOG = {
           tiles: [{corner: "1", icon: "brain", color: "cat-coral"}, {corner: "12", icon: "stomach", color: "cat-sage"}, {corner: "11", icon: "zap", color: "cat-lemon"}] },
         { ch: "18–20", title: "Blood, heart and vessels", icon: "heart", game: "Heart Flow", formats: ["Explore", "Sequence", "Quick Quiz", "Match Pairs"], status: "live", url: "games/heart-flow/index.html",
           tiles: [{corner: "4", icon: "heart", color: "cat-coral"}, {corner: "7", icon: "drop", color: "cat-amber"}, {corner: "14", icon: "zap", color: "cat-lemon"}] },
-        { ch: "21", title: "Immune defences", icon: "shield", game: "Immune Defence", formats: ["Sequence", "Sort It"], status: "next" },
+        { ch: "21", title: "Immune defences", icon: "shield", game: "Immune Defence", formats: ["Explore", "Sequence", "Case Files", "Sort It", "Match Pairs"], status: "live", url: "games/immune-defence/index.html",
+          tiles: [{corner: "1", icon: "shield", color: "cat-sand"}, {corner: "10", icon: "cell", color: "cat-coral"}, {corner: "21", icon: "dna", color: "cat-lilac"}] },
         { ch: "22", title: "Breathing", icon: "lungs", game: "Breath Path", formats: ["Explore", "Sequence", "Quick Quiz", "Match Pairs"], status: "live", url: "games/breath-path/index.html",
           tiles: [{corner: "1", icon: "lungs", color: "cat-sky"}, {corner: "8", icon: "lungs", color: "cat-mint"}, {corner: "9", icon: "muscle", color: "cat-coral"}] },
         { ch: "23–24", title: "Kidneys, fluids and acid-base", icon: "kidney", game: "Kidney Quest", formats: ["Sequence", "Case Files"], status: "soon" },
@@ -95,7 +96,8 @@ window.BGX_CATALOG = {
         { ch: "5–9", title: "Drug families by body system", icon: "pill", game: "Drug Class Sort", formats: ["Explore", "Sort It", "Quick Quiz", "Match Pairs"], status: "live", url: "games/drug-class-sort/index.html",
           tiles: [{corner: "1", icon: "heart", color: "cat-coral"}, {corner: "9", icon: "lungs", color: "cat-sky"}, {corner: "18", icon: "brain", color: "cat-lilac"}] },
         { ch: "10", title: "Pain relief and muscle drugs", icon: "steps", game: "Pain Ladder", formats: ["Sequence", "Case Files"], status: "soon" },
-        { ch: "All", title: "Dose calculations", icon: "scale", game: "Dose Calc", formats: ["Calculator"], status: "next" }
+        { ch: "All", title: "Dose calculations", icon: "scale", game: "Dose Calc", formats: ["Calculator", "Explore", "Quick Quiz", "Match Pairs"], status: "live", url: "games/dose-calc/index.html",
+          tiles: [{corner: "D÷H", icon: "pill", color: "cat-lilac"}, {corner: "kg", icon: "scale", color: "cat-sage"}, {corner: "mL/h", icon: "timer", color: "cat-coral"}] }
       ]
     },
     {
@@ -108,7 +110,8 @@ window.BGX_CATALOG = {
         { ch: "1–2", title: "Nutrition at the doctor's office", icon: "chat", game: "Clinic Basics", formats: ["Quick Quiz"], status: "soon" },
         { ch: "3", title: "Weight and energy balance", icon: "scale", game: "Energy Balance", formats: ["Calculator"], status: "soon" },
         { ch: "4–6", title: "Eating well at every age", icon: "baby", game: "Life-Stage Plates", formats: ["Sort It", "Case Files"], status: "soon" },
-        { ch: "7–10", title: "Diet for heart, blood sugar and gut health", icon: "heart", game: "Diet Doctor", formats: ["Case Files"], status: "next" },
+        { ch: "7–10", title: "Diet for heart, blood sugar and gut health", icon: "heart", game: "Diet Doctor", formats: ["Case Files", "Explore", "Quick Quiz", "Sort It", "Match Pairs"], status: "live", url: "games/diet-doctor/index.html",
+          tiles: [{corner: "1", icon: "heart", color: "cat-coral"}, {corner: "12", icon: "drop", color: "cat-amber"}, {corner: "16", icon: "stomach", color: "cat-sage"}] },
         { ch: "11–12", title: "Vitamins and minerals", icon: "apple", game: "Nutrient Rush", formats: ["Explore", "Quick Quiz", "Sort It", "Match Pairs"], status: "live", url: "games/nutrient-rush/index.html",
           tiles: [{corner: "5", big: "C", color: "cat-sky"}, {corner: "15", big: "Fe", color: "cat-lilac"}, {corner: "2", big: "D", color: "cat-amber"}] },
         { ch: "13–14", title: "Supplements and alternatives", icon: "question", game: "True or Myth: Supplements", formats: ["True or Myth", "Explore"], status: "live", url: "games/supplement-myths/index.html",

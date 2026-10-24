@@ -35,4 +35,4 @@ Note: "continue where you left off" and best scores are saved per browser and pe
 
 - Ads, consent banner and privacy page: Phase 3.
 - New game content (Bone Rush, Drug Class Sort, Nutrient Rush, pH Patrol): Phase 2.
-- The Sequence, Case Files, True or Myth, Build It and Calculator formats are planned and show as "Coming soon".
+- All game formats are now built: Study notes, Card Explorer, Quick Quiz, Find It, Sort It, Match Pairs, Sequence, True or Myth, Build It, Case Files and Calculator Challenge (see `data/README.md`).

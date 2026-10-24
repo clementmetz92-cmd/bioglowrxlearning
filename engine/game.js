@@ -71,7 +71,8 @@
     view.querySelectorAll("[data-set]").forEach(b => b.onclick = () => { BGX.sfx.tap(); S.set = +b.dataset.set; BGX.store.set("set_" + G.id, S.set); menu(); });
     view.querySelectorAll("[data-mode]").forEach(b => b.onclick = () => { const m = G.modes.find(x => x.id === b.dataset.mode); if (m._ready) start(m); });
   }
-  const roundSize = m => m.format === "matchpairs" ? Math.min(m.pairs || 8, G.items.length)
+  const roundSize = m => BGX.formats[m.format] && BGX.formats[m.format].roundSize ? BGX.formats[m.format].roundSize(m)
+    : m.format === "matchpairs" ? Math.min(m.pairs || 8, G.items.length)
     : m.format === "sequence" ? Math.min(m.rounds || 6, (G.sequences || []).length) : Math.min(ROUND, G.items.length);
 
   /* ---------- round runner (question formats) ---------- */
@@ -99,11 +100,11 @@
   function answer(correct, el, target) {
     if (S.answered) return; S.answered = true;
     const q = S.qs[S.i], it = q.item;
-    if (correct) S.score++; else S.wrong.push(it);
+    if (correct) S.score++; else if (S.wrong.indexOf(it) < 0) S.wrong.push(it);
     S.f.reveal(S.mode, q, correct, el);
     BGX.reward(correct, el, { flash: view, milestoneTile: milestoneTile });
-    const sc = view.querySelector(".br-count b"); if (sc) { sc.textContent = S.score; }
-    $("#br-fb").innerHTML = feedbackHTML(it, correct) + `<button class="br-next" id="br-next">${S.i + 1 < S.qs.length ? "Next" : "See score"}</button>`;
+    const sc = view.querySelector(".br-count"); if (sc) sc.innerHTML = `<b>${S.score}</b> / ${S.i + 1}`;
+    $("#br-fb").innerHTML = (S.f.feedback ? S.f.feedback(S.mode, q, correct) : feedbackHTML(it, correct)) + `<button class="br-next" id="br-next">${S.i + 1 < S.qs.length ? "Next" : "See score"}</button>`;
     const nx = $("#br-next"); nx.focus({ preventScroll: true }); nx.onclick = nextQ;
   }
   function feedbackHTML(it, correct) {
@@ -430,6 +431,138 @@
     }
   };
 
-  /* ---------- formats planned in the platform plan (not built yet) ---------- */
-  ["cases", "calculator"].forEach(f => BGX.formats[f] = { soon: true });
+  /* ---------- format: Case Files ----------
+     game.cases: [{ id, title, cat, icon, who, story, data: [[label, value]], spot?, takeaway,
+                    steps: [{ q, options: [...], answer: <index>, why }] }]
+     Each case is a short patient story worked through in steps. Every step answered adds a line to the case file. */
+  const caseItem = c => c._item || (c._item = { name: c.title, cat: c.cat, icon: c.icon, num: "", spot: c.spot, cell: c.cell, life: c.takeaway, _case: c, _i: -1 });
+  const casePool = m => (G.cases || []).filter(c => !m.only || m.only.indexOf(c.cat) >= 0);
+  BGX.formats.cases = {
+    scored: true,
+    roundSize: m => { const P = casePool(m); return Math.min(m.rounds || 3, P.length) * (P[0] ? P[0].steps.length : 3); },   // write every case with the same number of steps
+    makeRound: m => {
+      const qs = [];
+      BGX.shuffle(casePool(m)).slice(0, m.rounds || 3).forEach((c, ci) => c.steps.forEach((st, si) => {
+        const order = BGX.shuffle(st.options.map((t, k) => k));
+        qs.push({ item: caseItem(c), c, st, si, ci, order });
+      }));
+      return qs;
+    },
+    prompt: (m, q) => {
+      const c = q.c, done = S.qs.filter(x => x.c === c && x.si < q.si);
+      return `<div class="br-case${q.si === 0 ? " br-pop" : ""}">
+        <div class="br-casehead"><span class="ic" style="background:${catBg(q.item)}">${BGX.icon(c.icon || catOf(q.item).icon || "clipboard")}</span>
+          <div><p class="br-label">Case ${q.ci + 1} · ${esc(catOf(q.item).name)}</p><h3>${esc(c.title)}</h3></div></div>
+        ${c.who ? `<p class="who">${esc(c.who)}</p>` : ""}
+        <p class="story">${esc(c.story)}</p>
+        ${c.data && c.data.length ? `<dl class="br-casedata">${c.data.map(([k, v]) => `<div><dt>${esc(k)}</dt><dd>${esc(v)}</dd></div>`).join("")}</dl>` : ""}
+        ${done.length ? `<ol class="br-casefound">${done.map(x => `<li><b>${esc(x.st.q)}</b> ${esc(x.st.options[x.st.answer])}</li>`).join("")}</ol>` : ""}
+      </div>
+      <div class="br-casestep"><span class="br-mkey is-item">Step ${q.si + 1} of ${c.steps.length}</span></div>
+      <div class="big is-text br-caseq">${esc(q.st.q)}</div>`;
+    },
+    body: (m, q) => `<div class="br-answers br-caseans">${q.order.map(k => `<button class="br-ans is-small" data-k="${k}">${esc(q.st.options[k])}</button>`).join("")}</div>`,
+    bind: (m, q, answer) => view.querySelectorAll(".br-ans").forEach(b => b.onclick = () => answer(+b.dataset.k === q.st.answer, b)),
+    reveal: (m, q, correct, el) => {
+      view.querySelectorAll(".br-ans").forEach(b => { b.disabled = true; if (+b.dataset.k === q.st.answer) b.classList.add("is-correct"); });
+      if (!correct) el.classList.add("is-wrong");
+    },
+    feedback: (m, q, correct) => {
+      const last = q.si === q.c.steps.length - 1, pic = last ? diagramSVG(q.item) : "";
+      const verdict = correct ? BGX.pick(["Correct!", "Good call.", "Spot on.", "Yes!"]) : "Not quite.";
+      return `<span class="${correct ? "ok" : "no"}">${verdict}</span> <b>${esc(q.st.options[q.st.answer])}</b>
+        <div class="br-why">${esc(q.st.why || "")}</div>
+        ${last && q.c.takeaway ? `<div class="br-fbpic">${pic}<span><b>Case closed.</b> ${esc(q.c.takeaway)}</span></div>` : ""}`;
+    }
+  };
+
+  /* ---------- format: Calculator Challenge ----------
+     game.problems: [{ id, cat, title, icon?, spot?, make?: () => ({...}), vars: { x: [list] | {min,max,step} }, derive?: v => ({...}),
+                       ok?: v => bool, text: "…{x}…", answer: v => number, unit, dp (decimals), tol?,
+                       steps: ["…{x}… = {answer}"], tip? }]
+     mode: { rounds, only: [cats], help: true (a "Show me how" button), formula: true (show item formula chip) } */
+  const nf = (x, dp) => typeof x === "number" ? (+x.toFixed(dp == null ? 4 : dp)).toLocaleString("en-US", { maximumFractionDigits: dp == null ? 4 : dp }) : x;
+  const roundTo = (x, dp) => Math.round(x * Math.pow(10, dp) + 1e-9) / Math.pow(10, dp);
+  function makeVars(p) {
+    for (let t = 0; t < 80; t++) {
+      const v = p.make ? p.make() : {};
+      Object.keys(p.vars || {}).forEach(k => {
+        const d = p.vars[k];
+        if (Array.isArray(d)) v[k] = BGX.pick(d);
+        else { const n = Math.round((d.max - d.min) / (d.step || 1)); v[k] = roundTo(d.min + Math.floor(Math.random() * (n + 1)) * (d.step || 1), 6); }
+      });
+      Object.assign(v, p.derive ? p.derive(v) : {});
+      const a = p.answer(v);
+      if (isFinite(a) && a > 0 && (!p.ok || p.ok(v, a))) { v.answer = a; return v; }
+    }
+    throw new Error("calculator: no valid numbers for " + p.id);
+  }
+  const ctext = (tpl, v, p) => esc(String(tpl)).replace(/\{(\w+)\}/g, (mm, k) => k === "answer" ? `<b>${nf(roundTo(v.answer, p.dp || 0), p.dp || 0)} ${esc(p.unit || "")}</b>` : (v[k] == null ? mm : nf(v[k])));
+  const parseNum = s => { s = String(s).trim().replace(/\s/g, ""); if (/^\d{1,3}(,\d{3})+(\.\d+)?$/.test(s)) s = s.replace(/,/g, ""); else s = s.replace(",", "."); return s === "" || isNaN(+s) ? NaN : +s; };
+  const calcPool = m => (G.problems || []).filter(p => !m.only || m.only.indexOf(p.cat) >= 0);
+  const probItem = p => p._item || (p._item = { name: p.title, cat: p.cat, icon: p.icon, num: "", spot: p.spot, _i: -1 });
+  BGX.formats.calculator = {
+    scored: true,
+    roundSize: m => m.rounds || 8,
+    makeRound: m => {
+      const P = calcPool(m), n = m.rounds || 8, out = [];
+      let bag = [];
+      while (out.length < n) { if (!bag.length) bag = BGX.shuffle(P.slice()); const p = bag.pop(); out.push({ item: probItem(p), p, v: makeVars(p) }); }
+      return out;
+    },
+    prompt: (m, q) => {
+      const p = q.p, it = G.items.find(x => x.cat === p.cat && x.formula);
+      return `<div class="br-case br-calc">
+        <div class="br-casehead"><span class="ic" style="background:${catBg(q.item)}">${BGX.icon(p.icon || catOf(q.item).icon || "scale")}</span>
+          <div><p class="br-label">${esc(catOf(q.item).name)}</p><h3>${esc(p.title)}</h3></div></div>
+        <p class="story">${ctext(p.text, q.v, p)}</p>
+        ${m.formula && (p.formula || it) ? `<p class="br-formula"><span>Use</span> ${esc(p.formula || it.formula)}</p>` : ""}
+      </div>`;
+    },
+    body: (m, q) => `<div class="br-calcin">
+        <label for="br-num" class="br-label">Your answer${q.p.dp ? ` (to ${q.p.dp} decimal place${q.p.dp > 1 ? "s" : ""})` : " (whole number)"}</label>
+        <div class="row"><input id="br-num" type="text" inputmode="decimal" autocomplete="off" spellcheck="false" placeholder="0"><span class="unit">${esc(q.p.unit || "")}</span></div>
+        <div class="br-btns"><button class="br-ghost" id="br-how"${m.help ? "" : " hidden"}>Show me how</button><button class="br-next" id="br-check" disabled>Check</button></div>
+        <div id="br-howbox"></div></div>`,
+    bind: (m, q, answer) => {
+      const inp = $("#br-num"), chk = $("#br-check");
+      inp.oninput = () => { chk.disabled = isNaN(parseNum(inp.value)); };
+      const go = () => {
+        const x = parseNum(inp.value); if (isNaN(x) || S.answered) return;
+        const want = roundTo(q.v.answer, q.p.dp || 0), tol = q.p.tol != null ? q.p.tol : 0;
+        q.given = x;
+        inp.blur();
+        answer(roundTo(x, q.p.dp || 0) === want || Math.abs(x - q.v.answer) <= tol + 1e-9, chk);
+      };
+      chk.onclick = go;
+      inp.onkeydown = ev => { if (ev.key === "Enter") { ev.preventDefault(); ev.stopPropagation(); go(); } };
+      const how = $("#br-how");
+      if (how) how.onclick = () => {
+        BGX.sfx.tap(); q.helped = true; how.disabled = true;
+        const steps = q.p.steps.slice(0, -1);
+        $("#br-howbox").innerHTML = `<div class="br-correct"><p class="br-label">How to work it out</p><ol>${steps.map(t => `<li>${ctext(t, q.v, q.p)}</li>`).join("")}<li>Now do the last step yourself.</li></ol>${q.p.tip ? `<p class="br-tipline">${esc(q.p.tip)}</p>` : ""}</div>`;
+      };
+      if (matchMedia("(pointer:fine)").matches) inp.focus({ preventScroll: true });
+    },
+    reveal: (m, q, correct) => {
+      const inp = $("#br-num"); inp.disabled = true; inp.classList.add(correct ? "is-ok" : "is-no");
+      $("#br-check").disabled = true; const h = $("#br-how"); if (h) h.remove(); $("#br-howbox").innerHTML = "";
+    },
+    feedback: (m, q, correct) => {
+      const p = q.p, v = q.v, x = q.given, a = v.answer;
+      let nudge = "";
+      if (!correct) {
+        const near = r => Math.abs(x - a * r) <= Math.max(Math.abs(a * r) * 0.01, 0.5 * Math.pow(10, -(p.dp || 0)));
+        if (near(1000) || near(0.001)) nudge = "You're out by 1,000: check the unit conversion (g ↔ mg ↔ mcg, L ↔ mL).";
+        else if (near(10) || near(0.1) || near(100) || near(0.01)) nudge = "Your answer is off by a power of ten: check the decimal point.";
+        else if (p.hint) nudge = p.hint(v, x) || "";
+      }
+      const verdict = correct ? BGX.pick(["Correct!", "Spot on.", "Nailed it.", "Yes!"]) + (q.helped ? " (with help)" : "") : `Not quite: you said ${nf(x)} ${esc(p.unit || "")}.`;
+      return `<span class="${correct ? "ok" : "no"}">${verdict}</span> Answer: <b>${nf(roundTo(a, p.dp || 0), p.dp || 0)} ${esc(p.unit || "")}</b>
+        ${nudge ? `<div class="br-why">${esc(nudge)}</div>` : ""}
+        <div class="br-correct br-worked"><p class="br-label">Worked answer</p><ol>${p.steps.map(t => `<li>${ctext(t, v, p)}</li>`).join("")}</ol>${p.tip ? `<p class="br-tipline">${esc(p.tip)}</p>` : ""}</div>`;
+    }
+  };
+  BGX.calc = { makeVars, parseNum, roundTo };
+  BGX.testState = () => S;   // read-only peek for automated play-through tests
 })();

@@ -313,3 +313,45 @@ a { color: inherit; }
   .br-featured .art svg { width: 160px; height: 160px; }
 }
 .br-quit { min-height: 44px; }
+
+/* ---------- Case Files + Calculator Challenge ---------- */
+.br-case { max-width: 620px; margin: 6px auto 0; padding: 14px 16px; border: 1px solid var(--line); border-radius: var(--radius-inner); background: var(--bg); text-align: left; }
+.br-casehead { display: flex; gap: 12px; align-items: center; }
+.br-casehead .ic { flex: none; width: 44px; height: 44px; border-radius: 12px; display: grid; place-items: center; color: var(--tile-ink); }
+.br-casehead .ic svg { width: 26px; height: 26px; }
+.br-casehead .br-label { margin: 0 0 2px; }
+.br-casehead h3 { margin: 0; font-size: 18px; line-height: 1.25; }
+.br-case .who { margin: 12px 0 0; font-weight: 800; font-size: 15px; }
+.br-case .story { margin: 6px 0 0; font-size: 16px; line-height: 1.5; }
+.br-case .story b { white-space: nowrap; }
+.br-casedata { display: flex; flex-wrap: wrap; gap: 6px; margin: 12px 0 0; }
+.br-casedata div { padding: 5px 10px; border-radius: var(--radius-pill); background: var(--surface); border: 1px solid var(--line); font-size: 13px; }
+.br-casedata dt { display: inline; color: var(--muted); font-weight: 600; margin-right: 5px; }
+.br-casedata dd { display: inline; margin: 0; font-weight: 800; font-family: var(--font-mono); }
+.br-casefound { margin: 12px 0 0; padding: 10px 12px 10px 30px; border-radius: 10px; background: var(--good-tint); font-size: 14px; display: grid; gap: 4px; }
+.br-casefound b { margin-right: 4px; }
+.br-casestep { text-align: center; margin: 14px 0 -4px; }
+.br-prompt .big.br-caseq { font-size: 20px; line-height: 1.35; max-width: 620px; margin: 10px auto 0; }
+@media (max-width: 520px) { .br-prompt .big.br-caseq { font-size: 18px; } }
+.br-caseans { grid-template-columns: 1fr; max-width: 620px; margin-left: auto; margin-right: auto; }
+.br-caseans .br-ans { min-height: 54px; font-size: 16px; font-weight: 700; text-align: left; padding: 10px 16px; line-height: 1.35; }
+.br-why { max-width: 620px; margin: 8px auto 0; color: var(--ink); text-align: left; font-size: 15px; }
+.br-formula { margin: 12px 0 0; font: 700 15px var(--font-mono); }
+.br-formula span { font: 600 11px var(--font-mono); letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin-right: 6px; }
+.br-calcin { max-width: 420px; margin: 18px auto 0; text-align: center; }
+.br-calcin .row { display: flex; align-items: center; gap: 10px; justify-content: center; }
+.br-calcin input { width: 170px; min-height: var(--tap-min, 48px); padding: 10px 14px; font: 800 26px var(--font-mono); text-align: center; color: var(--ink); background: var(--surface); border: 2px solid var(--line); border-radius: var(--radius-inner); }
+.br-calcin input:focus { outline: none; border-color: var(--accent); }
+.br-calcin input.is-ok { border-color: var(--good); background: var(--good-tint); }
+.br-calcin input.is-no { border-color: var(--bad); background: var(--bad-tint); }
+.br-calcin .unit { font: 800 20px var(--font-mono); color: var(--muted); min-width: 30px; text-align: left; }
+.br-calcin .br-btns { justify-content: center; margin-top: 14px; }
+.br-calcin [hidden] { display: none; }
+.br-correct { text-align: left; color: var(--ink); }
+.br-worked { margin-top: 12px; }
+.br-tipline { margin: 8px 0 0; font-size: 13px; color: var(--muted); }
+@media (max-width: 520px) {
+  .br-case { padding: 12px 13px; }
+  .br-case .story { font-size: 15px; }
+  .br-calcin input { width: 140px; font-size: 24px; }
+}

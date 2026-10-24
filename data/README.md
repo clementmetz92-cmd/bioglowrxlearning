@@ -70,7 +70,48 @@ Write everything in our own words, never copied from the textbook.
 | `findit` | Find It: tap the right spot on the map | `prompt`; needs `map` and `row`/`col` on items |
 | `sortit` | Sort It: pick the item's category | `prompt` |
 | `matchpairs` | Match Pairs: flip cards to pair item and clue | `pairs` (default 8), `clue` (field), `clueLabel` ("Where", "Lack of") |
-| `sequence`, `cases`, `truemyth`, `buildit`, `calculator` | Planned, shown as "Coming soon" | to be built |
+| `sequence` | Put it in order: tap steps into slots | uses `sequences` (below); `rounds`, `only` (sequence ids) |
+| `truemyth` | True or Myth: two big buttons | items need `claim`, `verdict` (true/false); `labels` to rename the buttons |
+| `buildit` | Build It with +/− steppers | `parts: [{ label, field, max }]`, `draw: "atom"` |
+| `cases` | Case Files: a patient story worked through in steps | uses `cases` (below); `rounds` (cases per round, default 3), `only` (category ids) |
+| `calculator` | Calculator Challenge: type a number, new numbers every time | uses `problems` (below); `rounds` (default 8), `only` (category ids), `help: true` ("Show me how"), `formula: true` (show the formula) |
 
 Every mode also takes `id`, `title`, `desc`, `icon` (a short glyph) and `color` (a `cat-*` token).
 Streaks, confetti, sounds, milestones and the review screen are automatic.
+
+### Case Files (`cases`)
+
+```js
+"cases": [{
+  "id": "h1", "cat": "heart", "icon": "heart", "title": "Salt and pressure",
+  "who": "Robert, 54, office manager",
+  "story": "What the patient says and what you see.",
+  "data": [["Blood pressure", "152/96 mmHg"]],       // small chips under the story
+  "spot": "heart",                                     // optional: diagram highlight on the last step
+  "steps": [                                           // give every case the same number of steps (3)
+    { "q": "Question", "options": ["Right answer", "Wrong", "Wrong", "Wrong"], "answer": 0, "why": "Shown after answering." }
+  ],
+  "takeaway": "One line shown when the case is closed."
+}]
+```
+Options are shuffled when played, so the right one can always be written first. Each answered step is added to the case file.
+
+### Calculator Challenge (`problems`)
+
+Data files are JavaScript, so a problem can pick its own numbers:
+
+```js
+"problems": [{
+  "id": "tab", "cat": "tablets", "title": "Tablets to give", "spot": "tablets",
+  "unit": "tablets", "dp": 1,                 // decimals expected; answers are compared after rounding to dp
+  "make": () => ({ drug: "metoprolol", h: 25, d: pick([12.5, 25, 50]) }),   // or  "vars": { "g": [0.5, 1, 2] }
+  "ok": (v, answer) => true,                  // optional: reject number combinations
+  "text": "Order: {drug} {d} mg. Tablets: {h} mg. How many tablets?",
+  "answer": v => v.d / v.h,
+  "formula": "D ÷ H",                         // optional; otherwise the category's item formula is shown
+  "steps": ["Tablets = D ÷ H", "= {d} mg ÷ {h} mg", "= {answer}"],   // last step is hidden in "Show me how"
+  "hint": (v, given) => "",                   // optional: a nudge for a typical wrong answer
+  "tip": "Optional extra line."
+}]
+```
+Answers off by 10, 100 or 1,000 get an automatic "check the decimal point / unit conversion" nudge. Commas are accepted as decimal points.
