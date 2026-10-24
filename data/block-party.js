@@ -214,7 +214,7 @@ const ITEMS = [
     "why": "True. Mercury melts at −39 °C, the only metal that is liquid at room temperature." }
 ];
 /* the trend reason behind each True-or-Myth claim is shown after every answer and listed with the facts */
-ITEMS.forEach(it => { it.trend = it.why.replace(/^(True|Myth)\. /, ""); it.facts.push("Trend check: " + it.trend); });
+ITEMS.forEach(it => { it.spot = it.symbol; it.trend = it.why.replace(/^(True|Myth)\. /, ""); it.facts.push("Trend check: " + it.trend); });
 const taken = new Set(ITEMS.map(it => it.row + "," + it.col));
 const placeholders = [];
 PERIODS.forEach((r, ri) => r.forEach((sym, ci) => { if (sym && !taken.has(ri + "," + (ci + 1))) placeholders.push({ row: ri, col: ci + 1, label: sym }); }));
@@ -248,6 +248,7 @@ BGX.registerGame({
 "map": { "cols": 18, "tip": "Grey outlines are the other elements, to help you find your way. Turn your phone sideways for bigger tiles.", "placeholders": placeholders },
 "diagram": "ptable",
 "diagramCaption": "Where it sits",
+"diagramPerItem": true,
 "modes": [
   { "id": "explore", "format": "explorer", "title": "Explore the blocks", "desc": "Tap an element to see its block, family and use in the body.", "icon": "◎", "color": "cat-peach" },
   { "id": "find", "format": "findit", "title": "Find it on the table", "desc": "Tap where the element lives.", "icon": "⌖", "color": "cat-mint", "prompt": "Tap where this element sits" },
