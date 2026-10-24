@@ -70,7 +70,7 @@
       return `${torso}${tape(80, 27, !hip)}${tape(112, 37, hip)}
         ${T(140, 76, 7.5, 800, hip ? MUTED : HL, "waist")}${T(144, 116, 7.5, 800, hip ? HL : MUTED, "hips")}
         <rect x="8" y="128" width="144" height="26" rx="8" fill="#fff" opacity=".92"/>
-        ${hip ? T(80, 139, 8, 800, INK, "ratio = waist ÷ hips") + T(80, 150, 7, 700, MUTED, "high: >0.90 men · >0.85 women")
+        ${hip ? T(80, 139, 8, 800, INK, "ratio = waist ÷ hips") + T(80, 150, 7, 700, MUTED, "high: ≥0.90 men · ≥0.85 women")
               : T(80, 139, 8, 800, INK, "at the top of the hip bones") + T(80, 150, 7, 700, MUTED, "high: >102 cm men · >88 cm women")}`;
     },
 

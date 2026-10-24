@@ -15,6 +15,10 @@ window.BGX_CATALOG = {
   },
   /* Home-page carousel: switches every 6 seconds (pauses on hover, focus or the pause button). Order = order shown. */
   featuredList: [
+    { game: "nutrition-pack", eyebrow: "New · Nutrition, complete", title: "Every Nutrition chapter",
+      text: "Five new games finish the course: nutrition assessment, energy balance, eating at every life stage, coaching behaviour change, and a full mock exam.",
+      url: "games/exam-prep/index.html", explore: "subjects/nutrition/index.html", exploreLabel: "All Nutrition games", play: "Try the mock exam",
+      tiles: [{ corner: "BMI", icon: "scale", label: "Assess", color: "cat-sky" }, { corner: "kcal", icon: "apple", label: "Energy", color: "cat-amber" }, { corner: "Q", icon: "book", label: "Exam", color: "cat-lilac" }] },
     { game: "anatomy-pack", eyebrow: "New · Anatomy & Physiology, complete", title: "Every body system",
       text: "Eleven new games finish the book: body map, biomolecules, tissues, skin, joints, muscles, nerves and brain, senses, kidneys and acid–base, reproduction, development.",
       url: "games/neuron-relay/index.html", explore: "subjects/anatomy/index.html", exploreLabel: "All Anatomy games", play: "Start with Neuron Relay",
@@ -39,10 +43,6 @@ window.BGX_CATALOG = {
       text: "Tablets, liquids, weight-based doses and IV rates, with new numbers every round and a \"Show me how\" helper.",
       url: "games/dose-calc/index.html", explore: "subjects/pharmacology/index.html", exploreLabel: "All Pharmacology",
       tiles: [{ corner: "D÷H", icon: "pill", label: "Tablets", color: "cat-lilac" }, { corner: "kg", icon: "scale", label: "Weight", color: "cat-sage" }, { corner: "mL/h", icon: "timer", label: "Pumps", color: "cat-coral" }] },
-    { game: "diet-doctor", eyebrow: "New · Case Files", title: "Diet Doctor",
-      text: "Thirteen patient cases on blood pressure, cholesterol, diabetes and gut health. Spot the problem, choose the diet, pick the food.",
-      url: "games/diet-doctor/index.html", explore: "subjects/nutrition/index.html", exploreLabel: "All Nutrition",
-      tiles: [{ corner: "1", icon: "heart", label: "Heart", color: "cat-coral" }, { corner: "2", icon: "drop", label: "Sugar", color: "cat-amber" }, { corner: "3", icon: "stomach", label: "Gut", color: "cat-sage" }] },
     { game: "microscope-lab", eyebrow: "Hands-on lab", title: "Microscope Lab",
       text: "Clip the slide, focus from 4× to 40× and name the tissue. One hands-on lab for every subject.",
       url: "games/microscope-lab/index.html", explore: "subjects/anatomy/index.html", exploreLabel: "All Anatomy" },
@@ -168,17 +168,22 @@ window.BGX_CATALOG = {
         { id: "food-test-lab", ch: "11–12", title: "Food Test Lab", icon: "beaker", text: "Use iodine, Benedict's and biuret tests to find starch, sugar and protein in foods.", status: "live", url: "games/food-test-lab/index.html" }
       ],
       chapters: [
-        { ch: "1–2", title: "Nutrition at the doctor's office", icon: "chat", game: "Clinic Basics", formats: ["Quick Quiz"], status: "soon" },
-        { ch: "3", title: "Weight and energy balance", icon: "scale", game: "Energy Balance", formats: ["Calculator"], status: "soon" },
-        { ch: "4–6", title: "Eating well at every age", icon: "baby", game: "Life-Stage Plates", formats: ["Sort It", "Case Files"], status: "soon" },
+        { ch: "1–2", title: "Nutrition at the doctor's office", icon: "chat", game: "Clinic Basics", formats: ["Explore", "Quick Quiz", "Sort It", "Match Pairs", "Case Files", "Calculator"], status: "live", url: "games/clinic-basics/index.html",
+          tiles: [{corner: "A", icon: "scale", color: "cat-sky"}, {corner: "B", icon: "drop", color: "cat-coral"}, {corner: "D", icon: "clipboard", color: "cat-sage"}] },
+        { ch: "3", title: "Weight and energy balance", icon: "scale", game: "Energy Balance", formats: ["Explore", "Quick Quiz", "Sort It", "Match Pairs", "True or Myth", "Calculator"], status: "live", url: "games/energy-balance/index.html",
+          tiles: [{corner: "in", icon: "apple", color: "cat-amber"}, {corner: "out", icon: "run", color: "cat-mint"}, {corner: "kcal", icon: "scale", color: "cat-coral"}] },
+        { ch: "4–6", title: "Eating well at every age", icon: "baby", game: "Life-Stage Plates", formats: ["Explore", "Quick Quiz", "Sort It", "Match Pairs", "True or Myth", "Case Files"], status: "live", url: "games/life-stage-plates/index.html",
+          tiles: [{corner: "1", icon: "baby", color: "cat-peach"}, {corner: "2", icon: "plate", color: "cat-sage"}, {corner: "3", icon: "heart", color: "cat-lilac"}] },
         { ch: "7–10", title: "Diet for heart, blood sugar and gut health", icon: "heart", game: "Diet Doctor", formats: ["Case Files", "Explore", "Quick Quiz", "Sort It", "Match Pairs"], status: "live", url: "games/diet-doctor/index.html",
           tiles: [{corner: "1", icon: "heart", color: "cat-coral"}, {corner: "12", icon: "drop", color: "cat-amber"}, {corner: "16", icon: "stomach", color: "cat-sage"}] },
         { ch: "11–12", title: "Vitamins and minerals", icon: "apple", game: "Nutrient Rush", formats: ["Explore", "Quick Quiz", "Sort It", "Match Pairs"], status: "live", url: "games/nutrient-rush/index.html",
           tiles: [{corner: "5", big: "C", color: "cat-sky"}, {corner: "15", big: "Fe", color: "cat-lilac"}, {corner: "2", big: "D", color: "cat-amber"}] },
         { ch: "13–14", title: "Supplements and alternatives", icon: "question", game: "True or Myth: Supplements", formats: ["True or Myth", "Explore"], status: "live", url: "games/supplement-myths/index.html",
           tiles: [{corner: "1", icon: "drop", color: "cat-amber"}, {corner: "15", icon: "leaf", color: "cat-sage"}, {corner: "9", icon: "question", color: "cat-lilac"}] },
-        { ch: "15–17", title: "Changing habits, community and culture", icon: "chat", game: "Coach Talk", formats: ["Case Files"], status: "soon" },
-        { ch: "Review", title: "Exam practice", icon: "book", game: "Exam Prep", formats: ["Quick Quiz"], status: "soon" }
+        { ch: "15–17", title: "Changing habits, community and culture", icon: "chat", game: "Coach Talk", formats: ["Explore", "Quick Quiz", "Sort It", "Match Pairs", "Sequence", "Case Files"], status: "live", url: "games/coach-talk/index.html",
+          tiles: [{corner: "1", icon: "steps", color: "cat-mint"}, {corner: "2", icon: "chat", color: "cat-sky"}, {corner: "3", icon: "check", color: "cat-amber"}] },
+        { ch: "Review", title: "Exam practice", icon: "book", game: "Exam Prep", formats: ["Explore", "Quick Quiz", "Sort It", "True or Myth", "Match Pairs", "Case Files"], status: "live", url: "games/exam-prep/index.html",
+          tiles: [{corner: "Q", icon: "book", color: "cat-lilac"}, {corner: "✓", icon: "check", color: "cat-sage"}, {corner: "?", icon: "question", color: "cat-amber"}] }
       ]
     },
     {
