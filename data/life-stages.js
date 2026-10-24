@@ -127,7 +127,7 @@ BGX.registerGame({
   { "name": "Umbilical cord", "cat": "support", "spot": "cord", "icon": "wave", "job": "Two arteries, one vein, to the placenta",
     "when": "From week 5 to birth",
     "summary": "The cord linking the fetus to the placenta: two umbilical arteries and one umbilical vein in a jelly-like tissue (Wharton jelly).",
-    "facts": ["The umbilical vein carries oxygen-rich blood TO the fetus.", "The two umbilical arteries carry oxygen-poor blood AWAY from the fetus to the placenta.", "This is the reverse of adult naming logic based on oxygen: in both, arteries go away from the heart."],
+    "facts": ["The umbilical vein carries oxygen-rich blood TO the fetus.", "The two umbilical arteries carry oxygen-poor blood AWAY from the fetus to the placenta.", "Arteries are named by direction (away from the fetal heart), not by oxygen content."],
     "life": "Midwives check the cord after birth: a single umbilical artery can be linked with other abnormalities." },
   { "name": "Ductus venosus", "cat": "circ", "spot": "dv", "icon": "steps", "job": "Bypasses the liver",
     "when": "Before birth; closes after birth",
