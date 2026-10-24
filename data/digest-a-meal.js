@@ -102,7 +102,7 @@ BGX.registerGame({
 "cat": "tract",
 "job": "Chews food and starts digesting starch",
 "life": "Bread starts to taste sweet if you chew it long enough, as saliva breaks starch into sugar.",
-"icon": "stomach",
+"icon": "anat1-mouth",
 "num": 1,
 "spot": "mouth",
 "facts": [
@@ -117,7 +117,7 @@ BGX.registerGame({
 "cat": "tract",
 "job": "Squeezes food down to the stomach",
 "life": "Waves of muscle push food down, so you could even swallow upside down.",
-"icon": "stomach",
+"icon": "anat1-oesophagus",
 "num": 2,
 "spot": "oesophagus",
 "facts": [
@@ -147,7 +147,7 @@ BGX.registerGame({
 "cat": "tract",
 "job": "First part of the small intestine, where bile and enzymes arrive",
 "life": "Ulcers are actually more common here than in the stomach itself.",
-"icon": "stomach",
+"icon": "anat1-duodenum",
 "num": 4,
 "spot": "duodenum",
 "facts": [
@@ -162,7 +162,7 @@ BGX.registerGame({
 "cat": "tract",
 "job": "Middle part of the small intestine: absorbs most nutrients",
 "life": "Its lining is covered in millions of tiny finger-like villi that boost absorption.",
-"icon": "stomach",
+"icon": "anat1-jejunum",
 "num": 5,
 "spot": "jejunum",
 "facts": [
@@ -177,7 +177,7 @@ BGX.registerGame({
 "cat": "tract",
 "job": "Last part of the small intestine: absorbs vitamin B12 and bile salts",
 "life": "Surgery that removes the ileum can lead to B12 deficiency.",
-"icon": "stomach",
+"icon": "anat1-ileum",
 "num": 6,
 "spot": "ileum",
 "facts": [
@@ -192,7 +192,7 @@ BGX.registerGame({
 "cat": "tract",
 "job": "Absorbs water and forms stool",
 "life": "It is home to trillions of gut bacteria that help digest fibre.",
-"icon": "stomach",
+"icon": "anat1-large-intestine",
 "num": 7,
 "spot": "colon",
 "facts": [
@@ -207,7 +207,7 @@ BGX.registerGame({
 "cat": "tract",
 "job": "Stores stool until you go to the toilet",
 "life": "Stretching of the rectum is what gives you the urge to go.",
-"icon": "stomach",
+"icon": "anat1-rectum",
 "num": 8,
 "spot": "rectum",
 "facts": [
@@ -222,7 +222,7 @@ BGX.registerGame({
 "cat": "helper",
 "job": "Make saliva to moisten food and digest starch",
 "life": "Your mouth waters at the smell of food because these glands switch on.",
-"icon": "drop",
+"icon": "anat1-salivary",
 "num": 9,
 "spot": "salivary",
 "facts": [
@@ -237,7 +237,7 @@ BGX.registerGame({
 "cat": "helper",
 "job": "Makes bile and processes absorbed nutrients",
 "life": "Most nutrients from the gut travel to the liver first, through the portal vein.",
-"icon": "gland",
+"icon": "anat1-liver",
 "num": 10,
 "spot": "liver",
 "facts": [
@@ -252,7 +252,7 @@ BGX.registerGame({
 "cat": "helper",
 "job": "Stores bile and squeezes it out after fatty meals",
 "life": "Gallstones form here and can cause pain after a fatty meal.",
-"icon": "gland",
+"icon": "anat1-gallbladder",
 "num": 11,
 "spot": "gallbladder",
 "facts": [
@@ -267,7 +267,7 @@ BGX.registerGame({
 "cat": "helper",
 "job": "Sends digestive enzymes into the small intestine",
 "life": "The same organ also makes insulin.",
-"icon": "gland",
+"icon": "anat1-pancreas",
 "num": 12,
 "spot": "pancreas",
 "facts": [

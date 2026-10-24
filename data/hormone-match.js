@@ -120,7 +120,7 @@ BGX.registerGame({
 "job": "Drives growth and repair",
 "summary": "Released by the pituitary, mostly during deep sleep, to build bone and muscle.",
 "life": "Children grow most during sleep, when growth hormone peaks.",
-"icon": "brain",
+"icon": "anat1-growth",
 "num": 1,
 "spot": "pituitary",
 "facts": [
@@ -136,7 +136,7 @@ BGX.registerGame({
 "job": "Tells the thyroid to release its hormones",
 "summary": "Thyroid-stimulating hormone: the pituitary's 'on' switch for the thyroid.",
 "life": "A routine blood test for thyroid problems usually starts with TSH.",
-"icon": "brain",
+"icon": "anat1-tsh",
 "num": 2,
 "spot": "pituitary",
 "facts": [
@@ -152,7 +152,7 @@ BGX.registerGame({
 "job": "Starts milk production",
 "summary": "Signals the breasts to make milk after birth.",
 "life": "Prolactin levels rise during breastfeeding.",
-"icon": "brain",
+"icon": "anat1-prolactin",
 "num": 3,
 "spot": "pituitary",
 "facts": [
@@ -168,7 +168,7 @@ BGX.registerGame({
 "job": "Makes the kidneys hold on to water",
 "summary": "Antidiuretic hormone, released when the body is short of water.",
 "life": "Alcohol holds back ADH release, which is why drinking makes you pee more.",
-"icon": "brain",
+"icon": "anat1-adh",
 "num": 4,
 "spot": "pituitary",
 "facts": [
@@ -185,7 +185,7 @@ BGX.registerGame({
 "job": "Triggers labour contractions and milk let-down",
 "summary": "Released in childbirth and breastfeeding; also linked to bonding.",
 "life": "Hospitals can give oxytocin through a drip to start or speed up labour.",
-"icon": "brain",
+"icon": "anat1-oxytocin",
 "num": 5,
 "spot": "pituitary",
 "facts": [
@@ -202,7 +202,7 @@ BGX.registerGame({
 "job": "Sets the body's metabolic rate",
 "summary": "The main thyroid hormone, made using iodine; it speeds up metabolism.",
 "life": "Too little causes tiredness and weight gain; tablets replace it.",
-"icon": "gland",
+"icon": "anat1-thyroxine",
 "num": 6,
 "spot": "thyroid",
 "facts": [
@@ -218,7 +218,7 @@ BGX.registerGame({
 "job": "Lowers blood calcium",
 "summary": "Moves calcium out of the blood and into bone.",
 "life": "It works in the opposite direction to parathyroid hormone.",
-"icon": "gland",
+"icon": "anat1-calcitonin",
 "num": 7,
 "spot": "thyroid",
 "facts": [
@@ -234,7 +234,7 @@ BGX.registerGame({
 "job": "Raises blood calcium",
 "summary": "Made by four tiny glands behind the thyroid; it pulls calcium from bone.",
 "life": "It keeps calcium steady so your nerves and muscles work properly.",
-"icon": "gland",
+"icon": "anat1-pth",
 "num": 8,
 "spot": "parathyroid",
 "facts": [
@@ -250,7 +250,7 @@ BGX.registerGame({
 "job": "Helps the body cope with long-term stress",
 "summary": "A steroid hormone that helps the body cope with stress and lowers inflammation.",
 "life": "Cortisol is naturally highest in the morning to help you wake up.",
-"icon": "kidney",
+"icon": "anat1-cortisol",
 "num": 9,
 "spot": "adrenals",
 "facts": [
@@ -266,7 +266,7 @@ BGX.registerGame({
 "job": "Makes the kidneys keep sodium and raises blood pressure",
 "summary": "Controls salt and water balance and so blood pressure.",
 "life": "Some blood pressure tablets work by blocking aldosterone's effect.",
-"icon": "kidney",
+"icon": "anat1-aldosterone",
 "num": 10,
 "spot": "adrenals",
 "facts": [
@@ -282,7 +282,7 @@ BGX.registerGame({
 "job": "Triggers fight or flight",
 "summary": "Also called epinephrine: a fast-acting hormone for sudden danger or excitement.",
 "life": "The racing heart before an exam or a roller coaster is adrenaline; EpiPens contain it.",
-"icon": "zap",
+"icon": "anat1-adrenaline",
 "num": 11,
 "spot": "adrenals",
 "facts": [
@@ -298,7 +298,7 @@ BGX.registerGame({
 "job": "Lowers blood sugar",
 "summary": "Lets cells take in glucose from the blood after a meal.",
 "life": "People with type 1 diabetes inject insulin because their pancreas cannot make it.",
-"icon": "stomach",
+"icon": "anat1-insulin",
 "num": 12,
 "spot": "pancreas",
 "facts": [
@@ -314,7 +314,7 @@ BGX.registerGame({
 "job": "Raises blood sugar between meals",
 "summary": "Tells the liver to release stored glucose between meals.",
 "life": "Emergency glucagon kits treat very low blood sugar.",
-"icon": "stomach",
+"icon": "anat1-glucagon",
 "num": 13,
 "spot": "pancreas",
 "facts": [
@@ -330,7 +330,7 @@ BGX.registerGame({
 "job": "Female development and the menstrual cycle",
 "summary": "The main female sex hormone; it also helps keep bones strong.",
 "life": "Falling estrogen at menopause is why bone loss speeds up.",
-"icon": "baby",
+"icon": "anat1-estrogen",
 "num": 14,
 "spot": "ovaries",
 "facts": [
@@ -346,7 +346,7 @@ BGX.registerGame({
 "job": "Male development, muscle and sperm production",
 "summary": "The main male sex hormone; women make small amounts too.",
 "life": "Deeper voices and facial hair at puberty come from testosterone.",
-"icon": "baby",
+"icon": "anat1-testosterone",
 "num": 15,
 "spot": "testes",
 "facts": [
@@ -378,7 +378,7 @@ BGX.registerGame({
 "job": "Increases red blood cell production",
 "summary": "Erythropoietin, released when oxygen in the blood is low.",
 "life": "EPO is a well-known banned doping drug in endurance sport.",
-"icon": "kidney",
+"icon": "anat1-epo",
 "num": 17,
 "spot": "kidneys",
 "facts": [
@@ -394,7 +394,7 @@ BGX.registerGame({
 "job": "Signals that the body has enough energy stored",
 "summary": "A 'fullness' hormone from fat cells that reduces appetite.",
 "life": "Leptin is one reason appetite and body weight are hard to change quickly.",
-"icon": "scale",
+"icon": "anat1-leptin",
 "num": 18,
 "spot": "fat",
 "facts": [

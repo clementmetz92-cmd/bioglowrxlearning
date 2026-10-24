@@ -102,6 +102,7 @@ BGX.registerGame({
 "items": [
 {
 "name": "Right atrium",
+"icon": "anat1-ra",
 "cat": "chamber",
 "job": "Upper right chamber: collects oxygen-poor blood arriving from the body",
 "life": "It fills mainly from the two venae cavae, the body's largest veins.",
@@ -116,6 +117,7 @@ BGX.registerGame({
 },
 {
 "name": "Right ventricle",
+"icon": "anat1-rv",
 "cat": "chamber",
 "job": "Lower right chamber: pumps blood to the lungs",
 "life": "Its wall is thinner than the left's because pumping to the nearby lungs needs far less pressure.",
@@ -130,6 +132,7 @@ BGX.registerGame({
 },
 {
 "name": "Left atrium",
+"icon": "anat1-la",
 "cat": "chamber",
 "job": "Upper left chamber: collects oxygen-rich blood arriving from the lungs",
 "life": "It fills from the pulmonary veins.",
@@ -144,6 +147,7 @@ BGX.registerGame({
 },
 {
 "name": "Left ventricle",
+"icon": "anat1-lv",
 "cat": "chamber",
 "job": "Lower left chamber: pumps blood out to the whole body",
 "life": "It has the thickest wall of the heart; it does the hardest work.",
@@ -158,6 +162,7 @@ BGX.registerGame({
 },
 {
 "name": "Tricuspid valve",
+"icon": "anat1-tricuspid",
 "cat": "valve",
 "job": "Stops blood flowing back from the right ventricle to the right atrium",
 "life": "Its closing is part of the 'lub' you hear through a stethoscope.",
@@ -172,6 +177,7 @@ BGX.registerGame({
 },
 {
 "name": "Pulmonary valve",
+"icon": "anat1-pulm-valve",
 "cat": "valve",
 "job": "Stops blood flowing back from the lungs' artery into the right ventricle",
 "life": "It closes with the 'dub' of the heartbeat.",
@@ -186,6 +192,7 @@ BGX.registerGame({
 },
 {
 "name": "Mitral valve",
+"icon": "anat1-mitral",
 "cat": "valve",
 "job": "Stops blood flowing back from the left ventricle to the left atrium",
 "life": "Also called the bicuspid valve because it has two flaps.",
@@ -200,6 +207,7 @@ BGX.registerGame({
 },
 {
 "name": "Aortic valve",
+"icon": "anat1-aortic-valve",
 "cat": "valve",
 "job": "Stops blood flowing back from the aorta into the left ventricle",
 "life": "A narrowed aortic valve is a common heart problem in older age.",
@@ -214,6 +222,7 @@ BGX.registerGame({
 },
 {
 "name": "Venae cavae",
+"icon": "anat1-venae-cavae",
 "cat": "vessel",
 "job": "Two large veins that empty the body's oxygen-poor blood into the heart",
 "life": "The superior one drains the head and arms; the inferior one drains the lower body.",
@@ -228,6 +237,7 @@ BGX.registerGame({
 },
 {
 "name": "Pulmonary artery",
+"icon": "anat1-pulm-artery",
 "cat": "vessel",
 "job": "Vessel that carries oxygen-poor blood from the heart to the lungs",
 "life": "After birth, it is the only artery that carries oxygen-poor blood.",
@@ -242,6 +252,7 @@ BGX.registerGame({
 },
 {
 "name": "Pulmonary veins",
+"icon": "anat1-pulm-veins",
 "cat": "vessel",
 "job": "Veins that carry oxygen-rich blood from the lungs to the heart",
 "life": "After birth, they are the only veins that carry oxygen-rich blood.",
@@ -256,6 +267,7 @@ BGX.registerGame({
 },
 {
 "name": "Aorta",
+"icon": "anat1-aorta",
 "cat": "vessel",
 "job": "Large artery that carries oxygen-rich blood from the heart to the body",
 "life": "The body's largest artery, about as wide as a garden hose.",
@@ -270,6 +282,7 @@ BGX.registerGame({
 },
 {
 "name": "Coronary arteries",
+"icon": "anat1-coronary",
 "cat": "vessel",
 "job": "Supply the heart muscle itself with blood",
 "life": "A blockage here causes a heart attack.",
@@ -284,6 +297,7 @@ BGX.registerGame({
 },
 {
 "name": "SA node",
+"icon": "anat1-sa-node",
 "cat": "electric",
 "job": "Starts each heartbeat: the natural pacemaker",
 "life": "An artificial pacemaker can take over when the heart's own wiring stops working properly.",
@@ -298,6 +312,7 @@ BGX.registerGame({
 },
 {
 "name": "AV node",
+"icon": "anat1-av-node",
 "cat": "electric",
 "job": "Briefly delays the signal so the ventricles can fill",
 "life": "This short delay is why the atria contract just before the ventricles.",
@@ -312,6 +327,7 @@ BGX.registerGame({
 },
 {
 "name": "Purkinje fibres",
+"icon": "anat1-purkinje",
 "cat": "electric",
 "job": "Spread the signal through the ventricle walls",
 "life": "They make the ventricles squeeze from the bottom up, like squeezing toothpaste.",

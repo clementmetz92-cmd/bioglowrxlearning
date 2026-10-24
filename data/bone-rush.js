@@ -143,6 +143,7 @@ BGX.registerGame({
 "items": [
 {
 "name": "Frontal bone",
+"icon": "anat1-frontal",
 "cat": "skull",
 "where": "Forehead",
 "count": "1",
@@ -159,6 +160,7 @@ BGX.registerGame({
 },
 {
 "name": "Parietal bones",
+"icon": "anat1-parietal",
 "cat": "skull",
 "where": "Top and sides of the skull",
 "count": "2",
@@ -175,6 +177,7 @@ BGX.registerGame({
 },
 {
 "name": "Occipital bone",
+"icon": "anat1-occipital",
 "cat": "skull",
 "where": "Back of the skull",
 "count": "1",
@@ -190,6 +193,7 @@ BGX.registerGame({
 },
 {
 "name": "Temporal bones",
+"icon": "anat1-temporal",
 "cat": "skull",
 "where": "Sides of the head, around the ears",
 "count": "2",
@@ -206,6 +210,7 @@ BGX.registerGame({
 },
 {
 "name": "Mandible",
+"icon": "anat1-mandible",
 "cat": "skull",
 "where": "Lower jaw",
 "count": "1",
@@ -221,6 +226,7 @@ BGX.registerGame({
 },
 {
 "name": "Maxilla",
+"icon": "anat1-maxilla",
 "cat": "skull",
 "where": "Upper jaw",
 "count": "2 (fused into one upper jaw)",
@@ -237,6 +243,7 @@ BGX.registerGame({
 },
 {
 "name": "Zygomatic bones",
+"icon": "anat1-zygomatic",
 "cat": "skull",
 "where": "Cheekbones",
 "count": "2",
@@ -252,6 +259,7 @@ BGX.registerGame({
 },
 {
 "name": "Nasal bones",
+"icon": "anat1-nasal",
 "cat": "skull",
 "where": "Bridge of the nose",
 "count": "2",
@@ -267,6 +275,7 @@ BGX.registerGame({
 },
 {
 "name": "Cervical vertebrae",
+"icon": "anat1-cervical",
 "cat": "spine",
 "where": "Neck",
 "count": "7",
@@ -282,6 +291,7 @@ BGX.registerGame({
 },
 {
 "name": "Thoracic vertebrae",
+"icon": "anat1-thoracic",
 "cat": "spine",
 "where": "Upper and middle back",
 "count": "12",
@@ -297,6 +307,7 @@ BGX.registerGame({
 },
 {
 "name": "Lumbar vertebrae",
+"icon": "anat1-lumbar",
 "cat": "spine",
 "where": "Lower back",
 "count": "5",
@@ -312,6 +323,7 @@ BGX.registerGame({
 },
 {
 "name": "Sacrum",
+"icon": "anat1-sacrum",
 "cat": "spine",
 "where": "Base of the spine, between the hips",
 "count": "1",
@@ -327,6 +339,7 @@ BGX.registerGame({
 },
 {
 "name": "Coccyx",
+"icon": "anat1-coccyx",
 "cat": "spine",
 "where": "Tailbone",
 "count": "1",
@@ -342,6 +355,7 @@ BGX.registerGame({
 },
 {
 "name": "Sternum",
+"icon": "anat1-sternum",
 "cat": "chest",
 "where": "Breastbone, centre of the chest",
 "count": "1",
@@ -357,6 +371,7 @@ BGX.registerGame({
 },
 {
 "name": "Ribs",
+"icon": "ribs",
 "cat": "chest",
 "where": "Around the chest",
 "count": "24 (12 pairs)",
@@ -372,6 +387,7 @@ BGX.registerGame({
 },
 {
 "name": "Clavicle",
+"icon": "anat1-clavicle",
 "cat": "arm",
 "where": "Collarbone",
 "count": "2",
@@ -387,6 +403,7 @@ BGX.registerGame({
 },
 {
 "name": "Scapula",
+"icon": "anat1-scapula",
 "cat": "arm",
 "where": "Shoulder blade",
 "count": "2",
@@ -402,6 +419,7 @@ BGX.registerGame({
 },
 {
 "name": "Humerus",
+"icon": "anat1-humerus",
 "cat": "arm",
 "where": "Upper arm",
 "count": "2",
@@ -417,6 +435,7 @@ BGX.registerGame({
 },
 {
 "name": "Radius",
+"icon": "anat1-radius",
 "cat": "arm",
 "where": "Forearm, thumb side",
 "count": "2",
@@ -432,6 +451,7 @@ BGX.registerGame({
 },
 {
 "name": "Ulna",
+"icon": "anat1-ulna",
 "cat": "arm",
 "where": "Forearm, little-finger side",
 "count": "2",
@@ -447,6 +467,7 @@ BGX.registerGame({
 },
 {
 "name": "Carpals",
+"icon": "anat1-carpals",
 "cat": "hand",
 "where": "Wrist",
 "count": "16 (8 per wrist)",
@@ -462,6 +483,7 @@ BGX.registerGame({
 },
 {
 "name": "Metacarpals",
+"icon": "anat1-metacarpals",
 "cat": "hand",
 "where": "Palm of the hand",
 "count": "10 (5 per hand)",
@@ -477,6 +499,7 @@ BGX.registerGame({
 },
 {
 "name": "Phalanges of the hand",
+"icon": "anat1-phal-hand",
 "cat": "hand",
 "where": "Fingers",
 "count": "28 (14 per hand)",
@@ -492,6 +515,7 @@ BGX.registerGame({
 },
 {
 "name": "Ilium",
+"icon": "anat1-ilium",
 "cat": "pelvis",
 "where": "Upper hip, where you rest your hands",
 "count": "2",
@@ -507,6 +531,7 @@ BGX.registerGame({
 },
 {
 "name": "Ischium",
+"icon": "anat1-ischium",
 "cat": "pelvis",
 "where": "Sitting bones",
 "count": "2",
@@ -522,6 +547,7 @@ BGX.registerGame({
 },
 {
 "name": "Pubis",
+"icon": "anat1-pubis",
 "cat": "pelvis",
 "where": "Front of the pelvis",
 "count": "2",
@@ -537,6 +563,7 @@ BGX.registerGame({
 },
 {
 "name": "Femur",
+"icon": "anat1-femur",
 "cat": "leg",
 "where": "Thigh",
 "count": "2",
@@ -552,6 +579,7 @@ BGX.registerGame({
 },
 {
 "name": "Patella",
+"icon": "anat1-patella",
 "cat": "leg",
 "where": "Kneecap",
 "count": "2",
@@ -567,6 +595,7 @@ BGX.registerGame({
 },
 {
 "name": "Tibia",
+"icon": "anat1-tibia",
 "cat": "leg",
 "where": "Shin",
 "count": "2",
@@ -582,6 +611,7 @@ BGX.registerGame({
 },
 {
 "name": "Fibula",
+"icon": "anat1-fibula",
 "cat": "leg",
 "where": "Outer side of the lower leg",
 "count": "2",
@@ -597,6 +627,7 @@ BGX.registerGame({
 },
 {
 "name": "Calcaneus",
+"icon": "anat1-calcaneus",
 "cat": "foot",
 "where": "Heel",
 "count": "2",
@@ -612,6 +643,7 @@ BGX.registerGame({
 },
 {
 "name": "Talus",
+"icon": "anat1-talus",
 "cat": "foot",
 "where": "Ankle, between the shin and the heel",
 "count": "2",
@@ -627,6 +659,7 @@ BGX.registerGame({
 },
 {
 "name": "Metatarsals",
+"icon": "anat1-metatarsals",
 "cat": "foot",
 "where": "Middle of the foot",
 "count": "10 (5 per foot)",
@@ -642,6 +675,7 @@ BGX.registerGame({
 },
 {
 "name": "Phalanges of the foot",
+"icon": "anat1-phal-foot",
 "cat": "foot",
 "where": "Toes",
 "count": "28 (14 per foot)",

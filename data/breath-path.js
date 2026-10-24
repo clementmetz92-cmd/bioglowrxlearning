@@ -95,6 +95,7 @@ BGX.registerGame({
 "items": [
 {
 "name": "Nasal cavity",
+"icon": "anat1-nasal-cavity",
 "cat": "upper",
 "job": "Warms, moistens and filters the air",
 "life": "Breathing through your nose is gentler on your airways than mouth breathing in cold air.",
@@ -109,6 +110,7 @@ BGX.registerGame({
 },
 {
 "name": "Pharynx",
+"icon": "anat1-pharynx",
 "cat": "upper",
 "job": "Throat: shared passage for air and food",
 "life": "It is the part a doctor looks at when they ask you to say 'aah'.",
@@ -123,6 +125,7 @@ BGX.registerGame({
 },
 {
 "name": "Epiglottis",
+"icon": "anat1-epiglottis",
 "cat": "upper",
 "job": "Flap that covers the windpipe when you swallow",
 "life": "Food 'going down the wrong way' means it slipped past the epiglottis into the windpipe.",
@@ -137,6 +140,7 @@ BGX.registerGame({
 },
 {
 "name": "Larynx",
+"icon": "anat1-larynx",
 "cat": "upper",
 "job": "Voice box: holds the vocal cords",
 "life": "The Adam's apple is the front of the larynx.",
@@ -151,6 +155,7 @@ BGX.registerGame({
 },
 {
 "name": "Trachea",
+"icon": "anat1-trachea",
 "cat": "lower",
 "job": "Windpipe: carries air to the chest",
 "life": "C-shaped rings of cartilage keep it open; you can feel them at the front of your neck.",
@@ -165,6 +170,7 @@ BGX.registerGame({
 },
 {
 "name": "Bronchi",
+"icon": "anat1-bronchi",
 "cat": "lower",
 "job": "Two main tubes, one taking air into each lung",
 "life": "Bronchitis is inflammation of these tubes.",
@@ -179,6 +185,7 @@ BGX.registerGame({
 },
 {
 "name": "Bronchioles",
+"icon": "anat1-bronchioles",
 "cat": "lower",
 "job": "Tiny branching airways inside the lungs",
 "life": "In an asthma attack, the muscle around the bronchioles tightens.",
@@ -193,6 +200,7 @@ BGX.registerGame({
 },
 {
 "name": "Alveoli",
+"icon": "anat1-alveoli",
 "cat": "lower",
 "job": "Tiny air sacs where oxygen and carbon dioxide swap",
 "life": "Spread out flat, your alveoli would cover roughly a third of a tennis court (about 70 square metres).",
@@ -207,6 +215,7 @@ BGX.registerGame({
 },
 {
 "name": "Diaphragm",
+"icon": "anat1-diaphragm",
 "cat": "muscle",
 "job": "Main breathing muscle: flattens to pull air in",
 "life": "Hiccups are sudden, involuntary spasms of the diaphragm.",
@@ -221,6 +230,7 @@ BGX.registerGame({
 },
 {
 "name": "Intercostal muscles",
+"icon": "anat1-intercostal",
 "cat": "muscle",
 "job": "Muscles between the ribs that lift the ribcage",
 "life": "You feel them working when you breathe hard after running.",
@@ -235,6 +245,7 @@ BGX.registerGame({
 },
 {
 "name": "Pleura",
+"icon": "anat1-pleura",
 "cat": "lower",
 "job": "Thin, slippery layers that let the lungs glide",
 "life": "Pleurisy, inflammation of these layers, makes deep breaths painful.",

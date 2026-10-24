@@ -117,7 +117,7 @@ BGX.registerGame({
 "job": "Holds the DNA and controls the cell",
 "summary": "The cell's control centre, wrapped in a double membrane, holding the DNA instructions.",
 "life": "City hall: it keeps the plans and decides what gets built.",
-"icon": "dna",
+"icon": "anat1-nucleus",
 "num": 1,
 "spot": "nucleus",
 "facts": [
@@ -132,7 +132,7 @@ BGX.registerGame({
 "job": "Makes the parts of ribosomes",
 "summary": "A dense spot inside the nucleus where ribosome parts are made.",
 "life": "The city's machine shop, building the machines that build everything else.",
-"icon": "dna",
+"icon": "anat1-nucleolus",
 "num": 2,
 "spot": "nucleolus",
 "facts": [
@@ -147,7 +147,7 @@ BGX.registerGame({
 "job": "Packs DNA so it fits inside the nucleus",
 "summary": "DNA packed around proteins; it coils into chromosomes when a cell divides.",
 "life": "The city archive: every blueprint, filed and folded away.",
-"icon": "dna",
+"icon": "anat1-chromatin",
 "num": 3,
 "spot": "chromatin",
 "facts": [
@@ -162,7 +162,7 @@ BGX.registerGame({
 "job": "Controls what enters and leaves the cell",
 "summary": "A thin, flexible double layer of fats and proteins around the whole cell.",
 "life": "The city wall with guarded gates: some things pass freely, others need a pass.",
-"icon": "shield",
+"icon": "anat1-plasma-membrane",
 "num": 4,
 "spot": "membrane",
 "facts": [
@@ -177,7 +177,7 @@ BGX.registerGame({
 "job": "Increase surface area for absorption",
 "summary": "Tiny finger-like folds of the membrane on cells that absorb, such as in the gut.",
 "life": "Extra loading docks along the wall so more deliveries come in at once.",
-"icon": "shield",
+"icon": "anat1-microvilli",
 "num": 5,
 "spot": "microvilli",
 "facts": [
@@ -192,7 +192,7 @@ BGX.registerGame({
 "job": "Beat together to sweep things along the surface",
 "summary": "Short hair-like structures that wave in rhythm, like in the airways.",
 "life": "Street sweepers that push mucus and dust out of the city.",
-"icon": "wave",
+"icon": "anat1-cilia",
 "num": 6,
 "spot": "cilia",
 "facts": [
@@ -207,7 +207,7 @@ BGX.registerGame({
 "job": "Builds proteins",
 "summary": "Tiny machines, free or on the rough ER, that read instructions and link amino acids into proteins.",
 "life": "Workers on the factory floor, assembling products from a recipe.",
-"icon": "factory",
+"icon": "anat1-ribosome",
 "num": 7,
 "spot": "ribosome",
 "facts": [
@@ -222,7 +222,7 @@ BGX.registerGame({
 "job": "Makes proteins for export and membranes",
 "summary": "Folded membranes studded with ribosomes, making proteins to send out or build membranes.",
 "life": "The main factory hall, with workers lined up along the conveyor.",
-"icon": "factory",
+"icon": "anat1-rough-er",
 "num": 8,
 "spot": "rough-er",
 "facts": [
@@ -237,7 +237,7 @@ BGX.registerGame({
 "job": "Makes lipids and detoxifies",
 "summary": "Folded membranes without ribosomes that make fats and break down some drugs and toxins.",
 "life": "The chemical plant: it makes oils and treats waste water.",
-"icon": "factory",
+"icon": "anat1-smooth-er",
 "num": 9,
 "spot": "smooth-er",
 "facts": [
@@ -252,7 +252,7 @@ BGX.registerGame({
 "job": "Sorts, modifies and packages proteins",
 "summary": "Stacks of flattened sacs that sort, label and package proteins into vesicles.",
 "life": "The post office: it wraps, labels and sends parcels out.",
-"icon": "factory",
+"icon": "anat1-golgi",
 "num": 10,
 "spot": "golgi",
 "facts": [
@@ -267,7 +267,7 @@ BGX.registerGame({
 "job": "Carry materials around and out of the cell",
 "summary": "Small membrane bubbles that carry cargo inside the cell or release it outside.",
 "life": "Delivery vans driving parcels across the city.",
-"icon": "factory",
+"icon": "anat1-vesicles",
 "num": 11,
 "spot": "vesicles",
 "facts": [
@@ -297,7 +297,7 @@ BGX.registerGame({
 "job": "Breaks down waste and worn-out parts",
 "summary": "A small sac of digestive enzymes that breaks down waste, germs and old organelles.",
 "life": "The recycling centre: it breaks old things down so the parts can be reused.",
-"icon": "recycle",
+"icon": "anat1-lysosome",
 "num": 13,
 "spot": "lysosome",
 "facts": [
@@ -312,7 +312,7 @@ BGX.registerGame({
 "job": "Breaks down fatty acids and hydrogen peroxide",
 "summary": "A small sac of enzymes that neutralises toxins, including hydrogen peroxide.",
 "life": "The hazardous waste team, making dangerous chemicals safe.",
-"icon": "recycle",
+"icon": "anat1-peroxisome",
 "num": 14,
 "spot": "peroxisome",
 "facts": [
@@ -327,7 +327,7 @@ BGX.registerGame({
 "job": "Gives the cell its shape and moves things inside",
 "summary": "A network of protein fibres and tubes that supports the cell and acts as tracks.",
 "life": "The city's roads and steel frames: buildings stand on it and traffic moves along it.",
-"icon": "brick",
+"icon": "anat1-cytoskeleton",
 "num": 15,
 "spot": "cytoskeleton",
 "facts": [
@@ -342,7 +342,7 @@ BGX.registerGame({
 "job": "Organise the fibres that pull chromosomes apart",
 "summary": "A pair of tube bundles that help organise cell division.",
 "life": "The site managers who set up the cranes when the city splits in two.",
-"icon": "brick",
+"icon": "anat1-centrioles",
 "num": 16,
 "spot": "centrioles",
 "facts": [
@@ -357,7 +357,7 @@ BGX.registerGame({
 "job": "Jelly-like fluid where the organelles sit",
 "summary": "The fluid (cytosol) and everything suspended in it between the membrane and nucleus.",
 "life": "The air and streets of the city: everything happens inside it.",
-"icon": "drop",
+"icon": "anat1-cytoplasm",
 "num": 17,
 "spot": "cytoplasm",
 "facts": [
