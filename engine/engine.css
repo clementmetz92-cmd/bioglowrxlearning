@@ -463,3 +463,4 @@ a { color: inherit; }
 @media (max-width: 520px) {
   .br-quit, .br-crumb { font-size: 14px; padding: 7px 14px 7px 11px; }
 }
+.br-stepper .lb { text-transform: none; letter-spacing: 0; font-size: 14px; }   /* keep chemical formulas exact (Zn, HCl) */
