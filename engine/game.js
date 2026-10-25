@@ -61,6 +61,7 @@
     const sName = G.subject ? (G.subjectName || G.subject.charAt(0).toUpperCase() + G.subject.slice(1)) : "";
     const subj = G.subject ? `<a class="br-crumb" href="${BGX.root}subjects/${G.subject}/index.html"><span aria-hidden="true">←</span> All ${esc(sName)} games</a>` : "";
     view.innerHTML = `${subj ? `<nav class="br-backrow" aria-label="Back">${subj}</nav>` : ""}
+      ${BGX.community ? BGX.community.challengeBanner(G) : ""}
       <div class="br-hero${diagramSVG(null) ? " has-art" : ""}"><div><h2>${esc(G.title)}</h2><p>${esc(G.tagline || "")}</p></div>${diagramSVG(null) ? `<div class="br-heroart" aria-hidden="true">${diagramSVG(null)}</div>` : ""}</div>
       ${G.sets ? `<p class="br-label">Practise with</p>
       <div class="br-seg" role="group" aria-label="${esc(G.itemNoun || "item")}s to practise">${G.sets.map(x => `<button data-set="${x.size}" aria-pressed="${S.set == x.size}">${esc(x.label)}</button>`).join("")}</div>` : ""}
@@ -98,6 +99,8 @@
     return { title: G.title, subject: G.subject, modes: out };
   };
 
+  BGX.startMode = id => { const m = G.modes.find(x => x.id === id && x._ready); if (m) start(m); };
+
   /* ---------- round runner (question formats) ---------- */
   function start(mode) {
     BGX.sfx.tap();
@@ -128,7 +131,9 @@
     S.f.reveal(S.mode, q, correct, el);
     BGX.reward(correct, el, { flash: view, milestoneTile: milestoneTile, xpScale: q.helped ? 0.5 : 1 });
     const sc = view.querySelector(".br-count"); if (sc) sc.innerHTML = `<b>${S.score}</b> / ${S.i + 1}`;
-    $("#br-fb").innerHTML = (S.f.feedback ? S.f.feedback(S.mode, q, correct) : feedbackHTML(it, correct)) + `<button class="br-next" id="br-next">${S.i + 1 < S.qs.length ? "Next" : "See score"}</button>`;
+    const pr = view.querySelector(".br-prompt");
+    BGX.lastQuestion = { game: G.id, mode: S.mode.id, item: it.name || "", question: pr ? pr.innerText.replace(/\s+/g, " ").trim().slice(0, 240) : "", correct };
+    $("#br-fb").innerHTML = (S.f.feedback ? S.f.feedback(S.mode, q, correct) : feedbackHTML(it, correct)) + `<button class="br-next" id="br-next">${S.i + 1 < S.qs.length ? "Next" : "See score"}</button>` + (BGX.community ? BGX.community.reportBtn() : "");
     const nx = $("#br-next"); nx.onclick = nextQ;
     dockFeedback($("#br-fb")); nx.focus({ preventScroll: true });
   }
@@ -169,6 +174,8 @@
     const isBest = best[k] == null || S.score > best[k];
     if (isBest) { best[k] = S.score; BGX.store.set("best_" + G.id, best); }
     const prog = BGX.progress && total > 0 ? BGX.progress.record(G.id, m.id, S.score, total) : null;
+    BGX.lastRound = { mode: m, score: S.score, total };
+    if (BGX.track) BGX.track("round_done", { game: G.id, mode: m.id, score: S.score, total });
     const msg = S.score === total ? "Perfect round!" : S.score >= total * .8 ? "Excellent work." : S.score >= total * .5 ? "Getting there." : "Keep practising — it sticks fast.";
     const setLabel = G.sets ? " · " + (G.sets.find(x => x.size == S.set) || {}).label : "";
     const roundXP = total >= 3 ? BGX.xp.add(BGX.xp.roundBonus(S.score === total)) : 0;
@@ -181,6 +188,7 @@
       ${earned ? `<button class="br-xpline" id="br-xpline" type="button" aria-label="+${earned} XP this round. See all levels">${BGX.levelBadge(lv)}<span><b>+${earned.toLocaleString("en-US")} XP</b> this round${roundXP ? ` <em>(incl. ${S.score === total ? "perfect-round" : "round"} bonus +${roundXP})</em>` : ""}
         <i class="bar"><i style="width:${lv.pct.toFixed(1)}%"></i></i><small>Lv ${lv.n} ${esc(lv.name)}${lv.next ? ` · ${(lv.next.xp - BGX.xp.total).toLocaleString("en-US")} XP to Lv ${lv.n + 1}` : ""}</small></span></button>` : ""}
       ${prog ? BGX.progress.endLine(G.id, m.id, S.score / total * 100) : ""}
+      ${BGX.community ? BGX.community.endCard(G, m, S.score, total) : ""}
       ${S.wrong.length ? `<p class="br-label" style="margin-top:22px">Review these</p>
         <div class="br-review">${S.wrong.map(it => tileHTML(it, "is-sm", `<em>${esc(val(G.tile.label, it))}</em>`)).join("")}</div>` : ""}
       <div class="br-btns"><button class="br-next" id="br-again">Play again</button><button class="br-ghost" id="br-back">Menu</button></div></div>`;

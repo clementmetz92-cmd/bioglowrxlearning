@@ -812,3 +812,53 @@ body.br-hasdock { padding-bottom: 62vh; }
 .br-guide .git p { margin: 0 0 2px; font-size: 9.5pt; }
 .br-guide .git ul { margin: 2px 0 0; padding-left: 16px; font-size: 9pt; color: #333d49; }
 .br-guide .gf { margin-top: 18px; padding-top: 6px; border-top: 1px solid #d6dde6; font: 600 8pt "Chivo Mono", monospace; color: #8a939e; }
+
+/* ---------- Founding Testers beta: invite, share, feedback (engine/community.js) ---------- */
+.br-invbtn { cursor: pointer; font: 800 14px var(--font-sans, inherit); font-family: inherit; }
+.br-invbtn svg { color: var(--accent); }
+@media (max-width: 620px) { .br-invbtn span { display: none; } .br-invbtn { order: 4; padding: 0 10px; } }
+.br-foot a { color: inherit; text-decoration: underline; text-underline-offset: 2px; }
+.br-testers { display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap; padding: 18px 22px; border-radius: var(--radius-card); background: linear-gradient(120deg, color-mix(in srgb, var(--accent) 14%, var(--surface)), var(--surface) 70%); border: 2px solid var(--accent); }
+.br-testers .t { flex: 1 1 320px; min-width: 0; }
+.br-testers h3 { margin: 4px 0 4px; font-size: 20px; font-weight: 900; }
+.br-testers p { margin: 0; color: var(--muted); line-height: 1.45; }
+.br-testers .acts { display: flex; flex-wrap: wrap; gap: 10px; }
+.br-testers .acts button, .br-endshare button { display: inline-flex; align-items: center; gap: 8px; cursor: pointer; font-family: inherit; }
+.br-testers .acts svg, .br-endshare svg { width: 18px; height: 18px; }
+.br-testers em, .br-endshare em { font-style: normal; font: 700 12px var(--font-mono); padding: 2px 8px; border-radius: 999px; background: var(--cat-amber); color: var(--tile-ink); }
+.br-testers .br-ghost { background: var(--surface); color: var(--ink); }
+.br-endshare { margin-top: 14px; display: flex; justify-content: center; }
+.br-endshare .br-ghost { background: var(--surface); color: var(--ink); }
+.br-rate { max-width: 420px; margin: 14px auto 0; padding: 12px 16px; border: 1px dashed var(--line); border-radius: var(--radius-inner); text-align: center; }
+.br-rate p { margin: 0 0 8px; font-weight: 800; }
+.br-rate .faces { display: flex; justify-content: center; gap: 12px; }
+.br-rate .faces button { width: 52px; height: 52px; border-radius: 50%; border: 1px solid var(--line); background: var(--surface); font-size: 26px; cursor: pointer; transition: transform .12s; }
+.br-rate .faces button:hover, .br-rate .faces button.is-on { transform: scale(1.12); border-color: var(--accent); box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 25%, transparent); }
+.br-rate .more { margin-top: 10px; display: grid; gap: 8px; justify-items: center; }
+.br-rate textarea, .br-ta { width: 100%; box-sizing: border-box; padding: 10px 12px; border: 1px solid var(--line); border-radius: 12px; background: var(--bg); color: var(--ink); font: 15px inherit; font-family: inherit; resize: vertical; }
+.br-ta { margin-top: 12px; }
+.br-report { display: block; margin: 8px auto 0; padding: 4px 8px; border: 0; background: none; color: var(--muted); font: 600 12px var(--font-mono); text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+.br-report:hover { color: var(--accent); }
+.br-challenge { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; margin: 4px 0 14px; padding: 14px 18px; border-radius: var(--radius-inner); background: color-mix(in srgb, var(--cat-amber) 45%, var(--surface)); border: 1px solid var(--cat-amber); }
+.br-challenge .ic svg { width: 28px; height: 28px; color: #9c7a17; }
+.br-challenge > span:nth-child(2) { flex: 1 1 220px; }
+.br-sharelink { display: flex; gap: 8px; }
+.br-sharelink input { flex: 1; min-width: 0; padding: 10px 12px; border: 1px solid var(--line); border-radius: 12px; background: var(--bg); color: var(--ink); font: 13px var(--font-mono); }
+.br-shareopts { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+.br-shareopts a { text-decoration: none; color: var(--ink); background: var(--surface); font-size: 14px; padding: 9px 16px; }
+.br-choices { display: grid; gap: 8px; }
+.br-choices.is-grid { grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); }
+.br-choices label { display: flex; gap: 10px; align-items: center; padding: 9px 12px; border: 1px solid var(--line); border-radius: 12px; cursor: pointer; font-size: 15px; }
+.br-choices label:has(input:checked) { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 10%, transparent); }
+.br-choices input { accent-color: var(--accent); width: 18px; height: 18px; flex: none; }
+.br-testerbadge { width: 100%; height: auto; display: block; }
+.br-frame .br-testerbadge { width: 72%; max-width: 110px; margin: 0 auto; filter: drop-shadow(0 6px 8px rgba(0,0,0,.35)); }
+.br-frame.is-locked .br-testerbadge { opacity: .55; }
+.br-frame[data-bgx-survey] { cursor: pointer; }
+/* privacy page */
+.br-legal { max-width: 72ch; margin: 0 auto; line-height: 1.6; }
+.br-legal h1 { font-size: 36px; font-weight: 900; margin: 6px 0 12px; }
+.br-legal h2 { font-size: 20px; font-weight: 900; margin: 26px 0 8px; }
+.br-legal p, .br-legal li { color: var(--ink); font-size: 16px; }
+.br-legal table { width: 100%; border-collapse: collapse; font-size: 15px; }
+.br-legal th, .br-legal td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }

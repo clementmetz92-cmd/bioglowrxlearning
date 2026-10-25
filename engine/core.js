@@ -38,9 +38,9 @@
     if (header) header.innerHTML = `
       <a class="br-brand" href="${BGX.root}index.html" aria-label="BioglowRX Sciences Learning home">${BGX.logo()}
         <div class="br-word"><div class="br-word-name">Bioglow<span>RX</span></div><p>Sciences Learning</p></div></a>
-      <button class="br-lvl" id="br-lvl" type="button"></button>${BGX.progress ? BGX.progress.headerLink() : ""}
+      <button class="br-lvl" id="br-lvl" type="button"></button>${BGX.progress ? BGX.progress.headerLink() : ""}${BGX.community ? BGX.community.headerButton() : ""}
       <div class="br-stat"><div class="br-streak" id="br-streakbox">streak <b id="br-streak">${BGX.streak}</b></div>best <span id="br-best">${BGX.bestStreak}</span><br><button class="br-sound" id="br-sound" aria-pressed="true">Sound on</button></div>`;
-    if (foot) foot.innerHTML = `${BGX.logo("br-footlogo")}<span>A BioglowRX Sciences Learning game · free to play, no login</span>`;
+    if (foot) foot.innerHTML = `${BGX.logo("br-footlogo")}<span>A BioglowRX Sciences Learning game · free to play, no login · <a href="${BGX.root}privacy/index.html">Privacy</a></span>`;
     const s = document.getElementById("br-sound");
     if (s) { BGX.paintSound(); s.onclick = () => { BGX.soundOn = !BGX.soundOn; BGX.store.set("sound", BGX.soundOn); BGX.paintSound(); if (BGX.soundOn) BGX.tone([660], .08); }; }
     BGX.paintStreak();
@@ -128,6 +128,7 @@
     document.body.appendChild(d); setTimeout(() => d.remove(), 950);
   };
   BGX.toast = txt => {
+    document.querySelectorAll(".br-toast").forEach(x => x.remove());
     const d = document.createElement("div"); d.className = "br-toast"; d.setAttribute("role", "status"); d.textContent = txt;
     document.body.appendChild(d); setTimeout(() => d.classList.add("is-out"), 2200); setTimeout(() => d.remove(), 2700);
   };

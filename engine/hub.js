@@ -86,6 +86,7 @@
           <span><span class="nm">${esc(s.name)}</span><span class="ct">${esc(s.count || s.chapters.length + " chapters")}</span></span>${PG ? PG.subjectTile(s) : ""}</a>`;
       }).join("")}</section>
       ${featuredHTML()}
+      ${BGX.community ? BGX.community.hubCard() : ""}
       ${last ? `<a class="br-continue" href="${R}${esc(last.url)}">
           <div class="br-tile is-sm" style="background:var(--${lastSubj ? lastSubj.color : "cat-mint"})"><b>${lastSubj ? BGX.icon(lastSubj.icon) : "▶"}</b></div>
           <div class="t"><p class="br-label" style="margin:0">Continue where you left off</p><h3>${esc(last.title)}</h3><p>${esc(lastSubj ? lastSubj.name : "")}${last.tagline ? " · " + esc(last.tagline) : ""}</p></div>

@@ -271,10 +271,11 @@
     BGX.sheet({ label: title, title, wide: true,
       html: `<div class="br-certframe${kind === "diploma" ? " is-diploma" : ""}">${svg}</div>
         ${getName() ? "" : `<p class="br-hint" style="margin:10px 0 0">Add your name in the <a href="${R}cabinet/index.html">trophy cabinet</a> and it appears on every certificate.</p>`}
-        <div class="br-btns" style="margin-top:14px;justify-content:flex-start"><button class="br-next" type="button" data-print>Print or save as PDF</button>
+        <div class="br-btns" style="margin-top:14px;justify-content:flex-start"><button class="br-next" type="button" data-print>Print or save as PDF</button>${BGX.shareSvg ? `<button class="br-ghost" type="button" data-sharecert>Share as image</button>` : ""}
         ${info ? `<a class="br-ghost" href="${R}${info.c.url}">Play ${esc(info.c.game)} again</a>` : `<a class="br-ghost" href="${R}subjects/${ref}/index.html">Open ${esc(s.name)}</a>`}</div>
         ${kind === "diploma" && a.d[ref] && a.d[ref].cls !== "Distinction" ? `<p class="br-hint" style="margin:12px 0 0">Raise your ${esc(s.name)} score to ${a.d[ref].cls === "Pass" ? "80% for Merit or " : ""}90% for Distinction and this diploma upgrades itself.</p>` : ""}`,
-      onOpen: body => { const b = body.querySelector("[data-print]"); if (b) b.onclick = () => printCert(svg); } });
+      onOpen: body => { const b = body.querySelector("[data-print]"); if (b) b.onclick = () => printCert(svg);
+        const sh = body.querySelector("[data-sharecert]"); if (sh) sh.onclick = () => BGX.shareSvg(svg, kind === "diploma" ? "BioglowRX-diploma-" + ref : "BioglowRX-certificate-" + ref.replace(/[^a-z0-9]+/gi, "-")); } });
   }
 
   /* ---------- pop-ups when something is earned ---------- */
@@ -403,6 +404,7 @@
             <h2 class="br-shelfhead"><span>Diplomas</span><small>${dips}/${C.subjects.length}</small></h2>
             <div class="br-shelfrow is-dips">
               <div class="br-frame is-flask${a.flask ? " is-won" : " is-locked"}" title="The Golden Flask: earn all five diplomas">${flaskSVG(!!a.flask)}<span class="cap"><b>The Golden Flask</b><small>${a.flask ? "Awarded " + esc(longDate(a.flask.d)) : `All five diplomas · ${dips}/5`}</small></span></div>
+              ${BGX.community ? BGX.community.cabinetShelfItem() : ""}
               ${A.map(dipTile).join("")}</div>
             <i class="plank" aria-hidden="true"></i></section>
           ${A.map(ss => `<section class="br-shelf" aria-label="${esc(ss.s.name)} certificates">
@@ -432,6 +434,7 @@
   const boot = () => {
     const page = document.body && document.body.dataset.page;
     if (page === "cabinet") { BGX.shell(); cabinet(document.getElementById("br-view")); }
+    if (page === "privacy") BGX.shell();
     if (early.length && (page === "hub" || page === "subject" || page === "cabinet")) setTimeout(() => celebrate(early), 600);
   };
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", boot); else boot();
