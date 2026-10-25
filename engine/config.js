@@ -6,7 +6,7 @@
    - tallySurvey: Tally form id for the 5-question beta survey (Founding Tester badge). */
 window.BGX_CONFIG = {
   siteUrl: "https://clementmetz92-cmd.github.io/bioglowrxlearning/",
-  posthogKey: "",
+  posthogKey: "phc_wN6DQQibEgRqon2YzrJaLhf2FotaCVtbBhtnDnWb634P",
   posthogHost: "https://eu.i.posthog.com",
   tallySurvey: "",
   contactEmail: "clementmetz92@gmail.com"

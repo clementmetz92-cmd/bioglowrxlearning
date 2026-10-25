@@ -14,31 +14,24 @@
   if (BGX.icons && !BGX.icons.vote) BGX.icons.vote = "M4 21h16M6 17h12l-1-6H7zM9 11V4h6v7M10.5 7.5l1.2 1.2 2.3-2.4";
 
   /* ---------- analytics (PostHog, EU, cookie-free) ---------- */
-  const queue = [];
+  /* PostHog's official loader stub: calls made before the library arrives are queued and replayed by it */
   function loadPosthog() {
-    if (!C.posthogKey) return;
-    if (window.posthog && window.posthog.__loaded) return;
-    if (!window.posthog) {
-      const s = document.createElement("script");
-      s.async = true; s.src = (C.posthogHost || "https://eu.i.posthog.com").replace(".i.posthog.com", "-assets.i.posthog.com") + "/static/array.full.js";
-      s.onload = init; document.head.appendChild(s);
-    } else init();
-  }
-  function init() {
+    if (!C.posthogKey || (window.posthog && window.posthog.__SV)) return;
+    !function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.crossOrigin="anonymous",p.async=!0,p.src=s.api_host.replace(".i.posthog.com","-assets.i.posthog.com")+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+".people (stub)"},o="init capture register register_once unregister identify reset get_distinct_id set_config opt_in_capturing opt_out_capturing debug".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
     try {
       window.posthog.init(C.posthogKey, {
         api_host: C.posthogHost || "https://eu.i.posthog.com",
         persistence: "memory",              // no cookies, no local storage: nothing to consent to
-        autocapture: false, capture_pageview: true, disable_session_recording: true,
-        person_profiles: "identified_only", disable_surveys: true
+        autocapture: false, capture_pageview: true, capture_pageleave: false,
+        disable_session_recording: true, disable_surveys: true, enable_heatmaps: false, capture_performance: false, capture_dead_clicks: false,
+        person_profiles: "identified_only", ip: false
       });
-      while (queue.length) { const [e, p] = queue.shift(); window.posthog.capture(e, p); }
     } catch (e) {}
   }
   const page = () => ({ page: location.pathname.replace(/.*bioglowrxlearning/, "") || "/", game: BGX.game ? BGX.game.id : null, level: BGX.xp ? BGX.xp.level().n : null });
   BGX.track = (event, props = {}) => {
     const p = Object.assign(page(), props);
-    try { if (window.posthog && window.posthog.capture && window.posthog.__loaded) window.posthog.capture(event, p); else if (C.posthogKey) queue.push([event, p]); } catch (e) {}
+    try { if (C.posthogKey && window.posthog && window.posthog.capture) window.posthog.capture(event, p); } catch (e) {}
   };
 
   /* ---------- invite & share ---------- */
@@ -231,9 +224,9 @@
   document.addEventListener("keydown", e => { if ((e.key === "Enter" || e.key === " ") && e.target.matches && e.target.matches("[data-bgx-survey][role=button]")) { e.preventDefault(); openSurvey(); } });
 
   // first visit from an invite or challenge link
+  loadPosthog();
   const ref = new URLSearchParams(location.search).get("ref");
   if (ref) BGX.track("arrived", { ref });
-  loadPosthog();
 
   BGX.community = { on, endCard, reportBtn, challengeBanner, hubCard, headerButton, cabinetShelfItem, openVote, openSurvey, openReport, testerBadge, INVITE_XP };
 })();
