@@ -200,6 +200,18 @@
     return { el: ov, body, close, set, go };
   };
 
+  /* ---------- printing: BGX.printDoc(html, kind) prints only that content (kind "notes" = portrait study guide).
+     Uses the browser's print dialog, where "Save as PDF" (or Share › Save to Files on iPhone) makes the PDF. */
+  BGX.printDoc = (html, kind = "doc") => {
+    let box = document.getElementById("br-printdoc");
+    if (!box) { box = document.createElement("div"); box.id = "br-printdoc"; document.body.appendChild(box); }
+    box.className = "is-" + kind; box.innerHTML = html;
+    document.body.classList.add("br-printing-doc");
+    const done = () => { document.body.classList.remove("br-printing-doc"); box.innerHTML = ""; window.removeEventListener("afterprint", done); };
+    window.addEventListener("afterprint", done);
+    setTimeout(() => { try { window.print(); } catch (e) { done(); } }, 80);
+  };
+
   /* ---------- pop-ups (one at a time: a streak milestone and a level-up never overlap) ---------- */
   const popQ = []; let popping = false;
   BGX.popup = (label, html, opts = {}) => { popQ.push({ label, html, opts }); if (!popping) nextPop(); };

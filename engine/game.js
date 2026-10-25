@@ -281,26 +281,58 @@
           ${x.sec.tip ? `<p class="tip"><b>Memory tip</b> ${esc(x.sec.tip)}</p>` : ""}
           ${x.its.length ? `<p class="br-label" style="margin:16px 0 6px">${x.its.length} ${esc(G.itemNoun || "item")}${x.its.length > 1 ? "s" : ""} in this group</p><ul class="its">${x.its.map(it => `<li><b>${esc(it.name)}</b>${keyField.map(f => { const v = val(f, it); return v && v !== x.c.name ? ` <span class="k">${esc(v)}</span>` : ""; }).join("")}${line(it) ? ` — ${esc(line(it))}` : ""}</li>`).join("")}</ul>` : ""}
         </section>`;
+      /* printable study guide: the whole chapter's notes, or one topic, with every card's key facts */
+      const printBtn = (id, label) => `<button class="br-printbtn" type="button" id="${id}">${PRINT_ICON}<span>${label}</span></button>`;
+      const guide = list => {
+        const f = BGX.progress && BGX.progress.findChapter(G.id), who = (BGX.store.get("name", "") || "").trim();
+        const date = new Date().toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" });
+        const whole = list.length === secs.length;
+        return `<article class="br-guide">
+          <header class="gh">${BGX.logo("glogo")}<div><p class="ey">BioglowRX Sciences Learning · Study notes</p>
+            <h1>${esc(G.title)}${whole ? "" : `: ${esc(list[0].title)}`}</h1>
+            <p class="meta">${f ? `${esc(f.s.name)} · Chapter ${esc(f.c.ch)}: ${esc(f.c.title)}` : esc(G.tagline || "")}</p>
+            <p class="meta">${who ? `${esc(who)} · ` : ""}Printed ${esc(date)}</p></div></header>
+          ${whole && N.intro ? `<p class="gintro">${esc(N.intro)}</p>` : ""}
+          ${whole && diagramSVG(null) ? `<figure class="gart">${diagramSVG(null)}</figure>` : ""}
+          ${whole && list.length > 1 ? `<nav class="gtoc"><p class="lb">In these notes</p><ol>${list.map(x => `<li>${esc(x.title)}${x.its.length ? ` <small>(${x.its.length})</small>` : ""}</li>`).join("")}</ol></nav>` : ""}
+          ${list.map((x, k) => `<section class="gsec">
+            <h2><span class="n">${whole ? k + 1 : "•"}</span>${esc(x.title)}</h2>
+            ${x.sec.about ? `<p>${esc(x.sec.about)}</p>` : ""}
+            ${x.sec.points && x.sec.points.length ? `<ul class="gpts">${x.sec.points.map(p => `<li>${esc(p)}</li>`).join("")}</ul>` : ""}
+            ${x.sec.tip ? `<p class="gtip"><b>Memory tip</b> ${esc(x.sec.tip)}</p>` : ""}
+            ${x.its.length ? `<div class="gits">${x.its.map(it => `<div class="git"><h3>${esc(it.name)}${keyField.map(fl => { const v = val(fl, it); return v && v !== x.c.name ? ` <span class="k">${esc(v)}</span>` : ""; }).join("")}</h3>
+              ${line(it) ? `<p>${esc(line(it))}</p>` : ""}
+              ${it.facts && it.facts.length ? `<ul>${it.facts.map(t => `<li>${esc(t)}</li>`).join("")}</ul>` : ""}</div>`).join("")}</div>` : ""}
+          </section>`).join("")}
+          ${whole && N.outro ? `<p class="gintro">${esc(N.outro)}</p>` : ""}
+          <footer class="gf">BioglowRX Sciences Learning · free science games built from real course books · ${esc(G.title)}</footer></article>`;
+      };
+      const printGuide = list => { BGX.sfx.tap(); BGX.printDoc(guide(list), "notes"); };
       const first = t => { const m = String(t || "").match(/^.*?[.!?](\s|$)/); return m ? m[0] : String(t || ""); };
-      view.innerHTML = `<div class="br-top"><button class="br-quit" id="br-quit" aria-label="Back to the game menu"><span aria-hidden="true">←</span> Menu</button><span class="br-label" style="margin:0">Study notes · ${esc(G.title)}</span></div>
+      view.innerHTML = `<div class="br-top"><button class="br-quit" id="br-quit" aria-label="Back to the game menu"><span aria-hidden="true">←</span> Menu</button><span class="br-label" style="margin:0">Study notes · ${esc(G.title)}</span>${printBtn("br-printall", "Print or save as PDF")}</div>
         <div class="br-notes">
           <div class="br-notesintro">${diagramSVG(null) ? `<div class="br-notesart" aria-hidden="true">${diagramSVG(null)}</div>` : ""}<p class="intro">${esc(N.intro || "")}</p></div>
           <p class="br-label" style="margin:16px 0 8px">${secs.length} topic${secs.length > 1 ? "s" : ""}: tap one to read it</p>
           <div class="br-notecards">${secs.map((x, i) => `<button class="br-notecard" type="button" data-s="${i}">${iconHTML(x.c)}<span><b>${esc(x.title)}</b><span class="l">${esc(first(x.sec.about))}</span>
             <small>${x.its.length ? `${x.its.length} ${esc(G.itemNoun || "item")}${x.its.length > 1 ? "s" : ""} · ` : ""}${x.sec.tip ? "memory tip" : "key points"}</small></span><span class="go" aria-hidden="true">›</span></button>`).join("")}</div>
           ${N.outro ? `<p class="intro">${esc(N.outro)}</p>` : ""}
-          <div class="br-btns" style="margin-top:18px"><button class="br-next" id="br-play">I'm ready: choose a game</button></div>
+          <div class="br-btns" style="margin-top:18px"><button class="br-next" id="br-play">I'm ready: choose a game</button>${printBtn("br-printall2", "Print all notes")}</div>
         </div>`;
       $("#br-quit").onclick = menu; $("#br-play").onclick = () => { BGX.sfx.tap(); menu(); window.scrollTo({ top: 0, behavior: BGX.RM ? "auto" : "smooth" }); };
+      ["#br-printall", "#br-printall2"].forEach(q => { const b = $(q); if (b) b.onclick = () => printGuide(secs); });
+      const sheetBody = k => secBody(secs[k]) + `<div class="br-btns" style="margin-top:14px;justify-content:flex-start">${printBtn("br-printone", "Print this topic")}${printBtn("br-printall3", "Print all notes")}</div>`;
       view.querySelectorAll("[data-s]").forEach(btn => btn.onclick = () => {
         BGX.sfx.tap(); const i = +btn.dataset.s;
-        BGX.sheet({ label: "Study notes: " + secs[i].title, html: secBody(secs[i]), wide: true,
-          nav: { count: secs.length, index: i, render: k => ({ html: secBody(secs[k]) }) } });
+        BGX.sheet({ label: "Study notes: " + secs[i].title, html: sheetBody(i), wide: true,
+          nav: { count: secs.length, index: i, render: k => ({ html: sheetBody(k) }) },
+          onOpen: (body, k) => { body.querySelector("#br-printone").onclick = () => printGuide([secs[k]]); body.querySelector("#br-printall3").onclick = () => printGuide(secs); } });
       });
       const got = BGX.xp.once("notes_" + G.id, 25);
       if (got) setTimeout(() => BGX.toast(`+${got} XP for opening the study notes`), 400);
     }
   };
+
+  const PRINT_ICON = `<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 9V3h10v6M7 17H5a2 2 0 0 1-2-2v-4a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v4a2 2 0 0 1-2 2h-2M7 14h10v7H7z"/></svg>`;
 
   /* ---------- format: Card Explorer ---------- */
   BGX.formats.explorer = {

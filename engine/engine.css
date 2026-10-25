@@ -727,7 +727,8 @@ body.br-hasdock { padding-bottom: 62vh; }
 /* printing one certificate */
 #br-printcert { display: none; }
 @media print {
-  @page { size: landscape; margin: 8mm; }
+  @page cert { size: landscape; margin: 8mm; }
+  #br-printcert { page: cert; }
   body.br-printing > *:not(#br-printcert) { display: none !important; }
   body.br-printing { background: #fff !important; }
   body.br-printing #br-printcert { display: block; }
@@ -735,3 +736,79 @@ body.br-hasdock { padding-bottom: 62vh; }
 }
 .br-certbtn { box-sizing: border-box; }
 @media (max-width: 620px) { .br-subjects .br-subj { height: 214px; } }
+
+/* ---------- printable study guide (BGX.printDoc) ---------- */
+.br-printbtn { display: inline-flex; align-items: center; gap: 7px; min-height: 40px; padding: 7px 14px; border: 1px solid var(--line); border-radius: var(--radius-pill); background: var(--surface); color: var(--ink); font: 700 14px inherit; font-family: inherit; cursor: pointer; }
+.br-printbtn:hover { border-color: var(--accent); color: var(--accent); }
+.br-top .br-printbtn { margin-left: auto; }
+@media (max-width: 620px) { .br-top .br-printbtn span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); } .br-top .br-printbtn { padding: 7px 11px; } }
+#br-printdoc { display: none; }
+#br-printdoc {
+  --bg: #eef2f6;
+  --surface: #ffffff;
+  --ink: #18202b;
+  --muted: #5b6676;
+  --line: #d6dde6;
+  --accent: #0e6b66;
+  --accent-ink: #ffffff;
+  --good: #1e8a4c;
+  --good-tint: #dbece2;
+  --bad: #c2372b;
+  --bad-tint: #f7e3e1;
+  --blank: #dce2ea;
+  --tile-ink: #1f2430;
+  --streak-hot: #e8590c;
+  --streak-glow: #ff8a3d;
+  --logo-deep: #0e6b66;
+  --logo-leaf: #2fb67c;
+  --logo-glow: #9bf5cf;
+  --logo-core: #e9fff6;
+  --cat-coral: #f7a8a0;
+  --cat-amber: #fbd08a;
+  --cat-lemon: #f6e7a1;
+  --cat-sage: #b9ddb0;
+  --cat-mint: #9fd8cb;
+  --cat-sky: #a9cbef;
+  --cat-lilac: #c7b8ec;
+  --cat-orchid: #e9b6da;
+  --cat-peach: #f9c3a8;
+  --cat-sand: #e3c4a2;
+  --shadow-logo: 0 3px 8px rgba(47,182,124,0.35);
+  --shadow-milestone: 0 12px 40px rgba(14,107,102,0.35);
+  color-scheme: light; }
+@media print {
+  @page notes { size: A4 portrait; margin: 14mm 14mm 16mm; }
+  #br-printdoc.is-notes { page: notes; }
+  body.br-printing-doc > *:not(#br-printdoc) { display: none !important; }
+  html:has(body.br-printing-doc), body.br-printing-doc { background: #fff !important; color-scheme: light !important; }
+  html:has(body.br-printing), body.br-printing { background: #fff !important; color-scheme: light !important; }
+  body.br-printing-doc #br-printdoc { display: block; }
+  #br-printdoc * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+}
+.br-guide { color: #18202b; background: #fff; font-family: Chivo, -apple-system, "Segoe UI", sans-serif; font-size: 11pt; line-height: 1.45; }
+.br-guide .gh { display: flex; gap: 14px; align-items: center; padding-bottom: 10px; border-bottom: 3px solid #0E6B66; }
+.br-guide .glogo { width: 46px; height: 50px; flex: none; }
+.br-guide .ey { margin: 0; font: 600 8.5pt "Chivo Mono", ui-monospace, monospace; letter-spacing: .12em; text-transform: uppercase; color: #0E6B66; }
+.br-guide h1 { margin: 2px 0; font-size: 22pt; font-weight: 900; line-height: 1.1; }
+.br-guide .meta { margin: 0; font: 600 9pt "Chivo Mono", ui-monospace, monospace; color: #5b6676; }
+.br-guide .gintro { margin: 12px 0; font-size: 11.5pt; }
+.br-guide .gart { margin: 6px auto 10px; max-width: 420px; break-inside: avoid; }
+.br-guide .gart svg { width: 100%; height: auto; max-height: 230px; display: block; }
+.br-guide .gtoc { padding: 8px 12px; border: 1px solid #d6dde6; border-radius: 8px; background: #f6f9fb; break-inside: avoid; }
+.br-guide .gtoc .lb { margin: 0 0 4px; font: 600 8.5pt "Chivo Mono", monospace; text-transform: uppercase; letter-spacing: .1em; color: #5b6676; }
+.br-guide .gtoc ol { margin: 0; padding-left: 20px; columns: 2; column-gap: 24px; font-size: 10pt; }
+.br-guide .gtoc small { color: #5b6676; }
+.br-guide .gsec { margin-top: 16px; }
+.br-guide h2 { display: flex; align-items: center; gap: 8px; margin: 0 0 6px; padding-bottom: 4px; border-bottom: 1px solid #d6dde6; font-size: 14.5pt; font-weight: 900; break-after: avoid; }
+.br-guide h2 .n { display: inline-grid; place-items: center; min-width: 22px; height: 22px; border-radius: 6px; background: #0E6B66; color: #fff; font-size: 10pt; }
+.br-guide .gsec > p { margin: 0 0 6px; }
+.br-guide .gpts { margin: 0 0 6px; padding-left: 18px; }
+.br-guide .gtip { margin: 6px 0 8px; padding: 6px 10px; border-left: 4px solid #e8a33d; background: #fff6e5; break-inside: avoid; }
+.br-guide .gtip b { color: #9c5a00; margin-right: 4px; }
+.br-guide .gits { display: grid; grid-template-columns: 1fr 1fr; gap: 6px 14px; margin-top: 6px; }
+.br-guide .git { padding: 6px 8px; border: 1px solid #e1e6ec; border-radius: 6px; break-inside: avoid; }
+.br-guide .git h3 { margin: 0 0 2px; font-size: 10.5pt; font-weight: 800; }
+.br-guide .git .k { font: 600 8.5pt "Chivo Mono", monospace; color: #0E6B66; margin-left: 4px; }
+.br-guide .git p { margin: 0 0 2px; font-size: 9.5pt; }
+.br-guide .git ul { margin: 2px 0 0; padding-left: 16px; font-size: 9pt; color: #333d49; }
+.br-guide .gf { margin-top: 18px; padding-top: 6px; border-top: 1px solid #d6dde6; font: 600 8pt "Chivo Mono", monospace; color: #8a939e; }
