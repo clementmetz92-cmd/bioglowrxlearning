@@ -5,9 +5,17 @@
      Feedback buttons only appear when this is set, so nobody is asked for feedback that goes nowhere.
    - tallySurvey: Tally form id for the 5-question beta survey (Founding Tester badge). */
 window.BGX_CONFIG = {
-  siteUrl: "https://clementmetz92-cmd.github.io/bioglowrxlearning/",
+  siteUrl: "https://bioglowrx.netlify.app/",
   posthogKey: "phc_wN6DQQibEgRqon2YzrJaLhf2FotaCVtbBhtnDnWb634P",
   posthogHost: "https://eu.i.posthog.com",
   tallySurvey: "rDDyKo",
   contactEmail: "clementmetz92@gmail.com"
 };
+
+/* The site moved from GitHub Pages to Netlify: send old links to the same page on the new address. */
+(function () {
+  if (location.hostname.slice(-10) === ".github.io") {
+    var path = location.pathname.replace(/^\/bioglowrxlearning/, "") || "/";
+    location.replace(window.BGX_CONFIG.siteUrl.replace(/\/$/, "") + path + location.search + location.hash);
+  }
+})();
