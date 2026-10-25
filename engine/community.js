@@ -113,6 +113,8 @@
     let html = `<div class="br-endshare"><button class="br-ghost" type="button" data-bgx-challenge>${BGX.icon("gift")} Challenge a friend${BGX.store.get("xponce", {}).invite ? "" : ` <em>+${INVITE_XP} XP</em>`}</button></div>`;
     if (!on.feedback) return html;
     const n = BGX.store.get("rounds", 0) + 1; BGX.store.set("rounds", n);
+    if (on.survey && !fbDone().tester && n >= 5 && n % 5 === 0)       // every 5th round until they answer
+      html += `<div class="br-endshare"><button class="br-next" type="button" data-bgx-survey>2-minute survey: earn your Founding Tester badge</button></div>`;
     if (n % 3 !== 1) return html;                                   // ask on the 1st, 4th, 7th… round only
     return html + `<div class="br-rate" data-game="${esc(g.id)}" data-mode="${esc(mode.id)}" data-score="${score}" data-total="${total}">
       <p>How was this game?</p>
@@ -161,7 +163,7 @@
   function openSurvey() {
     if (!on.survey) return;
     const go = () => window.Tally.openPopup(C.tallySurvey, { layout: "modal", width: 600, autoClose: 2500,
-      hiddenFields: { level: BGX.xp.level().n, games: Object.keys(localStorage).filter(k => k.indexOf("bgx_prog_") === 0).length },
+      hiddenFields: { level: BGX.xp.level().n, games: (() => { try { return Object.keys(localStorage).filter(k => k.indexOf("bgx_prog_") === 0).length; } catch (e) { return 0; } })(), ref: BGX.store.get("ref", "") || "direct" },
       onSubmit: () => { awardTester(); BGX.track("survey_done"); } });
     if (window.Tally) go(); else { const s = document.createElement("script"); s.src = "https://tally.so/widgets/embed.js"; s.onload = go; document.head.appendChild(s); }
     BGX.track("survey_open");
@@ -226,7 +228,7 @@
   // first visit from an invite or challenge link
   loadPosthog();
   const ref = new URLSearchParams(location.search).get("ref");
-  if (ref) BGX.track("arrived", { ref });
+  if (ref) { BGX.track("arrived", { ref }); if (!BGX.store.get("ref", "")) BGX.store.set("ref", String(ref).slice(0, 40)); }
 
   BGX.community = { on, endCard, reportBtn, challengeBanner, hubCard, headerButton, cabinetShelfItem, openVote, openSurvey, openReport, testerBadge, INVITE_XP };
 })();

@@ -8,6 +8,6 @@ window.BGX_CONFIG = {
   siteUrl: "https://clementmetz92-cmd.github.io/bioglowrxlearning/",
   posthogKey: "phc_wN6DQQibEgRqon2YzrJaLhf2FotaCVtbBhtnDnWb634P",
   posthogHost: "https://eu.i.posthog.com",
-  tallySurvey: "",
+  tallySurvey: "rDDyKo",
   contactEmail: "clementmetz92@gmail.com"
 };
