@@ -65,18 +65,38 @@
       ${G.sets ? `<p class="br-label">Practise with</p>
       <div class="br-seg" role="group" aria-label="${esc(G.itemNoun || "item")}s to practise">${G.sets.map(x => `<button data-set="${x.size}" aria-pressed="${S.set == x.size}">${esc(x.label)}</button>`).join("")}</div>` : ""}
       ${G.hint ? `<p class="br-hint">${esc(G.hint)}</p>` : ""}${G.note ? `<p class="br-hint"><b>${esc(G.note)}</b></p>` : ""}
+      ${BGX.progress ? BGX.progress.gameCard(G.id) : ""}
       <p class="br-label" style="margin-top:22px">Choose a game</p>
-      <div class="br-modes">${G.modes.map(m => `<button class="br-mode${m._ready ? "" : " is-soon"}" data-mode="${m.id}"${m._ready ? "" : ' aria-disabled="true"'}>
-        <span class="ic" style="background:var(--${m.color || "cat-mint"})">${esc(m.icon || "")}</span>
-        <span><h3>${esc(m.title)}</h3><p>${esc(m.desc || "")}</p>${!m._ready ? '<span class="best">Coming soon</span>' : (best[m.id + S.set] != null && BGX.formats[m.format].scored ? `<span class="best">Best: ${best[m.id + S.set]}/${roundSize(m)}</span>` : "")}</span></button>`).join("")}</div>
+      <div class="br-modes">${G.modes.map(m => { const sc = m._ready && BGX.formats[m.format].scored, pc = sc && BGX.progress ? BGX.progress.modePct(G.id, m.id) : null, ok = pc != null && pc >= 70;
+        return `<button class="br-mode${m._ready ? "" : " is-soon"}${ok ? " is-passed" : ""}" data-mode="${m.id}"${m._ready ? "" : ' aria-disabled="true"'}>
+        <span class="ic" style="background:var(--${m.color || "cat-mint"})">${esc(m.icon || "")}${ok ? '<i class="br-tick" aria-label="passed">✓</i>' : ""}</span>
+        <span><h3>${esc(m.title)}</h3><p>${esc(m.desc || "")}</p>${!m._ready ? '<span class="best">Coming soon</span>'
+          : sc ? `<span class="best${ok ? " is-ok" : pc != null ? " is-low" : " is-todo"}">${best[m.id + S.set] != null ? `Best: ${best[m.id + S.set]}/${roundSize(m)} · ` : ""}${pc == null ? "Not played yet · pass at 70%" : ok ? `${Math.round(pc)}% · passed` : `${Math.round(pc)}% · 70% to pass`}</span>` : ""}</span></button>`; }).join("")}</div>
       ${subj ? `<nav class="br-backrow is-bottom" aria-label="Back">${subj}</nav>` : ""}`;
     view.classList.remove("menu-in"); void view.offsetWidth; view.classList.add("menu-in");
+    if (BGX.progress) BGX.progress.bindGameCard(G.id);
     view.querySelectorAll("[data-set]").forEach(b => b.onclick = () => { BGX.sfx.tap(); S.set = +b.dataset.set; BGX.store.set("set_" + G.id, S.set); menu(); });
     view.querySelectorAll("[data-mode]").forEach(b => b.onclick = () => { const m = G.modes.find(x => x.id === b.dataset.mode); if (m._ready) start(m); });
   }
   const roundSize = m => BGX.formats[m.format] && BGX.formats[m.format].roundSize ? BGX.formats[m.format].roundSize(m)
     : m.format === "matchpairs" ? Math.min(m.pairs || 8, G.items.length)
     : m.format === "sequence" ? Math.min(m.rounds || 6, (G.sequences || []).length) : Math.min(ROUND, G.items.length);
+
+  /* scored modes and their round sizes for every practice set (read by tools-progress-map.js to build data/progress-map.js) */
+  BGX.progressInfo = () => {
+    const keep = S.set, sizes = G.sets ? G.sets.map(x => x.size) : [G.items.length];
+    const out = G.modes.filter(m => m._ready && BGX.formats[m.format].scored).map(m => {
+      const tot = {};
+      sizes.forEach(sz => {
+        S.set = sz;
+        if (m.format === "matchpairs") { const used = new Set(); tot[sz] = Math.min(m.pairs || 8, poolFor(m).filter(it => it[m.clue] && !used.has(it[m.clue]) && used.add(it[m.clue])).length); }
+        else { const f = BGX.formats[m.format]; let n; try { n = f.makeRound ? f.makeRound(m).length : roundSize(m); } catch (e) { n = roundSize(m); } tot[sz] = n; }
+      });
+      return { id: m.id, t: m.title, tot };
+    });
+    S.set = keep;
+    return { title: G.title, subject: G.subject, modes: out };
+  };
 
   /* ---------- round runner (question formats) ---------- */
   function start(mode) {
@@ -148,6 +168,7 @@
     const best = BGX.store.get("best_" + G.id, {}), k = m.id + S.set;
     const isBest = best[k] == null || S.score > best[k];
     if (isBest) { best[k] = S.score; BGX.store.set("best_" + G.id, best); }
+    const prog = BGX.progress && total > 0 ? BGX.progress.record(G.id, m.id, S.score, total) : null;
     const msg = S.score === total ? "Perfect round!" : S.score >= total * .8 ? "Excellent work." : S.score >= total * .5 ? "Getting there." : "Keep practising — it sticks fast.";
     const setLabel = G.sets ? " · " + (G.sets.find(x => x.size == S.set) || {}).label : "";
     const roundXP = total >= 3 ? BGX.xp.add(BGX.xp.roundBonus(S.score === total)) : 0;
@@ -159,11 +180,13 @@
       ${extra && extra.note ? `<p class="br-hint" style="margin:6px auto 0">${esc(extra.note)}</p>` : ""}
       ${earned ? `<button class="br-xpline" id="br-xpline" type="button" aria-label="+${earned} XP this round. See all levels">${BGX.levelBadge(lv)}<span><b>+${earned.toLocaleString("en-US")} XP</b> this round${roundXP ? ` <em>(incl. ${S.score === total ? "perfect-round" : "round"} bonus +${roundXP})</em>` : ""}
         <i class="bar"><i style="width:${lv.pct.toFixed(1)}%"></i></i><small>Lv ${lv.n} ${esc(lv.name)}${lv.next ? ` · ${(lv.next.xp - BGX.xp.total).toLocaleString("en-US")} XP to Lv ${lv.n + 1}` : ""}</small></span></button>` : ""}
+      ${prog ? BGX.progress.endLine(G.id, m.id, S.score / total * 100) : ""}
       ${S.wrong.length ? `<p class="br-label" style="margin-top:22px">Review these</p>
         <div class="br-review">${S.wrong.map(it => tileHTML(it, "is-sm", `<em>${esc(val(G.tile.label, it))}</em>`)).join("")}</div>` : ""}
       <div class="br-btns"><button class="br-next" id="br-again">Play again</button><button class="br-ghost" id="br-back">Menu</button></div></div>`;
     $("#br-again").onclick = () => start(m); $("#br-back").onclick = menu;
     const xl = $("#br-xpline"); if (xl) xl.onclick = () => BGX.showLevels();
+    if (prog) { const pl = $("#br-progline"); if (pl) pl.onclick = () => BGX.progress.openChapterFor(G.id); setTimeout(() => BGX.progress.celebrate(prog), 900); }
     if (S.score === total) { BGX.sfx.big(); BGX.rain(220); } else if (isBest && S.score > 0) { BGX.sfx.win(); BGX.rain(90); } else if (S.score >= total / 2) BGX.sfx.win();
   }
 

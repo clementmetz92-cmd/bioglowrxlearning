@@ -118,3 +118,11 @@ Data files are JavaScript, so a problem can pick its own numbers:
 ```
 Negative answers: add `"signed": true` to the problem (type the minus sign). The out-by-1,000 nudge names `g ↔ mg ↔ mcg, L ↔ mL` unless the problem or game sets `"thousand": "J ↔ kJ"`.
 Answers off by 10, 100 or 1,000 get an automatic "check the decimal point / unit conversion" nudge. Commas are accepted as decimal points.
+
+## Progress, certificates and the trophy cabinet (engine/progress.js)
+- A game's **scored modes** (any format with `scored: true`) each need **70%** or more (best score counts). All passed = game completed.
+- Chapter = its game(s) from catalog.js (`url`, or a `games: [url, …]` list). All games completed → **certificate**.
+- Subject = its live chapters. All completed → **diploma** (Pass 70%+, Merit 80%+, Distinction 90%+). All five diplomas → the Golden Flask.
+- Labs earn medals from their stars in the cabinet (cabinet/index.html); they don't count towards completion.
+- After adding a game or changing its modes, rebuild data/progress-map.js: `python3 tools-progress-map.py` (tools-bump-version.py runs it too).
+- Saved per device: bgx_prog_<game> (best % per mode), bgx_awards, bgx_name.
