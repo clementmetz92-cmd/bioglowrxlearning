@@ -46,6 +46,8 @@
     BGX.recordPlay({ id: G.id, title: G.title, subject: G.subject, url: "games/" + G.id + "/index.html", tagline: G.tagline });
     document.title = G.title + " · BioglowRX Sciences Learning";
     menu();
+    const want = new URLSearchParams(location.search).get("mode");   // ?mode=<id> opens that mode straight away (used by practice pages)
+    if (want) BGX.startMode(want);
     document.addEventListener("keydown", ev => {
       if (S.screen !== "game" || document.querySelector(".br-milestone")) return;
       if (S.answered && (ev.key === "Enter" || ev.key === " ")) { ev.preventDefault(); nextQ(); return; }

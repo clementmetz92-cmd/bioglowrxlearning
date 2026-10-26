@@ -865,3 +865,34 @@ body.br-hasdock { padding-bottom: 62vh; }
 .br-legal p, .br-legal li { color: var(--ink); font-size: 16px; }
 .br-legal table { width: 100%; border-collapse: collapse; font-size: 15px; }
 .br-legal th, .br-legal td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
+
+/* ---------- practice (search landing) pages ---------- */
+.br-practice { max-width: 76ch; margin: 0 auto; line-height: 1.6; }
+.br-practice h1 { font-size: clamp(32px, 6vw, 48px); font-weight: 900; letter-spacing: -.02em; line-height: 1.05; margin: 4px 0 14px; }
+.br-practice h2 { font-size: 22px; font-weight: 900; margin: 34px 0 10px; }
+.br-practice p, .br-practice li { font-size: 16px; color: var(--ink); }
+.br-practice .pr-eyebrow { margin-top: 18px; }
+.br-practice .pr-lead { font-size: 19px; color: var(--muted); }
+.br-practice .pr-meta { font: 600 12px var(--font-mono); color: var(--muted); letter-spacing: .04em; margin-top: 12px; }
+.pr-cta { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin: 18px 0 4px; }
+.pr-cta .br-next { text-decoration: none; display: inline-flex; align-items: center; }
+.pr-cta .pr-ghost { text-decoration: none; display: inline-flex; align-items: center; min-height: 44px; padding: 0 18px; }
+.pr-shot { margin: 22px 0 8px; }
+.pr-shot img { display: block; width: 100%; height: auto; border-radius: 14px; border: 1px solid var(--line); box-shadow: 0 18px 40px -22px rgba(16,40,50,.45); }
+.pr-table { overflow-x: auto; border: 1px solid var(--line); border-radius: 12px; }
+.pr-table table { width: 100%; border-collapse: collapse; font-size: 15px; }
+.pr-table th { text-align: left; font: 600 12px var(--font-mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); background: var(--blank); padding: 10px 12px; }
+.pr-table td { padding: 9px 12px; border-top: 1px solid var(--line); vertical-align: top; }
+.pr-modes, .pr-how { padding-left: 22px; }
+.pr-modes li, .pr-how li { margin: 6px 0; }
+.pr-modes a { color: var(--accent); }
+.pr-faq details { border: 1px solid var(--line); border-radius: 12px; padding: 12px 16px; margin: 8px 0; background: var(--surface); }
+.pr-faq summary { font-weight: 800; cursor: pointer; }
+.pr-faq details p { margin: 8px 0 0; color: var(--muted); }
+.pr-rels { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; }
+.pr-rels.is-grid { margin-top: 18px; }
+.pr-rel { display: flex; flex-direction: column; gap: 4px; padding: 14px 16px; border-radius: 14px; border: 1px solid var(--line); background: var(--surface); text-decoration: none; color: var(--ink); }
+.pr-rel:hover { border-color: var(--accent); }
+.pr-rel b { font-size: 17px; font-weight: 800; line-height: 1.2; }
+.pr-rel span { font: 600 12px var(--font-mono); color: var(--muted); }
+.br-practice .pr-small { font-size: 14px; color: var(--muted); margin-top: 30px; }
