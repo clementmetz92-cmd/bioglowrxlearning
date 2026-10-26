@@ -896,3 +896,23 @@ body.br-hasdock { padding-bottom: 62vh; }
 .pr-rel b { font-size: 17px; font-weight: 800; line-height: 1.2; }
 .pr-rel span { font: 600 12px var(--font-mono); color: var(--muted); }
 .br-practice .pr-small { font-size: 14px; color: var(--muted); margin-top: 30px; }
+.pr-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 16px; margin-top: 22px; }
+.pr-card { display: flex; flex-direction: column; border-radius: 20px; overflow: hidden; background: var(--surface); border: 1px solid var(--line); text-decoration: none; color: var(--ink); transition: transform .18s ease, box-shadow .18s ease; }
+.pr-card:hover { transform: translateY(-3px); box-shadow: 0 18px 34px -18px rgba(14,107,102,.45); }
+.pr-art { display: flex; align-items: center; justify-content: center; background: var(--c); padding: 14px; aspect-ratio: 16 / 10; }
+.pr-art img { height: 100%; width: auto; max-width: 100%; border-radius: 14px; box-shadow: 0 10px 22px -12px rgba(0,0,0,.35); }
+.pr-body { display: flex; flex-direction: column; gap: 6px; padding: 14px 16px 16px; flex: 1; }
+.pr-chip { align-self: flex-start; font: 600 11px var(--font-mono); letter-spacing: .06em; text-transform: uppercase; color: var(--tile-ink); background: var(--c); border-radius: 999px; padding: 4px 10px; }
+.pr-body b { font-size: 18px; font-weight: 900; line-height: 1.2; letter-spacing: -.01em; }
+.pr-body em { font-style: normal; font-size: 14px; color: var(--muted); line-height: 1.4; }
+.pr-go { margin-top: auto; padding-top: 6px; font-weight: 800; font-size: 15px; color: var(--accent); }
+.pr-hero { display: flex; align-items: center; gap: 22px; margin-top: 16px; }
+.pr-herotext { flex: 1; min-width: 0; }
+.pr-heroart { flex: none; width: 150px; height: 150px; border-radius: 26px; background: var(--c); display: flex; align-items: center; justify-content: center; padding: 10px; transform: rotate(3deg); box-shadow: 0 16px 34px -18px rgba(14,107,102,.5); }
+.pr-heroart img { width: 100%; height: 100%; border-radius: 16px; }
+@media (max-width: 560px) { .pr-heroart { width: 96px; height: 96px; border-radius: 18px; padding: 6px; } .pr-hero { gap: 12px; } }
+@media (prefers-reduced-motion: reduce) { .pr-card { transition: none; } .pr-card:hover { transform: none; } }
+.br-practice.is-index { max-width: 1040px; }
+.br-practice.is-index > p, .br-practice.is-index > h1 { max-width: 76ch; }
+.br-practice.is-index .pr-cards { grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); }
+@media (min-width: 900px) { .br-practice.is-index .pr-cards { grid-template-columns: repeat(5, 1fr); } }
