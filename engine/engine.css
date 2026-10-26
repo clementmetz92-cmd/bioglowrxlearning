@@ -967,3 +967,12 @@ body.br-hasdock { padding-bottom: 62vh; }
   .dev .scr img.b { opacity: 1; }
   .dev .phone { transform: none; }
 }
+
+/* hub: tour video button + player */
+.br-herosub { display: flex; flex-direction: column; align-items: flex-end; gap: 10px; }
+.br-tourbtn { display: inline-flex; align-items: center; gap: 10px; min-height: 44px; padding: 0 18px 0 8px; border-radius: 999px; border: 2px solid var(--accent); background: var(--surface); color: var(--ink); font: 800 15px var(--font-display); cursor: pointer; }
+.br-tourbtn .pl { width: 30px; height: 30px; border-radius: 50%; background: var(--accent); color: var(--accent-ink); display: inline-flex; align-items: center; justify-content: center; font-size: 12px; padding-left: 2px; }
+.br-tourbtn:hover { background: color-mix(in srgb, var(--accent) 10%, var(--surface)); }
+@media (max-width: 760px) { .br-herosub { align-items: flex-start; } }
+.br-video { position: relative; aspect-ratio: 16 / 9; border-radius: 14px; overflow: hidden; background: #000; }
+.br-video iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }

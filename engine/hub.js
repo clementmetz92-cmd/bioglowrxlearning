@@ -83,7 +83,7 @@
     const last = BGX.lastPlay(), f = C.featured;
     const lastSubj = last && C.subjects.find(s => s.id === last.subject);
     view.innerHTML = `
-      <section class="br-hubhero"><h1>Textbooks, but fun.</h1><p>Free science games built from real course books. No login, works on your phone.</p></section>
+      <section class="br-hubhero"><h1>Textbooks, but fun.</h1><div class="br-herosub"><p>Free science games built from real course books. No login, works on your phone.</p><button class="br-tourbtn" id="br-tour" type="button"><span class="pl" aria-hidden="true">▶</span> Watch the 90-second tour</button></div></section>
       <div id="br-search"></div>
       <section class="br-subjects" aria-label="Subjects">${C.subjects.map((s, i) => {
         const live = liveCount(s);
@@ -103,6 +103,13 @@
       ${PG ? PG.hubCard() : ""}`;
     startCarousel();
     if (BGX.searchMount) BGX.searchMount(document.getElementById("br-search"));
+    const tour = document.getElementById("br-tour");
+    if (tour) tour.onclick = () => {
+      if (BGX.sfx) BGX.sfx.tap(); if (BGX.track) BGX.track("tour_open", {});
+      BGX.sheet({ label: "BioglowRX in 90 seconds", title: "BioglowRX in 90 seconds", wide: true,
+        html: `<div class="br-video"><iframe src="https://www.youtube-nocookie.com/embed/-ojR20KdI8g?autoplay=1&rel=0&modestbranding=1&playsinline=1" title="BioglowRX in 90 seconds" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen loading="lazy"></iframe></div>
+          <p class="br-hint" style="margin:12px 0 0">Prefer YouTube? <a href="https://www.youtube.com/watch?v=-ojR20KdI8g" target="_blank" rel="noopener">Watch it there</a>.</p>` });
+    };
     const lc = document.getElementById("br-levelcard"); if (lc) lc.onclick = () => { BGX.sfx.tap(); BGX.showLevels(); };
     view.querySelectorAll(".br-continue .br-tile b svg").forEach(s => { s.setAttribute("width", "30"); s.setAttribute("height", "30"); });
   }
