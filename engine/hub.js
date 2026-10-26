@@ -78,6 +78,7 @@
     const lastSubj = last && C.subjects.find(s => s.id === last.subject);
     view.innerHTML = `
       <section class="br-hubhero"><h1>Learn it, then play it.</h1><p>Free science games built from real course books. No login, works on your phone.</p></section>
+      <div id="br-search"></div>
       <section class="br-subjects" aria-label="Subjects">${C.subjects.map((s, i) => {
         const live = liveCount(s);
         return `<a class="br-subj" href="${R}subjects/${s.id}/index.html" style="background:var(--${s.color})">
@@ -95,6 +96,7 @@
       ${levelCard()}
       ${PG ? PG.hubCard() : ""}`;
     startCarousel();
+    if (BGX.searchMount) BGX.searchMount(document.getElementById("br-search"));
     const lc = document.getElementById("br-levelcard"); if (lc) lc.onclick = () => { BGX.sfx.tap(); BGX.showLevels(); };
     view.querySelectorAll(".br-continue .br-tile b svg").forEach(s => { s.setAttribute("width", "30"); s.setAttribute("height", "30"); });
   }
@@ -115,6 +117,7 @@
           <div class="ic${art(s.id) ? " has-art" : ""}" style="background:var(--${s.color})"><small>${String(C.subjects.indexOf(s) + 1).padStart(2, "0")}</small>${art(s.id) || BGX.icon(s.icon)}</div>
           <div><p class="br-label" style="margin:0">${esc(s.count || "")} · ${liveCount(s)} live · ${nextCount(s)} up next</p><h1>${esc(s.name)}</h1><p>${esc(s.blurb)}</p></div>
         </section>
+        <div id="br-search"></div>
         ${PG ? PG.subjectPanel(s) : ""}
         ${s.labs && s.labs.length ? `<div class="br-labs">${s.labs.map(labCard).join("")}</div>` : ""}
         <p class="br-label" style="margin:10px 0 0">Chapters</p>
@@ -124,6 +127,7 @@
         <div class="br-chaps">${list.length ? list.map(card).join("") : `<p class="br-empty">${filter === "done" ? "No chapters completed yet. Pass every game in a chapter with 70% or more to complete it." : filter === "todo" ? "Every chapter is complete. Well done!" : "Nothing here yet. The first games are on their way."}</p>`}</div>
         <p class="br-hint" style="margin-top:18px">Built from ${esc(s.source)}. Every game is written in our own words.</p>`;
       view.querySelectorAll("[data-f]").forEach(b => b.onclick = () => { BGX.sfx.tap(); filter = b.dataset.f; draw(); });
+      if (BGX.searchMount) BGX.searchMount(document.getElementById("br-search"), { subject: s.id, placeholder: "Search " + s.name + ": a topic, a game or a card" });
     };
     /* hands-on lab: a compact, high-contrast strip so the chapters show straight underneath */
     const labCard = l => {

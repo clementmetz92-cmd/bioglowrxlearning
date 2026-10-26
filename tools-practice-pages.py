@@ -299,11 +299,14 @@ def index_html():
 <p class="br-label pr-eyebrow">Free · no login</p>
 <h1>Practice topics</h1>
 <p class="pr-lead">Jump straight into the topics students search for most. Each one opens a free game built from a university textbook chapter, with study notes first and a worked explanation after every answer.</p>
+<div id="br-search" style="margin-top:20px"></div>
 <div class="pr-cards">{cards}</div>
 <p class="pr-small">Looking for something else? <a href="../index.html">Browse all 53 games and 5 labs by subject</a>.</p>
 """
     out = out.replace('<article class="br-practice">', '<article class="br-practice is-index">')
-    return out + FOOT.format(root=root)
+    foot = FOOT.format(root=root).replace('<script>BGX.shell && BGX.shell();</script>',
+        '<script src="../engine/search.js"></script>\n<script>BGX.shell && BGX.shell(); BGX.searchMount(document.getElementById("br-search"), { placeholder: "Search every topic, game and card: try femur, pH or dose" });</script>')
+    return out + foot
 
 def main():
     by_slug = {p["slug"]: p for p in PAGES}

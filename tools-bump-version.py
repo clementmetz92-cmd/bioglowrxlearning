@@ -16,3 +16,8 @@ try:
     subprocess.run([sys.executable, str(pathlib.Path(__file__).parent / "tools-progress-map.py")], check=True)
 except Exception as e:
     print("progress map not rebuilt:", e)
+
+try:
+    subprocess.run([sys.executable, str(pathlib.Path(__file__).parent / "tools-search-index.py")], check=True)
+except Exception as e:
+    print("search index not rebuilt:", e)
