@@ -142,7 +142,7 @@
     K.topHTML = l => `<div class="br-top"><button class="br-quit" id="lab-quit" aria-label="Back to the lab levels"><span aria-hidden="true">←</span> Levels</button><span class="br-label" style="margin:0;flex:1">Level ${l.n} · ${esc(l.title)}</span><span class="br-count">${K.starText(stars[l.n] || 0)}</span></div>`;
 
     /* a run starts: resets hint state. hints = array of strings or functions returning HTML */
-    K.begin = (l, hints) => { K.level = l; K.hintsUsed = 0; K._hints = hints || []; K._step = -1; K.xpStart = BGX.xp.total; K.xpPaid = false; K.xpShown = false; };
+    K.begin = (l, hints) => { if (BGX.track) BGX.track("lab_start", { lab: cfg.id, level: l.n }); K.level = l; K.hintsUsed = 0; K._hints = hints || []; K._step = -1; K.xpStart = BGX.xp.total; K.xpPaid = false; K.xpShown = false; };
     K.hintHTML = () => `<div class="lab-hintbar"><button class="br-ghost lab-hintbtn" id="lab-hintbtn" type="button">💡 Hint${K.level.n === 1 ? "" : " (max 2★)"}</button><div class="lab-hintbox" id="lab-hintbox" aria-live="polite"></div></div>`;
     K.bindHints = onReveal => {
       const b = $("#lab-hintbtn"); if (!b) return;
@@ -161,7 +161,7 @@
     /* result block; o = { n, verdict, why, extraHTML, levels, onAgain, onLevel, onMenu, append } */
     K.result = o => {
       const n = o.n; K.save(n);
-      if (!K.xpPaid) { K.xpPaid = true; BGX.xp.add(BGX.xp.labBonus(n, K.level.n)); }   // once per run (some labs add a second result block)
+      if (!K.xpPaid) { K.xpPaid = true; BGX.xp.add(BGX.xp.labBonus(n, K.level.n)); if (BGX.track) BGX.track("lab_done", { lab: cfg.id, level: K.level.n, stars: n, hints: K.hintsUsed }); }   // once per run (some labs add a second result block)
       const earned = Math.max(0, BGX.xp.total - (K.xpStart == null ? BGX.xp.total : K.xpStart)), lv = BGX.xp.level();
       if (n === 3) { BGX.sfx.big(); BGX.rain(160); } else if (n > 0) BGX.sfx.win();
       const hasNext = K.level.n < o.levels.length && n > 0;

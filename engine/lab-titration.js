@@ -289,6 +289,9 @@
   /* keyboard: Space pours, D drops, S swirls, Enter = endpoint */
   document.addEventListener("keydown", e => {
     if (!st || st.done || document.querySelector(".br-milestone")) return;
+    /* Enter/Space on a focused button or field does that button's job, never the bench shortcut */
+    const ui = e.target && e.target.closest && e.target.closest("button, a, input, select, textarea, [role=button]");
+    if (ui && ui.id !== "lab-pour" && (e.key === "Enter" || e.code === "Space")) return;
     if (e.code === "Space") { e.preventDefault(); st.pouring = true; const p = $("#lab-pour"); if (p) p.classList.add("is-on"); }
     else if (e.key === "d" || e.key === "D") addDrop();
     else if (e.key === "s" || e.key === "S") swirl();

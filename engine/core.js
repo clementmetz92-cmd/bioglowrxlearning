@@ -6,7 +6,9 @@
 
   /* ---------- storage (safe when blocked) ---------- */
   BGX.store = {
-    get(k, d) { try { const v = localStorage.getItem("bgx_" + k); return v == null ? d : JSON.parse(v); } catch (e) { return d; } },
+    /* a value of the wrong kind (hand-edited or from an old version) falls back to the default instead of breaking a page */
+    get(k, d) { try { const v = localStorage.getItem("bgx_" + k); if (v == null) return d; const x = JSON.parse(v);
+      if (d != null && (typeof x !== typeof d || Array.isArray(x) !== Array.isArray(d) || x === null || (typeof d === "number" && !isFinite(x)))) return d; return x; } catch (e) { return d; } },
     set(k, v) { try { localStorage.setItem("bgx_" + k, JSON.stringify(v)); } catch (e) {} }
   };
 
@@ -39,8 +41,12 @@
       <a class="br-brand" href="${BGX.root}index.html" aria-label="BioglowRX Sciences Learning home">${BGX.logo()}
         <div class="br-word"><div class="br-word-name">Bioglow<span>RX</span></div><p>Sciences Learning</p></div></a>
       <button class="br-lvl" id="br-lvl" type="button"></button>${BGX.progress ? BGX.progress.headerLink() : ""}${BGX.community ? BGX.community.headerButton() : ""}
-      <div class="br-stat"><div class="br-streak" id="br-streakbox">streak <b id="br-streak">${BGX.streak}</b></div>best <span id="br-best">${BGX.bestStreak}</span><br><button class="br-sound" id="br-sound" aria-pressed="true">Sound on</button></div>`;
-    if (foot) foot.innerHTML = `<div class="br-footline">${BGX.logo("br-footlogo")}<span>A BioglowRX Sciences Learning game · free to play, no login · <a href="${BGX.root}practice/index.html">Practice topics</a> · <a href="${BGX.root}privacy/index.html">Privacy</a></span></div>` +
+      <div class="br-stat"><span class="br-streaks"><div class="br-streak" id="br-streakbox">streak <b id="br-streak">${BGX.streak}</b></div>best <span id="br-best">${BGX.bestStreak}</span><br></span><button class="br-sound" id="br-sound" aria-pressed="true">Sound on</button></div>`;
+    /* a first-time visitor sees no row of zeros: the stats appear after the first answer */
+    const fresh = () => BGX.xp && BGX.xp.total === 0 && !BGX.bestStreak;
+    document.documentElement.classList.toggle("bgx-new", fresh());
+    BGX.unfresh = () => document.documentElement.classList.remove("bgx-new");
+    if (foot) foot.innerHTML = `<div class="br-footline">${BGX.logo("br-footlogo")}<span>A BioglowRX Sciences Learning game · free to play, no login · <a href="${BGX.root}practice/index.html">Practice topics</a> · <a href="${BGX.root}about/index.html">About &amp; accuracy</a> · <a href="${BGX.root}privacy/index.html">Privacy</a></span></div>` +
       `<a class="br-phbadge" href="https://www.producthunt.com/products/bioglowrx-sciences-learning?embed=true&amp;utm_source=badge-featured&amp;utm_medium=badge&amp;utm_campaign=badge-bioglowrx-sciences-learning" target="_blank" rel="noopener noreferrer"><img alt="BioglowRX Sciences Learning - Free science games built from real university textbooks | Product Hunt" width="250" height="54" loading="lazy" src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1293422&amp;theme=neutral&amp;t=1793026291700"></a>`;
     const s = document.getElementById("br-sound");
     if (s) { BGX.paintSound(); s.onclick = () => { BGX.soundOn = !BGX.soundOn; BGX.store.set("sound", BGX.soundOn); BGX.paintSound(); if (BGX.soundOn) BGX.tone([660], .08); }; }
@@ -48,6 +54,18 @@
     const lv = document.getElementById("br-lvl");
     if (lv) { lv.onclick = () => { BGX.sfx.tap(); BGX.showLevels(); }; BGX.paintLevel(); }
   };
+
+  /* ---------- days used (kept on this device; the base for a day streak, and anonymous visit info) ---------- */
+  (function () {
+    const d = new Date(), day = d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
+    const v = BGX.store.get("visits", null);
+    const ok = v && typeof v === "object" && typeof v.first === "string" && typeof v.days === "number";
+    const rec = ok ? v : { first: day, last: "", days: 0 };
+    if (rec.last !== day) { rec.days += 1; rec.prev = rec.last || ""; rec.last = day; BGX.store.set("visits", rec); }
+    const diff = (a, b) => Math.round((Date.parse(a) - Date.parse(b)) / 864e5);
+    BGX.visitInfo = () => ({ days_active: rec.days, days_since_first: diff(day, rec.first), days_since_last: rec.prev ? diff(day, rec.prev) : null, returning: rec.days > 1,
+      rounds_total: (BGX.store.get("rounds", 0) | 0) });
+  })();
 
   /* ---------- streaks (shared across every game) ---------- */
   BGX.streak = 0;
@@ -60,6 +78,7 @@
     if (bump) { b.classList.remove("bump"); void b.offsetWidth; b.classList.add("bump"); }
   };
   BGX.scoreStreak = correct => {
+    if (BGX.unfresh) BGX.unfresh();
     if (correct) { BGX.streak++; if (BGX.streak > BGX.bestStreak) { BGX.bestStreak = BGX.streak; BGX.store.set("bestStreak", BGX.bestStreak); } }
     else BGX.streak = 0;
     BGX.paintStreak(true);
@@ -216,7 +235,11 @@
 
   /* ---------- pop-ups (one at a time: a streak milestone and a level-up never overlap) ---------- */
   const popQ = []; let popping = false;
-  BGX.popup = (label, html, opts = {}) => { popQ.push({ label, html, opts }); if (!popping) nextPop(); };
+  /* during a round, pop-ups wait for the end screen so they never cover the Next button */
+  BGX.inRound = false;
+  const held = [];
+  BGX.popup = (label, html, opts = {}) => { if (BGX.inRound && !opts.now) { held.push({ label, html, opts }); return; } popQ.push({ label, html, opts }); if (!popping) nextPop(); };
+  BGX.endRound = () => { BGX.inRound = false; const h = held.splice(0); h.forEach(p => popQ.push(p)); if (h.length && !popping) nextPop(); };
   function nextPop() {
     const p = popQ.shift(); if (!p) { popping = false; return; }
     popping = true;
@@ -234,6 +257,8 @@
   /* ---------- milestones ---------- */
   const CHEERS = { 5: "Warming up!", 10: "On fire!", 20: "Unstoppable!", 30: "Subject master!", 40: "Lab legend!", 50: "Half a century!", 60: "Science genius!" };
   BGX.milestone = (n, tileFn, bonus) => {
+    /* mid-round: a small note that doesn't block anything; the full card is for streaks outside rounds */
+    if (BGX.inRound) { BGX.sfx.big(); BGX.rain(80); if (BGX.toast) BGX.toast(`🔥 ${n} in a row! ${CHEERS[n] || ""}${bonus ? ` +${bonus} XP` : ""}`); return; }
     BGX.sfx.big(); BGX.rain(n >= 20 ? 200 : 140);
     const t = tileFn ? tileFn(n) : { bg: "var(--cat-mint)", corner: n, big: n, label: "in a row", text: "" };
     BGX.popup(n + " in a row", `<div class="mtile" style="background:${t.bg}"><small>${BGX.esc(t.corner)}</small><b>${t.bigHTML || BGX.esc(t.big)}</b><em>${BGX.esc(t.label)}</em></div>
@@ -332,7 +357,7 @@
         <li><b>Labs:</b> 20 XP per star, plus 10 for level 2 and 20 for level 3</li>
         <li>Using "Show me how" halves the XP for that answer. A wrong answer costs nothing, but ends the streak.</li></ul></details>
       <div class="br-lvlist">${tiers.map(t => `<p class="br-label">${BGX.esc(t.tier)}</p><ol>${t.ls.map(l => `<li class="${l.n < lv.n ? "is-done" : l.n === lv.n ? "is-now" : "is-locked"}">${badge(l)}<span><b>${BGX.esc(l.name)}</b><small>${l.n === 1 ? "Start" : l.xp.toLocaleString("en-US") + " XP"}</small></span>${l.n < lv.n ? '<i aria-label="reached">✓</i>' : l.n === lv.n ? '<i class="you">You</i>' : ""}</li>`).join("")}</ol>`).join("")}</div>
-      <p class="br-hint" style="margin:0">XP and levels are saved in this browser on this device.</p>`, { cls: "is-levels", noEnter: true });
+      <p class="br-hint" style="margin:0">XP and levels are saved in this browser on this device.</p>`, { now: true,  cls: "is-levels", noEnter: true });
   };
 })();
 
@@ -343,6 +368,7 @@
   const standalone = () => matchMedia("(display-mode: standalone)").matches || navigator.standalone === true;
   const ua = navigator.userAgent;
   const isIOS = /iPhone|iPad|iPod/.test(ua) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+  const isIPad = /iPad/.test(ua) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
   const isPhone = isIOS || /Android|Mobile/i.test(ua) || matchMedia("(pointer: coarse) and (max-width: 900px)").matches;
   let deferred = null;
   if ("serviceWorker" in navigator && location.protocol === "https:") addEventListener("load", () => navigator.serviceWorker.register("/sw.js").catch(() => {}));
@@ -353,7 +379,7 @@
   function howTo() {
     const safari = isIOS && !/CriOS|FxiOS|EdgiOS/.test(ua);
     const steps = isIOS
-      ? (safari ? [`Tap the <b>Share</b> button ${share} at the bottom of Safari.`, "Scroll down and tap <b>Add to Home Screen</b>.", "Tap <b>Add</b>. BioglowRX appears on your home screen like an app."]
+      ? (safari ? [`Tap the <b>Share</b> button ${share} ${isIPad ? "at the top right of Safari, next to the address bar" : "at the bottom of Safari"}.`, "Scroll down and tap <b>Add to Home Screen</b>.", "Tap <b>Add</b>. BioglowRX appears on your home screen like an app."]
                 : [`Tap the <b>Share</b> button ${share} (top right or bottom of the browser).`, "Choose <b>Add to Home Screen</b>. If you don't see it, open this page in Safari first.", "Tap <b>Add</b>."])
       : ["Open your browser menu: <b>⋮</b> (top right) in Chrome, or <b>☰</b> in Samsung Internet.", "Tap <b>Add to Home screen</b> or <b>Install app</b>.", "Tap <b>Add</b> or <b>Install</b>."];
     BGX.sheet({ label: "Add BioglowRX to your home screen", title: "Add BioglowRX to your home screen",

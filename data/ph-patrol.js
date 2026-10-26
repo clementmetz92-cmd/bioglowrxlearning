@@ -103,7 +103,7 @@ BGX.registerGame({
 "desc": "Pair each substance with its pH.",
 "icon": "⇄",
 "color": "cat-mint",
-"clue": "phLabel",
+"clue": "phLabel", "cardBig": "@icon:beaker", "cardCorner": "",
 "clueLabel": "pH"
 }
 ],

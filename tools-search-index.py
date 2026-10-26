@@ -15,7 +15,8 @@ def short(t, n=70):
     t = re.sub(r"\s+", " ", str(t or "")).strip()
     return t if len(t) <= n else t[: n - 1].rsplit(" ", 1)[0] + "…"
 
-out = []   # [type, name, subject id, detail line, url, extra keywords]
+out = []   # [type, name, subject id, detail line, url, extra keywords, (cards) words from the card's text]
+STOP = set("this that with from have they their there these those which what when where while about into than then them also more most some such only over very your will been were being because between after before under other each both does doing done like just make made many much most must need needs used uses using usually often every".split())
 for s in CAT["subjects"]:
     for lab in s.get("labs", []):
         if lab.get("status") == "live":
@@ -35,7 +36,13 @@ for s in CAT["subjects"]:
         for it in G["items"]:
             detail = next((it[k] for k in ("job", "use", "where", "cls", "lack", "formula", "summary") if it.get(k)), "")
             extra = " ".join(str(it[k]) for k in ("symbol", "code", "cls", "eq") if it.get(k))
-            out.append(["card", it["name"], s["id"], short(detail), base, f"{G['title']} {extra}"])
+            body = " ".join([str(it.get("summary", ""))] + [str(x) for x in (it.get("facts") or [])] + [str(it.get(k, "")) for k in ("life", "job", "use", "where", "lack", "foods") if it.get(k)])
+            seen = set(re.findall(r"[a-z0-9]+", (it["name"] + " " + str(detail)).lower()))
+            words = []
+            for w in re.findall(r"[A-Za-z][A-Za-z0-9\-]+", body):
+                lw = w.lower()
+                if len(lw) >= 4 and lw not in STOP and lw not in seen: seen.add(lw); words.append(lw)
+            out.append(["card", it["name"], s["id"], short(detail), base, f"{G['title']} {extra}", " ".join(words[:45])])
 
 pp = ROOT / "tools-practice-pages.py"
 if pp.exists():

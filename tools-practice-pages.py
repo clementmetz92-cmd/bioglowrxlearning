@@ -185,6 +185,8 @@ HEAD = """<!doctype html>
 <meta property="og:title" content="{title}">
 <meta property="og:description" content="{desc}">
 <meta property="og:url" content="{url}">
+<meta property="og:site_name" content="BioglowRX Sciences Learning">
+<meta name="twitter:card" content="summary_large_image">
 {ogimg}<link rel="manifest" href="/manifest.webmanifest">
 <link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png">
 <meta name="apple-mobile-web-app-title" content="BioglowRX">
@@ -297,7 +299,7 @@ def index_html():
     title = "Free Science Practice Topics · BioglowRX"
     desc = "Free practice for science and nursing students: dosage calculations, the periodic table, cranial nerves, bones, drug classes, ABGs, balancing equations and more."
     ld = {"@context": "https://schema.org", "@type": "CollectionPage", "name": "Free science practice topics", "url": url, "description": desc}
-    out = HEAD.format(root=root, title=title, desc=desc, url=url, ogimg="", ld=json.dumps(ld, ensure_ascii=False))
+    out = HEAD.format(root=root, title=title, desc=desc, url=url, ogimg=f'<meta property="og:image" content="{SITE}assets/og/site.jpg">\n', ld=json.dumps(ld, ensure_ascii=False))
     cards = "".join(card(p, f"{p['slug']}/index.html", f"img/art-{p['slug']}.webp") for p in PAGES)
     out += f"""<nav class="br-backrow" aria-label="Back"><a class="br-crumb" href="../index.html"><span aria-hidden="true">←</span> All subjects</a></nav>
 <p class="br-label pr-eyebrow">Free · no login</p>

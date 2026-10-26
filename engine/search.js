@@ -4,7 +4,18 @@
   "use strict";
   const BGX = window.BGX = window.BGX || {}, esc = BGX.esc || (s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]));
   const SUB = { "₀": "0", "₁": "1", "₂": "2", "₃": "3", "₄": "4", "₅": "5", "₆": "6", "₇": "7", "₈": "8", "₉": "9", "⁺": "+", "⁻": "-" };
-  const norm = s => String(s || "").replace(/[₀-₉⁺⁻]/g, c => SUB[c]).normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
+  /* one spelling for UK and US words on both sides (fibre/fiber, haemoglobin/hemoglobin, ionisation/ionization, colour/color) */
+  const spell = w => w.replace(/isation/g, "ization").replace(/is(e|ed|es|ing)$/, "iz$1").replace(/yse$/, "yze").replace(/([bt])re(s?)$/, "$1er$2")
+    .replace(/our(s?)$/, "or$1").replace(/ae/g, "e").replace(/oe/g, "e").replace(/sulph/g, "sulf").replace(/aluminium/g, "aluminum");
+  const norm = s => String(s || "").replace(/[₀-₉⁺⁻]/g, c => SUB[c]).normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase()
+    .replace(/[a-z]+/g, w => w.length > 3 ? spell(w) : w);
+  /* everyday, UK and US names for the same thing: any one finds the others */
+  const SYN = [["paracetamol", "acetaminophen"], ["adrenaline", "epinephrine"], ["noradrenaline", "norepinephrine"], ["salbutamol", "albuterol"],
+    ["glyceryl trinitrate", "nitroglycerin", "gtn"], ["frusemide", "furosemide"], ["pethidine", "meperidine"], ["water tablet", "diuretic"],
+    ["heart attack", "myocardial infarction"], ["bp", "blood pressure"], ["blood sugar", "glucose"], ["stroke", "cerebrovascular"],
+    ["painkiller", "analgesic"], ["antibiotic", "antimicrobial"], ["periodic table", "element"], ["vitamin c", "ascorbic"], ["kidney", "renal"],
+    ["poo", "stool", "faeces"], ["wee", "urine"], ["tummy", "stomach", "abdomen"], ["bone", "skeleton"], ["nerve", "neuron"]].map(g => g.map(x => norm(x)));
+  const STOP = new Set("how many much what which who why when where is are was the a an of do does did to for in on with about can i my me tell show".split(" "));
   const TYPE = { topic: 16, game: 14, lab: 14, card: 0 };
   const LABEL = { topic: "Practice topic", game: "Game", lab: "Hands-on lab", card: "Card" };
   let idx = null, loading = null;
@@ -18,7 +29,7 @@
       s.src = (BGX.root || "") + "data/search-index.js" + ((v.match(/\?v=\d+/) || [""])[0]);
       s.onload = () => {
         const D = window.BGX_SEARCH;
-        idx = D.items.map(([type, name, subj, detail, url, kw]) => ({ type, name, subj, detail, url, n: norm(name), d: norm(detail), k: norm(kw) }));
+        idx = D.items.map(([type, name, subj, detail, url, kw, body]) => ({ type, name, subj, detail, url, n: norm(name), d: norm(detail), k: norm(kw), b: norm(body || "") }));
         idx.subjects = D.subjects; ok(idx);
       };
       s.onerror = () => { loading = null; bad(new Error("index")); };
@@ -27,9 +38,19 @@
     return loading;
   }
 
-  function score(e, toks) {
+  /* a query part is a list of alternatives (a word plus its synonyms); the best-matching alternative counts */
+  function score(e, parts) {
     let total = TYPE[e.type];
-    for (const t of toks) {
+    for (const alts of parts) {
+      let best = 0;
+      for (const t of alts) { const v = one(e, t); if (v > best) best = v; }
+      if (!best) return 0;
+      total += best;
+    }
+    return total;
+  }
+  function one(e, t) {
+    {
       const wordStart = new RegExp("(^|[^a-z0-9])" + t.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"));
       let s = 0;
       const exactWord = new RegExp("(^|[^a-z0-9])" + t.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + "($|[^a-z0-9])");
@@ -43,17 +64,25 @@
       else if (wordStart.test(e.d)) s = 10;
       else if (t.length >= 4 && (e.k.includes(t) || e.d.includes(t))) s = 6;
       else if (stem && e.n.includes(stem)) s = 24;             // mitochondria → Mitochondrion
-      if (!s) return 0;
-      total += s;
+      else if (t.length >= 4 && wordStart.test(e.b)) s = 5;      // words inside the card's own text
+      else if (t.indexOf(" ") > 0 && (e.d.includes(t) || e.k.includes(t) || e.b.includes(t))) s = 8;   // a two-word name
+      return s;
     }
-    return total;
   }
 
   function search(q, boost) {
-    const toks = norm(q).split(/[^a-z0-9+\-]+/).filter(Boolean);
-    if (!toks.length || !idx) return [];
+    let text = " " + norm(q).replace(/[^a-z0-9+\-]+/g, " ") + " ";
+    const parts = [];
+    /* pull out known multi-word names first ("heart attack", "blood pressure") */
+    SYN.forEach(g => g.forEach(x => { if (x.indexOf(" ") > 0 && text.indexOf(" " + x + " ") >= 0) { text = text.replace(" " + x + " ", " "); parts.push(g); } }));
+    text.trim().split(/\s+/).filter(t => t && !STOP.has(t)).forEach(t => {
+      const t1 = t.length > 4 && /s$/.test(t) && !/ss$/.test(t) ? t.slice(0, -1) : t;   // plurals: bones → bone
+      const g = SYN.find(gr => gr.indexOf(t) >= 0 || gr.indexOf(t1) >= 0);
+      parts.push(g ? Array.from(new Set([t, t1].concat(g))) : (t1 !== t ? [t, t1] : [t]));
+    });
+    if (!parts.length || !idx) return [];
     const res = [];
-    for (const e of idx) { const s = score(e, toks); if (s) res.push([s + (boost && e.subj === boost ? 25 : 0), e]); }
+    for (const e of idx) { const s = score(e, parts); if (s) res.push([s + (boost && e.subj === boost ? 25 : 0), e]); }
     res.sort((a, b) => b[0] - a[0] || a[1].name.length - b[1].name.length);
     return res.map(r => r[1]);
   }

@@ -24,6 +24,9 @@
   };
   const HEX = { "cat-coral": "#f7a8a0", "cat-amber": "#fbd08a", "cat-lemon": "#f6e7a1", "cat-sage": "#b9ddb0", "cat-mint": "#9fd8cb", "cat-sky": "#a9cbef", "cat-lilac": "#c7b8ec", "cat-orchid": "#e9b6da", "cat-peach": "#f9c3a8", "cat-sand": "#e3c4a2" };
   const classOf = pct => pct >= 90 ? "Distinction" : pct >= 80 ? "Merit" : "Pass";
+  const TIER = { Pass: "Bronze", Merit: "Silver", Distinction: "Gold" };   // stored class → what people see (no academic grades)
+  const tier = cls => TIER[cls] || cls;
+  const NOTQUAL = "A record of self-study practice, not an academic qualification or course credit.";
   const CLS_RANK = { Pass: 1, Merit: 2, Distinction: 3 };
   if (BGX.icons && !BGX.icons.trophy) BGX.icons.trophy = "M7 4h10v4a5 5 0 0 1-10 0V4zM7 6H4.5v1.5A3 3 0 0 0 7.6 10.5M17 6h2.5v1.5a3 3 0 0 1-3.1 3M12 13v4M8.5 20h7M9.5 17h5v3h-5z";
 
@@ -60,11 +63,15 @@
     return { id: gid, title: g.title, modes, pct: avg(modes.map(m => m.pct || 0)), passed, total: modes.length,
       done: modes.length > 0 && passed === modes.length, started: modes.some(m => m.pct != null) };
   }
+  /* questions answered in a game (a certificate needs real practice, not one lucky round) */
+  const MINQ = 30;
+  const qCount = g => { const n = BGX.store.get("qn_" + g.id, null); return typeof n === "number" && n >= 0 ? n : g.passed * 10; };
   function chapterState(s, c) {
     const games = gamesOf(c).map(gameState);
     const passed = games.reduce((n, g) => n + g.passed, 0), total = games.reduce((n, g) => n + g.total, 0);
-    return { s, c, key: chapKey(s, c), games, pct: avg(games.map(g => g.pct)), passed, total,
-      done: games.length > 0 && games.every(g => g.done), started: games.some(g => g.started) };
+    const answered = games.reduce((n, g) => n + qCount(g), 0);
+    return { s, c, key: chapKey(s, c), games, pct: avg(games.map(g => g.pct)), passed, total, answered, minQ: MINQ,
+      done: games.length > 0 && games.every(g => g.done) && answered >= MINQ, started: games.some(g => g.started) };
   }
   function subjectState(s) {
     const chaps = liveChapters(s).map(c => chapterState(s, c));
@@ -104,6 +111,7 @@
   function record(gid, mid, score, total) {
     const pct = Math.min(100, Math.round(score / total * 1000) / 10);
     const p = modePcts(gid), before = p[mid];
+    const qn = BGX.store.get("qn_" + gid, null); BGX.store.set("qn_" + gid, (typeof qn === "number" && qn >= 0 ? qn : 0) + Math.max(0, +total || 0));
     if (before == null || pct > before) { p[mid] = pct; BGX.store.set("prog_" + gid, p); }
     const g = gameState(gid);
     return { gid, mid, pct, before, newPass: pct >= PASS && (before == null || before < PASS), game: g, news: checkAwards() };
@@ -138,7 +146,7 @@
     const id = "ct" + (++uid), col = HEX[s.color] || "#9fd8cb", deep = "#0E6B66", gold = "#B8902A", ink = "#1d2a33";
     const name = getName() || "Your name here", nameSize = name.length > 26 ? 38 : 50;
     const title = wrap(c.title, 44), tSize = title.length > 1 ? 30 : 34;
-    return `<svg class="br-certsvg" viewBox="0 0 1000 700" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Certificate of completion: ${esc(s.name)}, chapter ${esc(c.ch)}, ${esc(c.title)}">
+    return `<svg class="br-certsvg" viewBox="0 0 1000 700" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Progress certificate: ${esc(s.name)}, chapter ${esc(c.ch)}, ${esc(c.title)}">
       <defs><linearGradient id="${id}p" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fffdf6"/><stop offset="1" stop-color="#f5efe2"/></linearGradient>
         <pattern id="${id}g" width="22" height="22" patternUnits="userSpaceOnUse"><path d="M0 11h22M11 0v22" stroke="${deep}" stroke-opacity=".035" stroke-width="1"/></pattern>
         <radialGradient id="${id}s" cx=".35" cy=".3"><stop offset="0" stop-color="#fff" stop-opacity=".55"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient></defs>
@@ -150,25 +158,25 @@
       <rect x="42" y="42" width="14" height="616" fill="${col}"/><rect x="944" y="42" width="14" height="616" fill="${col}"/>
       ${logoAt(470, 66, 64)}
       <text x="500" y="160" text-anchor="middle" font-family="${MONO}" font-size="15" letter-spacing="5" fill="${deep}">BIOGLOWRX SCIENCES LEARNING</text>
-      <text x="500" y="222" text-anchor="middle" font-family="${SERIF}" font-size="54" fill="${ink}">Certificate of Completion</text>
-      <text x="500" y="266" text-anchor="middle" font-family="${SERIF}" font-style="italic" font-size="20" fill="#5b6676">This is to certify that</text>
+      <text x="500" y="222" text-anchor="middle" font-family="${SERIF}" font-size="54" fill="${ink}">Progress Certificate</text>
+      <text x="500" y="266" text-anchor="middle" font-family="${SERIF}" font-style="italic" font-size="20" fill="#5b6676">Awarded to</text>
       <text x="500" y="${328}" text-anchor="middle" font-family="${SERIF}" font-style="italic" font-size="${nameSize}" fill="${deep}">${esc(name)}</text>
       <line x1="260" y1="346" x2="740" y2="346" stroke="${gold}" stroke-width="1.5"/>
-      <text x="500" y="382" text-anchor="middle" font-family="${SERIF}" font-style="italic" font-size="19" fill="#5b6676">has completed every game, with at least 70% in each, in</text>
+      <text x="500" y="382" text-anchor="middle" font-family="${SERIF}" font-style="italic" font-size="19" fill="#5b6676">for passing every activity in this chapter at 70% or more</text>
       <text x="500" y="${title.length > 1 ? 420 : 428}" text-anchor="middle" font-family="${SANS}" font-weight="800" font-size="${tSize}" fill="${ink}">${tspans(title, 500, 36)}</text>
       <text x="500" y="${title.length > 1 ? 490 : 470}" text-anchor="middle" font-family="${MONO}" font-size="16" letter-spacing="2" fill="${deep}">CHAPTER ${esc(String(c.ch).toUpperCase())} · ${esc(s.name.toUpperCase())}</text>
       <text x="500" y="${title.length > 1 ? 522 : 504}" text-anchor="middle" font-family="${SERIF}" font-size="19" fill="${ink}">Chapter score <tspan font-weight="700">${a.pct}%</tspan></text>
-      <g transform="translate(500 582)">
+      <g transform="translate(500 568)">
         <path d="M-34 10l-12 50 20-10 11 17 9-48z" fill="${deep}"/><path d="M34 10l12 50-20-10-11 17-9-48z" fill="${deep}"/>
         <path d="${scallop(0, 0, 56, 50, 24)}" fill="${gold}"/><circle r="44" fill="${col}" stroke="#fff" stroke-width="2"/><circle r="44" fill="url(#${id}s)"/>
         <circle r="36" fill="none" stroke="${ink}" stroke-opacity=".35" stroke-dasharray="2 3"/>${iconAt(c.icon || s.icon, 0, -2, 40, ink, 1.6)}</g>
       <line x1="120" y1="606" x2="340" y2="606" stroke="${ink}" stroke-opacity=".5"/>
       <text x="230" y="596" text-anchor="middle" font-family="${SERIF}" font-size="20" fill="${ink}">${esc(longDate(a.d))}</text>
       <text x="230" y="628" text-anchor="middle" font-family="${MONO}" font-size="12" letter-spacing="1.5" fill="#5b6676">DATE AWARDED</text>
-      <text x="770" y="596" text-anchor="middle" font-family="'Brush Script MT','Segoe Script','Snell Roundhand',cursive" font-style="italic" font-size="34" fill="${deep}">Ivy Beaker</text>
+      <text x="770" y="596" text-anchor="middle" font-family="${SERIF}" font-size="20" fill="${ink}">bioglowrx.netlify.app</text>
       <line x1="660" y1="606" x2="880" y2="606" stroke="${ink}" stroke-opacity=".5"/>
-      <text x="770" y="628" text-anchor="middle" font-family="${MONO}" font-size="12" letter-spacing="1.5" fill="#5b6676">DR IVY BEAKER · DEAN OF STUDIES</text>
-      <text x="230" y="648" text-anchor="middle" font-family="${MONO}" font-size="11" letter-spacing="1.5" fill="#8a8f96">No. ${certNo(s.id, a.n, "C")}</text>
+      <text x="770" y="628" text-anchor="middle" font-family="${MONO}" font-size="12" letter-spacing="1.5" fill="#5b6676">BIOGLOWRX SCIENCES LEARNING</text>
+      <text x="500" y="650" text-anchor="middle" font-family="${SERIF}" font-style="italic" font-size="13" fill="#6b7280">${NOTQUAL}</text>
     </svg>`;
   }
 
@@ -190,7 +198,7 @@
     const name = getName() || "Your name here", nameSize = name.length > 26 ? 40 : 54;
     const field = DIPLOMA[sid] || s.name, fSize = field.length > 28 ? 30 : 36;
     const n = liveChapters(s).length;
-    return `<svg class="br-certsvg is-diploma" viewBox="0 0 1000 700" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Diploma in ${esc(field)}">
+    return `<svg class="br-certsvg is-diploma" viewBox="0 0 1000 700" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Subject award: ${esc(s.name)}">
       <defs><linearGradient id="${id}f" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0E6B66"/><stop offset="1" stop-color="#083532"/></linearGradient>
         <linearGradient id="${id}p" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fffcf2"/><stop offset="1" stop-color="#f3ead4"/></linearGradient>
         <linearGradient id="${id}g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${gold2}"/><stop offset=".5" stop-color="${gold}"/><stop offset="1" stop-color="#9c7a17"/></linearGradient>
@@ -200,30 +208,29 @@
       <rect x="40" y="40" width="920" height="620" fill="none" stroke="url(#${id}g)" stroke-width="4"/>
       <rect x="50" y="50" width="900" height="600" fill="none" stroke="url(#${id}g)" stroke-width="1.2"/>
       ${corner(60, 60, 1.2, 1.2, gold)}${corner(940, 60, -1.2, 1.2, gold)}${corner(60, 640, 1.2, -1.2, gold)}${corner(940, 640, -1.2, -1.2, gold)}
-      <text x="500" y="104" text-anchor="middle" font-family="${MONO}" font-size="14" letter-spacing="6" fill="${deep}">BIOGLOWRX ACADEMY OF MEDICAL SCIENCES</text>
-      <text x="500" y="128" text-anchor="middle" font-family="${SERIF}" font-style="italic" font-size="15" fill="#8a7a50">Scientia per ludum · knowledge through play</text>
-      <text x="500" y="200" text-anchor="middle" font-family="${SERIF}" font-size="76" letter-spacing="4" fill="${ink}">Diploma</text>
-      <text x="500" y="${246}" text-anchor="middle" font-family="${SERIF}" font-style="italic" font-size="${fSize}" fill="${deep}">in ${esc(field)}</text>
-      <text x="500" y="290" text-anchor="middle" font-family="${SERIF}" font-style="italic" font-size="19" fill="#5b6676">is hereby conferred upon</text>
+      <text x="500" y="104" text-anchor="middle" font-family="${MONO}" font-size="14" letter-spacing="6" fill="${deep}">BIOGLOWRX SCIENCES LEARNING</text>
+      <text x="500" y="128" text-anchor="middle" font-family="${SERIF}" font-style="italic" font-size="15" fill="#8a7a50">Learn it, then play it</text>
+      <text x="500" y="200" text-anchor="middle" font-family="${SERIF}" font-size="66" letter-spacing="3" fill="${ink}">Subject Award</text>
+      <text x="500" y="${246}" text-anchor="middle" font-family="${SERIF}" font-style="italic" font-size="${fSize}" fill="${deep}">${esc(s.name)}</text>
+      <text x="500" y="290" text-anchor="middle" font-family="${SERIF}" font-style="italic" font-size="19" fill="#5b6676">awarded to</text>
       <text x="500" y="350" text-anchor="middle" font-family="${SERIF}" font-style="italic" font-size="${nameSize}" fill="${ink}">${esc(name)}</text>
       <line x1="230" y1="370" x2="770" y2="370" stroke="url(#${id}g)" stroke-width="2"/>
-      <text x="500" y="404" text-anchor="middle" font-family="${SERIF}" font-size="18" fill="${ink}">having completed all ${n} chapters of ${esc(s.name)}, every game passed at 70% or more,</text>
+      <text x="500" y="404" text-anchor="middle" font-family="${SERIF}" font-size="18" fill="${ink}">for completing all ${n} chapters of ${esc(s.name)}, every activity passed at 70% or more,</text>
       <text x="500" y="430" text-anchor="middle" font-family="${SERIF}" font-size="18" fill="${ink}">with a subject score of <tspan font-weight="700">${a.pct}%</tspan></text>
       <g transform="translate(500 446)"><path d="M-120 0h240l-14 18 14 18h-240l14-18z" fill="${deep}"/>
-        <text y="24" text-anchor="middle" font-family="${MONO}" font-size="15" letter-spacing="4" fill="${gold2}">WITH ${esc(a.cls.toUpperCase())}</text></g>
+        <text y="24" text-anchor="middle" font-family="${MONO}" font-size="15" letter-spacing="4" fill="${gold2}">${esc(tier(a.cls).toUpperCase())} LEVEL</text></g>
       <g transform="translate(500 552)">
         <path d="M-30 20l-12 44 18-10 11 16 10-46z" fill="${col}" stroke="${deep}" stroke-width="1.5"/><path d="M30 20l12 44-18-10-11 16-10-46z" fill="${col}" stroke="${deep}" stroke-width="1.5"/>
         ${laurel(68, "#6f9a57")}
         <path d="${scallop(0, 0, 54, 48, 28)}" fill="url(#${id}g)"/><circle r="42" fill="none" stroke="#fff" stroke-opacity=".7" stroke-width="1.5"/>
         <circle r="34" fill="${deep}"/>${iconAt(s.icon, 0, 0, 38, gold2, 1.6)}</g>
-      <text x="245" y="572" text-anchor="middle" font-family="'Brush Script MT','Segoe Script','Snell Roundhand',cursive" font-style="italic" font-size="34" fill="${deep}">Ada Pipette</text>
-      <line x1="150" y1="582" x2="340" y2="582" stroke="${ink}" stroke-opacity=".5"/>
-      <text x="245" y="602" text-anchor="middle" font-family="${MONO}" font-size="11" letter-spacing="1.4" fill="#5b6676">PROF ADA PIPETTE · CHANCELLOR</text>
-      <text x="755" y="572" text-anchor="middle" font-family="'Brush Script MT','Segoe Script','Snell Roundhand',cursive" font-style="italic" font-size="34" fill="${deep}">Ivy Beaker</text>
-      <line x1="660" y1="582" x2="850" y2="582" stroke="${ink}" stroke-opacity=".5"/>
-      <text x="755" y="602" text-anchor="middle" font-family="${MONO}" font-size="11" letter-spacing="1.4" fill="#5b6676">DR IVY BEAKER · DEAN OF STUDIES</text>
-      <text x="245" y="626" text-anchor="middle" font-family="${SERIF}" font-size="15" fill="${ink}">Awarded ${esc(longDate(a.d))}</text>
-      <text x="755" y="626" text-anchor="middle" font-family="${MONO}" font-size="11" letter-spacing="1.5" fill="#8a7a50">No. ${certNo(sid, a.n, "D")}</text>
+      <text x="245" y="582" text-anchor="middle" font-family="${SERIF}" font-size="17" fill="${ink}">Awarded ${esc(longDate(a.d))}</text>
+      <line x1="150" y1="592" x2="340" y2="592" stroke="${ink}" stroke-opacity=".5"/>
+      <text x="245" y="612" text-anchor="middle" font-family="${MONO}" font-size="11" letter-spacing="1.4" fill="#5b6676">DATE</text>
+      <text x="755" y="582" text-anchor="middle" font-family="${SERIF}" font-size="17" fill="${ink}">bioglowrx.netlify.app</text>
+      <line x1="660" y1="592" x2="850" y2="592" stroke="${ink}" stroke-opacity=".5"/>
+      <text x="755" y="612" text-anchor="middle" font-family="${MONO}" font-size="11" letter-spacing="1.4" fill="#5b6676">BIOGLOWRX SCIENCES LEARNING</text>
+      <text x="500" y="640" text-anchor="middle" font-family="${SERIF}" font-style="italic" font-size="14" fill="#6b7280">${NOTQUAL}</text>
     </svg>`;
   }
 
@@ -267,15 +274,15 @@
   function openAward(kind, ref) {
     const svg = kind === "diploma" ? diplomaSVG(ref) : certSVG(ref);
     const a = loadAwards(), info = kind === "cert" ? certInfo(ref) : null, s = kind === "diploma" ? C.subjects.find(x => x.id === ref) : info && info.s;
-    const title = kind === "diploma" ? "Diploma in " + (DIPLOMA[ref] || s.name) : `Certificate · Ch. ${info.c.ch}`;
+    const title = kind === "diploma" ? "Subject award · " + s.name : `Progress certificate · Ch. ${info.c.ch}`;
     BGX.sheet({ label: title, title, wide: true,
       html: `<div class="br-certframe${kind === "diploma" ? " is-diploma" : ""}">${svg}</div>
         ${getName() ? "" : `<p class="br-hint" style="margin:10px 0 0">Add your name in the <a href="${R}cabinet/index.html">trophy cabinet</a> and it appears on every certificate.</p>`}
         <div class="br-btns" style="margin-top:14px;justify-content:flex-start"><button class="br-next" type="button" data-print>Print or save as PDF</button>${BGX.shareSvg ? `<button class="br-ghost" type="button" data-sharecert>Share as image</button>` : ""}
         ${info ? `<a class="br-ghost" href="${R}${info.c.url}">Play ${esc(info.c.game)} again</a>` : `<a class="br-ghost" href="${R}subjects/${ref}/index.html">Open ${esc(s.name)}</a>`}</div>
-        ${kind === "diploma" && a.d[ref] && a.d[ref].cls !== "Distinction" ? `<p class="br-hint" style="margin:12px 0 0">Raise your ${esc(s.name)} score to ${a.d[ref].cls === "Pass" ? "80% for Merit or " : ""}90% for Distinction and this diploma upgrades itself.</p>` : ""}`,
+        ${kind === "diploma" && a.d[ref] && a.d[ref].cls !== "Distinction" ? `<p class="br-hint" style="margin:12px 0 0">Raise your ${esc(s.name)} score to ${a.d[ref].cls === "Pass" ? "80% for Silver or " : ""}90% for Gold and this award upgrades itself.</p>` : ""}`,
       onOpen: body => { const b = body.querySelector("[data-print]"); if (b) b.onclick = () => printCert(svg);
-        const sh = body.querySelector("[data-sharecert]"); if (sh) sh.onclick = () => BGX.shareSvg(svg, kind === "diploma" ? "BioglowRX-diploma-" + ref : "BioglowRX-certificate-" + ref.replace(/[^a-z0-9]+/gi, "-")); } });
+        const sh = body.querySelector("[data-sharecert]"); if (sh) sh.onclick = () => BGX.shareSvg(svg, kind === "diploma" ? "BioglowRX-subject-award-" + ref : "BioglowRX-certificate-" + ref.replace(/[^a-z0-9]+/gi, "-")); } });
   }
 
   /* ---------- pop-ups when something is earned ---------- */
@@ -285,21 +292,21 @@
       if (n.kind === "cert") {
         const { s, c } = certInfo(n.key);
         BGX.sfx.big(); BGX.rain(260);
-        BGX.popup("Certificate earned", `<div class="br-awardpop">${certSVG(n.key)}</div>
-          <p class="br-label" style="margin:8px 0 0">Chapter complete · ${esc(s.name)}</p><h2>Certificate earned!</h2>
+        BGX.popup("Progress certificate earned", `<div class="br-awardpop">${certSVG(n.key)}</div>
+          <p class="br-label" style="margin:8px 0 0">Chapter complete · ${esc(s.name)}</p><h2>Progress certificate earned!</h2>
           <p>Every game in <b>Ch. ${esc(c.ch)} · ${esc(c.title)}</b> passed at 70% or more. It's now in your trophy cabinet.</p>
           <div class="br-btns" style="margin-top:6px"><button class="br-next" data-close>Keep going</button><a class="br-ghost" href="${R}cabinet/index.html">Trophy cabinet</a></div>`, { cls: "is-award", noEnter: false });
       } else if (n.kind === "diploma" || n.kind === "upgrade") {
         const s = C.subjects.find(x => x.id === n.sid), a = loadAwards().d[n.sid];
         BGX.sfx.big(); BGX.rain(320);
-        BGX.popup("Diploma", `<div class="br-awardpop">${diplomaSVG(n.sid)}</div>
-          <p class="br-label" style="margin:8px 0 0">${n.kind === "upgrade" ? "Diploma upgraded" : "Subject complete"} · ${esc(s.name)}</p>
-          <h2>${n.kind === "upgrade" ? `Now with ${esc(a.cls)}!` : "Diploma awarded!"}</h2>
-          <p>${n.kind === "upgrade" ? `Your ${esc(s.name)} score reached ${a.pct}%.` : `Every chapter of ${esc(s.name)} is complete: the Diploma in ${esc(DIPLOMA[n.sid] || s.name)}, with ${esc(a.cls)}.`}</p>
+        BGX.popup("Subject award", `<div class="br-awardpop">${diplomaSVG(n.sid)}</div>
+          <p class="br-label" style="margin:8px 0 0">${n.kind === "upgrade" ? "Award upgraded" : "Subject complete"} · ${esc(s.name)}</p>
+          <h2>${n.kind === "upgrade" ? `Now ${esc(tier(a.cls))} level!` : "Subject award earned!"}</h2>
+          <p>${n.kind === "upgrade" ? `Your ${esc(s.name)} score reached ${a.pct}%.` : `Every chapter of ${esc(s.name)} is complete: your ${esc(s.name)} subject award, ${esc(tier(a.cls))} level.`}</p>
           <div class="br-btns" style="margin-top:6px"><button class="br-next" data-close>Celebrate</button><a class="br-ghost" href="${R}cabinet/index.html">Trophy cabinet</a></div>`, { cls: "is-award" });
       } else if (n.kind === "flask") {
-        BGX.popup("The Golden Flask", `<div style="width:120px;margin:0 auto">${flaskSVG(true)}</div><p class="br-label" style="margin:8px 0 0">All five diplomas</p><h2>The Golden Flask!</h2>
-          <p>Every subject, every chapter, every game. The highest honour of the BioglowRX Academy.</p>
+        BGX.popup("The Golden Flask", `<div style="width:120px;margin:0 auto">${flaskSVG(true)}</div><p class="br-label" style="margin:8px 0 0">All five subject awards</p><h2>The Golden Flask!</h2>
+          <p>Every subject, every chapter, every activity. The rarest trophy on BioglowRX.</p>
           <div class="br-btns" style="margin-top:6px"><button class="br-next" data-close>Take a bow</button><a class="br-ghost" href="${R}cabinet/index.html">Trophy cabinet</a></div>`, { cls: "is-award" });
       }
     });
@@ -309,24 +316,25 @@
   function gameCard(gid) {
     const f = findChapter(gid), g = gameState(gid); if (!g.total) return "";
     const awarded = f && loadAwards().c[chapKey(f.s, f.c)];
+    const cs = f ? chapterState(f.s, f.c) : null;
     const left = g.total - g.passed;
     return `<div class="br-gprog${g.done ? " is-done" : ""}">
       ${ring(g.pct, 52, g.done)}
       <div class="t"><p class="br-label" style="margin:0">${f ? `Ch. ${esc(f.c.ch)} · ${esc(f.s.name)}` : "Your progress"}</p>
-        <b>${g.done ? "Chapter completed" : g.started ? `${g.passed} of ${g.total} games passed` : `${g.total} games to pass`}</b>
-        ${bar(g.pct)}<small>${fmtPct(g.pct)} chapter score · ${g.done ? "every game passed at 70%+" : `pass ${left === 1 ? "the last game" : `all ${g.total} games`} with 70% or more to earn the certificate`}</small></div>
+        <b>${cs && cs.done ? "Chapter completed" : g.started ? `${g.passed} of ${g.total} activities passed` : `${g.total} activities to pass`}</b>
+        ${bar(g.pct)}<small>${fmtPct(g.pct)} chapter score · ${cs && cs.done ? "every activity passed at 70%+" : g.done && cs ? `answer ${cs.minQ - cs.answered} more questions in this chapter to earn the certificate` : `pass ${left === 1 ? "the last activity" : `all ${g.total} activities`} with 70% or more to earn the certificate`}</small></div>
       ${awarded ? `<button class="br-certbtn" type="button" id="br-viewcert">${BGX.icon("trophy")} View certificate</button>` : ""}</div>`;
   }
   function endLine(gid, mid, pct) {
     const g = gameState(gid), m = g.modes.find(x => x.id === mid), ok = pct >= PASS, f = findChapter(gid);
     return `<button class="br-progline${g.done ? " is-done" : ""}" id="br-progline" type="button">${ring(g.pct, 46, g.done)}
       <span><b>${ok ? "✓ Passed" : `${PASS}% needed to pass`}${m && m.pct > pct ? ` · best ${Math.round(m.pct)}%` : ""}</b>
-      <small>${f ? `Ch. ${esc(f.c.ch)}: ` : ""}${g.passed} of ${g.total} games passed · ${fmtPct(g.pct)} chapter score${g.done ? " · completed" : ""}</small></span></button>`;
+      <small>${f ? `Ch. ${esc(f.c.ch)}: ` : ""}${g.passed} of ${g.total} activities passed · ${fmtPct(g.pct)} chapter score${g.done ? " · completed" : ""}</small></span></button>`;
   }
   function openChapterFor(gid) {
     const f = findChapter(gid), g = gameState(gid);
     BGX.sheet({ label: "Chapter progress", title: f ? `Ch. ${f.c.ch} · ${f.c.title}` : g.title,
-      html: `<p class="br-hint" style="margin:0 0 12px">Pass every game with at least 70% to complete the chapter and earn its certificate. Your best score in each game counts.</p>
+      html: `<p class="br-hint" style="margin:0 0 12px">Pass every activity with at least 70%, and answer at least 30 questions in the chapter, to earn its progress certificate. Your best score in each activity counts.</p>
         <ul class="br-modelist">${g.modes.map(m => `<li class="${m.ok ? "is-ok" : m.pct != null ? "is-low" : ""}"><span class="mk">${m.ok ? "✓" : m.pct != null ? "!" : "·"}</span><span class="nm">${esc(m.title)}</span>${bar(m.pct || 0, m.ok ? "is-ok" : "")}<span class="pc">${m.pct == null ? "—" : Math.round(m.pct) + "%"}</span></li>`).join("")}</ul>
         <p style="margin:14px 0 0"><a class="br-crumb" href="${R}cabinet/index.html">${BGX.icon("trophy")} Trophy cabinet</a></p>` });
   }
@@ -345,24 +353,24 @@
     const totalCh = A.reduce((n, x) => n + x.chaps.length, 0), overall = avg(A.map(x => x.pct));
     return `<a class="br-cabcard" href="${R}cabinet/index.html">
       <span class="cabart" aria-hidden="true">${flaskSVG(!!a.flask)}</span>
-      <span class="t"><span class="br-label" style="margin:0">Trophy cabinet</span><b>${certs} of ${totalCh} certificates · ${dips} of ${C.subjects.length} diplomas</b>
-        ${bar(overall)}<small>${fmtPct(overall)} of the whole course · finish a chapter (every game at 70%+) to earn its certificate</small></span>
+      <span class="t"><span class="br-label" style="margin:0">Trophy cabinet</span><b>${certs} of ${totalCh} certificates · ${dips} of ${C.subjects.length} subject awards</b>
+        ${bar(overall)}<small>${fmtPct(overall)} of the whole course · finish a chapter (every activity at 70%+, 30 questions answered) to earn its certificate</small></span>
       <span class="go">Open →</span></a>`;
   }
   function subjectTile(s) {
     const ss = subjectState(s), a = loadAwards();
-    return `<span class="br-subjprog">${bar(ss.pct)}<small>${fmtPct(ss.pct)} · ${ss.doneCount}/${ss.chaps.length} ✓${a.d[s.id] ? " · Diploma" : ""}</small></span>`;
+    return `<span class="br-subjprog">${bar(ss.pct)}<small>${fmtPct(ss.pct)} · ${ss.doneCount}/${ss.chaps.length} ✓${a.d[s.id] ? " · Award" : ""}</small></span>`;
   }
   function subjectPanel(s) {
     const ss = subjectState(s), a = loadAwards(), d = a.d[s.id];
     return `<section class="br-subprog${ss.done ? " is-done" : ""}">${ring(ss.pct, 58, ss.done)}
       <div class="t"><p class="br-label" style="margin:0">Subject progress</p><b>${ss.doneCount} of ${ss.chaps.length} chapters completed</b>${bar(ss.pct)}
-        <small>${fmtPct(ss.pct)} subject score · ${d ? `Diploma earned, with ${esc(d.cls)}` : "complete every chapter to earn the diploma"}</small></div>
-      <a class="br-certbtn" href="${R}cabinet/index.html">${BGX.icon("trophy")} ${d ? "View diploma" : "Trophy cabinet"}</a></section>`;
+        <small>${fmtPct(ss.pct)} subject score · ${d ? `Subject award earned, ${esc(tier(d.cls))} level` : "complete every chapter to earn the subject award"}</small></div>
+      <a class="br-certbtn" href="${R}cabinet/index.html">${BGX.icon("trophy")} ${d ? "View subject award" : "Trophy cabinet"}</a></section>`;
   }
   function chapterRow(s, c) {
     const cs = chapterState(s, c);
-    return `<div class="br-chprog">${bar(cs.pct, cs.done ? "is-ok" : "")}<span class="pc">${fmtPct(cs.pct)}</span><span class="n">${cs.passed}/${cs.total} games</span>${statusChip(cs)}</div>`;
+    return `<div class="br-chprog">${bar(cs.pct, cs.done ? "is-ok" : "")}<span class="pc">${fmtPct(cs.pct)}</span><span class="n">${cs.passed}/${cs.total} activities</span>${statusChip(cs)}</div>`;
   }
 
   /* ---------- the trophy cabinet page (cabinet/index.html) ---------- */
@@ -375,35 +383,35 @@
       const medals = labs.filter(x => x.ls.tier).length;
       const dipTile = ss => {
         const s = ss.s, d = a.d[s.id];
-        if (d) return `<button class="br-frame is-diploma is-won" type="button" data-dip="${s.id}" aria-label="Diploma in ${esc(DIPLOMA[s.id])}, ${esc(d.cls)}">${diplomaSVG(s.id)}<span class="cap"><b>${esc(s.name)}</b><small>${esc(d.cls)} · ${d.pct}%</small></span></button>`;
-        return `<a class="br-frame is-diploma is-locked" href="${R}subjects/${s.id}/index.html" aria-label="${esc(s.name)} diploma, locked: ${ss.doneCount} of ${ss.chaps.length} chapters">
+        if (d) return `<button class="br-frame is-diploma is-won" type="button" data-dip="${s.id}" aria-label="${esc(s.name)} subject award, ${esc(tier(d.cls))} level">${diplomaSVG(s.id)}<span class="cap"><b>${esc(s.name)}</b><small>${esc(d.cls)} · ${d.pct}%</small></span></button>`;
+        return `<a class="br-frame is-diploma is-locked" href="${R}subjects/${s.id}/index.html" aria-label="${esc(s.name)} subject award, locked: ${ss.doneCount} of ${ss.chaps.length} chapters">
           <span class="lock" style="--c:var(--${s.color})">${ring(ss.pct, 64)}<em>${ss.doneCount}/${ss.chaps.length} chapters</em></span>
-          <span class="cap"><b>${esc(s.name)}</b><small>Diploma · locked</small></span></a>`;
+          <span class="cap"><b>${esc(s.name)}</b><small>Subject award · locked</small></span></a>`;
       };
       const certTile = (cs) => {
         const { s, c } = cs, w = a.c[cs.key];
         if (w) return `<button class="br-frame is-won" type="button" data-cert="${esc(cs.key)}" aria-label="Certificate, chapter ${esc(c.ch)}: ${esc(c.title)}">${certSVG(cs.key)}<span class="cap"><b>Ch. ${esc(c.ch)}</b><small>${esc(c.game)} · ${w.pct}%</small></span></button>`;
-        return `<a class="br-frame is-locked" href="${R}${c.url}" aria-label="Chapter ${esc(c.ch)} certificate, locked: ${Math.round(cs.pct)}%, ${cs.passed} of ${cs.total} games passed">
+        return `<a class="br-frame is-locked" href="${R}${c.url}" aria-label="Chapter ${esc(c.ch)} certificate, locked: ${Math.round(cs.pct)}%, ${cs.passed} of ${cs.total} activities passed">
           <span class="lock" style="--c:var(--${s.color})">${ring(cs.pct, 46)}<em>${cs.passed}/${cs.total} games</em></span>
           <span class="cap"><b>Ch. ${esc(c.ch)}</b><small>${esc(c.game)}</small></span></a>`;
       };
       view.innerHTML = `
         <nav class="br-backrow" aria-label="Back"><a class="br-crumb" href="${R}index.html"><span aria-hidden="true">←</span> All subjects</a></nav>
         <section class="br-cabhero">
-          <div><p class="br-label" style="margin:0">BioglowRX Academy of Medical Sciences</p><h1>Trophy cabinet</h1>
-            <p>Every chapter you complete earns a certificate; every subject you complete earns a diploma. A chapter is complete when each of its games is passed with at least 70%.</p></div>
+          <div><p class="br-label" style="margin:0">Your practice record</p><h1>Trophy cabinet</h1>
+            <p>Every chapter you complete earns a progress certificate; every subject you complete earns a subject award. A chapter is complete when each of its activities is passed with at least 70%. These are fun records of your practice, not academic qualifications.</p></div>
           <div class="br-cabstats">
-            <span><b>${certs}<small>/${totalCh}</small></b>Certificates</span><span><b>${dips}<small>/${C.subjects.length}</small></b>Diplomas</span>
+            <span><b>${certs}<small>/${totalCh}</small></b>Certificates</span><span><b>${dips}<small>/${C.subjects.length}</small></b>Subject awards</span>
             <span><b>${medals}<small>/${labs.length}</small></b>Lab medals</span><span><b>${Math.round(overall)}<small>%</small></b>Whole course</span></div>
         </section>
         <form class="br-namebox" id="br-nameform"><label for="br-name">Name on your certificates</label>
           <input id="br-name" maxlength="40" autocomplete="name" placeholder="Type your name" value="${esc(getName())}"><button class="br-next" type="submit">Save</button><span class="ok" id="br-nameok" aria-live="polite"></span></form>
         <div class="br-cabinet">
-          <div class="br-cabcrest"><span>${BGX.logo("")}</span><b>Hall of credentials</b></div>
-          <section class="br-shelf is-top" aria-label="Diplomas">
-            <h2 class="br-shelfhead"><span>Diplomas</span><small>${dips}/${C.subjects.length}</small></h2>
+          <div class="br-cabcrest"><span>${BGX.logo("")}</span><b>Hall of fame</b></div>
+          <section class="br-shelf is-top" aria-label="Subject awards">
+            <h2 class="br-shelfhead"><span>Subject awards</span><small>${dips}/${C.subjects.length}</small></h2>
             <div class="br-shelfrow is-dips">
-              <div class="br-frame is-flask${a.flask ? " is-won" : " is-locked"}" title="The Golden Flask: earn all five diplomas">${flaskSVG(!!a.flask)}<span class="cap"><b>The Golden Flask</b><small>${a.flask ? "Awarded " + esc(longDate(a.flask.d)) : `All five diplomas · ${dips}/5`}</small></span></div>
+              <div class="br-frame is-flask${a.flask ? " is-won" : " is-locked"}" title="The Golden Flask: earn all five subject awards">${flaskSVG(!!a.flask)}<span class="cap"><b>The Golden Flask</b><small>${a.flask ? "Awarded " + esc(longDate(a.flask.d)) : `All five subject awards · ${dips}/5`}</small></span></div>
               ${BGX.community ? BGX.community.cabinetShelfItem() : ""}
               ${A.map(dipTile).join("")}</div>
             <i class="plank" aria-hidden="true"></i></section>
@@ -416,7 +424,7 @@
               ${medalSVG(ls, s)}<span class="cap"><b>${esc(ls.l.title)}</b><small>${ls.tier ? ls.tier[0].toUpperCase() + ls.tier.slice(1) + " · " : ""}${"★".repeat(ls.stars)}${"☆".repeat(9 - ls.stars)}</small></span></a>`).join("")}</div>
             <i class="plank" aria-hidden="true"></i></section>
         </div>
-        <p class="br-hint">Certificates, diplomas and medals are saved in this browser on this device. Tap one to see it full size and print it or save it as a PDF.</p>`;
+        <p class="br-hint">Certificates, subject awards and medals are saved in this browser on this device. Tap one to see it full size and print it or save it as a PDF.</p>`;
       view.querySelectorAll("[data-cert]").forEach(b => b.onclick = () => { BGX.sfx.tap(); openAward("cert", b.dataset.cert); });
       view.querySelectorAll("[data-dip]").forEach(b => b.onclick = () => { BGX.sfx.tap(); openAward("diploma", b.dataset.dip); });
       const form = document.getElementById("br-nameform");
@@ -434,7 +442,7 @@
   const boot = () => {
     const page = document.body && document.body.dataset.page;
     if (page === "cabinet") { BGX.shell(); cabinet(document.getElementById("br-view")); }
-    if (page === "privacy") BGX.shell();
+    if (page === "privacy" || page === "about") BGX.shell();
     if (early.length && (page === "hub" || page === "subject" || page === "cabinet")) setTimeout(() => celebrate(early), 600);
   };
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", boot); else boot();

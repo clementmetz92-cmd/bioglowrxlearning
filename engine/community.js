@@ -15,24 +15,35 @@
 
   /* ---------- analytics (PostHog, EU, cookie-free) ---------- */
   /* PostHog's official loader stub: calls made before the library arrives are queued and replayed by it */
+  const live = () => !C.productionHost || location.hostname === C.productionHost || /[?&]analytics=1\b/.test(location.search);
   function loadPosthog() {
-    if (!C.posthogKey || (window.posthog && window.posthog.__SV)) return;
+    if (!C.posthogKey || !live() || (window.posthog && window.posthog.__SV)) return;
     !function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.crossOrigin="anonymous",p.async=!0,p.src=s.api_host.replace(".i.posthog.com","-assets.i.posthog.com")+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+".people (stub)"},o="init capture register register_once unregister identify reset get_distinct_id set_config opt_in_capturing opt_out_capturing debug".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
     try {
-      window.posthog.init(C.posthogKey, {
+      window.posthog.init(C.posthogKey, Object.assign({
         api_host: C.posthogHost || "https://eu.i.posthog.com",
         persistence: "memory",              // no cookies, no local storage: nothing to consent to
         autocapture: false, capture_pageview: true, capture_pageleave: false,
         disable_session_recording: true, disable_surveys: true, enable_heatmaps: false, capture_performance: false, capture_dead_clicks: false,
         person_profiles: "identified_only", ip: false
-      });
+      }, C.cookieless ? { cookieless_mode: "always", person_profiles: "never" } : {}));
+      /* no ID is stored or sent: these describe the visit using the progress already kept on this device */
+      window.posthog.register(BGX.visitInfo ? BGX.visitInfo() : {});
     } catch (e) {}
   }
   const page = () => ({ page: location.pathname.replace(/.*bioglowrxlearning/, "") || "/", game: BGX.game ? BGX.game.id : null, level: BGX.xp ? BGX.xp.level().n : null });
   BGX.track = (event, props = {}) => {
+    if (!live()) return;
     const p = Object.assign(page(), props);
     try { if (C.posthogKey && window.posthog && window.posthog.capture) window.posthog.capture(event, p); } catch (e) {}
   };
+  /* one "visit" event per browser tab, so visits can be counted even though page views are anonymous */
+  try { if (!sessionStorage.getItem("bgx_visit")) { sessionStorage.setItem("bgx_visit", "1"); BGX.track("visit_start", { ref: new URLSearchParams(location.search).get("ref") || "", standalone: matchMedia("(display-mode: standalone)").matches }); } } catch (e) {}
+  /* errors: a short message and where it happened, at most 5 per page */
+  let errs = 0;
+  const err = (msg, src) => { if (++errs > 5) return; BGX.track("js_error", { msg: String(msg || "").slice(0, 160), src: String(src || "").replace(location.origin, "").slice(0, 120) }); };
+  addEventListener("error", e => err(e.message, (e.filename || "") + ":" + (e.lineno || 0)));
+  addEventListener("unhandledrejection", e => err(e.reason && (e.reason.message || e.reason), "promise"));
 
   /* ---------- invite & share ---------- */
   const withRef = (url, ref) => url + (url.indexOf("?") >= 0 ? "&" : "?") + "ref=" + ref;
@@ -75,13 +86,15 @@
   };
   /* challenge a friend after a round: the link opens the same game with a banner */
   BGX.challenge = (g, mode, score, total) => {
-    const url = withRef(SITE + `games/${g.id}/index.html?c=${encodeURIComponent(mode.id)}&s=${score}&t=${total}`, "challenge");
+    const url = withRef(SITE + `games/${g.id}/index.html?c=${encodeURIComponent(mode.id)}&s=${score}&t=${total}&k=${chk(g.id, mode.id, score, total)}`, "challenge");
     BGX.invite({ title: "Challenge a friend", url, text: `I scored ${score}/${total} in ${g.title} (${mode.title}) on BioglowRX. Can you beat me?`,
       lead: `They'll see your score of ${score}/${total} when they open the link.` });
   };
+  /* a short check code so a hand-edited score is ignored (a light guard, not security) */
+  const chk = (gid, mid, sc, tot) => { let h = 2166136261; for (const ch of `${gid}|${mid}|${sc}|${tot}|bgx`) { h ^= ch.charCodeAt(0); h = Math.imul(h, 16777619) >>> 0; } return h.toString(36).slice(0, 6); };
   function challengeBanner(g) {
-    const q = new URLSearchParams(location.search), c = q.get("c"), s = +q.get("s"), t = +q.get("t");
-    if (!c || !t || !g.modes) return "";
+    const q = new URLSearchParams(location.search), c = q.get("c"), s = Number(q.get("s")), t = Number(q.get("t"));
+    if (!c || !Number.isInteger(s) || !Number.isInteger(t) || t < 1 || t > 100 || s < 0 || s > t || q.get("k") !== chk(g.id, c, s, t) || !g.modes) return "";
     const m = g.modes.find(x => x.id === c); if (!m) return "";
     if (!challengeBanner.seen) { challengeBanner.seen = 1; BGX.track("challenge_open", { mode: c, score: s, total: t }); }
     return `<div class="br-challenge"><span class="ic">${BGX.icon("trophy")}</span><span><b>A friend scored ${s}/${t} in ${esc(m.title)}.</b> Can you beat it?</span><button class="br-next" type="button" data-bgx-play="${esc(c)}">Take the challenge</button></div>`;

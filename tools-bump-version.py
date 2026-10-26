@@ -21,3 +21,8 @@ try:
     subprocess.run([sys.executable, str(pathlib.Path(__file__).parent / "tools-search-index.py")], check=True)
 except Exception as e:
     print("search index not rebuilt:", e)
+
+try:
+    subprocess.run([sys.executable, str(pathlib.Path(__file__).parent / "tools-seo-tags.py")], check=True)
+except Exception as e:
+    print("seo tags not rebuilt:", e)

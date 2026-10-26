@@ -58,7 +58,7 @@
 
   /* ---------- menu ---------- */
   function menu() {
-    S.screen = "menu"; undock();
+    S.screen = "menu"; undock(); if (BGX.endRound) BGX.endRound();
     const best = BGX.store.get("best_" + G.id, {});
     const sName = G.subject ? (G.subjectName || G.subject.charAt(0).toUpperCase() + G.subject.slice(1)) : "";
     const subj = G.subject ? `<a class="br-crumb" href="${BGX.root}subjects/${G.subject}/index.html"><span aria-hidden="true">←</span> All ${esc(sName)} games</a>` : "";
@@ -106,8 +106,10 @@
   /* ---------- round runner (question formats) ---------- */
   function start(mode) {
     BGX.sfx.tap();
+    if (BGX.track) BGX.track("round_start", { game: G.id, mode: mode.id, format: mode.format });
     S.xpStart = BGX.xp.total;
     const f = BGX.formats[mode.format];
+    BGX.inRound = mode.format !== "explorer" && mode.format !== "notes";
     if (f.open) { S.screen = mode.format; S.mode = mode; f.open(mode); return; }
     S = Object.assign(S, { screen: "game", mode, f, i: 0, score: 0, wrong: [], answered: false });
     S.qs = f.makeRound(mode);
@@ -169,19 +171,36 @@
     return { bg: catBg(it), corner: val(G.tile.corner, it), big: bigText(it), bigHTML: bigHTML(it), label: val(G.tile.label, it), text: ms.text ? fill(ms.text, it) : "" };
   }
 
+  /* what to play next: the next activity in this game not yet passed, else the next chapter's game */
+  function nextActivity(cur) {
+    const P = BGX.progress;
+    if (!P) return null;
+    const g = P.gameState(G.id), todo = g.modes.filter(x => !x.ok && x.id !== cur.id);
+    const ready = id => G.modes.find(x => x.id === id && x._ready);
+    const pick = todo.map(x => ready(x.id)).find(Boolean);
+    if (pick) return { mode: pick, label: `Next: ${pick.title}` };
+    const f = P.findChapter(G.id), C = window.BGX_CATALOG;
+    if (f && C && g.modes.every(x => x.ok || x.id === cur.id)) {
+      const live = f.s.chapters.filter(c => c.status === "live" && c.url), i = live.indexOf(f.c), n = live[i + 1];
+      if (n) return { url: BGX.root + n.url, label: `Next chapter: ${n.game}` };
+    }
+    return null;
+  }
   function finish(extra) {
-    undock();
+    undock(); BGX.inRound = false;
     const m = S.mode, total = extra && extra.total || S.qs.length;
     const best = BGX.store.get("best_" + G.id, {}), k = m.id + S.set;
     const isBest = best[k] == null || S.score > best[k];
     if (isBest) { best[k] = S.score; BGX.store.set("best_" + G.id, best); }
     const prog = BGX.progress && total > 0 ? BGX.progress.record(G.id, m.id, S.score, total) : null;
     BGX.lastRound = { mode: m, score: S.score, total };
+    BGX.store.set("rounds", (BGX.store.get("rounds", 0) | 0) + 1);
     if (BGX.track) BGX.track("round_done", { game: G.id, mode: m.id, score: S.score, total });
     const msg = S.score === total ? "Perfect round!" : S.score >= total * .8 ? "Excellent work." : S.score >= total * .5 ? "Getting there." : "Keep practising — it sticks fast.";
     const setLabel = G.sets ? " · " + (G.sets.find(x => x.size == S.set) || {}).label : "";
     const roundXP = total >= 3 ? BGX.xp.add(BGX.xp.roundBonus(S.score === total)) : 0;
     const earned = Math.max(0, BGX.xp.total - (S.xpStart == null ? BGX.xp.total : S.xpStart)), lv = BGX.xp.level();
+    const nx = nextActivity(m);
     view.innerHTML = `<div class="br-end">${BGX.logo()}
       <p class="br-label">${esc(m.title)}${esc(setLabel)}</p>
       <div class="br-score br-pop">${S.score}<span>/${total}</span></div>
@@ -190,13 +209,16 @@
       ${earned ? `<button class="br-xpline" id="br-xpline" type="button" aria-label="+${earned} XP this round. See all levels">${BGX.levelBadge(lv)}<span><b>+${earned.toLocaleString("en-US")} XP</b> this round${roundXP ? ` <em>(incl. ${S.score === total ? "perfect-round" : "round"} bonus +${roundXP})</em>` : ""}
         <i class="bar"><i style="width:${lv.pct.toFixed(1)}%"></i></i><small>Lv ${lv.n} ${esc(lv.name)}${lv.next ? ` · ${(lv.next.xp - BGX.xp.total).toLocaleString("en-US")} XP to Lv ${lv.n + 1}` : ""}</small></span></button>` : ""}
       ${prog ? BGX.progress.endLine(G.id, m.id, S.score / total * 100) : ""}
-      ${BGX.community ? BGX.community.endCard(G, m, S.score, total) : ""}
+      <div class="br-btns br-endbtns">${nx ? `<${nx.url ? `a href="${esc(nx.url)}"` : "button"} class="br-next" id="br-nextact">${esc(nx.label)}</${nx.url ? "a" : "button"}><button class="br-ghost" id="br-again">Play again</button>` : `<button class="br-next" id="br-again">Play again</button>`}<button class="br-ghost" id="br-back">Menu</button></div>
       ${S.wrong.length ? `<p class="br-label" style="margin-top:22px">Review these</p>
         <div class="br-review">${S.wrong.map(it => tileHTML(it, "is-sm", `<em>${esc(val(G.tile.label, it))}</em>`)).join("")}</div>` : ""}
-      <div class="br-btns"><button class="br-next" id="br-again">Play again</button><button class="br-ghost" id="br-back">Menu</button></div></div>`;
+      ${BGX.community ? BGX.community.endCard(G, m, S.score, total) : ""}</div>`;
     $("#br-again").onclick = () => start(m); $("#br-back").onclick = menu;
+    const na = $("#br-nextact"); if (na && nx && nx.mode) na.onclick = () => start(nx.mode);
+    if (na && BGX.track) na.addEventListener("click", () => BGX.track("next_activity", { game: G.id, from: m.id, to: nx.mode ? nx.mode.id : nx.url }));
     const xl = $("#br-xpline"); if (xl) xl.onclick = () => BGX.showLevels();
     if (prog) { const pl = $("#br-progline"); if (pl) pl.onclick = () => BGX.progress.openChapterFor(G.id); setTimeout(() => BGX.progress.celebrate(prog), 900); }
+    if (BGX.endRound) setTimeout(BGX.endRound, 600);
     if (S.score === total) { BGX.sfx.big(); BGX.rain(220); } else if (isBest && S.score > 0) { BGX.sfx.win(); BGX.rain(90); } else if (S.score >= total / 2) BGX.sfx.win();
   }
 
@@ -416,7 +438,12 @@
       $("#br-quit").onclick = () => { clearInterval(S.peekTimer); menu(); };
       const btn = k => view.querySelector(`.br-mc[data-k="${k}"]`);
       const face = (b, c) => {
-        if (c.kind === "item") { b.className = "br-mc item"; b.style.background = catBg(c.it); b.innerHTML = `<small>${esc(val(G.tile.corner, c.it))}</small><b>${bigHTML(c.it)}</b><em>${esc(val(G.tile.label, c.it))}</em>`; }
+        if (c.kind === "item") {
+          /* m.cardBig / m.cardCorner override the tile for this mode, so a card never shows its own answer (pH Patrol shows the pH on its tiles) */
+          const big = m.cardBig ? (m.cardBig.indexOf("@icon:") === 0 ? BGX.icon(m.cardBig.slice(6)) : esc(val(m.cardBig, c.it))) : bigHTML(c.it);
+          const corner = m.cardCorner === "" ? "" : esc(val(m.cardCorner || G.tile.corner, c.it));
+          b.className = "br-mc item"; b.style.background = m.cardBig ? "" : catBg(c.it); if (m.cardBig) b.classList.add("is-plain");
+          b.innerHTML = `<small>${corner}</small><b>${big}</b><em>${esc(val(G.tile.label, c.it))}</em>`; }
         else { b.className = "br-mc clue"; b.style.background = ""; b.innerHTML = `<small>${esc(clueL)}</small><span class="t${String(c.it[m.clue]).length > 22 ? " is-long" : ""}">${esc(c.it[m.clue])}</span>`; }
         b.setAttribute("aria-label", c.kind === "item" ? c.it.name : clueL + ": " + c.it[m.clue]);
       };
@@ -596,7 +623,8 @@
                        steps: ["…{x}… = {answer}"], tip? }]
      mode: { rounds, only: [cats], help: true (a "Show me how" button), formula: true (show item formula chip) } */
   const nf = (x, dp) => typeof x === "number" ? (+x.toFixed(dp == null ? 4 : dp)).toLocaleString("en-US", { maximumFractionDigits: dp == null ? 4 : dp }) : x;
-  const nfd = (x, dp) => (+x.toFixed(dp || 0)).toLocaleString("en-US", { minimumFractionDigits: dp || 0, maximumFractionDigits: dp || 0 }).replace(/^-/, "−");   // answers keep their decimals: 0.80
+  /* medication answers never get a trailing zero (2 tablets, not 2.0: a dosing-safety rule); other subjects keep their decimals for significant figures */
+  const nfd = (x, dp) => (+x.toFixed(dp || 0)).toLocaleString("en-US", { minimumFractionDigits: G && G.subject === "pharmacology" ? 0 : dp || 0, maximumFractionDigits: dp || 0 }).replace(/^-/, "−");   // answers keep their decimals: 0.80
   const roundTo = (x, dp) => Math.round(x * Math.pow(10, dp) + 1e-9) / Math.pow(10, dp);
   function makeVars(p) {
     for (let t = 0; t < 80; t++) {

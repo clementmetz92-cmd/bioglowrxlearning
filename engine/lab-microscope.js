@@ -423,14 +423,14 @@
         <g id="mic-onstage" opacity="0"><rect x="104" y="160" width="76" height="3" fill="#CFE6EE" stroke="#8FB4C2" stroke-width=".6"/><rect x="164" y="160" width="16" height="3" fill="#F3F3EF"/><ellipse id="mic-stain" cx="134" cy="161.5" rx="10" ry="1.4" fill="#D97AA6"/><g id="mic-scratch"></g></g>
         <g id="mic-clipL" style="transform-origin:90px 160px;transition:transform .25s"><rect x="86" y="157.5" width="30" height="3" rx="1.5" fill="url(#mcChrome)" stroke="#6E7A83" stroke-width=".5"/><circle cx="90" cy="159" r="3" fill="#6E7A83"/></g>
         <g id="mic-clipR" style="transform-origin:196px 160px;transition:transform .25s"><rect x="170" y="157.5" width="30" height="3" rx="1.5" fill="url(#mcChrome)" stroke="#6E7A83" stroke-width=".5"/><circle cx="196" cy="159" r="3" fill="#6E7A83"/></g>
-        <rect id="mic-stagehit" x="70" y="140" width="150" height="48" fill="transparent" style="cursor:pointer"/>
+        <rect id="mic-stagehit" tabindex="0" role="button" aria-label="Microscope stage: press Enter to place or clip the slide" focusable="true" x="70" y="140" width="150" height="48" fill="transparent" style="cursor:pointer"/>
       </g>
       <!-- focus knobs (big coarse, small fine on the same axis) -->
       <g transform="translate(226 236)"><circle r="17" fill="url(#mcDark)"/><g id="mic-kc">${Array.from({ length: 12 }, (_, i) => `<line x1="0" y1="-17" x2="0" y2="-12" stroke="#8B969E" stroke-width="1.6" transform="rotate(${i * 30})"/>`).join("")}<circle cy="-8" r="2" fill="#E8B923"/></g>
         <circle r="8.5" fill="url(#mcChrome)" stroke="#5A6670"/><g id="mic-kf">${Array.from({ length: 8 }, (_, i) => `<line x1="0" y1="-8.5" x2="0" y2="-5.5" stroke="#5A6670" stroke-width="1.1" transform="rotate(${i * 45})"/>`).join("")}<circle cy="-3.5" r="1.3" fill="#D9473B"/></g></g>
       <text x="226" y="266" text-anchor="middle" font-size="7" font-family="var(--font-mono)" fill="var(--muted)">focus</text>
       <!-- slide in the tray (draggable) -->
-      <g id="mic-trayslide" style="cursor:grab;touch-action:none"><rect x="-6" y="-16" width="88" height="34" fill="transparent"/><rect x="0" y="0" width="76" height="3.4" fill="#CFE6EE" stroke="#8FB4C2" stroke-width=".7"/><rect x="60" y="0" width="16" height="3.4" fill="#F3F3EF"/><ellipse id="mic-stain2" cx="30" cy="1.7" rx="10" ry="1.4" fill="#D97AA6"/></g>
+      <g id="mic-trayslide" style="cursor:grab;touch-action:none" tabindex="0" role="button" aria-label="Glass slide: press Enter to place it on the stage" focusable="true"><rect x="-6" y="-16" width="88" height="34" fill="transparent"/><rect x="0" y="0" width="76" height="3.4" fill="#CFE6EE" stroke="#8FB4C2" stroke-width=".7"/><rect x="60" y="0" width="16" height="3.4" fill="#F3F3EF"/><ellipse id="mic-stain2" cx="30" cy="1.7" rx="10" ry="1.4" fill="#D97AA6"/></g>
       <g id="mic-crashfx" opacity="0"><path d="M150 152 l-8 -6 M150 152 l9 -5 M150 152 l-3 9 M150 152 l7 7" stroke="#D93B3B" stroke-width="2" stroke-linecap="round"/><text x="150" y="138" text-anchor="middle" font-size="13" font-weight="900" fill="#D93B3B">CRACK!</text></g>
       <g id="mic-callout" opacity="0"><rect id="mic-callrect" x="0" y="0" width="0" height="18" rx="9" fill="var(--accent)"/><text id="mic-calltext" x="0" y="0" font-size="10" font-weight="800" fill="var(--accent-ink)" text-anchor="middle"></text></g>
     </svg>`;
@@ -487,10 +487,12 @@
     tray.addEventListener("pointerdown", e => { if (st.placed) return; e.preventDefault(); tray.setPointerCapture(e.pointerId); const p = toSvg(e); drag = { x0: p.x, y0: p.y, moved: 0 }; BGX.sfx.tap(); });
     tray.addEventListener("pointermove", e => { if (!drag) return; const p = toSvg(e); drag.dx = p.x - drag.x0; drag.dy = p.y - drag.y0; drag.moved = Math.max(drag.moved, Math.hypot(drag.dx, drag.dy)); drag.p = p; drawTray(); });
     const drop = () => { if (!drag) return; const d = drag; drag = null; tray.style.cursor = ""; const p = d.p; if (d.moved < 6 || (p && p.x > 70 && p.x < 225 && p.y > 120 && p.y < 230)) placeSlide(); else drawTray(); };
+    tray.addEventListener("keydown", e => { if ((e.key === "Enter" || e.key === " ") && !st.placed) { e.preventDefault(); e.stopPropagation(); BGX.sfx.tap(); placeSlide(); } });
     tray.addEventListener("pointerup", drop); tray.addEventListener("pointercancel", () => { drag = null; drawTray(); });
     const drawTray = () => { const x = 10 + (drag ? drag.dx : 0), y = 300.5 + (drag ? drag.dy : 0); tray.setAttribute("transform", `translate(${f(x)} ${f(y)})`); tray.style.display = st.placed ? "none" : ""; };
     drawTray(); st._drawTray = drawTray;
     $("#mic-stagehit").addEventListener("click", () => { if (st.placed && !st.clipped) clipSlide(); else if (!st.placed) placeSlide(); });
+    $("#mic-stagehit").addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); e.stopPropagation(); if (st.placed && !st.clipped) clipSlide(); else if (!st.placed) placeSlide(); } });
     view.querySelectorAll(".mic-obj").forEach(b => b.onclick = () => setObjective(+b.dataset.o));
     bindDial($("#mic-dial-coarse"), d => turn("coarse", d), 10);
     bindDial($("#mic-dial-fine"), d => turn("fine", d), 3);

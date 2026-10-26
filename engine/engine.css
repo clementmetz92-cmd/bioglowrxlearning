@@ -995,3 +995,16 @@ body.br-hasdock { padding-bottom: 62vh; }
 .br-hubhero .chips li.is-btn button span { font-size: 15px; line-height: 1; }
 .br-howadd { margin: 0; padding-left: 22px; line-height: 1.55; }
 .br-howadd li { margin: 8px 0; font-size: 16px; }
+
+/* first-time visitors: no row of zeros in the header (stats appear after the first answer) */
+html.bgx-new .br-lvl, html.bgx-new .br-cab:not(.br-invbtn), html.bgx-new .br-streaks { display: none; }
+html.bgx-new .br-invbtn { display: none; }
+/* hub: who it is for + the 2-minute round */
+.br-hubhero .aud { margin: 0 0 10px; color: var(--accent); }
+.br-hubhero .startrow { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; margin-top: 18px; }
+.br-start { text-decoration: none; display: inline-flex; align-items: center; gap: 10px; min-height: 52px; padding: 0 24px; font-size: 17px; }
+.br-hubhero .startnote { font: 600 13px var(--font-display); color: var(--muted); }
+.br-hubhero .startnote b { color: var(--ink); }
+.br-mc.item.is-plain { background: var(--cat-mint); }
+.br-endbtns { margin-top: 18px; }
+.br-endbtns a.br-next { text-decoration: none; display: inline-flex; align-items: center; justify-content: center; }

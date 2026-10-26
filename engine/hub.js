@@ -78,14 +78,26 @@
     BGX.carousel = { show, get cur() { return cur; }, get paused() { return paused; } };   // test hook
   }
 
+  /* ---------- the "2-minute round" on the hub: a short quiz that changes each day ---------- */
+  const STARTERS = [
+    { id: "bones", title: "Bone Rush", url: "games/bone-rush/index.html?mode=where&ref=start" },
+    { id: "elements", title: "Element Rush", url: "games/element-rush/index.html?mode=sym&ref=start" },
+    { id: "drugs", title: "Drug Class Sort", url: "games/drug-class-sort/index.html?mode=class&ref=start" },
+    { id: "heart", title: "Heart Flow", url: "games/heart-flow/index.html?mode=job&ref=start" },
+    { id: "nutrients", title: "Nutrient Rush", url: "games/nutrient-rush/index.html?mode=lack&ref=start" },
+    { id: "nerves", title: "Neuron Relay", url: "games/neuron-relay/index.html?mode=cranial&ref=start" }
+  ];
+  const starter = () => STARTERS[Math.floor(Date.now() / 864e5) % STARTERS.length];
+
   /* ---------- hub ---------- */
   function hub() {
     const last = BGX.lastPlay(), f = C.featured;
     const lastSubj = last && C.subjects.find(s => s.id === last.subject);
     view.innerHTML = `
       <section class="br-hubhero">
-        <div class="hx"><h1>Textbooks, but fun.</h1>
+        <div class="hx"><p class="br-label aud">For nursing, health-science and science students</p><h1>Textbooks, but fun.</h1>
           <p class="lead">Real university science textbooks, turned into games you'll actually want to play. Read the notes, then beat the chapter.</p>
+          <div class="startrow"><a class="br-next br-start" href="${R}${starter().url}" data-start="${esc(starter().id)}"><span aria-hidden="true">▶</span> Play a 2-minute round</a><span class="startnote">10 questions from <b>${esc(starter().title)}</b> · no sign-up</span></div>
           <ul class="chips" aria-label="At a glance"><li><b>1,400+</b> learning cards</li><li>Free, no login</li>${BGX.install && BGX.install.available() ? `<li class="is-btn"><button type="button" data-bgx-install><span aria-hidden="true">＋</span> Add to home screen</button></li>` : "<li>Works on your phone</li>"}</ul></div>
         <button class="br-tourcard" id="br-tour" type="button" aria-label="Watch the 90-second tour">
           <span class="pic"><img src="${R}assets/featured/tour-poster.webp" alt="" width="720" height="405"><span class="pl" aria-hidden="true">▶</span></span>
@@ -99,17 +111,18 @@
           ${art(s.id) ? `<span class="art" aria-hidden="true">${art(s.id)}</span>` : `<span class="icon">${BGX.icon(s.icon)}</span>`}
           <span><span class="nm">${esc(s.name)}</span><span class="ct">${esc(s.count || s.chapters.length + " chapters")}</span></span>${PG ? PG.subjectTile(s) : ""}</a>`;
       }).join("")}</section>
-      ${featuredHTML()}
-      ${BGX.community ? BGX.community.hubCard() : ""}
       ${last ? `<a class="br-continue" href="${R}${esc(last.url)}">
           <div class="br-tile is-sm" style="background:var(--${lastSubj ? lastSubj.color : "cat-mint"})"><b>${lastSubj ? BGX.icon(lastSubj.icon) : "▶"}</b></div>
           <div class="t"><p class="br-label" style="margin:0">Continue where you left off</p><h3>${esc(last.title)}</h3><p>${esc(lastSubj ? lastSubj.name : "")}${last.tagline ? " · " + esc(last.tagline) : ""}</p></div>
           <span class="br-next">Play</span></a>`
-        : `<div class="br-continue" style="cursor:default"><div class="t"><p class="br-label" style="margin:0">Continue where you left off</p><h3>Your last game will show here</h3><p>Pick a featured game above to start; your progress is saved on this device.</p></div></div>`}
+        : ""}
+      ${featuredHTML()}
+      ${BGX.community ? BGX.community.hubCard() : ""}
       ${levelCard()}
       ${PG ? PG.hubCard() : ""}`;
     startCarousel();
     if (BGX.searchMount) BGX.searchMount(document.getElementById("br-search"));
+    view.querySelectorAll("[data-start]").forEach(a => a.onclick = () => { if (BGX.track) BGX.track("start_click", { starter: a.dataset.start }); });
     view.querySelectorAll("[data-bgx-install]").forEach(b => b.onclick = () => { if (BGX.sfx) BGX.sfx.tap(); BGX.install.open(); });
     const tour = document.getElementById("br-tour");
     if (tour) tour.onclick = () => {
@@ -136,7 +149,7 @@
         <nav class="br-backrow" aria-label="Back"><a class="br-crumb" href="${R}index.html"><span aria-hidden="true">←</span> All subjects</a></nav>
         <section class="br-subhero" style="margin-top:12px">
           <div class="ic${art(s.id) ? " has-art" : ""}" style="background:var(--${s.color})"><small>${String(C.subjects.indexOf(s) + 1).padStart(2, "0")}</small>${art(s.id) || BGX.icon(s.icon)}</div>
-          <div><p class="br-label" style="margin:0">${esc(s.count || "")} · ${liveCount(s)} live · ${nextCount(s)} up next</p><h1>${esc(s.name)}</h1><p>${esc(s.blurb)}</p></div>
+          <div><p class="br-label" style="margin:0">${esc(s.count || "")} · ${liveCount(s)} live${nextCount(s) ? ` · ${nextCount(s)} up next` : ""}</p><h1>${esc(s.name)}</h1><p>${esc(s.blurb)}</p></div>
         </section>
         <div id="br-search"></div>
         ${PG ? PG.subjectPanel(s) : ""}
@@ -145,7 +158,7 @@
         <div class="br-seg" role="group" aria-label="Filter chapters" style="margin-top:-8px">
           ${FILTERS.map(([k, l]) => `<button data-f="${k}" aria-pressed="${filter === k}">${l}</button>`).join("")}
         </div>
-        <div class="br-chaps">${list.length ? list.map(card).join("") : `<p class="br-empty">${filter === "done" ? "No chapters completed yet. Pass every game in a chapter with 70% or more to complete it." : filter === "todo" ? "Every chapter is complete. Well done!" : "Nothing here yet. The first games are on their way."}</p>`}</div>
+        <div class="br-chaps">${list.length ? list.map(card).join("") : `<p class="br-empty">${filter === "done" ? "No chapters completed yet. Pass every activity in a chapter with 70% or more to complete it." : filter === "todo" ? "Every chapter is complete. Well done!" : "Nothing here yet. The first games are on their way."}</p>`}</div>
         <p class="br-hint" style="margin-top:18px">Built from ${esc(s.source)}. Every game is written in our own words.</p>`;
       view.querySelectorAll("[data-f]").forEach(b => b.onclick = () => { BGX.sfx.tap(); filter = b.dataset.f; draw(); });
       if (BGX.searchMount) BGX.searchMount(document.getElementById("br-search"), { subject: s.id, placeholder: "Search " + s.name + ": a topic, a game or a card" });
