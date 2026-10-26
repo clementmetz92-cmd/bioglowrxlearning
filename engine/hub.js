@@ -83,7 +83,14 @@
     const last = BGX.lastPlay(), f = C.featured;
     const lastSubj = last && C.subjects.find(s => s.id === last.subject);
     view.innerHTML = `
-      <section class="br-hubhero"><h1>Textbooks, but fun.</h1><div class="br-herosub"><p>Free science games built from real course books. No login, works on your phone.</p><button class="br-tourbtn" id="br-tour" type="button"><span class="pl" aria-hidden="true">▶</span> Watch the 90-second tour</button></div></section>
+      <section class="br-hubhero">
+        <div class="hx"><h1>Textbooks, but fun.</h1>
+          <p class="lead">Real university science textbooks, turned into games you'll actually want to play. Read the notes, then beat the chapter.</p>
+          <ul class="chips" aria-label="At a glance"><li><b>1,400+</b> learning cards</li><li>Free, no login</li><li>Works on your phone</li></ul></div>
+        <button class="br-tourcard" id="br-tour" type="button" aria-label="Watch the 90-second tour">
+          <span class="pic"><img src="${R}assets/featured/tour-poster.webp" alt="" width="720" height="405"><span class="pl" aria-hidden="true">▶</span></span>
+          <span class="cap"><b>Watch the 90-second tour</b><small>See a round played, start to finish</small></span></button>
+      </section>
       <div id="br-search"></div>
       <section class="br-subjects" aria-label="Subjects">${C.subjects.map((s, i) => {
         const live = liveCount(s);
