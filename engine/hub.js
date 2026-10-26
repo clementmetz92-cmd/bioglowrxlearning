@@ -28,7 +28,8 @@
   const slideHTML = (f, i, n) => `<div class="br-slide${i === 0 ? " is-on" : ""}" role="group" aria-roledescription="slide" aria-label="${i + 1} of ${n}: ${esc(f.title)}"${i ? ' aria-hidden="true"' : ""}>
       <div><p class="eyebrow">${esc(f.eyebrow)}</p><h2>${esc(f.title)}</h2><p>${esc(f.text)}</p>
         <div class="btns"><a class="go" href="${R}${f.url}"${i ? ' tabindex="-1"' : ""}>${esc(f.play || "Play " + f.title)}</a>${f.explore ? `<a class="alt" href="${R}${f.explore}"${i ? ' tabindex="-1"' : ""}>${esc(f.exploreLabel || "See all games")}</a>` : ""}</div></div>
-      ${f.game && art(f.game) ? `<div class="art" aria-hidden="true">${art(f.game)}</div>` : `<div class="tiles" aria-hidden="true">${(f.tiles || []).map(t => tile(t)).join("")}</div>`}
+      ${f.shot ? `<div class="shot" aria-hidden="true"><img src="${R}${f.shot}" alt="" loading="${i ? "lazy" : "eager"}" width="900" height="560"></div>`
+        : f.game && art(f.game) ? `<div class="art" aria-hidden="true">${art(f.game)}</div>` : `<div class="tiles" aria-hidden="true">${(f.tiles || []).map(t => tile(t)).join("")}</div>`}
     </div>`;
   function featuredHTML() {
     const L = C.featuredList && C.featuredList.length ? C.featuredList : [C.featured], n = L.length;
@@ -77,7 +78,7 @@
     const last = BGX.lastPlay(), f = C.featured;
     const lastSubj = last && C.subjects.find(s => s.id === last.subject);
     view.innerHTML = `
-      <section class="br-hubhero"><h1>Learn it, then play it.</h1><p>Free science games built from real course books. No login, works on your phone.</p></section>
+      <section class="br-hubhero"><h1>Textbooks, but fun.</h1><p>Free science games built from real course books. No login, works on your phone.</p></section>
       <div id="br-search"></div>
       <section class="br-subjects" aria-label="Subjects">${C.subjects.map((s, i) => {
         const live = liveCount(s);

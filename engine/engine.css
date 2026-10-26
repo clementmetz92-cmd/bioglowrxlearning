@@ -938,3 +938,7 @@ body.br-hasdock { padding-bottom: 62vh; }
 .br-sres .none, .br-sres .more { margin: 8px 12px; font-size: 14px; color: var(--muted); }
 @media (max-width: 560px) { .br-searchbox input { font-size: 16px; } .br-sres { max-height: 60vh; } }
 .br-searchbox input[type="search"] { border: 0 !important; box-shadow: none !important; background: transparent !important; border-radius: 0 !important; outline: 0 !important; min-height: 0; height: auto; -webkit-appearance: none; appearance: none; }
+.br-featured .shot { width: min(420px, 38vw); justify-self: end; transform: rotate(2.5deg); }
+.br-featured .shot img { display: block; width: 100%; height: auto; aspect-ratio: 900 / 560; object-fit: cover; object-position: top center; border-radius: 16px; border: 4px solid rgba(255,255,255,.9); box-shadow: 0 24px 40px -18px rgba(0,0,0,.55); background: #fff; }
+@media (max-width: 760px) { .br-featured .shot { width: 100%; max-width: 420px; justify-self: center; order: -1; transform: rotate(1.5deg); } }
+@media (prefers-reduced-motion: reduce) { .br-featured .shot { transform: none; } }
