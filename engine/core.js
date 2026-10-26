@@ -40,7 +40,8 @@
         <div class="br-word"><div class="br-word-name">Bioglow<span>RX</span></div><p>Sciences Learning</p></div></a>
       <button class="br-lvl" id="br-lvl" type="button"></button>${BGX.progress ? BGX.progress.headerLink() : ""}${BGX.community ? BGX.community.headerButton() : ""}
       <div class="br-stat"><div class="br-streak" id="br-streakbox">streak <b id="br-streak">${BGX.streak}</b></div>best <span id="br-best">${BGX.bestStreak}</span><br><button class="br-sound" id="br-sound" aria-pressed="true">Sound on</button></div>`;
-    if (foot) foot.innerHTML = `${BGX.logo("br-footlogo")}<span>A BioglowRX Sciences Learning game · free to play, no login · <a href="${BGX.root}privacy/index.html">Privacy</a></span>`;
+    if (foot) foot.innerHTML = `<div class="br-footline">${BGX.logo("br-footlogo")}<span>A BioglowRX Sciences Learning game · free to play, no login · <a href="${BGX.root}privacy/index.html">Privacy</a></span></div>` +
+      `<a class="br-phbadge" href="https://www.producthunt.com/products/bioglowrx-sciences-learning?embed=true&amp;utm_source=badge-featured&amp;utm_medium=badge&amp;utm_campaign=badge-bioglowrx-sciences-learning" target="_blank" rel="noopener noreferrer"><img alt="BioglowRX Sciences Learning - Free science games built from real university textbooks | Product Hunt" width="250" height="54" loading="lazy" src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1293422&amp;theme=neutral&amp;t=1793026291700"></a>`;
     const s = document.getElementById("br-sound");
     if (s) { BGX.paintSound(); s.onclick = () => { BGX.soundOn = !BGX.soundOn; BGX.store.set("sound", BGX.soundOn); BGX.paintSound(); if (BGX.soundOn) BGX.tone([660], .08); }; }
     BGX.paintStreak();
