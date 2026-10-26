@@ -1,0 +1,23 @@
+{
+  "name": "BioglowRX Sciences Learning",
+  "short_name": "BioglowRX",
+  "description": "Free science games built from real university textbooks: 1,400+ learning cards, quizzes, patient cases and virtual labs.",
+  "id": "/",
+  "start_url": "/?source=homescreen",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#eef2f6",
+  "theme_color": "#0E6B66",
+  "categories": ["education", "games"],
+  "icons": [
+    { "src": "/assets/icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/assets/icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/assets/icons/icon-maskable-192.png", "sizes": "192x192", "type": "image/png", "purpose": "maskable" },
+    { "src": "/assets/icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ],
+  "screenshots": [
+    { "src": "/assets/featured/kidney-quest-phone-b.webp", "sizes": "300x592", "type": "image/webp", "form_factor": "narrow", "label": "A Kidney Quest case on a phone" },
+    { "src": "/assets/featured/dose-calc-laptop-b.webp", "sizes": "800x500", "type": "image/webp", "form_factor": "wide", "label": "Dose Calc with a worked answer" }
+  ]
+}

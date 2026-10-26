@@ -335,3 +335,37 @@
       <p class="br-hint" style="margin:0">XP and levels are saved in this browser on this device.</p>`, { cls: "is-levels", noEnter: true });
   };
 })();
+
+/* ---------- install as an app ("Add to Home Screen") ---------- */
+(function () {
+  "use strict";
+  const BGX = window.BGX;
+  const standalone = () => matchMedia("(display-mode: standalone)").matches || navigator.standalone === true;
+  const ua = navigator.userAgent;
+  const isIOS = /iPhone|iPad|iPod/.test(ua) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+  const isPhone = isIOS || /Android|Mobile/i.test(ua) || matchMedia("(pointer: coarse) and (max-width: 900px)").matches;
+  let deferred = null;
+  if ("serviceWorker" in navigator && location.protocol === "https:") addEventListener("load", () => navigator.serviceWorker.register("/sw.js").catch(() => {}));
+  addEventListener("beforeinstallprompt", e => { e.preventDefault(); deferred = e; });
+  addEventListener("appinstalled", () => { deferred = null; if (BGX.track) BGX.track("app_installed", {}); document.querySelectorAll("[data-bgx-install]").forEach(b => b.remove()); if (BGX.toast) BGX.toast("Added! Find BioglowRX on your home screen."); });
+  if (standalone() && BGX.track) addEventListener("load", () => BGX.track("open_from_homescreen", {}));
+  const share = '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-4px"><path d="M12 3v12M7 8l5-5 5 5"/><path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-7"/></svg>';
+  function howTo() {
+    const safari = isIOS && !/CriOS|FxiOS|EdgiOS/.test(ua);
+    const steps = isIOS
+      ? (safari ? [`Tap the <b>Share</b> button ${share} at the bottom of Safari.`, "Scroll down and tap <b>Add to Home Screen</b>.", "Tap <b>Add</b>. BioglowRX appears on your home screen like an app."]
+                : [`Tap the <b>Share</b> button ${share} (top right or bottom of the browser).`, "Choose <b>Add to Home Screen</b>. If you don't see it, open this page in Safari first.", "Tap <b>Add</b>."])
+      : ["Open your browser menu: <b>⋮</b> (top right) in Chrome, or <b>☰</b> in Samsung Internet.", "Tap <b>Add to Home screen</b> or <b>Install app</b>.", "Tap <b>Add</b> or <b>Install</b>."];
+    BGX.sheet({ label: "Add BioglowRX to your home screen", title: "Add BioglowRX to your home screen",
+      html: `<p class="br-hint" style="margin:0 0 12px">Opens full screen like an app, with your streak and trophies one tap away. Nothing to download from a store.</p>
+        <ol class="br-howadd">${steps.map(s => `<li>${s}</li>`).join("")}</ol>` });
+  }
+  BGX.install = {
+    available: () => isPhone && !standalone(),
+    open() {
+      if (BGX.track) BGX.track("install_click", { prompt: !!deferred, ios: isIOS });
+      if (deferred) { deferred.prompt(); deferred.userChoice.then(r => { if (BGX.track) BGX.track("install_choice", { outcome: r.outcome }); deferred = null; }); }
+      else howTo();
+    }
+  };
+})();

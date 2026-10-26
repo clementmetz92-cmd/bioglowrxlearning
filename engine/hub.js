@@ -86,7 +86,7 @@
       <section class="br-hubhero">
         <div class="hx"><h1>Textbooks, but fun.</h1>
           <p class="lead">Real university science textbooks, turned into games you'll actually want to play. Read the notes, then beat the chapter.</p>
-          <ul class="chips" aria-label="At a glance"><li><b>1,400+</b> learning cards</li><li>Free, no login</li><li>Works on your phone</li></ul></div>
+          <ul class="chips" aria-label="At a glance"><li><b>1,400+</b> learning cards</li><li>Free, no login</li>${BGX.install && BGX.install.available() ? `<li class="is-btn"><button type="button" data-bgx-install><span aria-hidden="true">＋</span> Add to home screen</button></li>` : "<li>Works on your phone</li>"}</ul></div>
         <button class="br-tourcard" id="br-tour" type="button" aria-label="Watch the 90-second tour">
           <span class="pic"><img src="${R}assets/featured/tour-poster.webp" alt="" width="720" height="405"><span class="pl" aria-hidden="true">▶</span></span>
           <span class="cap"><b>Watch the 90-second tour</b><small>See a round played, start to finish</small></span></button>
@@ -110,6 +110,7 @@
       ${PG ? PG.hubCard() : ""}`;
     startCarousel();
     if (BGX.searchMount) BGX.searchMount(document.getElementById("br-search"));
+    view.querySelectorAll("[data-bgx-install]").forEach(b => b.onclick = () => { if (BGX.sfx) BGX.sfx.tap(); BGX.install.open(); });
     const tour = document.getElementById("br-tour");
     if (tour) tour.onclick = () => {
       if (BGX.sfx) BGX.sfx.tap(); if (BGX.track) BGX.track("tour_open", {});
