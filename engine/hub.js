@@ -103,6 +103,7 @@
           <span class="pic"><img src="${R}assets/featured/tour-poster.webp" alt="" width="720" height="405"><span class="pl" aria-hidden="true">▶</span></span>
           <span class="cap"><b>Watch the 90-second tour</b><small>See a round played, start to finish</small></span></button>
       </section>
+      ${BGX.study ? BGX.study.hubCard() : ""}
       <div id="br-search"></div>
       <section class="br-subjects" aria-label="Subjects">${C.subjects.map((s, i) => {
         const live = liveCount(s);
@@ -121,6 +122,7 @@
       ${levelCard()}
       ${PG ? PG.hubCard() : ""}`;
     startCarousel();
+    if (BGX.study) { BGX.study.bindHub(view); if (location.hash === "#today") { const td = view.querySelector(".br-today"); if (td) td.scrollIntoView({ block: "start" }); } }
     if (BGX.searchMount) BGX.searchMount(document.getElementById("br-search"));
     view.querySelectorAll("[data-start]").forEach(a => a.onclick = () => { if (BGX.track) BGX.track("start_click", { starter: a.dataset.start }); });
     view.querySelectorAll("[data-bgx-install]").forEach(b => b.onclick = () => { if (BGX.sfx) BGX.sfx.tap(); BGX.install.open(); });

@@ -193,8 +193,7 @@ HEAD = """<!doctype html>
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="theme-color" content="#0E6B66">
 <link rel="icon" href="{root}assets/favicon.svg" type="image/svg+xml">
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chivo:wght@400;600;800;900&family=Chivo+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="{root}assets/fonts/fonts.css">
 <link rel="stylesheet" href="{root}assets/tokens.css">
 <link rel="stylesheet" href="{root}assets/bundle.css">
 <link rel="stylesheet" href="{root}engine/engine.css">
@@ -209,6 +208,7 @@ FOOT = """</article></main>
   <footer class="br-foot" id="br-foot"></footer>
 </div>
 <script src="{root}engine/core.js"></script>
+<script src="{root}engine/study.js"></script>
 <script src="{root}engine/icons.js"></script>
 <script src="{root}engine/icons-more.js"></script>
 <script src="{root}data/catalog.js"></script>
@@ -216,7 +216,7 @@ FOOT = """</article></main>
 <script src="{root}engine/progress.js"></script>
 <script src="{root}engine/config.js"></script>
 <script src="{root}engine/community.js"></script>
-<script>BGX.shell && BGX.shell();</script>
+<script src="{root}engine/practice-boot.js"></script>
 </body>
 </html>
 """
@@ -310,8 +310,8 @@ def index_html():
 <p class="pr-small">Looking for something else? <a href="../index.html">Browse all 53 games and 5 labs by subject</a>.</p>
 """
     out = out.replace('<article class="br-practice">', '<article class="br-practice is-index">')
-    foot = FOOT.format(root=root).replace('<script>BGX.shell && BGX.shell();</script>',
-        '<script src="../engine/search.js"></script>\n<script>BGX.shell && BGX.shell(); BGX.searchMount(document.getElementById("br-search"), { placeholder: "Search every topic, game and card: try femur, pH or dose" });</script>')
+    foot = FOOT.format(root=root).replace('<script src="../engine/practice-boot.js"></script>',
+        '<script src="../engine/search.js"></script>\n<script src="../engine/practice-boot.js"></script>')
     return out + foot
 
 def main():

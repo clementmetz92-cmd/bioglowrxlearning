@@ -18,6 +18,12 @@
   const pool = () => G.items.slice(0, S.set || G.items.length);
   /* quiz, sortit, truemyth, findit and matchpairs modes can take  only: [category ids]  to play one group */
   const poolFor = m => m && m.only ? pool().filter(it => m.only.indexOf(it.cat) >= 0) : pool();
+  /* saved-mistake review: each question has a stable key; a review round keeps only the questions whose keys are due */
+  const itemKey = it => it && it.num != null && it.num !== "" ? "i:" + it.num : null;
+  const qKey = q => !q ? null : q.p ? "p:" + q.p.id : q.c ? "c:" + (q.c.id || q.c.title) : q.item && q.item.seq ? "s:" + (q.item.seq.id || q.item.seq.title) : itemKey(q.item);
+  const reviewing = m => S.review && S.reviewMode === m.id;
+  const rv = (m, list, key) => { if (!reviewing(m)) return list; const out = list.filter(x => S.review.has(key(x))); if (!out.length) S.reviewEmpty = true; return out.length ? out : list; };
+  const roundPool = m => rv(m, poolFor(m), itemKey);
   const bigHTML = it => G.tile.big === "@icon" ? BGX.icon(it.icon || catOf(it).icon || "lab") : esc(val(G.tile.big, it));
   const bigText = it => G.tile.big === "@icon" ? "" : val(G.tile.big, it);
   const tileHTML = (it, cls = "", extra = "") => {
@@ -47,7 +53,12 @@
     document.title = G.title + " · BioglowRX Sciences Learning";
     menu();
     const want = new URLSearchParams(location.search).get("mode");   // ?mode=<id> opens that mode straight away (used by practice pages)
-    if (want) BGX.startMode(want);
+    if (want) {
+      const rev = new URLSearchParams(location.search).get("review") && BGX.study ? BGX.study.keysFor(G.id, want, true) : null;
+      if (rev && !rev.length && BGX.toast) setTimeout(() => BGX.toast("Nothing due here any more: here's a normal round."), 300);
+      BGX.startMode(want, rev && rev.length ? { review: rev } : null);
+    }
+    addEventListener("popstate", () => { if (menu.skipPop) { menu.skipPop = false; return; } if (S.screen && S.screen !== "menu") { clearInterval(S.peekTimer); menu(); } });
     document.addEventListener("keydown", ev => {
       if (S.screen !== "game" || document.querySelector(".br-milestone")) return;
       if (S.answered && (ev.key === "Enter" || ev.key === " ")) { ev.preventDefault(); nextQ(); return; }
@@ -58,7 +69,10 @@
 
   /* ---------- menu ---------- */
   function menu() {
+    const fromRound = S.screen && S.screen !== "menu";
     S.screen = "menu"; undock(); if (BGX.endRound) BGX.endRound();
+    document.documentElement.classList.remove("bgx-playing");
+    if (fromRound) { try { if (history.state && history.state.bgxRound) { menu.skipPop = true; history.back(); } } catch (e) {} }
     const best = BGX.store.get("best_" + G.id, {});
     const sName = G.subject ? (G.subjectName || G.subject.charAt(0).toUpperCase() + G.subject.slice(1)) : "";
     const subj = G.subject ? `<a class="br-crumb" href="${BGX.root}subjects/${G.subject}/index.html"><span aria-hidden="true">←</span> All ${esc(sName)} games</a>` : "";
@@ -101,24 +115,33 @@
     return { title: G.title, subject: G.subject, modes: out };
   };
 
-  BGX.startMode = id => { const m = G.modes.find(x => x.id === id && x._ready); if (m) start(m); };
+  BGX.startMode = (id, opts) => { const m = G.modes.find(x => x.id === id && x._ready); if (m) start(m, opts); return !!m; };
 
   /* ---------- round runner (question formats) ---------- */
-  function start(mode) {
+  /* opts.review: a list of question keys to practise again (Today's review, or "Practise these again" on the end screen) */
+  function start(mode, opts) {
     BGX.sfx.tap();
-    if (BGX.track) BGX.track("round_start", { game: G.id, mode: mode.id, format: mode.format });
+    const rk = opts && opts.review && opts.review.length ? opts.review : null;
+    S.review = rk ? new Set(rk) : null; S.reviewMode = rk ? mode.id : null; S.reviewEmpty = false;
+    if (BGX.track) BGX.track("round_start", { game: G.id, mode: mode.id, format: mode.format, review: !!rk });
+    /* the browser's Back button returns to this game's menu instead of leaving the page */
+    try { if (!(history.state && history.state.bgxRound)) history.pushState({ bgxRound: 1 }, ""); } catch (e) {}
+    document.documentElement.classList.add("bgx-playing");
     S.xpStart = BGX.xp.total;
     const f = BGX.formats[mode.format];
     BGX.inRound = mode.format !== "explorer" && mode.format !== "notes";
     if (f.open) { S.screen = mode.format; S.mode = mode; f.open(mode); return; }
-    S = Object.assign(S, { screen: "game", mode, f, i: 0, score: 0, wrong: [], answered: false });
+    S = Object.assign(S, { screen: "game", mode, f, i: 0, score: 0, wrong: [], answered: false, missKeys: new Set() });
     S.qs = f.makeRound(mode);
+    if (S.reviewEmpty) { S.review = null; if (BGX.toast) BGX.toast("Those questions have changed since you saved them, so here's a normal round."); if (BGX.study) BGX.study.keysFor(G.id, mode.id).forEach(k => BGX.study.hit(G.id, mode.id, k, true)); }
     renderQ();
   }
+  /* "Q 3/10 · 2 right": which question this is, and the score so far */
+  const countHTML = (q, total) => `<span class="q">Q ${Math.min(q, total)}/${total}</span> · <b>${S.score}</b> right`;
   function topBar(total) {
     return `<div class="br-top"><button class="br-quit" id="br-quit" aria-label="Back to the game menu"><span aria-hidden="true">←</span> Menu</button>
       <div class="br-bar" aria-hidden="true"><i style="width:${S.i / total * 100}%"></i></div>
-      <span class="br-count"><b>${S.score}</b> / ${S.i}</span></div>`;
+      <span class="br-count" aria-live="off">${countHTML(S.i + 1, total)}</span></div>`;
   }
   function renderQ() {
     view.classList.remove("menu-in"); undock();
@@ -127,14 +150,18 @@
     $("#br-quit").onclick = menu;
     S.answered = false;
     S.f.bind(S.mode, q, answer);
+    /* keyboard and screen-reader users land on the new question instead of the top of the page */
+    const pr = view.querySelector(".br-prompt"); if (pr && !view.contains(document.activeElement)) { pr.setAttribute("tabindex", "-1"); pr.focus({ preventScroll: true }); }
   }
   function answer(correct, el, target) {
     if (S.answered) return; S.answered = true;
     const q = S.qs[S.i], it = q.item;
     if (correct) S.score++; else if (S.wrong.indexOf(it) < 0) S.wrong.push(it);
+    if (BGX.study) { const k = qKey(q); if (!correct) { BGX.study.miss(G.id, S.mode.id, k); (S.missKeys = S.missKeys || new Set()).add(k); }
+      else if (!(S.missKeys && S.missKeys.has(k)) && (!q.c || q.si === q.c.steps.length - 1)) BGX.study.hit(G.id, S.mode.id, k, !!S.review); }
     S.f.reveal(S.mode, q, correct, el);
     BGX.reward(correct, el, { flash: view, milestoneTile: milestoneTile, xpScale: q.helped ? 0.5 : 1 });
-    const sc = view.querySelector(".br-count"); if (sc) sc.innerHTML = `<b>${S.score}</b> / ${S.i + 1}`;
+    const sc = view.querySelector(".br-count"); if (sc) sc.innerHTML = countHTML(S.i + 1, S.qs.length);
     const pr = view.querySelector(".br-prompt");
     BGX.lastQuestion = { game: G.id, mode: S.mode.id, item: it.name || "", question: pr ? pr.innerText.replace(/\s+/g, " ").trim().slice(0, 240) : "", correct };
     $("#br-fb").innerHTML = (S.f.feedback ? S.f.feedback(S.mode, q, correct) : feedbackHTML(it, correct)) + `<button class="br-next" id="br-next">${S.i + 1 < S.qs.length ? "Next" : "See score"}</button>` + (BGX.community ? BGX.community.reportBtn() : "");
@@ -188,35 +215,45 @@
   }
   function finish(extra) {
     undock(); BGX.inRound = false;
-    const m = S.mode, total = extra && extra.total || S.qs.length;
+    const m = S.mode, total = extra && extra.total || S.qs.length, review = !!S.review;
     const best = BGX.store.get("best_" + G.id, {}), k = m.id + S.set;
-    const isBest = best[k] == null || S.score > best[k];
+    /* a review round practises a handful of saved questions, so it doesn't change best scores or the pass mark */
+    const isBest = !review && (best[k] == null || S.score > best[k]);
     if (isBest) { best[k] = S.score; BGX.store.set("best_" + G.id, best); }
-    const prog = BGX.progress && total > 0 ? BGX.progress.record(G.id, m.id, S.score, total) : null;
+    const prog = !review && BGX.progress && total > 0 ? BGX.progress.record(G.id, m.id, S.score, total) : null;
     BGX.lastRound = { mode: m, score: S.score, total };
     BGX.store.set("rounds", (BGX.store.get("rounds", 0) | 0) + 1);
-    if (BGX.track) BGX.track("round_done", { game: G.id, mode: m.id, score: S.score, total });
+    if (BGX.track) BGX.track("round_done", { game: G.id, mode: m.id, score: S.score, total, review });
+    const day = BGX.study ? BGX.study.roundDone() : null;
+    const dueLeft = BGX.study ? BGX.study.dueList().reduce((n, x) => n + x.n, 0) : 0;
+    const again = S.wrong.length && BGX.study ? [...(S.missKeys || [])].filter(Boolean) : [];
     const msg = S.score === total ? "Perfect round!" : S.score >= total * .8 ? "Excellent work." : S.score >= total * .5 ? "Getting there." : "Keep practising — it sticks fast.";
     const setLabel = G.sets ? " · " + (G.sets.find(x => x.size == S.set) || {}).label : "";
     const roundXP = total >= 3 ? BGX.xp.add(BGX.xp.roundBonus(S.score === total)) : 0;
     const earned = Math.max(0, BGX.xp.total - (S.xpStart == null ? BGX.xp.total : S.xpStart)), lv = BGX.xp.level();
-    const nx = nextActivity(m);
+    const nx = review ? (dueLeft ? { url: BGX.root + "index.html#today", label: `Back to Today's review (${dueLeft} due)` } : null) : nextActivity(m);
     view.innerHTML = `<div class="br-end">${BGX.logo()}
-      <p class="br-label">${esc(m.title)}${esc(setLabel)}</p>
+      <p class="br-label">${review ? "Review · " : ""}${esc(m.title)}${esc(setLabel)}</p>
       <div class="br-score br-pop">${S.score}<span>/${total}</span></div>
       <p style="margin:0;font-weight:700">${msg}${isBest && S.score > 0 ? " New best!" : ""}</p>
       ${extra && extra.note ? `<p class="br-hint" style="margin:6px auto 0">${esc(extra.note)}</p>` : ""}
       ${earned ? `<button class="br-xpline" id="br-xpline" type="button" aria-label="+${earned} XP this round. See all levels">${BGX.levelBadge(lv)}<span><b>+${earned.toLocaleString("en-US")} XP</b> this round${roundXP ? ` <em>(incl. ${S.score === total ? "perfect-round" : "round"} bonus +${roundXP})</em>` : ""}
         <i class="bar"><i style="width:${lv.pct.toFixed(1)}%"></i></i><small>Lv ${lv.n} ${esc(lv.name)}${lv.next ? ` · ${(lv.next.xp - BGX.xp.total).toLocaleString("en-US")} XP to Lv ${lv.n + 1}` : ""}</small></span></button>` : ""}
       ${prog ? BGX.progress.endLine(G.id, m.id, S.score / total * 100) : ""}
+      ${review ? `<p class="br-hint" style="margin:8px auto 0">A review round doesn't change your best score or pass mark. Questions you got right come back later; missed ones come back tomorrow.</p>` : ""}
+      ${day ? `<button class="br-dayline" id="br-dayline" type="button"><span aria-hidden="true">🔥</span> <b>${day.streak}-day streak</b> · today ${Math.min(day.rounds, day.goal)}/${day.goal} round${day.goal > 1 ? "s" : ""}${day.rounds >= day.goal ? " ✓" : ""}</button>` : ""}
       <div class="br-btns br-endbtns">${nx ? `<${nx.url ? `a href="${esc(nx.url)}"` : "button"} class="br-next" id="br-nextact">${esc(nx.label)}</${nx.url ? "a" : "button"}><button class="br-ghost" id="br-again">Play again</button>` : `<button class="br-next" id="br-again">Play again</button>`}<button class="br-ghost" id="br-back">Menu</button></div>
       ${S.wrong.length ? `<p class="br-label" style="margin-top:22px">Review these</p>
-        <div class="br-review">${S.wrong.map(it => tileHTML(it, "is-sm", `<em>${esc(val(G.tile.label, it))}</em>`)).join("")}</div>` : ""}
+        <div class="br-review">${S.wrong.map(it => tileHTML(it, "is-sm", `<em>${esc(val(G.tile.label, it))}</em>`)).join("")}</div>
+        ${again.length ? `<div class="br-btns" style="justify-content:center;margin-top:10px"><button class="br-ghost" id="br-redo">Practise ${again.length === 1 ? "this one" : "these " + again.length} again now</button></div>
+        <p class="br-hint" style="margin:6px auto 0">Saved to Today's review: they come back tomorrow, then after 3, 7, 14 and 30 days.</p>` : ""}` : ""}
       ${BGX.community ? BGX.community.endCard(G, m, S.score, total) : ""}</div>`;
     $("#br-again").onclick = () => start(m); $("#br-back").onclick = menu;
     const na = $("#br-nextact"); if (na && nx && nx.mode) na.onclick = () => start(nx.mode);
     if (na && BGX.track) na.addEventListener("click", () => BGX.track("next_activity", { game: G.id, from: m.id, to: nx.mode ? nx.mode.id : nx.url }));
     const xl = $("#br-xpline"); if (xl) xl.onclick = () => BGX.showLevels();
+    const dl = $("#br-dayline"); if (dl) dl.onclick = () => BGX.study.openHabit();
+    const rd = $("#br-redo"); if (rd) rd.onclick = () => { if (BGX.track) BGX.track("review_again", { game: G.id, mode: m.id, n: again.length }); start(m, { review: again }); };
     if (prog) { const pl = $("#br-progline"); if (pl) pl.onclick = () => BGX.progress.openChapterFor(G.id); setTimeout(() => BGX.progress.celebrate(prog), 900); }
     if (BGX.endRound) setTimeout(BGX.endRound, 600);
     if (S.score === total) { BGX.sfx.big(); BGX.rain(220); } else if (isBest && S.score > 0) { BGX.sfx.win(); BGX.rain(90); } else if (S.score >= total / 2) BGX.sfx.win();
@@ -224,7 +261,9 @@
 
   /* ---------- distractors ---------- */
   function distractors(it, n, key, m) {
-    const P = poolFor(m).filter(x => x !== it);
+    /* an item can list answers that would also be right for it (alsoOk), so they are never offered as wrong options */
+    const ok = new Set((it.alsoOk || []).map(String));
+    const P = poolFor(m).filter(x => x !== it && !ok.has(String(x[key])));
     const near = P.filter(x => x.cat === it.cat || Math.abs(x._i - it._i) <= 3 || String(x[key])[0] === String(it[key])[0]);
     const out = [], seen = new Set([it[key]]);
     for (const x of BGX.shuffle(near).concat(BGX.shuffle(P))) { if (out.length >= n) break; if (!seen.has(x[key])) { seen.add(x[key]); out.push(x); } }
@@ -234,7 +273,7 @@
   /* ---------- format: Quick Quiz ---------- */
   BGX.formats.quiz = {
     scored: true,
-    makeRound: m => BGX.shuffle(poolFor(m)).slice(0, ROUND).map(item => ({ item, opts: BGX.shuffle([item, ...distractors(item, 3, m.answer, m)]) })),
+    makeRound: m => BGX.shuffle(roundPool(m)).slice(0, ROUND).map(item => ({ item, opts: BGX.shuffle([item, ...distractors(item, 3, m.answer, m)]) })),
     prompt: (m, q) => {
       const it = q.item, p = `<div class="q">${esc(fill(m.prompt, it))}</div>`;
       if (m.showAs === "tile") return p + tileHTML(it, "br-pop");
@@ -252,7 +291,7 @@
   /* ---------- format: Sort It (pick the item's group) ---------- */
   BGX.formats.sortit = {
     scored: true,
-    makeRound: m => BGX.shuffle(poolFor(m)).slice(0, ROUND).map(item => ({ item, opts: BGX.shuffle([item.cat, ...BGX.shuffle(G.categories.map(c => c.id).filter(c => c !== item.cat && (!m.only || m.only.indexOf(c) >= 0))).slice(0, (m.choices || 4) - 1)]) })),
+    makeRound: m => BGX.shuffle(roundPool(m)).slice(0, ROUND).map(item => ({ item, opts: BGX.shuffle([item.cat, ...BGX.shuffle(G.categories.map(c => c.id).filter(c => c !== item.cat && (!m.only || m.only.indexOf(c) >= 0))).slice(0, (m.choices || 4) - 1)]) })),
     prompt: (m, q) => `<div class="q">${esc(m.prompt)}</div><div class="big${m.showAs === "text" ? " is-text" : ""}">${esc(q.item.name)}</div>` +
       (m.sub ? `<div class="sub">${esc(fill(m.sub, q.item))}</div>` : ""),
     body: (m, q) => `<div class="br-answers">${q.opts.map(c => `<button class="br-ans is-small" data-c="${c}">${esc(G.catMap[c].name)}</button>`).join("")}</div>`,
@@ -284,7 +323,7 @@
   /* ---------- format: Find It ---------- */
   BGX.formats.findit = {
     scored: true,
-    makeRound: m => BGX.shuffle(poolFor(m)).slice(0, ROUND).map(item => ({ item })),
+    makeRound: m => BGX.shuffle(roundPool(m)).slice(0, ROUND).map(item => ({ item })),
     prompt: (m, q) => `<div class="q">${esc(m.prompt)}</div><div class="big">${esc(q.item.name)}${bigText(q.item) ? ` <span style="color:var(--muted)">(${esc(bigText(q.item))})</span>` : ""}</div>`,
     body: () => mapHTML({ blank: true }) + (G.map.tip ? `<p class="br-tip">${esc(G.map.tip)}</p>` : ""),
     bind: (m, q, answer) => view.querySelectorAll(".br-cell[data-i]").forEach(c => c.onclick = () => { S.picked = +c.dataset.i; answer(S.picked === q.item._i, c); }),
@@ -422,19 +461,20 @@
     scored: true,
     open: m => {
       const used = new Set();
-      const items = BGX.shuffle(poolFor(m).filter(it => it[m.clue])).filter(it => !used.has(it[m.clue]) && used.add(it[m.clue])).slice(0, m.pairs || 8);
+      const want = reviewing(m) ? BGX.shuffle(roundPool(m).filter(it => it[m.clue])) : [];
+      const items = want.concat(BGX.shuffle(poolFor(m).filter(it => it[m.clue] && want.indexOf(it) < 0))).filter(it => !used.has(it[m.clue]) && used.add(it[m.clue])).slice(0, reviewing(m) ? Math.max(4, Math.min(m.pairs || 8, want.length)) : m.pairs || 8);
       const n = items.length, noun = G.itemNoun || "item", clueL = m.clueLabel || "Clue";
       const itemCards = BGX.shuffle(items.map(it => ({ it, kind: "item" }))), clueCards = BGX.shuffle(items.map(it => ({ it, kind: "clue" })));
       const cards = itemCards.concat(clueCards);
       const peek = m.peek == null ? Math.min(6, 2 + Math.ceil(n / 2)) : m.peek;
-      S = Object.assign(S, { screen: "game", mode: m, i: 0, score: 0, wrong: [], tries: 0, misses: 0, seen: new Set(), open: [], lock: true, found: 0, qs: items });
+      S = Object.assign(S, { screen: "game", mode: m, i: 0, score: 0, wrong: [], missKeys: new Set(), tries: 0, misses: 0, seen: new Set(), open: [], lock: true, found: 0, qs: items });
       const grid = (from, to) => `<div class="br-mgrid">${cards.slice(from, to).map((c, j) => `<button class="br-mc" data-k="${from + j}"></button>`).join("")}</div>`;
-      view.innerHTML = topBar(n).replace(`<b>${S.score}</b> / ${S.i}`, `<b>0</b> / ${n}`) +
+      view.innerHTML = topBar(n).replace(countHTML(S.i + 1, n), `<b>0</b> of ${n} pairs`) +
         `<div class="br-prompt"><div class="q" id="br-mphase">Memorise the cards</div>
           <div class="br-mhow">Each pair is one <span class="br-mkey is-item">${esc(noun)}</span> card and one <span class="br-mkey is-clue">${esc(clueL)}</span> card.</div></div>
         <p class="br-mrow"><span class="br-mkey is-item">${esc(noun)}s</span></p>${grid(0, n)}
         <p class="br-mrow"><span class="br-mkey is-clue">${esc(clueL)}</span></p>${grid(n, 2 * n)}
-        <div class="br-feedback" id="br-fb" aria-live="polite"><button class="br-next" id="br-ready">I'm ready (${peek})</button></div>`;
+        <div class="br-feedback" id="br-fb" aria-live="polite"><div class="br-btns" style="justify-content:flex-start"><button class="br-next" id="br-ready">I'm ready (${peek})</button><button class="br-ghost" id="br-peekpause">Pause the timer</button></div></div>`;
       $("#br-quit").onclick = () => { clearInterval(S.peekTimer); menu(); };
       const btn = k => view.querySelector(`.br-mc[data-k="${k}"]`);
       const face = (b, c) => {
@@ -460,6 +500,8 @@
         $("#br-fb").innerHTML = "";
       };
       $("#br-ready").onclick = startPlay;
+      /* no time pressure for those who need it: the cards stay face up until "I'm ready" */
+      $("#br-peekpause").onclick = () => { clearInterval(S.peekTimer); BGX.sfx.tap(); $("#br-ready").textContent = "I'm ready"; $("#br-peekpause").remove(); $("#br-ready").focus({ preventScroll: true }); };
       S.peekTimer = setInterval(() => { left--; const r = $("#br-ready"); if (r) r.textContent = `I'm ready (${left})`; if (left <= 0) startPlay(); }, 1000);
       cards.forEach((c, k) => btn(k).onclick = () => {
         const b = btn(k);
@@ -480,9 +522,9 @@
           view.querySelector(".br-bar i").style.width = (S.found / n * 100) + "%";
           view.querySelector(".br-count b").textContent = S.found;
           setTimeout(() => { [a, o].forEach(x => { x.b.classList.remove("is-ok"); x.b.classList.add("is-done"); x.b.style.background = ""; }); S.lock = false; unlock();
-            if (S.found === n) { S.score = Math.max(0, n - S.misses); finish({ total: n, note: `${n} pairs found in ${S.tries} tries. Only misses on cards you had already seen count against you.` }); } }, 800);
+            if (S.found === n) { if (BGX.study) S.qs.forEach(it => { if (S.wrong.indexOf(it) < 0) BGX.study.hit(G.id, m.id, itemKey(it), !!S.review); }); S.score = Math.max(0, n - S.misses); finish({ total: n, note: `${n} pairs found in ${S.tries} tries. Only misses on cards you had already seen count against you.` }); } }, 800);
         } else {
-          if (known && S.wrong.indexOf(itemCard.c.it) < 0) S.wrong.push(itemCard.c.it);
+          if (known && S.wrong.indexOf(itemCard.c.it) < 0) { S.wrong.push(itemCard.c.it); S.missKeys.add(itemKey(itemCard.c.it)); if (BGX.study) BGX.study.miss(G.id, m.id, itemKey(itemCard.c.it)); }
           $("#br-fb").innerHTML = `<span class="no">Not quite.</span> <b>${esc(itemCard.c.it.name)}</b> goes with “${esc(itemCard.c.it[m.clue])}”, and “${esc(clueCard.c.it[m.clue])}” belongs to another ${esc(noun)}.`;
           setTimeout(() => { down(a.b, a.c); down(o.b, o.c); S.lock = false; unlock(); }, 1600);
         }
@@ -494,7 +536,7 @@
      Uses game.sequences: [{ title, steps: [...], note, icon }] */
   BGX.formats.sequence = {
     scored: true,
-    makeRound: m => BGX.shuffle((G.sequences || []).filter(s => !m.only || m.only.indexOf(s.id) >= 0)).slice(0, m.rounds || 6)
+    makeRound: m => BGX.shuffle(rv(m, (G.sequences || []).filter(s => !m.only || m.only.indexOf(s.id) >= 0), s => "s:" + (s.id || s.title))).slice(0, m.rounds || 6)
       .map(s => ({ item: { name: s.title, life: s.note, icon: s.icon, cat: s.cat || (G.categories[0] || {}).id, num: "", seq: s }, steps: BGX.shuffle(s.steps.map((t, i) => ({ t, i }))), picked: [] })),
     prompt: (m, q) => `<div class="q">${esc(m.prompt || "Put these steps in order")}</div><div class="big is-text">${esc(q.item.name)}</div>`,
     body: (m, q) => `<ol class="br-seq" id="br-seq">${q.steps.map((_, i) => `<li class="br-slot" data-pos="${i}"><span class="n">${i + 1}</span><span class="t"></span></li>`).join("")}</ol>
@@ -524,7 +566,7 @@
      Items carry: claim, verdict (true/false), why. Labels can be renamed (e.g. "Trust signal" / "Red flag"). */
   BGX.formats.truemyth = {
     scored: true,
-    makeRound: m => BGX.shuffle(poolFor(m)).slice(0, ROUND).map(item => ({ item })),
+    makeRound: m => BGX.shuffle(roundPool(m)).slice(0, ROUND).map(item => ({ item })),
     prompt: (m, q) => `<div class="q">${esc(m.prompt || "True or myth?")}</div><div class="big is-text">${esc(q.item.claim)}</div>`,
     body: (m, q) => { const L = m.labels || ["True", "Myth"]; return `<div class="br-answers br-tm"><button class="br-ans is-true" data-v="1">✓ ${esc(L[0])}</button><button class="br-ans is-myth" data-v="0">✕ ${esc(L[1])}</button></div>`; },
     bind: (m, q, answer) => view.querySelectorAll(".br-ans").forEach(b => b.onclick = () => answer((b.dataset.v === "1") === !!q.item.verdict, b)),
@@ -547,7 +589,7 @@
   const want = (p, it) => p.value != null ? +p.value : +it[p.field];
   BGX.formats.buildit = {
     scored: true,
-    makeRound: m => BGX.shuffle(poolFor(m)).slice(0, ROUND).map(item => ({ item, parts: item.parts || m.parts, vals: (item.parts || m.parts).map(p => p.start || 0) })),
+    makeRound: m => BGX.shuffle(roundPool(m)).slice(0, ROUND).map(item => ({ item, parts: item.parts || m.parts, vals: (item.parts || m.parts).map(p => p.start || 0) })),
     prompt: (m, q) => `<div class="q">${esc(m.prompt || "Build")}</div><div class="big">${esc(q.item.name)}</div>${m.sub ? `<div class="sub">${esc(fill(m.sub, q.item))}</div>` : ""}`,
     body: (m, q) => `<div class="br-build">${m.draw === "atom" ? `<div class="br-atomwrap" id="br-atom">${atomSVG(q.vals[0], q.vals[1], q.vals[2])}</div>` : ""}
       <div class="br-steppers">${q.parts.map((p, i) => `<div class="br-stepper" data-p="${i}"><span class="lb">${esc(p.label)}</span>
@@ -583,7 +625,7 @@
     roundSize: m => { const P = casePool(m); return Math.min(m.rounds || 3, P.length) * (P[0] ? P[0].steps.length : 3); },   // write every case with the same number of steps
     makeRound: m => {
       const qs = [];
-      BGX.shuffle(casePool(m)).slice(0, m.rounds || 3).forEach((c, ci) => c.steps.forEach((st, si) => {
+      BGX.shuffle(rv(m, casePool(m), c => "c:" + (c.id || c.title))).slice(0, m.rounds || 3).forEach((c, ci) => c.steps.forEach((st, si) => {
         const order = BGX.shuffle(st.options.map((t, k) => k));
         qs.push({ item: caseItem(c), c, st, si, ci, order });
       }));
@@ -648,7 +690,7 @@
     scored: true,
     roundSize: m => m.rounds || 8,
     makeRound: m => {
-      const P = calcPool(m), n = m.rounds || 8, out = [];
+      const P = rv(m, calcPool(m), p => "p:" + p.id), n = reviewing(m) && !S.reviewEmpty ? Math.min(m.rounds || 8, P.length) : m.rounds || 8, out = [];
       let bag = [];
       while (out.length < n) { if (!bag.length) bag = BGX.shuffle(P.slice()); const p = bag.pop(); out.push({ item: probItem(p), p, v: makeVars(p) }); }
       return out;

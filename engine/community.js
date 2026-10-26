@@ -8,7 +8,7 @@
   "use strict";
   const BGX = window.BGX, C = window.BGX_CONFIG || {}, esc = BGX.esc;
   const SITE = C.siteUrl || location.origin + "/";
-  const INVITE_XP = 100;
+  const INVITE_XP = 50, WELCOME_XP = 50;   // the sharer gets XP once for sharing; a friend who arrives from the link gets a welcome bonus after their first round
   const on = { feedback: !!C.posthogKey, survey: !!C.tallySurvey };
   if (BGX.icons && !BGX.icons.gift) BGX.icons.gift = "M4 11h16v9H4zM3 7h18v4H3zM12 7v13M12 7c-1.5-3-5-3.5-5-1.2C7 7 9 7 12 7zm0 0c1.5-3 5-3.5 5-1.2C17 7 15 7 12 7z";
   if (BGX.icons && !BGX.icons.vote) BGX.icons.vote = "M4 21h16M6 17h12l-1-6H7zM9 11V4h6v7M10.5 7.5l1.2 1.2 2.3-2.4";
@@ -51,7 +51,7 @@
     const got = BGX.xp.once("invite", INVITE_XP);
     BGX.track("invite", { how, first: !!got });
     document.querySelectorAll(".br-toast").forEach(d => d.remove());
-    if (got) { BGX.sfx.big(); BGX.rain(160); BGX.toast(`+${got} XP for inviting a friend. Thank you!`); }
+    if (got) { BGX.sfx.big(); BGX.rain(160); BGX.toast(`+${got} XP for sharing. Your friend gets +${WELCOME_XP} XP after their first round.`); }
     else BGX.toast("Thanks for sharing!");
   }
   function shareSheet(o) {
@@ -62,7 +62,7 @@
     ];
     const first = !BGX.store.get("xponce", {}).invite;
     BGX.sheet({ label: o.title, title: o.title,
-      html: `<p class="br-hint" style="margin:0 0 14px">${esc(o.lead || "")}${first ? ` <b>Your first invite earns +${INVITE_XP} XP.</b>` : ""}</p>
+      html: `<p class="br-hint" style="margin:0 0 14px">${esc(o.lead || "")}${first ? ` <b>Your first share earns +${INVITE_XP} XP</b>, and your friend gets +${WELCOME_XP} XP after their first round.` : ` Your friend gets +${WELCOME_XP} XP after their first round.`}</p>
         <div class="br-sharelink"><input readonly value="${esc(url)}" aria-label="Link to share"><button class="br-next" type="button" data-share="copy">Copy link</button></div>
         <div class="br-shareopts">${opts.slice(1).map(([l, h]) => `<a class="br-ghost" href="${esc(h)}" target="_blank" rel="noopener" data-share="${l}">${l}</a>`).join("")}</div>`,
       onOpen: body => body.querySelectorAll("[data-share]").forEach(b => b.addEventListener("click", () => {
@@ -97,6 +97,7 @@
     if (!c || !Number.isInteger(s) || !Number.isInteger(t) || t < 1 || t > 100 || s < 0 || s > t || q.get("k") !== chk(g.id, c, s, t) || !g.modes) return "";
     const m = g.modes.find(x => x.id === c); if (!m) return "";
     if (!challengeBanner.seen) { challengeBanner.seen = 1; BGX.track("challenge_open", { mode: c, score: s, total: t }); }
+    try { sessionStorage.setItem("bgx_chal", JSON.stringify({ g: g.id, m: c, s, t })); } catch (e) {}
     return `<div class="br-challenge"><span class="ic">${BGX.icon("trophy")}</span><span><b>A friend scored ${s}/${t} in ${esc(m.title)}.</b> Can you beat it?</span><button class="br-next" type="button" data-bgx-play="${esc(c)}">Take the challenge</button></div>`;
   }
   /* share a certificate or diploma as an image (phones: native share sheet; else download) */
@@ -122,10 +123,28 @@
   /* ---------- feedback: round rating, mistake report, vote, survey ---------- */
   const fbDone = () => BGX.store.get("fb", {});
   const fbSet = (k, v) => { const f = fbDone(); f[k] = v; BGX.store.set("fb", f); };
+  /* a challenged friend's result: both scores side by side, and a link to send theirs back */
+  function versusCard(g, mode, score, total) {
+    let c = null; try { c = JSON.parse(sessionStorage.getItem("bgx_chal") || "null"); } catch (e) {}
+    if (!c || c.g !== g.id || c.m !== mode.id || c.t !== total) return "";
+    const win = score > c.s, tie = score === c.s;
+    BGX.track("challenge_done", { mode: mode.id, score, total, theirs: c.s, result: win ? "win" : tie ? "tie" : "lose" });
+    return `<div class="br-versus"><p class="br-label" style="margin:0">Challenge result</p>
+      <div class="vs"><span><b>${score}</b><small>You</small></span><i>vs</i><span><b>${c.s}</b><small>Your friend</small></span></div>
+      <p style="margin:4px 0 10px;font-weight:700">${win ? "You won the challenge!" : tie ? "It's a tie!" : `So close: ${c.s - score} more to win.`}</p>
+      <button class="br-next" type="button" data-bgx-challenge data-reply="1">Send my score back</button></div>`;
+  }
+  function welcome() {
+    const ref = BGX.store.get("ref", "");
+    if (!/^(invite|challenge)/.test(ref) || BGX.store.get("xponce", {}).welcome) return "";
+    const got = BGX.xp.once("welcome", WELCOME_XP);
+    if (got) { BGX.track("invite_welcome", { ref }); return `<p class="br-xpbonus" style="margin-top:10px">+${got} XP welcome bonus: a friend invited you. Welcome to BioglowRX!</p>`; }
+    return "";
+  }
   function endCard(g, mode, score, total) {
-    let html = `<div class="br-endshare"><button class="br-ghost" type="button" data-bgx-challenge>${BGX.icon("gift")} Challenge a friend${BGX.store.get("xponce", {}).invite ? "" : ` <em>+${INVITE_XP} XP</em>`}</button></div>`;
+    let html = welcome() + versusCard(g, mode, score, total) + `<div class="br-endshare"><button class="br-ghost" type="button" data-bgx-challenge>${BGX.icon("gift")} Challenge a friend${BGX.store.get("xponce", {}).invite ? "" : ` <em>+${INVITE_XP} XP</em>`}</button></div>`;
     if (!on.feedback) return html;
-    const n = BGX.store.get("rounds", 0) + 1; BGX.store.set("rounds", n);
+    const n = BGX.store.get("rounds", 0) | 0;   // counted once per round in game.js
     if (on.survey && !fbDone().tester && n >= 5 && n % 5 === 0)       // every 5th round until they answer
       html += `<div class="br-endshare"><button class="br-next" type="button" data-bgx-survey>2-minute survey: earn your Founding Tester badge</button></div>`;
     if (n % 3 !== 1) return html;                                   // ask on the 1st, 4th, 7th… round only
@@ -146,13 +165,14 @@
         body.innerHTML = `<h2 class="br-sheettitle">Thank you!</h2><p>Your report has been sent. We check every one and fix mistakes quickly.</p>`;
       }; } });
   }
-  const SUBJECTS = ["Biology", "Microbiology", "Physics", "Mathematics", "Data analytics & statistics", "Economics", "Law", "Psychology", "Computer science"];
-  const FEATURES = ["Accounts that sync across devices", "Teacher dashboard for classes", "Spanish version", "French version", "Flashcards with spaced repetition", "Audio read-aloud", "More virtual labs", "Leaderboards with friends", "A phone app that works offline"];
+  /* options stay close to health science: what nursing, health-science and science students study next */
+  const SUBJECTS = ["Biology", "Microbiology", "Biochemistry", "Physiology in depth", "Psychology", "Public health", "Statistics & research methods", "Physics for health science", "Maths for nursing"];
+  const FEATURES = ["Accounts that sync across devices", "Teacher dashboard for classes", "Mock exams with weak-topic reports", "Select-all-that-apply questions", "UK and US units side by side", "Spanish version", "French version", "Audio read-aloud", "More virtual labs"];
   function openVote() {
     const prev = fbDone().vote;
     const box = (name, list) => list.map(t => `<label><input type="checkbox" name="${name}" value="${esc(t)}"${prev && (prev[name] || []).indexOf(t) >= 0 ? " checked" : ""}> ${esc(t)}</label>`).join("");
     BGX.sheet({ label: "What should we build next?", title: "What should we build next?", wide: true,
-      html: `<p class="br-hint" style="margin:0 0 14px">Pick up to 3 subjects and up to 3 features. Results are shared with all testers.</p>
+      html: `<p class="br-hint" style="margin:0 0 14px">Pick up to 3 subjects and up to 3 features. <a href="${BGX.root}votes/index.html">See the results so far</a>.</p>
         <p class="br-label">Next subjects</p><div class="br-choices is-grid" data-max="3">${box("subjects", SUBJECTS)}</div>
         <p class="br-label" style="margin-top:16px">Next features</p><div class="br-choices is-grid" data-max="3">${box("features", FEATURES)}</div>
         <input class="br-ta" maxlength="160" placeholder="Something else? (optional)" value="${esc(prev && prev.other || "")}">
@@ -167,7 +187,7 @@
           if (!v.subjects.length && !v.features.length && !v.other) { BGX.toast("Pick at least one option"); return; }
           BGX.track("vote", { subjects: v.subjects, features: v.features, other: v.other, revote: !!prev });
           fbSet("vote", v); BGX.sfx.win();
-          body.innerHTML = `<h2 class="br-sheettitle">Thanks for voting!</h2><p>We'll share the results with every tester and build the winners first.</p>`;
+          body.innerHTML = `<h2 class="br-sheettitle">Thanks for voting!</h2><p>Results are updated every week on the <a href="${BGX.root}votes/index.html">vote results page</a>, and the winners get built first.</p>`;
           refreshHub();
         };
       } });
@@ -223,7 +243,7 @@
     if (t.matches("[data-bgx-invite]")) BGX.invite();
     else if (t.matches("[data-bgx-vote]")) { BGX.sfx.tap(); openVote(); }
     else if (t.matches("[data-bgx-survey]")) openSurvey();
-    else if (t.matches("[data-bgx-challenge]") && BGX.lastRound) BGX.challenge(BGX.game, BGX.lastRound.mode, BGX.lastRound.score, BGX.lastRound.total);
+    else if (t.matches("[data-bgx-challenge]") && BGX.lastRound) { if (t.dataset.reply) BGX.track("challenge_reply", {}); BGX.challenge(BGX.game, BGX.lastRound.mode, BGX.lastRound.score, BGX.lastRound.total); }
     else if (t.matches("[data-bgx-report]") && BGX.lastQuestion) openReport(BGX.lastQuestion);
     else if (t.matches("[data-bgx-play]") && BGX.startMode) BGX.startMode(t.dataset.bgxPlay);
     else if (t.matches("[data-rate]")) {
@@ -243,5 +263,5 @@
   const ref = new URLSearchParams(location.search).get("ref");
   if (ref) { BGX.track("arrived", { ref }); if (!BGX.store.get("ref", "")) BGX.store.set("ref", String(ref).slice(0, 40)); }
 
-  BGX.community = { on, endCard, reportBtn, challengeBanner, hubCard, headerButton, cabinetShelfItem, openVote, openSurvey, openReport, testerBadge, INVITE_XP };
+  BGX.community = { WELCOME_XP, on, endCard, reportBtn, challengeBanner, hubCard, headerButton, cabinetShelfItem, openVote, openSurvey, openReport, testerBadge, INVITE_XP };
 })();

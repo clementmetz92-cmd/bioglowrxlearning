@@ -1,0 +1,3 @@
+#!/bin/sh
+# Runs the content and page checks before every push. Set up once with: git config core.hooksPath .githooks
+python3 tools-check.py || { echo "Push stopped: fix the problems above (or push with --no-verify in an emergency)."; exit 1; }

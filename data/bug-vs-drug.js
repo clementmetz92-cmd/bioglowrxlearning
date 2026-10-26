@@ -165,7 +165,7 @@ BGX.registerGame({
 "facts": [
 "Block cell wall building, but are not beta-lactams.",
 "Vancomycin works on gram-positive bacteria, including MRSA.",
-"Given by IV for serious infections; trough levels are checked.",
+"Given by IV for serious infections; blood levels are monitored, now usually as the total exposure over 24 hours (AUC) rather than trough levels alone.",
 "Infusing too fast can cause flushing and a rash on the upper body."
 ],
 "summary": "Cell wall blockers, such as vancomycin, used against MRSA."
@@ -222,7 +222,7 @@ BGX.registerGame({
 "name": "Fluoroquinolones",
 "cat": "dna",
 "example": "Ciprofloxacin",
-"life": "Carries a warning about tendon damage.",
+"life": "Carries boxed warnings, best known for tendon damage.",
 "icon": "dna",
 "num": 8,
 "spot": "dna",
@@ -230,6 +230,7 @@ BGX.registerGame({
 "Block DNA gyrase, an enzyme bacteria need to unwind and copy DNA.",
 "Names end in -floxacin, such as ciprofloxacin.",
 "Can cause tendon inflammation or rupture, especially in older adults.",
+"Boxed warnings also cover nerve damage, mood and memory changes and, rarely, aortic aneurysm, so they are kept for infections other antibiotics can't treat.",
 "Antacids and calcium reduce their absorption."
 ],
 "summary": "Antibiotics that stop bacteria copying their DNA."
@@ -244,6 +245,7 @@ BGX.registerGame({
 "spot": "folate",
 "facts": [
 "Stop bacteria making folate, which they need to build DNA.",
+"Trimethoprim targets an enzyme humans also have, but it binds the bacterial version thousands of times more tightly.",
 "Trimethoprim is often combined with sulfamethoxazole as co-trimoxazole.",
 "A common treatment for urinary tract infections."
 ],
@@ -275,7 +277,7 @@ BGX.registerGame({
 "spot": "ergosterol",
 "facts": [
 "Block the making of ergosterol, the key building block of fungal membranes.",
-"Names end in -azole, such as fluconazole, clotrimazole and miconazole.",
+"Names end in -azole, such as fluconazole, clotrimazole and miconazole; but not every -azole is an antifungal (metronidazole is an antibiotic, omeprazole an acid reducer).",
 "Used for thrush and other Candida yeast infections.",
 "Many interact with other drugs by slowing their breakdown in the liver."
 ],
@@ -344,7 +346,7 @@ BGX.registerGame({
 {
 "cat": "dna",
 "title": "Antibiotics that block DNA or folate",
-"about": "These drugs stop bacteria copying their DNA or making folate, a vitamin they need to build DNA. Fluoroquinolones (-floxacin) block the enzymes that unwind and copy bacterial DNA. Folate blockers such as trimethoprim stop bacteria making their own folate; we get folate from food, so we are less affected. Nitroimidazoles such as metronidazole damage the DNA of germs that live without oxygen (anaerobes) and some parasites.",
+"about": "These drugs stop bacteria copying their DNA or making folate, a vitamin they need to build DNA. Fluoroquinolones (-floxacin) block the enzymes that unwind and copy bacterial DNA. Folate blockers such as trimethoprim block the bacterial enzyme that turns folate into its working form; our own version of that enzyme binds the drug far less tightly, so we are much less affected. Nitroimidazoles such as metronidazole damage the DNA of germs that live without oxygen (anaerobes) and some parasites.",
 "points": [
 "-floxacin = fluoroquinolone (tendon warning).",
 "Trimethoprim is often paired with sulfamethoxazole as co-trimoxazole.",
@@ -357,7 +359,7 @@ BGX.registerGame({
 "title": "Antifungals",
 "about": "Fungi have their own cells with a membrane built from ergosterol, where human membranes use cholesterol. Azole antifungals (-azole) block the enzyme that makes ergosterol, so the fungal membrane becomes leaky and the fungus stops growing. Fluconazole is a common tablet for thrush (Candida yeast) infections. Antibiotics do not treat fungal infections and can even trigger thrush by killing helpful bacteria.",
 "points": [
-"-conazole = azole antifungal (do not mix up with -prazole acid reducers).",
+"Antifungal azoles: -conazole and -azole names such as clotrimazole; metronidazole (antibiotic) and -prazole acid reducers are not antifungals.",
 "Target: ergosterol in the fungal membrane."
 ],
 "tip": "Azoles attack ergosterol: A for azole, E for ergosterol, both in the fungus."

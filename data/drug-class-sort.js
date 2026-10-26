@@ -127,6 +127,7 @@ BGX.registerGame({
 "items": [
 {
 "name": "Lisinopril",
+"alsoOk": ["Mild high blood pressure, often added to other tablets", "Fluid build-up and heart failure", "High blood pressure, often when ACE inhibitors cause a cough"],
 "cat": "cardio",
 "cls": "ACE inhibitor",
 "use": "High blood pressure and heart failure",
@@ -147,6 +148,7 @@ BGX.registerGame({
 },
 {
 "name": "Losartan",
+"alsoOk": ["High blood pressure and heart failure", "Mild high blood pressure, often added to other tablets"],
 "cat": "cardio",
 "cls": "ARB (angiotensin receptor blocker)",
 "use": "High blood pressure, often when ACE inhibitors cause a cough",
@@ -166,6 +168,7 @@ BGX.registerGame({
 },
 {
 "name": "Amlodipine",
+"alsoOk": ["Mild high blood pressure, often added to other tablets"],
 "cat": "cardio",
 "cls": "Calcium channel blocker",
 "use": "High blood pressure and angina",
@@ -186,6 +189,7 @@ BGX.registerGame({
 },
 {
 "name": "Metoprolol",
+"alsoOk": ["High blood pressure and angina", "High blood pressure and heart failure", "Mild high blood pressure, often added to other tablets"],
 "cat": "cardio",
 "cls": "Beta blocker",
 "use": "Fast heart rate and high blood pressure",
@@ -226,6 +230,7 @@ BGX.registerGame({
 },
 {
 "name": "Furosemide",
+"alsoOk": ["High blood pressure and heart failure"],
 "cat": "cardio",
 "cls": "Loop diuretic",
 "use": "Fluid build-up and heart failure",
@@ -246,6 +251,7 @@ BGX.registerGame({
 },
 {
 "name": "Hydrochlorothiazide",
+"alsoOk": ["High blood pressure and heart failure", "High blood pressure, often when ACE inhibitors cause a cough"],
 "cat": "cardio",
 "cls": "Thiazide diuretic",
 "use": "Mild high blood pressure, often added to other tablets",
@@ -299,7 +305,7 @@ BGX.registerGame({
 "A beta-2 agonist: it switches on receptors that relax airway muscle.",
 "Albuterol is the US name; salbutamol is the UK name for the same drug.",
 "Shaky hands and a fast heartbeat are common short-lived side effects.",
-"A reliever for attacks, unlike fluticasone, which is a daily preventer."
+"Current asthma guidelines (GINA) advise against a reliever on its own: everyone with asthma also needs an inhaled steroid, and many adults now use one steroid-formoterol inhaler as both."
 ],
 "summary": "A fast-acting reliever inhaler that relaxes tight airways."
 },
@@ -338,7 +344,7 @@ BGX.registerGame({
 "Leukotrienes are inflammatory chemicals that tighten airways and add mucus.",
 "Taken as a tablet, unlike most asthma medicines, which are inhaled.",
 "Used as an add-on to a preventer, not as a reliever for attacks.",
-"Mood changes and vivid dreams are warnings to report."
+"Boxed warning (FDA, 2020): report mood changes, agitation, vivid dreams or suicidal thoughts straight away."
 ],
 "summary": "A daily asthma tablet that blocks leukotrienes."
 },
@@ -364,6 +370,7 @@ BGX.registerGame({
 },
 {
 "name": "Omeprazole",
+"alsoOk": ["Occasional heartburn and indigestion"],
 "cat": "gi",
 "cls": "Proton pump inhibitor",
 "use": "Stomach ulcers and severe reflux",
@@ -381,6 +388,7 @@ BGX.registerGame({
 },
 {
 "name": "Famotidine",
+"alsoOk": ["Stomach ulcers and severe reflux"],
 "cat": "gi",
 "cls": "H2 blocker",
 "use": "Occasional heartburn and indigestion",
@@ -448,6 +456,7 @@ BGX.registerGame({
 },
 {
 "name": "Sertraline",
+"alsoOk": ["Anxiety and seizures"],
 "cat": "cns",
 "cls": "SSRI antidepressant",
 "use": "Depression and anxiety",
@@ -464,6 +473,7 @@ BGX.registerGame({
 },
 {
 "name": "Lorazepam",
+"alsoOk": ["Depression and anxiety", "Epilepsy"],
 "cat": "cns",
 "cls": "Benzodiazepine",
 "use": "Anxiety and seizures",
@@ -481,6 +491,7 @@ BGX.registerGame({
 },
 {
 "name": "Levetiracetam",
+"alsoOk": ["Anxiety and seizures"],
 "cat": "cns",
 "cls": "Antiseizure medicine",
 "use": "Epilepsy",
@@ -515,10 +526,11 @@ BGX.registerGame({
 },
 {
 "name": "Metformin",
+"alsoOk": ["Diabetes that needs insulin (type 1 or type 2)"],
 "cat": "endo",
 "cls": "Biguanide",
 "use": "Type 2 diabetes",
-"life": "Usually the first tablet for type 2 diabetes; it lowers sugar made by the liver.",
+"life": "Often the first tablet for type 2 diabetes; it lowers sugar made by the liver.",
 "icon": "pharm-glucometer",
 "num": 22,
 "spot": "liver",
@@ -529,10 +541,11 @@ BGX.registerGame({
 "Stomach upset is common; taking it with food helps.",
 "Do not confuse with metoprolol: metformin is for diabetes, metoprolol is a beta blocker."
 ],
-"summary": "A biguanide tablet, usually the first choice for type 2 diabetes."
+"summary": "A biguanide tablet, often the first choice for type 2 diabetes."
 },
 {
 "name": "Insulin glargine",
+"alsoOk": ["Type 2 diabetes"],
 "cat": "endo",
 "cls": "Long-acting insulin",
 "use": "Diabetes that needs insulin (type 1 or type 2)",
@@ -607,9 +620,9 @@ BGX.registerGame({
 {
 "cat": "resp",
 "title": "Breathing and allergy",
-"about": "Asthma medicines are split into relievers and preventers. A reliever (short-acting bronchodilator such as albuterol) opens tight airways within minutes during an attack. A preventer (inhaled corticosteroid such as fluticasone) is used every day to calm the swelling and inflammation that make attacks likely, and does not help an attack already happening. Montelukast is a tablet add-on that blocks leukotrienes, inflammatory messengers that narrow airways. Antihistamines such as cetirizine block histamine, the chemical behind sneezing, itching and hives.",
+"about": "Asthma medicines are split into relievers and preventers. A reliever (short-acting bronchodilator such as albuterol) opens tight airways within minutes during an attack. A preventer (inhaled corticosteroid such as fluticasone) is used every day to calm the swelling and inflammation that make attacks likely, and does not help an attack already happening. Current guidelines (GINA, since 2019) no longer recommend a short-acting reliever on its own: everyone with asthma should also have an inhaled steroid, and many adults now use a single steroid-formoterol inhaler as both reliever and preventer. Montelukast is a tablet add-on that blocks leukotrienes, inflammatory messengers that narrow airways. Antihistamines such as cetirizine block histamine, the chemical behind sneezing, itching and hives.",
 "points": [
-"Reliever = quick, used when needed; preventer = slow, used daily.",
+"Reliever = quick, used when needed; preventer = slow, used daily; a reliever alone is no longer advised.",
 "Rinse the mouth after an inhaled steroid to reduce the risk of oral thrush.",
 "Newer antihistamines like cetirizine cause much less drowsiness than older ones."
 ],
@@ -640,7 +653,7 @@ BGX.registerGame({
 {
 "cat": "endo",
 "title": "Hormones and diabetes",
-"about": "Hormone medicines either replace a hormone the body lacks or copy one to get a strong effect. Metformin (a biguanide) is usually the first tablet for type 2 diabetes; it lowers the sugar released by the liver and rarely causes low blood sugar on its own. Insulin glargine is a long-acting, once-daily background insulin injection used when the body needs insulin. Levothyroxine replaces thyroxine (T4) in an underactive thyroid. Prednisone is an oral corticosteroid that copies cortisol to damp down inflammation and the immune system.",
+"about": "Hormone medicines either replace a hormone the body lacks or copy one to get a strong effect. Metformin (a biguanide) is often the first tablet for type 2 diabetes (people with heart or kidney disease may start an SGLT2 or GLP-1 medicine first); it lowers the sugar released by the liver and rarely causes low blood sugar on its own. Insulin glargine is a long-acting, once-daily background insulin injection used when the body needs insulin. Levothyroxine replaces thyroxine (T4) in an underactive thyroid. Prednisone is an oral corticosteroid that copies cortisol to damp down inflammation and the immune system.",
 "points": [
 "Type 1 diabetes always needs insulin; type 2 usually starts with metformin.",
 "Levothyroxine is taken on an empty stomach, usually in the morning.",

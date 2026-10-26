@@ -47,3 +47,8 @@ Before every push run `python3 tools-bump-version.py`: it stamps the script and 
 Every game and lab shares one XP total (saved per browser, `bgx_xp`). 20 levels from Lab Trainee to Doctor Researcher;
 the table, XP rules and level-up pop-up live in `engine/core.js` (`BGX.LEVELS`, `BGX.xp`). Change a level's name,
 line or XP threshold there. The header chip and the hub card open the full list of levels.
+
+## Checks before each push
+- `python3 tools-check.py` checks every script parses, runs the content checks (`tools-validate.js`) and checks every page's links and scripts. The git hook in `.githooks/pre-push` runs it automatically once you set `git config core.hooksPath .githooks`.
+- `python3 tools-check.py --smoke` also opens every page and plays one round of every game in a headless browser (needs Playwright and `python3 -m http.server 8765`).
+- `_headers` sets the security headers (including a Content-Security-Policy: no inline scripts) and caches versioned engine, data and font files for a year. Always run `tools-bump-version.py` after changing a file so browsers fetch the new version.

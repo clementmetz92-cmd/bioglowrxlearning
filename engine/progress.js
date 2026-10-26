@@ -424,13 +424,16 @@
               ${medalSVG(ls, s)}<span class="cap"><b>${esc(ls.l.title)}</b><small>${ls.tier ? ls.tier[0].toUpperCase() + ls.tier.slice(1) + " · " : ""}${"★".repeat(ls.stars)}${"☆".repeat(9 - ls.stars)}</small></span></a>`).join("")}</div>
             <i class="plank" aria-hidden="true"></i></section>
         </div>
-        <p class="br-hint">Certificates, subject awards and medals are saved in this browser on this device. Tap one to see it full size and print it or save it as a PDF.</p>`;
+        <p class="br-hint">Certificates, subject awards and medals are saved in this browser on this device. Tap one to see it full size and print it or save it as a PDF.</p>
+        ${BGX.study ? BGX.study.backupPanel() : ""}`;
+      if (BGX.study) BGX.study.bindBackup(view);
       view.querySelectorAll("[data-cert]").forEach(b => b.onclick = () => { BGX.sfx.tap(); openAward("cert", b.dataset.cert); });
       view.querySelectorAll("[data-dip]").forEach(b => b.onclick = () => { BGX.sfx.tap(); openAward("diploma", b.dataset.dip); });
       const form = document.getElementById("br-nameform");
       form.onsubmit = ev => { ev.preventDefault(); BGX.store.set("name", document.getElementById("br-name").value.trim().slice(0, 40)); BGX.sfx.tap(); draw(); const ok = document.getElementById("br-nameok"); if (ok) ok.textContent = "Saved: shown on every certificate."; };
     };
     draw();
+    if (location.hash === "#backup") { const b = document.getElementById("backup"); if (b) setTimeout(() => b.scrollIntoView({ block: "start" }), 50); }
   }
 
   BGX.progress = { PASS, modePct, modePcts, gameState, chapterState, subjectState, findChapter, record, checkAwards, celebrate,

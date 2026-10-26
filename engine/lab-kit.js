@@ -161,7 +161,7 @@
     /* result block; o = { n, verdict, why, extraHTML, levels, onAgain, onLevel, onMenu, append } */
     K.result = o => {
       const n = o.n; K.save(n);
-      if (!K.xpPaid) { K.xpPaid = true; BGX.xp.add(BGX.xp.labBonus(n, K.level.n)); if (BGX.track) BGX.track("lab_done", { lab: cfg.id, level: K.level.n, stars: n, hints: K.hintsUsed }); }   // once per run (some labs add a second result block)
+      if (!K.xpPaid) { K.xpPaid = true; BGX.xp.add(BGX.xp.labBonus(n, K.level.n)); if (BGX.track) BGX.track("lab_done", { lab: cfg.id, level: K.level.n, stars: n, hints: K.hintsUsed }); if (BGX.study) BGX.study.roundDone(); }   // once per run (some labs add a second result block)
       const earned = Math.max(0, BGX.xp.total - (K.xpStart == null ? BGX.xp.total : K.xpStart)), lv = BGX.xp.level();
       if (n === 3) { BGX.sfx.big(); BGX.rain(160); } else if (n > 0) BGX.sfx.win();
       const hasNext = K.level.n < o.levels.length && n > 0;

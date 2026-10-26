@@ -258,7 +258,7 @@ BGX.registerGame({
 "num": 11,
 "phLabel": "pH 7",
 "facts": [
-"Exactly pH 7: equal amounts of H⁺ and OH⁻.",
+"pH 7 at 25 °C: equal amounts of H⁺ and OH⁻ (at body temperature, neutral is about 6.8).",
 "The only item in the neutral zone.",
 "Tap and bottled water vary a little because of dissolved minerals and gases."
 ]
@@ -368,7 +368,7 @@ BGX.registerGame({
 "diagramCaption": "On the pH scale",
 "diagramPerItem": true,
 "notes": {
-"intro": "pH measures how acidic or basic a watery solution is, on a scale from 0 to 14. Acids release hydrogen ions (H⁺); the more H⁺, the lower the pH. Bases mop up H⁺ or release hydroxide ions (OH⁻), pushing the pH above 7. Pure water at 7 is neutral. The scale is logarithmic: each whole step is ten times stronger, so pH 2 is ten times more acidic than pH 3 and a hundred times more than pH 4. The games ask you to place each substance in its zone and to pick its typical pH.",
+"intro": "pH measures how acidic or basic a watery solution is, on a scale from 0 to 14. Acids release hydrogen ions (H⁺); the more H⁺, the lower the pH. Bases mop up H⁺ or release hydroxide ions (OH⁻), pushing the pH above 7. Pure water at 25 °C, pH 7, is neutral. The scale is logarithmic: each whole step is ten times stronger, so pH 2 is ten times more acidic than pH 3 and a hundred times more than pH 4. The games ask you to place each substance in its zone and to pick its typical pH.",
 "sections": [
 {
 "cat": "vacid",
@@ -395,7 +395,7 @@ BGX.registerGame({
 {
 "cat": "neutral",
 "title": "Neutral (pH 7)",
-"about": "At pH 7 the amounts of H⁺ and OH⁻ are equal, so the solution is neither acidic nor basic. Pure water is the reference point for neutral. In practice, water left open to the air dissolves carbon dioxide and slowly drifts below 7. Neutral is the dividing line: everything below is acidic, everything above is basic.",
+"about": "At pH 7 the amounts of H⁺ and OH⁻ are equal, so the solution is neither acidic nor basic. Pure water is the reference point for neutral (pH 7 at 25 °C; neutral shifts slightly with temperature, to about 6.8 at 37 °C). In practice, water left open to the air dissolves carbon dioxide and slowly drifts below 7. Neutral is the dividing line: everything below is acidic, everything above is basic.",
 "points": [
 "pH 7 = H⁺ equals OH⁻.",
 "Acid + base in the right amounts gives a neutral salt solution and water."

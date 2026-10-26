@@ -155,7 +155,7 @@ BGX.registerGame({
 "life": "Asthma relievers copy this effect to open the airways.",
 "icon": "pharm-bronchus-open",
 "num": 5,
-"messenger": "Norepinephrine (noradrenaline), plus adrenaline from the adrenal glands",
+"messenger": "Adrenaline (epinephrine) from the adrenal glands, acting on beta-2 receptors",
 "spot": [
 "lungs",
 "airways"

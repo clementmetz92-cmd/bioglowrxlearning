@@ -322,7 +322,7 @@ BGX.registerGame({
 "spot": "trough",
 "facts": [
 "Blood is drawn shortly before the next dose to measure it.",
-"High troughs suggest the drug is building up; vancomycin troughs are often checked.",
+"High troughs suggest the drug is building up; for vancomycin, many hospitals now dose by total exposure (AUC), estimated from one or two levels.",
 "Opposite of peak level, the highest point after a dose."
 ],
 "summary": "The lowest blood level, measured just before the next dose is due."

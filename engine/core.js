@@ -9,8 +9,16 @@
     /* a value of the wrong kind (hand-edited or from an old version) falls back to the default instead of breaking a page */
     get(k, d) { try { const v = localStorage.getItem("bgx_" + k); if (v == null) return d; const x = JSON.parse(v);
       if (d != null && (typeof x !== typeof d || Array.isArray(x) !== Array.isArray(d) || x === null || (typeof d === "number" && !isFinite(x)))) return d; return x; } catch (e) { return d; } },
-    set(k, v) { try { localStorage.setItem("bgx_" + k, JSON.stringify(v)); } catch (e) {} }
+    /* returns false when the browser refuses to save (private browsing, storage full or blocked); study.js shows a warning */
+    set(k, v) { try { localStorage.setItem("bgx_" + k, JSON.stringify(v)); return true; } catch (e) {
+      if (!BGX.storeBroken) { BGX.storeBroken = true; try { document.dispatchEvent(new CustomEvent("bgx:storefail")); } catch (x) {} } return false; } }
   };
+  try { localStorage.setItem("bgx__t", "1"); localStorage.removeItem("bgx__t"); } catch (e) { BGX.storeBroken = true; }
+
+  /* ---------- text size (0 normal, 1 large, 2 extra large), set from the "Aa" button in the header ---------- */
+  BGX.textSize = Math.max(0, Math.min(2, BGX.store.get("text", 0) | 0));
+  BGX.setTextSize = n => { BGX.textSize = n; BGX.store.set("text", n); const h = document.documentElement; h.classList.remove("bgx-t1", "bgx-t2"); if (n) h.classList.add("bgx-t" + n); if (BGX.track) BGX.track("text_size", { size: n }); };
+  if (BGX.textSize) document.documentElement.classList.add("bgx-t" + BGX.textSize);
 
   /* ---------- helpers ---------- */
   BGX.esc = s => String(s == null ? "" : s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
@@ -41,7 +49,7 @@
       <a class="br-brand" href="${BGX.root}index.html" aria-label="BioglowRX Sciences Learning home">${BGX.logo()}
         <div class="br-word"><div class="br-word-name">Bioglow<span>RX</span></div><p>Sciences Learning</p></div></a>
       <button class="br-lvl" id="br-lvl" type="button"></button>${BGX.progress ? BGX.progress.headerLink() : ""}${BGX.community ? BGX.community.headerButton() : ""}
-      <div class="br-stat"><span class="br-streaks"><div class="br-streak" id="br-streakbox">streak <b id="br-streak">${BGX.streak}</b></div>best <span id="br-best">${BGX.bestStreak}</span><br></span><button class="br-sound" id="br-sound" aria-pressed="true">Sound on</button></div>`;
+      <div class="br-stat"><span class="br-streaks"><div class="br-streak" id="br-streakbox" title="Correct answers in a row">streak <b id="br-streak">${BGX.streak}</b></div><span id="br-best" hidden>${BGX.bestStreak}</span></span><button class="br-day" id="br-day" type="button" hidden></button><button class="br-sound" id="br-sound" aria-pressed="false">Sound off</button><button class="br-sound br-textbtn" id="br-text" type="button">Aa</button></div>`;
     /* a first-time visitor sees no row of zeros: the stats appear after the first answer */
     const fresh = () => BGX.xp && BGX.xp.total === 0 && !BGX.bestStreak;
     document.documentElement.classList.toggle("bgx-new", fresh());
@@ -50,7 +58,11 @@
       `<a class="br-phbadge" href="https://www.producthunt.com/products/bioglowrx-sciences-learning?embed=true&amp;utm_source=badge-featured&amp;utm_medium=badge&amp;utm_campaign=badge-bioglowrx-sciences-learning" target="_blank" rel="noopener noreferrer"><img alt="BioglowRX Sciences Learning - Free science games built from real university textbooks | Product Hunt" width="250" height="54" loading="lazy" src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1293422&amp;theme=neutral&amp;t=1793026291700"></a>`;
     const s = document.getElementById("br-sound");
     if (s) { BGX.paintSound(); s.onclick = () => { BGX.soundOn = !BGX.soundOn; BGX.store.set("sound", BGX.soundOn); BGX.paintSound(); if (BGX.soundOn) BGX.tone([660], .08); }; }
+    const tb = document.getElementById("br-text");
+    if (tb) { const paintT = () => { tb.innerHTML = `Aa<small>${["", "+", "++"][BGX.textSize]}</small>`; tb.setAttribute("aria-label", `Text size: ${["normal", "large", "extra large"][BGX.textSize]}. Change text size`); };
+      paintT(); tb.onclick = () => { BGX.setTextSize((BGX.textSize + 1) % 3); paintT(); if (BGX.toast) BGX.toast(["Normal text", "Large text", "Extra-large text"][BGX.textSize]); }; }
     BGX.paintStreak();
+    if (BGX.study) BGX.study.paintHeader();
     const lv = document.getElementById("br-lvl");
     if (lv) { lv.onclick = () => { BGX.sfx.tap(); BGX.showLevels(); }; BGX.paintLevel(); }
   };
@@ -91,7 +103,7 @@
   BGX.lastPlay = () => BGX.store.get("last", null);
 
   /* ---------- sound ---------- */
-  BGX.soundOn = BGX.store.get("sound", true);
+  BGX.soundOn = BGX.store.get("sound", false);   // off until switched on: quiet in class, on the bus, in the library
   let actx = null;
   BGX.paintSound = () => { const b = document.getElementById("br-sound"); if (!b) return; b.textContent = BGX.soundOn ? "Sound on" : "Sound off"; b.setAttribute("aria-pressed", BGX.soundOn); };
   BGX.tone = (freqs, dur = .12, type = "sine", gap = .09, vol = .08) => {

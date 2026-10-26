@@ -196,7 +196,7 @@
     if (compact) return `<div class="sp-strip"><span><b>Order</b> ${esc(g.name.split(" (")[0])} ${qty(c.d, c.du)} ${c.r}</span><span><b>Vial</b> ${qty(st.vial.s, st.vial.su)}/mL</span>${st.calcOk ? `<span><b>Draw</b> ${mL(st.target)}</span>` : ""}${st.syr ? `<span><b>Syringe</b> ${st.syr.ml} mL</span>` : ""}</div>`;
     return `<div class="sp-order">
       <p class="br-label">Medication order · MAR</p>
-      <p class="sp-pt">Patient: Bed ${2 + (c.d * 7 | 0) % 18} (practice) · Today ${t.toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" })}</p>
+      <p class="sp-pt">Patient: Alex Morgan (practice), DOB 14 Mar 1968 · check name and date of birth, never the bed number · Today ${t.toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" })}</p>
       <p class="sp-line" data-k="drug"><b>${esc(g.name)}</b></p>
       <p class="sp-line" data-k="dose"><span class="sp-big">${qty(c.d, c.du)}</span> <span data-k="route" class="sp-line sp-route">${c.r}</span> ${esc(c.how)}</p>
       <p class="sp-line sp-mar" data-k="strength">Pharmacy supplies: ${esc(g.name.split(" (")[0])} <b>${qty(g.s, g.su)}/mL</b></p>
