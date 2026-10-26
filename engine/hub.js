@@ -25,11 +25,16 @@
   }
 
   /* ---------- featured: a carousel of several games (catalog featuredList), or one slab (catalog featured) ---------- */
+  /* a game being played on a laptop and a phone: before/after screens, a tap, on a loop (static with reduced motion) */
+  const demoHTML = (d, i) => {
+    const img = (dev, k) => `<img class="${k}" src="${R}assets/featured/${d.id}-${dev}-${k}.webp" alt="" loading="${i ? "lazy" : "eager"}">`;
+    const scr = (dev, t) => `<div class="scr">${img(dev, "a")}${img(dev, "b")}<i class="tap" style="left:${t[0]}%;top:${t[1]}%"></i></div>`;
+    return `<div class="dev" aria-hidden="true"><div class="laptop">${scr("laptop", d.l)}<span class="base"></span></div><div class="phone">${scr("phone", d.p)}</div></div>`;
+  };
   const slideHTML = (f, i, n) => `<div class="br-slide${i === 0 ? " is-on" : ""}" role="group" aria-roledescription="slide" aria-label="${i + 1} of ${n}: ${esc(f.title)}"${i ? ' aria-hidden="true"' : ""}>
       <div><p class="eyebrow">${esc(f.eyebrow)}</p><h2>${esc(f.title)}</h2><p>${esc(f.text)}</p>
         <div class="btns"><a class="go" href="${R}${f.url}"${i ? ' tabindex="-1"' : ""}>${esc(f.play || "Play " + f.title)}</a>${f.explore ? `<a class="alt" href="${R}${f.explore}"${i ? ' tabindex="-1"' : ""}>${esc(f.exploreLabel || "See all games")}</a>` : ""}</div></div>
-      ${f.shot ? `<div class="shot" aria-hidden="true"><img src="${R}${f.shot}" alt="" loading="${i ? "lazy" : "eager"}" width="900" height="560"></div>`
-        : f.game && art(f.game) ? `<div class="art" aria-hidden="true">${art(f.game)}</div>` : `<div class="tiles" aria-hidden="true">${(f.tiles || []).map(t => tile(t)).join("")}</div>`}
+      ${f.demo ? demoHTML(f.demo, i) : f.game && art(f.game) ? `<div class="art" aria-hidden="true">${art(f.game)}</div>` : `<div class="tiles" aria-hidden="true">${(f.tiles || []).map(t => tile(t)).join("")}</div>`}
     </div>`;
   function featuredHTML() {
     const L = C.featuredList && C.featuredList.length ? C.featuredList : [C.featured], n = L.length;
