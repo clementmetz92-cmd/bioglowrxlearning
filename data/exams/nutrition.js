@@ -663,11 +663,11 @@ BGX.registerExamBank({
     "why": "Self-monitoring turns a goal into numbers the patient can track; praise progress and adjust the next step." }
 ],
 "formats": [
-  { "id": "unit", "label": "Unit quiz", "desc": "One topic, 15 questions.", "n": 15, "minutes": 20, "pass": 70, "choose": "topic", "calculator": "basic",
+  { "id": "unit", "label": "Unit quiz", "desc": "One topic, 15 questions.", "n": 15, "minutes": 20, "pass": 70, "recallMax": 0.3, "choose": "topic", "calculator": "basic",
     "blueprint": { "kinds": { "single": 9, "sata": 3, "case": 2, "numeric": 1 } } },
-  { "id": "midterm", "label": "Midterm", "desc": "Chapters 1–10.", "n": 40, "minutes": 75, "pass": 70, "topics": ["assess", "energy", "life", "diet"], "calculator": "basic",
+  { "id": "midterm", "label": "Midterm", "desc": "Chapters 1–10.", "n": 40, "minutes": 75, "pass": 70, "recallMax": 0.3, "topics": ["assess", "energy", "life", "diet"], "calculator": "basic",
     "blueprint": { "topics": { "assess": 10, "energy": 10, "life": 10, "diet": 10 }, "kinds": { "single": 20, "sata": 6, "case": 6, "numeric": 8 } } },
-  { "id": "final", "label": "Final", "desc": "All 17 chapters, cumulative.", "n": 60, "minutes": 120, "pass": 70, "calculator": "basic",
-    "blueprint": { "topics": { "assess": 15, "energy": 15, "life": 15, "diet": 20, "micro": 15, "supp": 5, "coach": 10, "mixed": 5 }, "kinds": { "single": 30, "sata": 9, "case": 12, "numeric": 9 } } }
+  { "id": "final", "label": "Final", "desc": "All 17 chapters, cumulative.", "n": 60, "minutes": 120, "pass": 70, "recallMax": 0.3, "calculator": "basic",
+    "blueprint": { "topics": { "assess": 15, "energy": 15, "life": 15, "diet": 20, "micro": 15, "supp": 5, "coach": 10, "mixed": 5 }, "kinds": { "single": 25, "sata": 9, "case": 12, "numeric": 9, "first": 2, "order": 2, "match": 1 } } }
 ]
 });

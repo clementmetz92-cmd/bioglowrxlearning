@@ -34,7 +34,7 @@ small.ex-short { font-weight: 700; }
 @media (max-width: 560px) { .ex-facts { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 .ex-set { border: 0; padding: 0; margin: 14px 0 0; min-width: 0; }
 .ex-set legend { font: 600 11px var(--font-mono); letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; padding: 0; }
-.ex-set select, .ex-match select { width: 100%; max-width: 100%; min-height: 44px; padding: 8px 12px; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); color: var(--ink); font: 600 15px var(--font-display); }
+.ex-set select, .ex-match select { width: 100%; max-width: 100%; overflow: hidden; text-overflow: ellipsis; min-height: 44px; padding: 8px 12px; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); color: var(--ink); font: 600 15px var(--font-display); }
 .ex-seg { flex-wrap: wrap; }
 .ex-seg button { min-height: 44px; }
 .ex-rules { margin-top: 18px; padding: 14px 16px; border-radius: 12px; background: var(--bg); }
@@ -123,7 +123,7 @@ html.bgx-exam-on .br-wrap { padding-block-start: 10px; gap: 10px; }
 .ex-numin input:focus { outline: 3px solid var(--accent); outline-offset: 1px; }
 .ex-numin .unit { font: 700 16px var(--font-mono); color: var(--muted); }
 .ex-match { display: grid; gap: 10px; }
-.ex-match .row { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr); gap: 10px; align-items: center; padding: 8px 10px; border-radius: 10px; background: var(--bg); }
+.ex-match .row { overflow-x: clip; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr); gap: 10px; align-items: center; padding: 8px 10px; border-radius: 10px; background: var(--bg); }
 .ex-match label { font-weight: 800; overflow-wrap: anywhere; }
 @media (max-width: 560px) { .ex-match .row { grid-template-columns: minmax(0, 1fr); } }
 .ex-order { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }

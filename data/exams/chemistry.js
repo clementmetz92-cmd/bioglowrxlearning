@@ -185,19 +185,19 @@ BGX.registerExamBank({
   {"id": "ch-x-123", "topic": "redox", "kind": "single", "difficulty": 3, "src": "19", "stem": "Standard reduction potentials: Ag⁺/Ag +0.80 V, Cu²⁺/Cu +0.34 V, Fe²⁺/Fe −0.44 V, Zn²⁺/Zn −0.76 V. Which species is the strongest reducing agent?", "options": ["Zn(s)", "Ag⁺(aq)", "Ag(s)", "Zn²⁺(aq)"], "answer": 0, "whyOpt": ["Correct: the most negative reduction potential means Zn(s) is the most easily oxidized.", "Ag⁺ is the strongest oxidizing agent (most positive potential).", "Silver metal is the hardest of these metals to oxidize.", "Zn²⁺ is already oxidized; it can only be reduced, and only with difficulty."], "why": "Reducing agents are oxidized; the metal with the most negative E° gives up electrons most easily."},
   {"id": "ch-x-124", "topic": "nuclear", "kind": "single", "difficulty": 1, "src": "20", "stem": "Uranium-238 (Z = 92) undergoes alpha decay. What is the product nucleus?", "options": ["²³⁴Th (Z = 90)", "²³⁴Ra (Z = 88)", "²³⁸Np (Z = 93)", "²³⁶Th (Z = 90)"], "answer": 0, "whyOpt": ["Correct: an alpha particle is ⁴₂He, so the mass number falls by 4 and Z by 2.", "Subtracted 4 from the atomic number as well as from the mass number.", "This is the product of beta decay, not alpha decay.", "An alpha particle carries away 4 mass units, not 2."], "why": "Balance the mass numbers and the atomic numbers separately; alpha emission removes 4 and 2."},
   {"id": "ch-x-125", "topic": "organic", "kind": "single", "difficulty": 2, "src": "24", "stem": "Which condensed formula shows an ester?", "options": ["CH₃COOCH₂CH₃", "CH₃CH₂COOH", "CH₃CH₂CHO", "CH₃COCH₃"], "answer": 0, "whyOpt": ["Correct: a C=O bonded to an O that links to another carbon chain (–COO–C).", "The –COOH group ends in H: a carboxylic acid.", "–CHO at the end of a chain is an aldehyde.", "A C=O between two carbons is a ketone."], "why": "Esters (–COO–R) form when a carboxylic acid reacts with an alcohol, losing water."}
-  /* ---- end ch-x ---- */,,,
+  /* ---- end ch-x ---- */
 ],
 "formats": [
-  { "id": "quick", "label": "Quick check", "desc": "One chapter, 10 questions.", "n": 10, "minutes": 15, "pass": 70, "choose": "topic", "calculator": "scientific", "sheet": ["ptable", "constants"],
+  { "id": "quick", "label": "Quick check", "desc": "One chapter, 10 questions.", "n": 10, "minutes": 15, "pass": 70, "recallMax": 0.3, "choose": "topic", "calculator": "scientific", "sheet": ["ptable", "constants"],
     "blueprint": { "kinds": { "single": 6, "numeric": 3, "sata": 1 } } },
-  { "id": "group", "label": "Chapter-group quiz", "desc": "One group of chapters (A–F), 15 questions.", "n": 15, "minutes": 25, "pass": 70, "choose": "group", "calculator": "scientific", "sheet": ["ptable", "constants"],
+  { "id": "group", "label": "Chapter-group quiz", "desc": "One group of chapters (A–F), 15 questions.", "n": 15, "minutes": 25, "pass": 70, "recallMax": 0.3, "choose": "group", "calculator": "scientific", "sheet": ["ptable", "constants"],
     "blueprint": { "kinds": { "single": 9, "numeric": 4, "sata": 1, "match": 1 } } },
-  { "id": "midterm", "label": "Midterm 1", "desc": "Chapters 1–9.", "n": 35, "minutes": 70, "pass": 70, "topics": ["A", "B", "C"], "calculator": "scientific", "sheet": ["ptable", "constants"],
-    "blueprint": { "topics": { "measure": 4, "formulas": 4, "stoich": 6, "aqueous": 5, "thermo": 4, "atoms": 3, "periodic": 3, "bonding": 6 }, "kinds": { "single": 21, "numeric": 9, "sata": 2, "match": 2, "order": 1 } } },
-  { "id": "midterm2", "label": "Midterm 2", "desc": "Chapters 10–18.", "n": 35, "minutes": 70, "pass": 70, "topics": ["D", "E"], "calculator": "scientific", "sheet": ["ptable", "constants"],
-    "blueprint": { "topics": { "states": 8, "solutions": 8, "kinetics": 7, "acids": 7, "spont": 5 }, "kinds": { "single": 21, "numeric": 9, "sata": 2, "match": 2, "order": 1 } } },
-  { "id": "final", "label": "Final exam", "desc": "All 24 chapters, weighted like a cumulative final.", "n": 50, "minutes": 120, "pass": 70, "calculator": "scientific", "sheet": ["ptable", "constants"], "navigation": "choose",
+  { "id": "midterm", "label": "Midterm 1", "desc": "Chapters 1–9.", "n": 35, "minutes": 70, "pass": 70, "recallMax": 0.3, "topics": ["A", "B", "C"], "calculator": "scientific", "sheet": ["ptable", "constants"],
+    "blueprint": { "topics": { "measure": 4, "formulas": 4, "stoich": 6, "aqueous": 5, "thermo": 4, "atoms": 3, "periodic": 3, "bonding": 6 }, "kinds": { "single": 18, "numeric": 9, "sata": 2, "match": 2, "order": 1, "case": 3 } } },
+  { "id": "midterm2", "label": "Midterm 2", "desc": "Chapters 10–18.", "n": 35, "minutes": 70, "pass": 70, "recallMax": 0.3, "topics": ["D", "E"], "calculator": "scientific", "sheet": ["ptable", "constants"],
+    "blueprint": { "topics": { "states": 8, "solutions": 8, "kinetics": 7, "acids": 7, "spont": 5 }, "kinds": { "single": 18, "numeric": 9, "sata": 2, "match": 2, "order": 1, "case": 3 } } },
+  { "id": "final", "label": "Final exam", "desc": "All 24 chapters, weighted like a cumulative final.", "n": 50, "minutes": 120, "pass": 70, "recallMax": 0.3, "calculator": "scientific", "sheet": ["ptable", "constants"], "navigation": "choose",
     "blueprint": { "topics": { "measure": 5, "formulas": 5, "stoich": 10, "aqueous": 7, "solutions": 8, "atoms": 5, "periodic": 5, "bonding": 10, "states": 10, "thermo": 3, "kinetics": 4, "spont": 3, "acids": 10, "redox": 2, "nuclear": 2, "organic": 1, "elements": 0 },
-      "kinds": { "single": 30, "numeric": 12, "sata": 4, "match": 3, "order": 1 } } }
+      "kinds": { "single": 27, "numeric": 12, "sata": 4, "match": 3, "order": 1, "case": 3 } } }
 ]
 });

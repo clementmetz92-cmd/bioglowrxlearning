@@ -222,11 +222,11 @@ BGX.registerExamBank({
     "units": [{ "id": "pkpd", "label": "Ch 1 · PK and PD", "topics": ["pkpd", "calc-oral", "calc-weight"] }, { "id": "safety", "label": "Ch 2 · Medication safety", "topics": ["safety", "calc-oral", "calc-weight"] },
       { "id": "antimicro", "label": "Ch 3 · Antimicrobials", "topics": ["antimicro"] }, { "id": "autonomic", "label": "Ch 4 · Autonomic drugs", "topics": ["autonomic"] },
       { "id": "systems", "label": "Ch 5–9 · Body systems", "topics": ["cardio", "resp", "gi", "cns", "endo", "calc-iv", "calc-adv"] }, { "id": "pain", "label": "Ch 10 · Pain, muscle, gout", "topics": ["pain"] }],
-    "blueprint": { "kinds": { "single": 13, "sata": 5, "first": 3, "numeric": 2, "match": 2 } } },
+    "blueprint": { "kinds": { "single": 12, "sata": 5, "first": 3, "numeric": 2, "match": 2, "order": 1 } } },
   { "id": "calc", "label": "Dosage-calc competency", "desc": "20 calculations, new numbers every attempt.", "n": 20, "minutes": 60, "pass": 90, "kinds": ["numeric"], "topics": ["calc"], "calculator": "basic", "sheet": ["dosecalc"],
     "blueprint": { "topics": { "calc-oral": 9, "calc-weight": 4, "calc-iv": 4, "calc-adv": 3 } } },
   { "id": "final", "label": "Final (comprehensive)", "desc": "All 10 chapters plus dosage calculations.", "n": 75, "minutes": 120, "pass": 75, "calculator": "basic", "sheet": ["dosecalc"], "recallMax": 0.2,
     "blueprint": { "topics": { "pkpd": 8, "safety": 8, "antimicro": 9, "autonomic": 8, "cardio": 8, "resp": 4, "gi": 4, "cns": 6, "endo": 4, "pain": 8, "calc": 8 },
-      "kinds": { "single": 37, "sata": 15, "first": 8, "numeric": 10, "match": 5 } } }
+      "kinds": { "single": 31, "sata": 15, "first": 8, "numeric": 10, "match": 5, "order": 3, "case": 3 } } }
 ]
 });

@@ -192,7 +192,7 @@ Numeric answers accept `1,050`, `1050.0`, `0,5` and `2.19e-3`; out-by-1,000 / po
 | `sortit` | single (which group?) (recall) | the Sort It mode |
 | `truemyth` | single (True / Myth) (recall) | the True or Myth mode |
 
-Recall questions (`quiz`, `sortit`, `truemyth`) can be capped per format with `recallMax` (share of the paper, e.g. `0.4`). The ids of reused questions are `<game>:<type>:<id>`, so they stay stable when the game's content changes order.
+Recall questions (`quiz`, `sortit`, `truemyth`) can be capped per format with `recallMax` (share of the paper, e.g. `0.4`; `0` leaves them out). The cap is soft: when a choice has too few other questions to fill the paper, recall questions top it up. The ids of reused questions are `<game>:<type>:<id>`, so they stay stable when the game's content changes order.
 
 ### Formats
 `{ id, label, desc, n (questions), minutes | secondsEach, pass (%), topics?, kinds?, blueprint?, choose?, units?, calculator?, sheet?, navigation?, recallMax? }`

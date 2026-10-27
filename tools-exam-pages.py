@@ -55,6 +55,12 @@ def page_for(subject):
             gp = (ROOT / "games" / g / "index.html").read_text()
             for s in re.findall(r'src="\.\./\.\./(engine/(?:illus|dg-[a-z-]+)\.js)', gp):
                 if s not in dg: dg.append(s)
+    # diagrams drawn by the bank's own diagram questions: engine/dg-<name>.js (or whichever file defines it)
+    for d in dict.fromkeys(re.findall(r'"diagram"\s*:\s*"([a-z0-9-]+)"', bank)):
+        f = next((x for x in sorted((ROOT / "engine").glob("*.js")) if re.search(r'DIAGRAMS(\.%s\b|\["%s"\])\s*=' % (d, d), x.read_text())), None)
+        if f is None: sys.exit(f"exam pages: no engine file draws diagram {d!r} ({subject} bank)")
+        s = "engine/" + f.name
+        if s not in dg: dg.append(s)
     if '"ptable"' in bank and "element-rush" not in games: games.append("element-rush")
     files = CORE + dg + ["engine/exam-core.js"] + [f"data/{g}.js" for g in games] + [f"data/exams/{subject}.js", "engine/exam.js"]
     t = TITLES.get(subject, subject.title())

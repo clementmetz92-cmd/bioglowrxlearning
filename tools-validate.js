@@ -86,6 +86,7 @@ console.log([...new Set(out)].join('\n'));console.log('TOTAL items',totalItems);
      if (x.whyPair && x.whyPair.length !== P.length) xout.push(`${where}: whyPair length must match pairs`); } }
    if (k === 'order') { if (!Array.isArray(x.steps) || x.steps.length < 3) xout.push(`${where}: order needs 3+ steps`); else if (new Set(x.steps).size !== x.steps.length) xout.push(`${where}: duplicate steps`); }
   };
+  for (let i = 0; i < (B.items || []).length; i++) if (!B.items[i] || typeof B.items[i] !== 'object') xout.push(`${F}: item #${i + 1} is empty (stray comma in the items list?)`);
   (B.items || []).forEach((x, i) => { const where = `${F}: item ${x.id || '#' + i}`;
    if (!x.id || typeof x.id !== 'string') xout.push(`${where}: needs a stable string id`); else if (ids.has(x.id)) xout.push(`${where}: duplicate id`); else ids.add(x.id);
    if (!T[x.topic]) xout.push(`${where}: unknown topic "${x.topic}"`);

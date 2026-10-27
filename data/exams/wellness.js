@@ -132,11 +132,11 @@ BGX.registerExamBank({
   {"id":"hw-x-088","topic":"infer","kind":"single","difficulty":3,"src":"Stats","stem":"A clinician wants a test to rule OUT a serious infection, so that a negative result can be trusted. Which property matters most?","options":["High sensitivity","High specificity","High prevalence","A low p-value"],"answer":0,"whyOpt":["Correct: a highly sensitive test rarely misses cases, so a negative result is reassuring.","High specificity makes a positive result trustworthy (ruling in).","Prevalence is a feature of the population, not the test.","p-values belong to hypothesis tests, not to screening tests."],"why":"SnNout: a sensitive test, when negative, rules the condition out. SpPin: a specific test, when positive, rules it in."}
 ],
 "formats": [
-  { "id": "quick", "label": "Quick check", "desc": "15 questions across all three units.", "n": 15, "minutes": 20, "pass": 70, "calculator": "basic", "sheet": ["stats"],
+  { "id": "quick", "label": "Quick check", "desc": "15 questions across all three units.", "n": 15, "minutes": 20, "pass": 70, "recallMax": 0.3, "calculator": "basic", "sheet": ["stats"],
     "blueprint": { "topics": { "models": 6, "sources": 3, "stats": 6 }, "kinds": { "single": 11, "match": 1, "numeric": 3 } } },
-  { "id": "unit", "label": "Unit mock", "desc": "Choose a unit: models, sources or stats.", "n": 25, "minutes": 45, "pass": 70, "choose": "group", "calculator": "basic", "sheet": ["stats"],
-    "blueprint": { "kinds": { "single": 18, "case": 3, "match": 1, "numeric": 3 } } },
-  { "id": "full", "label": "Full mock", "desc": "40 questions: behaviour models, health information and statistics.", "n": 40, "minutes": 75, "pass": 70, "calculator": "basic", "sheet": ["stats"],
-    "blueprint": { "topics": { "models": 12, "sources": 8, "stats": 20 }, "kinds": { "single": 26, "case": 3, "match": 2, "numeric": 8, "sata": 1 } } }
+  { "id": "unit", "label": "Unit mock", "desc": "Choose a unit: models, sources or stats.", "n": 25, "minutes": 45, "pass": 70, "recallMax": 0.3, "choose": "group", "calculator": "basic", "sheet": ["stats"],
+    "blueprint": { "kinds": { "single": 17, "case": 3, "match": 1, "numeric": 3, "order": 1 } } },
+  { "id": "full", "label": "Full mock", "desc": "40 questions: behaviour models, health information and statistics.", "n": 40, "minutes": 75, "pass": 70, "recallMax": 0.3, "calculator": "basic", "sheet": ["stats"],
+    "blueprint": { "topics": { "models": 12, "sources": 8, "stats": 20 }, "kinds": { "single": 25, "case": 3, "match": 2, "numeric": 8, "sata": 1, "order": 1 } } }
 ]
 });

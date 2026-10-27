@@ -25,7 +25,7 @@
   const roundTo = (x, dp) => Math.round(x * Math.pow(10, dp) + 1e-9 * Math.sign(x || 1)) / Math.pow(10, dp);
   /* "1,050", "1050.0", "0,5", "2.19e-3", "−4" are all read as numbers */
   const parseNum = s => { s = String(s == null ? "" : s).trim().replace(/\s/g, "").replace(/^[−–]/, "-").replace(/[×x]10\^?(-?\d+)$/i, "e$1");
-    if (/^-?\d{1,3}(,\d{3})+(\.\d+)?$/.test(s)) s = s.replace(/,/g, ""); else s = s.replace(",", ".");
+    if (/^-?[1-9]\d{0,2}(,\d{3})+(\.\d+)?$/.test(s)) s = s.replace(/,/g, ""); else s = s.replace(",", ".");
     return s === "" || isNaN(+s) ? NaN : +s; };
   const nf = (x, dp) => typeof x === "number" ? (+x.toFixed(dp == null ? 4 : dp)).toLocaleString("en-US", { maximumFractionDigits: dp == null ? 4 : dp }) : x;
   const nfd = (x, dp, noTrail) => (+(+x).toFixed(dp || 0)).toLocaleString("en-US", { minimumFractionDigits: noTrail ? 0 : dp || 0, maximumFractionDigits: dp || 0 }).replace(/^-/, "−");
@@ -58,7 +58,9 @@
   function bankEntry(b, it) {
     const parts = it.kind === "case" ? it.parts || [] : null;
     return { id: it.id, topic: it.topic, kind: it.kind, slots: parts ? parts.length : 1, recall: !!it.recall, difficulty: it.difficulty || 2, src: it.src, from: "bank", def: it,
-      make: () => parts ? parts.map((p, i) => ({ e: it.id, part: i })) : [{ e: it.id }],
+      /* an ordering question never starts in the right order */
+      make: () => { const st = d => d.kind === "order" && Array.isArray(d.steps) ? { start: shuffleNot(d.steps.map((t, i) => i)) } : {};
+        return parts ? parts.map((p, i) => Object.assign({ e: it.id, part: i }, st(p))) : [Object.assign({ e: it.id }, st(it))]; },
       resolve: s => fromDef(parts ? Object.assign({}, parts[s.part], { _case: it, _part: s.part }) : it, s, it) };
   }
   /* an authored definition (or a case part) → a question */
@@ -205,7 +207,7 @@
     const n = fmt.n, bp = fmt.blueprint || {}, T = P.topics;
     const keyOf = e => { if (!bp.topics) return "all"; if (bp.topics[e.topic] != null) return e.topic; const g = T[e.topic] && T[e.topic].group; return g != null && bp.topics[g] != null ? String(g) : null; };
     const quota = bp.topics ? split(n, bp.topics) : { all: n };
-    const recallCap = fmt.recallMax == null ? n : Math.floor(fmt.recallMax * n);
+    let recallCap = fmt.recallMax == null ? n : Math.floor(fmt.recallMax * n);
     let recall = 0; const chosen = [], used = new Set(), avoid = opts.avoid || new Set();
     /* fill up to `room` slots from cands: questions not on the last paper first, then at random */
     const take = (cands, room) => {
@@ -232,6 +234,8 @@
     Object.keys(tq).sort((x, y) => tq[y] - tq[x]).forEach(k => { if (tq[k] > 0) tq[k] = take(pool.filter(e => keyOf(e) === k && (!bp.kinds || bp.kinds[e.kind] != null)), tq[k]); });
     Object.keys(tq).forEach(k => { if (tq[k] > 0) tq[k] = take(pool.filter(e => keyOf(e) === k), tq[k]); });
     const have = slotsOf(chosen); if (have < n) take(pool.filter(e => !bp.topics || keyOf(e) != null), n - have);
+    /* recallMax is a soft cap: when a thin topic can't fill the paper without them, recall questions top it up */
+    if (slotsOf(chosen) < n && recallCap < n) { recallCap = n; take(pool.filter(e => !bp.topics || keyOf(e) != null), n - slotsOf(chosen)); }
     const got = slotsOf(chosen);
     return { entries: shuffle(chosen), target: n, short: got < n, got };
   };
