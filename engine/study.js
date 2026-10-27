@@ -283,6 +283,21 @@
     $("#br-bkup").onchange = ev => { const f = ev.target.files && ev.target.files[0]; if (!f) return; f.text().then(go); };
   }
 
+  /* "Back up your progress" links: when already on the cabinet page, a hash-only link would leave the
+     study-plan sheet open on top and not move the page. Close any open sheet and scroll to the backup panel instead. */
+  const toBackup = () => {
+    const b = document.getElementById("backup"); if (!b) return false;
+    const go = () => { b.scrollIntoView({ block: "start", behavior: BGX.RM ? "auto" : "smooth" }); const s = b.querySelector("#br-bkcopy"); if (s) s.focus({ preventScroll: true }); };
+    const open = document.querySelectorAll(".br-sheetwrap [data-x]");
+    if (open.length) { open.forEach(x => x.click()); setTimeout(go, BGX.RM ? 20 : 220); } else go();
+    return true;
+  };
+  document.addEventListener("click", ev => {
+    const a = ev.target.closest && ev.target.closest('a[href*="#backup"]'); if (!a) return;
+    const u = new URL(a.href, location.href);
+    if (u.pathname.replace(/index\.html$/, "") === location.pathname.replace(/index\.html$/, "") && toBackup()) { ev.preventDefault(); history.replaceState(null, "", "#backup"); }
+  });
+
   BGX.study = { today, roundDone, setGoal, streakNow, paintHeader, openHabit, hubCard, bindHub, miss, hit, keysFor, dueList, savedCount, reviewURL, names,
     backupPanel, bindBackup, exportCode, decode, merge, restore, loadH, loadM, GOALS };
 })();
