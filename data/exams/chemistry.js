@@ -188,10 +188,10 @@ BGX.registerExamBank({
   /* ---- end ch-x ---- */
 ],
 "formats": [
-  { "id": "quick", "label": "Quick check", "desc": "One chapter, 10 questions.", "n": 10, "minutes": 15, "pass": 70, "recallMax": 0.3, "choose": "topic", "calculator": "scientific", "sheet": ["ptable", "constants"],
-    "blueprint": { "kinds": { "single": 6, "numeric": 3, "sata": 1 } } },
-  { "id": "group", "label": "Chapter-group quiz", "desc": "One group of chapters (A–F), 15 questions.", "n": 15, "minutes": 25, "pass": 70, "recallMax": 0.3, "choose": "group", "calculator": "scientific", "sheet": ["ptable", "constants"],
-    "blueprint": { "kinds": { "single": 9, "numeric": 4, "sata": 1, "match": 1 } } },
+  { "id": "part", "label": "Unit test", "desc": "One unit of the course (2–4 chapter groups merged), 20 questions with about a third calculations.", "n": 20, "minutes": 35, "pass": 70, "recallMax": 0.3, "choose": "unit", "calculator": "scientific", "sheet": ["ptable", "constants"],
+    "units": [{ "id": "u1", "label": "Unit 1 · Ch 1–3 · Measurement, formulas, moles", "topics": ["A"] }, { "id": "u2", "label": "Unit 2 · Ch 4–9 · Solutions, heat, atoms, bonding", "topics": ["B", "C"] },
+      { "id": "u3", "label": "Unit 3 · Ch 10–13 · States and mixtures", "topics": ["D"] }, { "id": "u4", "label": "Unit 4 · Ch 14–24 · Rates, acids, energy, redox, nuclear, organic", "topics": ["E", "F"] }],
+    "blueprint": { "kinds": { "single": 12, "numeric": 6, "match": 1, "order": 1 } } },
   { "id": "midterm", "label": "Midterm 1", "desc": "Chapters 1–9.", "n": 35, "minutes": 70, "pass": 70, "recallMax": 0.3, "topics": ["A", "B", "C"], "calculator": "scientific", "sheet": ["ptable", "constants"],
     "blueprint": { "topics": { "measure": 4, "formulas": 4, "stoich": 6, "aqueous": 5, "thermo": 4, "atoms": 3, "periodic": 3, "bonding": 6 }, "kinds": { "single": 18, "numeric": 9, "sata": 2, "match": 2, "order": 1, "case": 3 } } },
   { "id": "midterm2", "label": "Midterm 2", "desc": "Chapters 10–18.", "n": 35, "minutes": 70, "pass": 70, "recallMax": 0.3, "topics": ["D", "E"], "calculator": "scientific", "sheet": ["ptable", "constants"],

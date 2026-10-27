@@ -663,8 +663,10 @@ BGX.registerExamBank({
     "why": "Self-monitoring turns a goal into numbers the patient can track; praise progress and adjust the next step." }
 ],
 "formats": [
-  { "id": "unit", "label": "Unit quiz", "desc": "One topic, 15 questions.", "n": 15, "minutes": 20, "pass": 70, "recallMax": 0.3, "choose": "topic", "calculator": "basic",
-    "blueprint": { "kinds": { "single": 9, "sata": 3, "case": 2, "numeric": 1 } } },
+  { "id": "part", "label": "Unit test", "desc": "One unit of the course (two topics merged), 20 questions with cases and a calculation.", "n": 20, "minutes": 27, "pass": 70, "recallMax": 0.3, "choose": "unit", "calculator": "basic",
+    "units": [{ "id": "u1", "label": "Unit 1 · Ch 1–3 · Assessment and energy balance", "topics": ["assess", "energy"] }, { "id": "u2", "label": "Unit 2 · Ch 4–10 · Life stages and diet therapy", "topics": ["life", "diet"] },
+      { "id": "u3", "label": "Unit 3 · Ch 11–14 · Vitamins, minerals, supplements", "topics": ["micro", "supp"] }, { "id": "u4", "label": "Unit 4 · Ch 15–17 · Coaching, access, culture + review", "topics": ["coach", "mixed"] }],
+    "blueprint": { "kinds": { "single": 11, "sata": 3, "case": 3, "numeric": 2, "first": 1 } } },
   { "id": "midterm", "label": "Midterm", "desc": "Chapters 1–10.", "n": 40, "minutes": 75, "pass": 70, "recallMax": 0.3, "topics": ["assess", "energy", "life", "diet"], "calculator": "basic",
     "blueprint": { "topics": { "assess": 10, "energy": 10, "life": 10, "diet": 10 }, "kinds": { "single": 20, "sata": 6, "case": 6, "numeric": 8 } } },
   { "id": "final", "label": "Final", "desc": "All 17 chapters, cumulative.", "n": 60, "minutes": 120, "pass": 70, "recallMax": 0.3, "calculator": "basic",

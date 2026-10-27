@@ -134,7 +134,8 @@ BGX.registerExamBank({
 "formats": [
   { "id": "quick", "label": "Quick check", "desc": "15 questions across all three units.", "n": 15, "minutes": 20, "pass": 70, "recallMax": 0.3, "calculator": "basic", "sheet": ["stats"],
     "blueprint": { "topics": { "models": 6, "sources": 3, "stats": 6 }, "kinds": { "single": 11, "match": 1, "numeric": 3 } } },
-  { "id": "unit", "label": "Unit mock", "desc": "Choose a unit: models, sources or stats.", "n": 25, "minutes": 45, "pass": 70, "recallMax": 0.3, "choose": "group", "calculator": "basic", "sheet": ["stats"],
+  { "id": "unit", "label": "Unit mock", "desc": "Choose a course: behaviour models and health information, or statistics.", "n": 25, "minutes": 45, "pass": 70, "recallMax": 0.3, "choose": "unit", "calculator": "basic", "sheet": ["stats"],
+    "units": [{ "id": "u1", "label": "HW315 + HS305 · Behaviour models and health information", "topics": ["models", "sources"] }, { "id": "u2", "label": "Statistics", "topics": ["stats"] }],
     "blueprint": { "kinds": { "single": 17, "case": 3, "match": 1, "numeric": 3, "order": 1 } } },
   { "id": "full", "label": "Full mock", "desc": "40 questions: behaviour models, health information and statistics.", "n": 40, "minutes": 75, "pass": 70, "recallMax": 0.3, "calculator": "basic", "sheet": ["stats"],
     "blueprint": { "topics": { "models": 12, "sources": 8, "stats": 20 }, "kinds": { "single": 25, "case": 3, "match": 2, "numeric": 8, "sata": 1, "order": 1 } } }

@@ -74,11 +74,12 @@
 
   /* ================= start screen (and resume) ================= */
   function startScreen(f, pre = {}) {
+    if (!f) return home();   // a format that no longer exists (old link or saved attempt): back to the list
     stopTimer(); screen = "start"; html.classList.remove("bgx-exam-on"); setURL(f.id);
     const a = loadA(f.id);
     if (a && a.status === "live" && !pre.fresh) return resumeScreen(f, a);
     const ch = X.choices(P, f), forced = f.navigation === "forward";
-    const st = { choice: pre.choice || (ch[0] && ch[0].id) || null, extra: 1, nav: forced ? "forward" : "free", ok: false, only: pre.only || null };
+    const st = { choice: (pre.choice && ch.some(c => c.id === pre.choice) ? pre.choice : null) || (ch[0] && ch[0].id) || null, extra: 1, nav: forced ? "forward" : "free", ok: false, only: pre.only || null };
     const hist = store.get(HK(SUBJ, f.id), []);
     const draw = () => {
       const plan = st.only ? X.plan(P, f, null, { only: st.only }) : X.plan(P, f, st.choice, { avoid: new Set(store.get(LK(SUBJ, f.id), [])) }), n = st.only ? plan.target : plan.got;
