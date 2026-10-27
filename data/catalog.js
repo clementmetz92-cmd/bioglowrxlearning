@@ -162,7 +162,7 @@ window.BGX_CATALOG = {
           tiles: [{corner: "1", icon: "heart", color: "cat-coral"}, {corner: "9", icon: "lungs", color: "cat-sky"}, {corner: "18", icon: "brain", color: "cat-lilac"}] },
         { ch: "10", title: "Pain relief and muscle drugs", icon: "steps", game: "Pain Ladder", formats: ["Explore", "Quick Quiz", "Sort It", "Sequence", "Match Pairs", "True or Myth", "Case Files"], status: "live", url: "games/pain-ladder/index.html",
           tiles: [{corner: "1", icon: "gauge", color: "cat-sky"}, {corner: "3", icon: "capsule", color: "cat-coral"}, {corner: "6", icon: "foot", color: "cat-amber"}] },
-        { ch: "All", title: "Dose calculations", icon: "scale", game: "Dose Calc", formats: ["Calculator", "Explore", "Quick Quiz", "Match Pairs"], status: "live", url: "games/dose-calc/index.html",
+        { ch: "All", label: "All chapters", title: "Dose calculations", icon: "scale", game: "Dose Calc", formats: ["Calculator", "Explore", "Quick Quiz", "Match Pairs"], status: "live", url: "games/dose-calc/index.html",
           tiles: [{corner: "D÷H", icon: "pill", color: "cat-lilac"}, {corner: "kg", icon: "scale", color: "cat-sage"}, {corner: "mL/h", icon: "timer", color: "cat-coral"}] }
       ]
     },
@@ -187,7 +187,7 @@ window.BGX_CATALOG = {
           tiles: [{corner: "1", icon: "drop", color: "cat-amber"}, {corner: "15", icon: "leaf", color: "cat-sage"}, {corner: "9", icon: "question", color: "cat-lilac"}] },
         { ch: "15–17", title: "Changing habits, community and culture", icon: "chat", game: "Coach Talk", formats: ["Explore", "Quick Quiz", "Sort It", "Match Pairs", "Sequence", "Case Files"], status: "live", url: "games/coach-talk/index.html",
           tiles: [{corner: "1", icon: "steps", color: "cat-mint"}, {corner: "2", icon: "chat", color: "cat-sky"}, {corner: "3", icon: "check", color: "cat-amber"}] },
-        { ch: "Review", title: "Exam practice", icon: "book", game: "Exam Prep", formats: ["Explore", "Quick Quiz", "Sort It", "True or Myth", "Match Pairs", "Case Files"], status: "live", url: "games/exam-prep/index.html",
+        { ch: "Review", label: "Review", title: "Exam practice", icon: "book", game: "Exam Prep", formats: ["Explore", "Quick Quiz", "Sort It", "True or Myth", "Match Pairs", "Case Files"], status: "live", url: "games/exam-prep/index.html",
           tiles: [{corner: "Q", icon: "book", color: "cat-lilac"}, {corner: "✓", icon: "check", color: "cat-sage"}, {corner: "?", icon: "question", color: "cat-amber"}] }
       ]
     },
@@ -195,14 +195,14 @@ window.BGX_CATALOG = {
       id: "wellness", count: "Coursework", name: "Health & Wellness", color: "cat-mint", icon: "sprout", source: "Coursework: HW315, HS305, statistics",
       blurb: "Health behaviour models, spotting reliable health information, and the statistics behind studies.",
       labs: [
-        { id: "pulse-lab", ch: "Stats", title: "Pulse Lab", icon: "heart", text: "Measure a pulse at rest and after exercise, then calculate beats per minute.", status: "live", url: "games/pulse-lab/index.html" }
+        { id: "pulse-lab", ch: "Stats", label: "Statistics unit", title: "Pulse Lab", icon: "heart", text: "Measure a pulse at rest and after exercise, then calculate beats per minute.", status: "live", url: "games/pulse-lab/index.html" }
       ],
       chapters: [
-        { ch: "HW315", title: "Models of health behaviour", icon: "steps", game: "Model Match", formats: ["Explore", "Quick Quiz", "Sort It", "Match Pairs", "Sequence"], status: "live", url: "games/model-match/index.html",
+        { ch: "HW315", label: "Health behaviour unit", title: "Models of health behaviour", icon: "steps", game: "Model Match", formats: ["Explore", "Quick Quiz", "Sort It", "Match Pairs", "Sequence"], status: "live", url: "games/model-match/index.html",
           tiles: [{corner: "1", icon: "steps", color: "cat-mint"}, {corner: "6", icon: "question", color: "cat-sky"}, {corner: "12", icon: "chat", color: "cat-amber"}] },
-        { ch: "HS305", title: "Spotting reliable health websites", icon: "search", game: "Source Detective", formats: ["True or Myth", "Sort It", "Explore"], status: "live", url: "games/source-detective/index.html",
+        { ch: "HS305", label: "Health information unit", title: "Spotting reliable health websites", icon: "search", game: "Source Detective", formats: ["True or Myth", "Sort It", "Explore"], status: "live", url: "games/source-detective/index.html",
           tiles: [{corner: "1", icon: "shield", color: "cat-sky"}, {corner: "4", icon: "search", color: "cat-sage"}, {corner: "12", icon: "scale", color: "cat-lilac"}] },
-        { ch: "Stats", title: "Probability and averages", icon: "chart", game: "Odds On", formats: ["Explore", "Quick Quiz", "Sort It", "Match Pairs", "True or Myth", "Case Files", "Calculator"], status: "live", url: "games/odds-on/index.html",
+        { ch: "Stats", label: "Statistics unit", title: "Probability and averages", icon: "chart", game: "Odds On", formats: ["Explore", "Quick Quiz", "Sort It", "Match Pairs", "True or Myth", "Case Files", "Calculator"], status: "live", url: "games/odds-on/index.html",
           tiles: [{corner: "1", icon: "steps", color: "cat-amber"}, {corner: "4", icon: "scale", color: "cat-sky"}, {corner: "6", icon: "question", color: "cat-peach"}] },
         { ch: "Next", title: "Her next course", icon: "book", game: "To be planned", formats: [], status: "soon" }
       ]

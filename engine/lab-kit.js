@@ -20,7 +20,7 @@
     /* menu: o = { hero, introHTML, lifeHTML, steps: [..], controls, safety, levels, onStart } */
     K.menu = o => {
       const art = BGX.ART && BGX.ART[cfg.id] ? `<div class="br-heroart" aria-hidden="true">${BGX.ART[cfg.id]()}</div>` : "";
-      view.innerHTML = `<nav class="br-backrow" aria-label="Back"><a class="br-crumb" href="${BGX.root}subjects/${cfg.subject}/index.html"><span aria-hidden="true">←</span> All ${esc(cfg.subjectName)} games</a></nav>
+      view.innerHTML = `<nav class="br-backrow" aria-label="Back"><a class="br-crumb" href="${BGX.root}subjects/${cfg.subject}/index.html"><span aria-hidden="true">←</span> All ${esc(cfg.subjectName)} chapters</a></nav>
         <div class="br-hero${art ? " has-art" : ""}"><div><h2>${esc(cfg.title)}</h2><p>${esc(o.hero || cfg.tagline)}</p></div>${art}</div>
         <div class="lab-infobtns">
           <button class="lab-infobtn" type="button" data-info="what"><span class="ic" aria-hidden="true">📖</span><span><b>What you're doing</b><small>The science and where it's used in real life</small></span><span class="go" aria-hidden="true">›</span></button>
@@ -31,7 +31,7 @@
           <span class="ic" style="background:var(--cat-${l.n === 1 ? "sky" : l.n === 2 ? "orchid" : "amber"})">${l.n}</span>
           <span><h3>${esc(l.title)}</h3><p>${esc(l.desc)}</p><span class="best">${K.starText(stars[l.n] || 0)}</span></span></button>`).join("")}</div>
         <p class="br-hint" style="margin-top:14px"><b>Stuck?</b> Every level has a <b>Hint</b> button: free on level 1; on levels 2 and 3 a hint caps that try at 2 stars.</p>
-        <nav class="br-backrow is-bottom" aria-label="Back"><a class="br-crumb" href="${BGX.root}subjects/${cfg.subject}/index.html"><span aria-hidden="true">←</span> All ${esc(cfg.subjectName)} games</a></nav>`;
+        <nav class="br-backrow is-bottom" aria-label="Back"><a class="br-crumb" href="${BGX.root}subjects/${cfg.subject}/index.html"><span aria-hidden="true">←</span> All ${esc(cfg.subjectName)} chapters</a></nav>`;
       const info = {
         what: () => ({ title: "What you're doing", html: `<div class="lab-sheet">${o.introHTML}<div class="life"><p class="br-label">In real life</p>${o.lifeHTML}</div></div>` }),
         how: () => ({ title: "How to do it", html: `<div class="lab-sheet">${K.stepsHTML(o.steps)}${o.controls ? `<p class="br-hint"><b>Controls:</b> ${o.controls}</p>` : ""}${o.safety ? `<p class="br-hint">${o.safety}</p>` : ""}</div>` })

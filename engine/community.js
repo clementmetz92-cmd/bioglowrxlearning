@@ -149,7 +149,7 @@
       html += `<div class="br-endshare"><button class="br-next" type="button" data-bgx-survey>2-minute survey: earn your Founding Tester badge</button></div>`;
     if (n % 3 !== 1) return html;                                   // ask on the 1st, 4th, 7th… round only
     return html + `<div class="br-rate" data-game="${esc(g.id)}" data-mode="${esc(mode.id)}" data-score="${score}" data-total="${total}">
-      <p>How was this game?</p>
+      <p>How was this activity?</p>
       <div class="faces"><button type="button" data-rate="3" aria-label="Loved it">😀</button><button type="button" data-rate="2" aria-label="It was OK">🙂</button><button type="button" data-rate="1" aria-label="Not great">😕</button></div>
       <div class="more" hidden><textarea rows="2" maxlength="600" placeholder="Anything to improve? (optional)"></textarea><button class="br-next" type="button" data-rate-send>Send</button></div></div>`;
   }

@@ -3,7 +3,8 @@
 
    Scores (saved per browser/device):
    - Mode: best % ever reached in that scored mode (localStorage bgx_prog_<game>  {modeId: pct}).
-   - Game: average of its scored modes (a mode not played yet counts 0). Completed when EVERY scored mode is at 70% or more.
+   - Game: average of its core activities (about 4, marked core in data/progress-map.js; one not played yet counts 0).
+     Completed when every core activity is at 70% or more. Other scored activities are extra practice.
    - Chapter: average of its games. Completed when every game is completed → a Certificate.
    - Subject: average of its live chapters. Completed when every live chapter is completed → a Diploma
      (Pass 70%+, Merit 80%+, Distinction 90%+ on the subject score; it upgrades if the score rises).
@@ -58,10 +59,12 @@
   function gameState(gid) {
     const g = MAP[gid], p = modePcts(gid);
     if (!g) return { id: gid, title: gid, modes: [], pct: 0, passed: 0, total: 0, done: false, started: false };
-    const modes = g.modes.map(m => ({ id: m.id, title: m.t, pct: p[m.id] == null ? null : p[m.id], ok: p[m.id] != null && p[m.id] >= PASS }));
-    const passed = modes.filter(m => m.ok).length;
-    return { id: gid, title: g.title, modes, pct: avg(modes.map(m => m.pct || 0)), passed, total: modes.length,
-      done: modes.length > 0 && passed === modes.length, started: modes.some(m => m.pct != null) };
+    /* only the core activities (about 4 per chapter) count toward completion; the rest are extra practice */
+    const hasCore = g.modes.some(m => m.core);
+    const all = g.modes.map(m => ({ id: m.id, title: m.t, core: !hasCore || !!m.core, pct: p[m.id] == null ? null : p[m.id], ok: p[m.id] != null && p[m.id] >= PASS }));
+    const modes = all.filter(m => m.core), passed = modes.filter(m => m.ok).length;
+    return { id: gid, title: g.title, modes, extras: all.filter(m => !m.core), all, pct: avg(modes.map(m => m.pct || 0)), passed, total: modes.length,
+      done: modes.length > 0 && passed === modes.length, started: all.some(m => m.pct != null) };
   }
   /* questions answered in a game (a certificate needs real practice, not one lucky round) */
   const MINQ = 30;
@@ -146,7 +149,7 @@
     const id = "ct" + (++uid), col = HEX[s.color] || "#9fd8cb", deep = "#0E6B66", gold = "#B8902A", ink = "#1d2a33";
     const name = getName() || "Your name here", nameSize = name.length > 26 ? 38 : 50;
     const title = wrap(c.title, 44), tSize = title.length > 1 ? 30 : 34;
-    return `<svg class="br-certsvg" viewBox="0 0 1000 700" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Progress certificate: ${esc(s.name)}, chapter ${esc(c.ch)}, ${esc(c.title)}">
+    return `<svg class="br-certsvg" viewBox="0 0 1000 700" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Progress certificate: ${esc(s.name)}, ${esc(BGX.chLabel(c))}, ${esc(c.title)}">
       <defs><linearGradient id="${id}p" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fffdf6"/><stop offset="1" stop-color="#f5efe2"/></linearGradient>
         <pattern id="${id}g" width="22" height="22" patternUnits="userSpaceOnUse"><path d="M0 11h22M11 0v22" stroke="${deep}" stroke-opacity=".035" stroke-width="1"/></pattern>
         <radialGradient id="${id}s" cx=".35" cy=".3"><stop offset="0" stop-color="#fff" stop-opacity=".55"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient></defs>
@@ -162,9 +165,9 @@
       <text x="500" y="266" text-anchor="middle" font-family="${SERIF}" font-style="italic" font-size="20" fill="#5b6676">Awarded to</text>
       <text x="500" y="${328}" text-anchor="middle" font-family="${SERIF}" font-style="italic" font-size="${nameSize}" fill="${deep}">${esc(name)}</text>
       <line x1="260" y1="346" x2="740" y2="346" stroke="${gold}" stroke-width="1.5"/>
-      <text x="500" y="382" text-anchor="middle" font-family="${SERIF}" font-style="italic" font-size="19" fill="#5b6676">for passing every activity in this chapter at 70% or more</text>
+      <text x="500" y="382" text-anchor="middle" font-family="${SERIF}" font-style="italic" font-size="19" fill="#5b6676">for passing every core activity in this chapter at 70% or more</text>
       <text x="500" y="${title.length > 1 ? 420 : 428}" text-anchor="middle" font-family="${SANS}" font-weight="800" font-size="${tSize}" fill="${ink}">${tspans(title, 500, 36)}</text>
-      <text x="500" y="${title.length > 1 ? 490 : 470}" text-anchor="middle" font-family="${MONO}" font-size="16" letter-spacing="2" fill="${deep}">CHAPTER ${esc(String(c.ch).toUpperCase())} · ${esc(s.name.toUpperCase())}</text>
+      <text x="500" y="${title.length > 1 ? 490 : 470}" text-anchor="middle" font-family="${MONO}" font-size="16" letter-spacing="2" fill="${deep}">${esc(BGX.chLabel(c).replace(/^Ch\. /, "Chapter ").toUpperCase())} · ${esc(s.name.toUpperCase())}</text>
       <text x="500" y="${title.length > 1 ? 522 : 504}" text-anchor="middle" font-family="${SERIF}" font-size="19" fill="${ink}">Chapter score <tspan font-weight="700">${a.pct}%</tspan></text>
       <g transform="translate(500 568)">
         <path d="M-34 10l-12 50 20-10 11 17 9-48z" fill="${deep}"/><path d="M34 10l12 50-20-10-11 17-9-48z" fill="${deep}"/>
@@ -215,7 +218,7 @@
       <text x="500" y="290" text-anchor="middle" font-family="${SERIF}" font-style="italic" font-size="19" fill="#5b6676">awarded to</text>
       <text x="500" y="350" text-anchor="middle" font-family="${SERIF}" font-style="italic" font-size="${nameSize}" fill="${ink}">${esc(name)}</text>
       <line x1="230" y1="370" x2="770" y2="370" stroke="url(#${id}g)" stroke-width="2"/>
-      <text x="500" y="404" text-anchor="middle" font-family="${SERIF}" font-size="18" fill="${ink}">for completing all ${n} chapters of ${esc(s.name)}, every activity passed at 70% or more,</text>
+      <text x="500" y="404" text-anchor="middle" font-family="${SERIF}" font-size="18" fill="${ink}">for completing all ${n} chapters of ${esc(s.name)}, every core activity passed at 70% or more,</text>
       <text x="500" y="430" text-anchor="middle" font-family="${SERIF}" font-size="18" fill="${ink}">with a subject score of <tspan font-weight="700">${a.pct}%</tspan></text>
       <g transform="translate(500 446)"><path d="M-120 0h240l-14 18 14 18h-240l14-18z" fill="${deep}"/>
         <text y="24" text-anchor="middle" font-family="${MONO}" font-size="15" letter-spacing="4" fill="${gold2}">${esc(tier(a.cls).toUpperCase())} LEVEL</text></g>
@@ -274,7 +277,7 @@
   function openAward(kind, ref) {
     const svg = kind === "diploma" ? diplomaSVG(ref) : certSVG(ref);
     const a = loadAwards(), info = kind === "cert" ? certInfo(ref) : null, s = kind === "diploma" ? C.subjects.find(x => x.id === ref) : info && info.s;
-    const title = kind === "diploma" ? "Subject award · " + s.name : `Progress certificate · Ch. ${info.c.ch}`;
+    const title = kind === "diploma" ? "Subject award · " + s.name : `Progress certificate · ${BGX.chLabel(info.c)}`;
     BGX.sheet({ label: title, title, wide: true,
       html: `<div class="br-certframe${kind === "diploma" ? " is-diploma" : ""}">${svg}</div>
         ${getName() ? "" : `<p class="br-hint" style="margin:10px 0 0">Add your name in the <a href="${R}cabinet/index.html">trophy cabinet</a> and it appears on every certificate.</p>`}
@@ -294,7 +297,7 @@
         BGX.sfx.big(); BGX.rain(260);
         BGX.popup("Progress certificate earned", `<div class="br-awardpop">${certSVG(n.key)}</div>
           <p class="br-label" style="margin:8px 0 0">Chapter complete · ${esc(s.name)}</p><h2>Progress certificate earned!</h2>
-          <p>Every game in <b>Ch. ${esc(c.ch)} · ${esc(c.title)}</b> passed at 70% or more. It's now in your trophy cabinet.</p>
+          <p>Every core activity in <b>${esc(BGX.chLabel(c))} · ${esc(c.title)}</b> passed at 70% or more. It's now in your trophy cabinet.</p>
           <div class="br-btns" style="margin-top:6px"><button class="br-next" data-close>Keep going</button><a class="br-ghost" href="${R}cabinet/index.html">Trophy cabinet</a></div>`, { cls: "is-award", noEnter: false });
       } else if (n.kind === "diploma" || n.kind === "upgrade") {
         const s = C.subjects.find(x => x.id === n.sid), a = loadAwards().d[n.sid];
@@ -320,21 +323,21 @@
     const left = g.total - g.passed;
     return `<div class="br-gprog${g.done ? " is-done" : ""}">
       ${ring(g.pct, 52, g.done)}
-      <div class="t"><p class="br-label" style="margin:0">${f ? `Ch. ${esc(f.c.ch)} · ${esc(f.s.name)}` : "Your progress"}</p>
-        <b>${cs && cs.done ? "Chapter completed" : g.started ? `${g.passed} of ${g.total} activities passed` : `${g.total} activities to pass`}</b>
-        ${bar(g.pct)}<small>${fmtPct(g.pct)} chapter score · ${cs && cs.done ? "every activity passed at 70%+" : g.done && cs ? `answer ${cs.minQ - cs.answered} more questions in this chapter to earn the certificate` : `pass ${left === 1 ? "the last activity" : `all ${g.total} activities`} with 70% or more to earn the certificate`}</small></div>
+      <div class="t"><p class="br-label" style="margin:0">${f ? `${esc(BGX.chLabel(f.c))} · ${esc(f.s.name)}` : "Your progress"}</p>
+        <b>${cs && cs.done ? "Chapter completed" : g.started ? `${g.passed} of ${g.total} core activities passed` : `${g.total} core activities to pass`}</b>
+        ${bar(g.pct)}<small>${fmtPct(g.pct)} chapter score · ${cs && cs.done ? "every core activity passed at 70%+" : g.done && cs ? `answer ${cs.minQ - cs.answered} more questions in this chapter to earn the certificate` : `pass ${left === 1 ? "the last activity" : `all ${g.total} core activities`} with 70% or more to earn the certificate`}</small></div>
       ${awarded ? `<button class="br-certbtn" type="button" id="br-viewcert">${BGX.icon("trophy")} View certificate</button>` : ""}</div>`;
   }
   function endLine(gid, mid, pct) {
     const g = gameState(gid), m = g.modes.find(x => x.id === mid), ok = pct >= PASS, f = findChapter(gid);
     return `<button class="br-progline${g.done ? " is-done" : ""}" id="br-progline" type="button">${ring(g.pct, 46, g.done)}
       <span><b>${ok ? "✓ Passed" : `${PASS}% needed to pass`}${m && m.pct > pct ? ` · best ${Math.round(m.pct)}%` : ""}</b>
-      <small>${f ? `Ch. ${esc(f.c.ch)}: ` : ""}${g.passed} of ${g.total} activities passed · ${fmtPct(g.pct)} chapter score${g.done ? " · completed" : ""}</small></span></button>`;
+      <small>${f ? `${esc(BGX.chLabel(f.c))}: ` : ""}${g.passed} of ${g.total} activities passed · ${fmtPct(g.pct)} chapter score${g.done ? " · completed" : ""}</small></span></button>`;
   }
   function openChapterFor(gid) {
     const f = findChapter(gid), g = gameState(gid);
-    BGX.sheet({ label: "Chapter progress", title: f ? `Ch. ${f.c.ch} · ${f.c.title}` : g.title,
-      html: `<p class="br-hint" style="margin:0 0 12px">Pass every activity with at least 70%, and answer at least 30 questions in the chapter, to earn its progress certificate. Your best score in each activity counts.</p>
+    BGX.sheet({ label: "Chapter progress", title: f ? `${BGX.chLabel(f.c)} · ${f.c.title}` : g.title,
+      html: `<p class="br-hint" style="margin:0 0 12px">Pass every core activity (usually 4) with at least 70%, and answer at least 30 questions in the chapter, to earn its progress certificate. Your best score in each activity counts; extra practice activities are optional.</p>
         <ul class="br-modelist">${g.modes.map(m => `<li class="${m.ok ? "is-ok" : m.pct != null ? "is-low" : ""}"><span class="mk">${m.ok ? "✓" : m.pct != null ? "!" : "·"}</span><span class="nm">${esc(m.title)}</span>${bar(m.pct || 0, m.ok ? "is-ok" : "")}<span class="pc">${m.pct == null ? "—" : Math.round(m.pct) + "%"}</span></li>`).join("")}</ul>
         <p style="margin:14px 0 0"><a class="br-crumb" href="${R}cabinet/index.html">${BGX.icon("trophy")} Trophy cabinet</a></p>` });
   }
@@ -354,12 +357,12 @@
     return `<a class="br-cabcard" href="${R}cabinet/index.html">
       <span class="cabart" aria-hidden="true">${flaskSVG(!!a.flask)}</span>
       <span class="t"><span class="br-label" style="margin:0">Trophy cabinet</span><b>${certs} of ${totalCh} certificates · ${dips} of ${C.subjects.length} subject awards</b>
-        ${bar(overall)}<small>${fmtPct(overall)} of the whole course · finish a chapter (every activity at 70%+, 30 questions answered) to earn its certificate</small></span>
+        ${bar(overall)}<small>${fmtPct(overall)} of the whole course · finish a chapter (its core activities at 70%+, 30 questions answered) to earn its certificate</small></span>
       <span class="go">Open →</span></a>`;
   }
   function subjectTile(s) {
     const ss = subjectState(s), a = loadAwards();
-    return `<span class="br-subjprog">${bar(ss.pct)}<small>${fmtPct(ss.pct)} · ${ss.doneCount}/${ss.chaps.length} ✓${a.d[s.id] ? " · Award" : ""}</small></span>`;
+    return `<span class="br-subjprog">${bar(ss.pct)}<small>${fmtPct(ss.pct)} · ${ss.doneCount}/${ss.chaps.length} chapters done${a.d[s.id] ? " · award" : ""}</small></span>`;
   }
   function subjectPanel(s) {
     const ss = subjectState(s), a = loadAwards(), d = a.d[s.id];
@@ -390,16 +393,16 @@
       };
       const certTile = (cs) => {
         const { s, c } = cs, w = a.c[cs.key];
-        if (w) return `<button class="br-frame is-won" type="button" data-cert="${esc(cs.key)}" aria-label="Certificate, chapter ${esc(c.ch)}: ${esc(c.title)}">${certSVG(cs.key)}<span class="cap"><b>Ch. ${esc(c.ch)}</b><small>${esc(c.game)} · ${w.pct}%</small></span></button>`;
-        return `<a class="br-frame is-locked" href="${R}${c.url}" aria-label="Chapter ${esc(c.ch)} certificate, locked: ${Math.round(cs.pct)}%, ${cs.passed} of ${cs.total} activities passed">
-          <span class="lock" style="--c:var(--${s.color})">${ring(cs.pct, 46)}<em>${cs.passed}/${cs.total} games</em></span>
-          <span class="cap"><b>Ch. ${esc(c.ch)}</b><small>${esc(c.game)}</small></span></a>`;
+        if (w) return `<button class="br-frame is-won" type="button" data-cert="${esc(cs.key)}" aria-label="Certificate, ${esc(BGX.chLabel(c))}: ${esc(c.title)}">${certSVG(cs.key)}<span class="cap"><b>${esc(BGX.chLabel(c))}</b><small>${esc(c.game)} · ${w.pct}%</small></span></button>`;
+        return `<a class="br-frame is-locked" href="${R}${c.url}" aria-label="${esc(BGX.chLabel(c))} certificate, locked: ${Math.round(cs.pct)}%, ${cs.passed} of ${cs.total} activities passed">
+          <span class="lock" style="--c:var(--${s.color})">${ring(cs.pct, 46)}<em>${cs.passed}/${cs.total} core</em></span>
+          <span class="cap"><b>${esc(BGX.chLabel(c))}</b><small>${esc(c.game)}</small></span></a>`;
       };
       view.innerHTML = `
         <nav class="br-backrow" aria-label="Back"><a class="br-crumb" href="${R}index.html"><span aria-hidden="true">←</span> All subjects</a></nav>
         <section class="br-cabhero">
           <div><p class="br-label" style="margin:0">Your practice record</p><h1>Trophy cabinet</h1>
-            <p>Every chapter you complete earns a progress certificate; every subject you complete earns a subject award. A chapter is complete when each of its activities is passed with at least 70%. These are fun records of your practice, not academic qualifications.</p></div>
+            <p>Every chapter you complete earns a progress certificate; every subject you complete earns a subject award. A chapter is complete when each of its core activities (usually 4) is passed with at least 70% and you have answered at least 30 of its questions. These are fun records of your practice, not academic qualifications.</p></div>
           <div class="br-cabstats">
             <span><b>${certs}<small>/${totalCh}</small></b>Certificates</span><span><b>${dips}<small>/${C.subjects.length}</small></b>Subject awards</span>
             <span><b>${medals}<small>/${labs.length}</small></b>Lab medals</span><span><b>${Math.round(overall)}<small>%</small></b>Whole course</span></div>

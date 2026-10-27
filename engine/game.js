@@ -39,7 +39,7 @@
     g.catMap = {}; (g.categories || []).forEach(c => g.catMap[c.id] = c);
     g.items.forEach((it, i) => { if (it.num == null) it.num = i + 1; it._i = i; });
     g.byNum = n => g.items.find(it => it.num === n);
-    if (g.notes && !g.modes.some(m => m.format === "notes")) g.modes.unshift({ id: "notes", format: "notes", title: "Study notes", desc: "Read the key ideas first: everything the games ask is in here.", icon: "✎", color: "cat-lemon" });
+    if (g.notes && !g.modes.some(m => m.format === "notes")) g.modes.unshift({ id: "notes", format: "notes", title: "Study notes", desc: "Read the key ideas first: everything the activities ask is in here.", icon: "✎", color: "cat-lemon" });
     g.modes.forEach(m => { const f = BGX.formats[m.format]; m._ready = !!(f && !f.soon); });
     if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", boot); else boot();
   };
@@ -75,7 +75,7 @@
     if (fromRound) { try { if (history.state && history.state.bgxRound) { menu.skipPop = true; history.back(); } } catch (e) {} }
     const best = BGX.store.get("best_" + G.id, {});
     const sName = G.subject ? (G.subjectName || G.subject.charAt(0).toUpperCase() + G.subject.slice(1)) : "";
-    const subj = G.subject ? `<a class="br-crumb" href="${BGX.root}subjects/${G.subject}/index.html"><span aria-hidden="true">←</span> All ${esc(sName)} games</a>` : "";
+    const subj = G.subject ? `<a class="br-crumb" href="${BGX.root}subjects/${G.subject}/index.html"><span aria-hidden="true">←</span> All ${esc(sName)} chapters</a>` : "";
     view.innerHTML = `${subj ? `<nav class="br-backrow" aria-label="Back">${subj}</nav>` : ""}
       ${BGX.community ? BGX.community.challengeBanner(G) : ""}
       <div class="br-hero${diagramSVG(null) ? " has-art" : ""}"><div><h2>${esc(G.title)}</h2><p>${esc(G.tagline || "")}</p></div>${diagramSVG(null) ? `<div class="br-heroart" aria-hidden="true">${diagramSVG(null)}</div>` : ""}</div>
@@ -83,25 +83,53 @@
       <div class="br-seg" role="group" aria-label="${esc(G.itemNoun || "item")}s to practise">${G.sets.map(x => `<button data-set="${x.size}" aria-pressed="${S.set == x.size}">${esc(x.label)}</button>`).join("")}</div>` : ""}
       ${G.hint ? `<p class="br-hint">${esc(G.hint)}</p>` : ""}${G.note ? `<p class="br-hint"><b>${esc(G.note)}</b></p>` : ""}
       ${BGX.progress ? BGX.progress.gameCard(G.id) : ""}
-      <p class="br-label" style="margin-top:22px">Choose a game</p>
-      <div class="br-modes">${G.modes.map(m => { const sc = m._ready && BGX.formats[m.format].scored, pc = sc && BGX.progress ? BGX.progress.modePct(G.id, m.id) : null, ok = pc != null && pc >= 70;
-        return `<button class="br-mode${m._ready ? "" : " is-soon"}${ok ? " is-passed" : ""}" data-mode="${m.id}"${m._ready ? "" : ' aria-disabled="true"'}>
-        <span class="ic" style="background:var(--${m.color || "cat-mint"})">${esc(m.icon || "")}${ok ? '<i class="br-tick" aria-label="passed">✓</i>' : ""}</span>
-        <span><h3>${esc(m.title)}</h3><p>${esc(m.desc || "")}</p>${!m._ready ? '<span class="best">Coming soon</span>'
-          : sc ? `<span class="best${ok ? " is-ok" : pc != null ? " is-low" : " is-todo"}">${best[m.id + S.set] != null ? `Best: ${best[m.id + S.set]}/${roundSize(m)} · ` : ""}${pc == null ? "Not played yet · pass at 70%" : ok ? `${Math.round(pc)}% · passed` : `${Math.round(pc)}% · 70% to pass`}</span>` : ""}</span></button>`; }).join("")}</div>
+      ${modeGroups()}
       ${subj ? `<nav class="br-backrow is-bottom" aria-label="Back">${subj}</nav>` : ""}`;
     view.classList.remove("menu-in"); void view.offsetWidth; view.classList.add("menu-in");
     if (BGX.progress) BGX.progress.bindGameCard(G.id);
     view.querySelectorAll("[data-set]").forEach(b => b.onclick = () => { BGX.sfx.tap(); S.set = +b.dataset.set; BGX.store.set("set_" + G.id, S.set); menu(); });
     view.querySelectorAll("[data-mode]").forEach(b => b.onclick = () => { const m = G.modes.find(x => x.id === b.dataset.mode); if (m._ready) start(m); });
   }
+  /* the menu in three groups: study first (notes, explore), the core activities that count toward the certificate, extra practice */
+  function modeGroups() {
+    const best = BGX.store.get("best_" + G.id, {}), core = coreIds();
+    const scored = m => m._ready && BGX.formats[m.format].scored;
+    const btn = m => { const sc = m._ready && BGX.formats[m.format].scored, pc = sc && BGX.progress ? BGX.progress.modePct(G.id, m.id) : null, ok = pc != null && pc >= 70;
+        return `<button class="br-mode${m._ready ? "" : " is-soon"}${ok ? " is-passed" : ""}" data-mode="${m.id}"${m._ready ? "" : ' aria-disabled="true"'}>
+        <span class="ic" style="background:var(--${m.color || "cat-mint"})">${esc(m.icon || "")}${ok ? '<i class="br-tick" aria-label="passed">✓</i>' : ""}</span>
+        <span><h3>${esc(m.title)}</h3><p>${esc(m.desc || "")}</p>${!m._ready ? '<span class="best">Coming soon</span>'
+          : sc ? `<span class="best${ok ? " is-ok" : pc != null ? " is-low" : " is-todo"}">${best[m.id + S.set] != null ? `Best: ${best[m.id + S.set]}/${roundSize(m)} · ` : ""}${pc == null ? "Not played yet · pass at 70%" : ok ? `${Math.round(pc)}% · passed` : `${Math.round(pc)}% · 70% to pass`}</span>` : ""}</span></button>`; };
+    const study = G.modes.filter(m => !scored(m) && m._ready), coreM = G.modes.filter(m => scored(m) && core.indexOf(m.id) >= 0),
+      extra = G.modes.filter(m => scored(m) && core.indexOf(m.id) < 0), soon = G.modes.filter(m => !m._ready);
+    const group = (label, note, list) => list.length ? `<p class="br-label br-modehead" style="margin-top:22px">${label}</p>${note ? `<p class="br-hint br-modenote">${note}</p>` : ""}<div class="br-modes">${list.map(btn).join("")}</div>` : "";
+    return group("Study first", "", study) +
+      group(`Core activities · ${coreM.length}`, `Pass ${coreM.length === 1 ? "this activity" : `these ${coreM.length}`} with 70% or more to earn the chapter certificate.`, coreM) +
+      group("Extra practice", "Optional: more ways to practise. They don't count toward the certificate.", extra.concat(soon));
+  }
   const roundSize = m => BGX.formats[m.format] && BGX.formats[m.format].roundSize ? BGX.formats[m.format].roundSize(m)
     : m.format === "matchpairs" ? Math.min(m.pairs || 8, G.items.length)
     : m.format === "sequence" ? Math.min(m.rounds || 6, (G.sequences || []).length) : Math.min(ROUND, G.items.length);
 
+  /* core activities: about 4 per chapter count toward its certificate; the others are extra practice.
+     A game can name them (core: ["id", …]); otherwise the pick is one "apply" activity (cases or a calculator) if there is one,
+     then quizzes and sorting before order and true-or-myth rounds, at most two of the same kind, Match Pairs last. */
+  const CORE_N = 4, RANK = { cases: 0, calculator: 0, quiz: 1, findit: 1, sortit: 2, buildit: 2, sequence: 3, truemyth: 3, matchpairs: 5 };
+  function coreIds() {
+    const sc = G.modes.filter(m => m._ready && BGX.formats[m.format].scored);
+    if (G.core) return G.core.filter(id => sc.some(m => m.id === id));
+    if (sc.length <= CORE_N) return sc.map(m => m.id);
+    const out = [], kind = {}, take = m => { out.push(m); kind[m.format] = (kind[m.format] || 0) + 1; };
+    const apply = sc.find(m => RANK[m.format] === 0); if (apply) take(apply);
+    const rest = sc.filter(m => m !== apply).map((m, i) => ({ m, i })).sort((a, b) => ((RANK[a.m.format] ?? 4) - (RANK[b.m.format] ?? 4)) || a.i - b.i).map(x => x.m);
+    rest.forEach(m => { if (out.length < CORE_N && (kind[m.format] || 0) < 2) take(m); });
+    rest.forEach(m => { if (out.length < CORE_N && out.indexOf(m) < 0) take(m); });
+    return sc.filter(m => out.indexOf(m) >= 0).map(m => m.id);   // keep the menu's order
+  }
+  BGX.coreIds = coreIds;
+
   /* scored modes and their round sizes for every practice set (read by tools-progress-map.js to build data/progress-map.js) */
   BGX.progressInfo = () => {
-    const keep = S.set, sizes = G.sets ? G.sets.map(x => x.size) : [G.items.length];
+    const keep = S.set, sizes = G.sets ? G.sets.map(x => x.size) : [G.items.length], core = coreIds();
     const out = G.modes.filter(m => m._ready && BGX.formats[m.format].scored).map(m => {
       const tot = {};
       sizes.forEach(sz => {
@@ -109,7 +137,7 @@
         if (m.format === "matchpairs") { const used = new Set(); tot[sz] = Math.min(m.pairs || 8, poolFor(m).filter(it => it[m.clue] && !used.has(it[m.clue]) && used.add(it[m.clue])).length); }
         else { const f = BGX.formats[m.format]; let n; try { n = f.makeRound ? f.makeRound(m).length : roundSize(m); } catch (e) { n = roundSize(m); } tot[sz] = n; }
       });
-      return { id: m.id, t: m.title, tot };
+      return Object.assign({ id: m.id, t: m.title, tot }, core.indexOf(m.id) >= 0 ? { core: 1 } : {});
     });
     S.set = keep;
     return { title: G.title, subject: G.subject, modes: out };
@@ -202,7 +230,7 @@
   function nextActivity(cur) {
     const P = BGX.progress;
     if (!P) return null;
-    const g = P.gameState(G.id), todo = g.modes.filter(x => !x.ok && x.id !== cur.id);
+    const g = P.gameState(G.id), todo = g.modes.filter(x => !x.ok && x.id !== cur.id);   // core activities not passed yet
     const ready = id => G.modes.find(x => x.id === id && x._ready);
     const pick = todo.map(x => ready(x.id)).find(Boolean);
     if (pick) return { mode: pick, label: `Next: ${pick.title}` };
@@ -211,6 +239,8 @@
       const live = f.s.chapters.filter(c => c.status === "live" && c.url), i = live.indexOf(f.c), n = live[i + 1];
       if (n) return { url: BGX.root + n.url, label: `Next chapter: ${n.game}` };
     }
+    const ex = (g.extras || []).filter(x => !x.ok && x.id !== cur.id).map(x => ready(x.id)).find(Boolean);
+    if (ex && g.modes.every(x => x.ok || x.id === cur.id)) return { mode: ex, label: `Extra practice: ${ex.title}` };
     return null;
   }
   function finish(extra) {
@@ -361,7 +391,7 @@
         return `<article class="br-guide">
           <header class="gh">${BGX.logo("glogo")}<div><p class="ey">BioglowRX Sciences Learning · Study notes</p>
             <h1>${esc(G.title)}${whole ? "" : `: ${esc(list[0].title)}`}</h1>
-            <p class="meta">${f ? `${esc(f.s.name)} · Chapter ${esc(f.c.ch)}: ${esc(f.c.title)}` : esc(G.tagline || "")}</p>
+            <p class="meta">${f ? `${esc(f.s.name)} · ${esc(BGX.chLabel(f.c).replace(/^Ch\. /, "Chapter "))}: ${esc(f.c.title)}` : esc(G.tagline || "")}</p>
             <p class="meta">${who ? `${esc(who)} · ` : ""}Printed ${esc(date)}</p></div></header>
           ${whole && N.intro ? `<p class="gintro">${esc(N.intro)}</p>` : ""}
           ${whole && diagramSVG(null) ? `<figure class="gart">${diagramSVG(null)}</figure>` : ""}

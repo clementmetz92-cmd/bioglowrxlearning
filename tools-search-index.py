@@ -29,7 +29,7 @@ for s in CAT["subjects"]:
         G = js_eval(GAME, ROOT / "data" / f"{gid}.js")
         cats = " ".join(x["name"] for x in G.get("categories", []))
         modes = " ".join(x.get("title", "") for x in G.get("modes", []))
-        out.append(["game", G["title"], s["id"], f"Ch. {c['ch']} · {c['title']}", c["url"],
+        out.append(["game", G["title"], s["id"], f"{c.get('label') or ('Ch. ' + c['ch'] if str(c['ch'])[:1].isdigit() else c['ch'])} · {c['title']}", c["url"],
                     f"{G.get('tagline','')} {c['title']} {cats} {modes} chapter {c['ch']}"])
         exp = next((x["id"] for x in G.get("modes", []) if x.get("format") == "explorer"), None)
         base = c["url"] + (f"?mode={exp}" if exp else "")

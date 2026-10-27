@@ -21,6 +21,8 @@
   if (BGX.textSize) document.documentElement.classList.add("bgx-t" + BGX.textSize);
 
   /* ---------- helpers ---------- */
+  /* how a chapter is named on screen: "Ch. 7–8" for textbook chapters, or its own label (catalog label, e.g. "Statistics unit") */
+  BGX.chLabel = c => c ? (c.label || (/^\d/.test(String(c.ch)) ? "Ch. " + c.ch : String(c.ch || ""))) : "";
   BGX.esc = s => String(s == null ? "" : s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
   BGX.shuffle = a => { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.random() * (i + 1) | 0; [a[i], a[j]] = [a[j], a[i]]; } return a; };
   BGX.pick = a => a[Math.random() * a.length | 0];
@@ -176,7 +178,7 @@
       if (el) { const [x, y] = BGX.center(el); BGX.burst(x, y, BGX.streak >= 3 ? 40 : 24); BGX.plus(el, BGX.streak >= 3 ? `+${gain} XP · ${BGX.streak} in a row` : `+${gain} XP`); }
       BGX.xp.add(gain);
     } else { BGX.sfx.no(); if (opts.flash) BGX.flash(opts.flash); }
-    if (hit) { const bonus = BGX.xp.milestoneBonus(BGX.streak); BGX.xp.add(bonus); setTimeout(() => BGX.milestone(BGX.streak, opts.milestoneTile, bonus), 450); }
+    if (hit) { const n = BGX.streak, bonus = BGX.xp.milestoneBonus(n); BGX.xp.add(bonus); setTimeout(() => BGX.milestone(n, opts.milestoneTile, bonus), 450); }
   };
 
   /* ---------- sheet: a pop-up panel for reading content without losing your place on the page ----------

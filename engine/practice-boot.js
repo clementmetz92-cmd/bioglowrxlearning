@@ -2,5 +2,5 @@
 (function () {
   if (window.BGX && BGX.shell) BGX.shell();
   var s = document.getElementById("br-search");
-  if (s && window.BGX && BGX.searchMount) BGX.searchMount(s, { placeholder: "Search every topic, game and card: try femur, pH or dose" });
+  if (s && window.BGX && BGX.searchMount) BGX.searchMount(s, { placeholder: "Search every topic, chapter and card: try femur, pH or dose" });
 })();

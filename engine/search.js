@@ -17,7 +17,7 @@
     ["poo", "stool", "faeces"], ["wee", "urine"], ["tummy", "stomach", "abdomen"], ["bone", "skeleton"], ["nerve", "neuron"]].map(g => g.map(x => norm(x)));
   const STOP = new Set("how many much what which who why when where is are was the a an of do does did to for in on with about can i my me tell show".split(" "));
   const TYPE = { topic: 16, game: 14, lab: 14, card: 0 };
-  const LABEL = { topic: "Practice topic", game: "Game", lab: "Hands-on lab", card: "Card" };
+  const LABEL = { topic: "Practice topic", game: "Chapter", lab: "Hands-on lab", card: "Card" };
   let idx = null, loading = null;
 
   function load() {
@@ -101,10 +101,10 @@
 
   BGX.searchMount = (el, opts = {}) => {
     if (!el) return;
-    const ph = (matchMedia("(max-width: 560px)").matches ? opts.short : opts.placeholder) || (matchMedia("(max-width: 560px)").matches ? "Search: try femur, pH or dose" : "Search games, topics and cards: try femur, pH, dose or cranial");
+    const ph = (matchMedia("(max-width: 560px)").matches ? opts.short : opts.placeholder) || (matchMedia("(max-width: 560px)").matches ? "Search: try femur, pH or dose" : "Search chapters, topics and cards: try femur, pH, dose or cranial");
     el.classList.add("br-search");
     el.innerHTML = `<label class="br-searchbox"><span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5 21 21"/></svg></span>
-      <input type="search" placeholder="${esc(ph)}" aria-label="Search all games, topics and cards" autocomplete="off" spellcheck="false" enterkeyhint="search" role="combobox" aria-expanded="false" aria-controls="br-sres" aria-autocomplete="list">
+      <input type="search" placeholder="${esc(ph)}" aria-label="Search all chapters, topics and cards" autocomplete="off" spellcheck="false" enterkeyhint="search" role="combobox" aria-expanded="false" aria-controls="br-sres" aria-autocomplete="list">
       <button type="button" class="clr" aria-label="Clear search" hidden>✕</button></label>
       <div class="br-sres" id="br-sres" role="listbox" hidden></div>`;
     const inp = el.querySelector("input"), box = el.querySelector(".br-sres"), clr = el.querySelector(".clr");

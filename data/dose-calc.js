@@ -6,6 +6,7 @@ const r = (x, dp) => Math.round(x * Math.pow(10, dp) + 1e-9) / Math.pow(10, dp);
 
 BGX.registerGame({
 "id": "dose-calc",
+"core": ["oral", "weight", "iv", "challenge"],
 "title": "Dose Calc",
 "subject": "pharmacology",
 "subjectName": "Pharmacology",

@@ -6,6 +6,10 @@
   const view = document.getElementById("br-view"), page = document.body.dataset.page;
   const liveCount = s => s.chapters.filter(c => c.status === "live").length + (s.labs || []).filter(l => l.status === "live").length;
   const nextCount = s => s.chapters.filter(c => c.status === "next").length;
+  /* counts that add up everywhere: chapters on the site, hands-on labs, and how much of the textbook they cover */
+  const chapCount = s => s.chapters.filter(c => c.status === "live").length, labCount = s => (s.labs || []).filter(l => l.status === "live").length;
+  const covers = s => s.count ? (/chapters?$/.test(s.count) ? "Covers " + s.count.replace(/chapters?$/, "textbook chapters") : s.count) : "";
+  const plural = (n, w) => n + " " + w + (n === 1 ? "" : "s");
   const tile = (t, cls = "") => t.ghost ? `<div class="br-tile ${cls} ghost-tile"><small>?</small><b>?</b></div>`
     : `<div class="br-tile ${cls}${t.icon ? " is-icon" : ""}" style="background:var(--${t.color})"><small>${esc(t.corner)}</small><b>${t.icon ? BGX.icon(t.icon) : esc(t.big)}</b>${t.label ? `<em>${esc(t.label)}</em>` : ""}</div>`;
 
@@ -108,9 +112,9 @@
       <section class="br-subjects" aria-label="Subjects">${C.subjects.map((s, i) => {
         const live = liveCount(s);
         return `<a class="br-subj" href="${R}subjects/${s.id}/index.html" style="background:var(--${s.color})">
-          <span class="no">0${i + 1}</span><span class="br-chip${live ? " is-live" : ""}">${live ? live + " live" : "Soon"}</span>
+          <span class="no">0${i + 1}</span><span class="br-chip${live ? " is-live" : ""}">${live ? plural(chapCount(s), "chapter") : "Soon"}</span>
           ${art(s.id) ? `<span class="art" aria-hidden="true">${art(s.id)}</span>` : `<span class="icon">${BGX.icon(s.icon)}</span>`}
-          <span><span class="nm">${esc(s.name)}</span><span class="ct">${esc(s.count || s.chapters.length + " chapters")}</span></span>${PG ? PG.subjectTile(s) : ""}</a>`;
+          <span><span class="nm">${esc(s.name)}</span><span class="ct">${esc(s.count && /chapters?$/.test(s.count) ? "Textbook: " + s.count : s.count || "")}</span></span>${PG ? PG.subjectTile(s) : ""}</a>`;
       }).join("")}</section>
       ${last ? `<a class="br-continue" href="${R}${esc(last.url)}">
           <div class="br-tile is-sm" style="background:var(--${lastSubj ? lastSubj.color : "cat-mint"})"><b>${lastSubj ? BGX.icon(lastSubj.icon) : "▶"}</b></div>
@@ -151,7 +155,7 @@
         <nav class="br-backrow" aria-label="Back"><a class="br-crumb" href="${R}index.html"><span aria-hidden="true">←</span> All subjects</a></nav>
         <section class="br-subhero" style="margin-top:12px">
           <div class="ic${art(s.id) ? " has-art" : ""}" style="background:var(--${s.color})"><small>${String(C.subjects.indexOf(s) + 1).padStart(2, "0")}</small>${art(s.id) || BGX.icon(s.icon)}</div>
-          <div><p class="br-label" style="margin:0">${esc(s.count || "")} · ${liveCount(s)} live${nextCount(s) ? ` · ${nextCount(s)} up next` : ""}</p><h1>${esc(s.name)}</h1><p>${esc(s.blurb)}</p></div>
+          <div><p class="br-label" style="margin:0">${plural(chapCount(s), "chapter")}${labCount(s) ? ` · ${plural(labCount(s), "hands-on lab")}` : ""}${nextCount(s) ? ` · ${nextCount(s)} up next` : ""}${covers(s) ? ` · ${esc(covers(s).toLowerCase())}` : ""}</p><h1>${esc(s.name)}</h1><p>${esc(s.blurb)}</p></div>
         </section>
         <div id="br-search"></div>
         ${PG ? PG.subjectPanel(s) : ""}
@@ -160,16 +164,16 @@
         <div class="br-seg" role="group" aria-label="Filter chapters" style="margin-top:-8px">
           ${FILTERS.map(([k, l]) => `<button data-f="${k}" aria-pressed="${filter === k}">${l}</button>`).join("")}
         </div>
-        <div class="br-chaps">${list.length ? list.map(card).join("") : `<p class="br-empty">${filter === "done" ? "No chapters completed yet. Pass every activity in a chapter with 70% or more to complete it." : filter === "todo" ? "Every chapter is complete. Well done!" : "Nothing here yet. The first games are on their way."}</p>`}</div>
+        <div class="br-chaps">${list.length ? list.map(card).join("") : `<p class="br-empty">${filter === "done" ? "No chapters completed yet. Pass the core activities in a chapter with 70% or more to complete it." : filter === "todo" ? "Every chapter is complete. Well done!" : "Nothing here yet. The first games are on their way."}</p>`}</div>
         <p class="br-hint" style="margin-top:18px">Built from ${esc(s.source)}. Every game is written in our own words.</p>`;
       view.querySelectorAll("[data-f]").forEach(b => b.onclick = () => { BGX.sfx.tap(); filter = b.dataset.f; draw(); });
-      if (BGX.searchMount) BGX.searchMount(document.getElementById("br-search"), { subject: s.id, placeholder: "Search " + s.name + ": a topic, a game or a card" });
+      if (BGX.searchMount) BGX.searchMount(document.getElementById("br-search"), { subject: s.id, placeholder: "Search " + s.name + ": a topic, a chapter or a card" });
     };
     /* hands-on lab: a compact, high-contrast strip so the chapters show straight underneath */
     const labCard = l => {
       const live = l.status === "live", next = l.status === "next";
       const inner = `<span class="lab-thumb" aria-hidden="true">${art(l.id) || BGX.icon(l.icon)}</span>
-        <span class="lab-txt"><span class="eyebrow">Hands-on lab · Ch. ${esc(l.ch)}${next ? " ★" : ""}</span><b>${esc(l.title)}</b><span class="lab-line">${esc(l.text)}</span></span>
+        <span class="lab-txt"><span class="eyebrow">Hands-on lab · ${esc(BGX.chLabel(l))}${next ? " ★" : ""}</span><b>${esc(l.title)}</b><span class="lab-line">${esc(l.text)}</span></span>
         <span class="lab-go">${live ? "Play" : next ? "Up next" : "Soon"}</span>`;
       return live ? `<a class="br-labstrip" href="${R}${l.url}">${inner}</a>` : `<div class="br-labstrip is-soon">${inner}</div>`;
     };
@@ -177,13 +181,13 @@
       const fm = c.formats.map(x => `<span class="br-fmt">${esc(x)}</span>`).join("");
       if (c.status === "live") return `<a class="br-chap is-live${isDone(c) ? " is-done" : ""}" href="${R}${c.url}">
           <div class="mini" aria-hidden="true">${(c.tiles || []).map(t => tile(t, "is-sm")).join("")}</div>
-          <div class="body"><div style="display:flex;gap:10px;align-items:center"><span class="ch">Ch. ${esc(c.ch)}</span><span class="br-chip is-live">Live</span></div>
+          <div class="body"><div style="display:flex;gap:10px;align-items:center"><span class="ch">${esc(BGX.chLabel(c))}</span></div>
             <h3>${esc(c.title)}</h3><div style="display:flex;flex-wrap:wrap;gap:6px;align-items:center"><b>${esc(c.game)}</b>${fm}</div>${PG ? PG.chapterRow(s, c) : ""}</div>
           <span class="br-next">Play</span></a>`;
       const next = c.status === "next";
       return `<div class="br-chap is-soon" role="group" aria-label="${esc(c.title)}">
           <div class="top"><span class="ic" style="background:var(--${s.color})"><small>${esc(c.ch.split(" ")[0])}</small>${BGX.icon(c.icon)}</span>
-            <span><span class="ch">Ch. ${esc(c.ch)}${next ? ' <span class="br-star">★</span>' : ""}</span><h3>${esc(c.title)}</h3></span></div>
+            <span><span class="ch">${esc(BGX.chLabel(c))}${next ? ' <span class="br-star">★</span>' : ""}</span><h3>${esc(c.title)}</h3></span></div>
           <div class="game"><b>${esc(c.game)}</b>${fm}<span class="br-chip">${next ? "Up next" : "Soon"}</span></div></div>`;
     };
     draw();
