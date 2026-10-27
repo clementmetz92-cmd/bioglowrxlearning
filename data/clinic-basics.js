@@ -239,8 +239,8 @@ BGX.registerGame({
     "data": [["6 months ago", "72 kg"], ["Today", "64 kg"], ["Dieting?", "No"]],
     "steps": [
       { "q": "About how much of his weight has he lost?", "options": ["About 11%", "About 8%", "About 5%", "About 89%"], "answer": 0, "why": "(72 − 64) ÷ 72 × 100 = 8 ÷ 72 × 100 = 11.1%. Always divide by the usual (starting) weight." },
-      { "q": "How should this weight loss be viewed?", "options": ["A red flag: more than 10% in 6 months", "Normal with age", "Only a concern over 20%", "Good news for his heart"], "answer": 0, "why": "Unintentional loss of more than 10% in 6 months (or more than 5% in a month) is severe and needs investigating." },
-      { "q": "What is the best next step?", "options": ["Look for a cause: history, exam and tests", "Tell him to eat more and come back in a year", "Start a weight-loss diet", "Check only his albumin"], "answer": 0, "why": "Unexplained weight loss can signal cancer, depression, thyroid disease, diabetes, gut disease, dental or social problems. Find the cause, and screen and support his intake." }],
+      { "q": "How should this weight loss be viewed?", "options": ["A red flag: more than 10% in 6 months", "Normal: weight often falls with age", "Only a concern once it passes 20%", "Mild: under 15% is not significant"], "answer": 0, "why": "Unintentional loss of more than 10% in 6 months (or more than 5% in a month) is severe and needs investigating." },
+      { "q": "What is the best next step?", "options": ["Look for a cause: history, exam and tests", "Tell him to eat more and come back in a year", "Start an appetite stimulant straight away", "Check only his albumin"], "answer": 0, "why": "Unexplained weight loss can signal cancer, depression, thyroid disease, diabetes, gut disease, dental or social problems. Find the cause, and screen and support his intake." }],
     "takeaway": "% weight loss = (usual − current) ÷ usual × 100; over 10% in 6 months without trying is a red flag." },
   { "id": "c2", "cat": "anthro", "icon": "scale", "spot": ["bmi", "over"], "title": "Checking the numbers",
     "who": "Marisol, 45, receptionist",
@@ -249,16 +249,16 @@ BGX.registerGame({
     "steps": [
       { "q": "What is her BMI?", "options": ["27.3 kg/m²", "43.8 kg/m²", "22.4 kg/m²", "31.0 kg/m²"], "answer": 0, "why": "70 ÷ (1.60 × 1.60) = 70 ÷ 2.56 = 27.3 kg/m². Dividing by 1.60 only once gives 43.8, a common slip." },
       { "q": "Which BMI category is that?", "options": ["Overweight", "Healthy weight", "Obesity class I", "Underweight"], "answer": 0, "why": "25 to 29.9 is overweight. Obesity starts at 30." },
-      { "q": "What does her waist add?", "options": ["High-risk belly fat: over 88 cm for a woman", "Nothing: BMI is all that matters", "Her waist is in the healthy range", "It means she is underweight"], "answer": 0, "why": "A waist over 88 cm (35 in) in women, or over 102 cm (40 in) in men, signals visceral fat and higher metabolic and heart risk." }],
+      { "q": "What does her waist add?", "options": ["High-risk belly fat: over 88 cm for a woman", "Nothing extra, as BMI already covers fat", "Her waist is fine: the cut-off is 102 cm", "Low risk, as her BMI is not in obesity"], "answer": 0, "why": "A waist over 88 cm (35 in) in women, or over 102 cm (40 in) in men, signals visceral fat and higher metabolic and heart risk, even when BMI is below the obesity range." }],
     "takeaway": "BMI says weight for height; the waist says where the fat is. Use both." },
   { "id": "c3", "cat": "bio", "icon": "lab", "spot": ["tube", "Albumin"], "title": "Low albumin, high fever",
     "who": "Dennis, 59, electrician",
     "story": "Dennis was admitted three days ago with pneumonia. He ate normally until last week and his weight is stable. His albumin is 2.7 g/dL and his CRP (an inflammation marker) is very high.",
     "data": [["Albumin", "2.7 g/dL"], ["CRP", "Very high"], ["Weight", "Stable"]],
     "steps": [
-      { "q": "What best explains his low albumin?", "options": ["Inflammation: the liver makes less albumin when the body is fighting infection", "Starvation over the last three days", "He eats too much protein", "A lab error: albumin never changes"], "answer": 0, "why": "Albumin is a negative acute-phase protein. Infection and inflammation lower it quickly, regardless of diet, and its 3-week half-life means three days of poor eating could not explain it." },
+      { "q": "What best explains his low albumin?", "options": ["Inflammation: the liver makes less during infection", "Protein starvation over the last three days", "His protein is being used up making antibodies", "Long-standing malnutrition before admission"], "answer": 0, "why": "Albumin is a negative acute-phase protein: the liver makes less when the body is fighting infection. Its 3-week half-life means three days of poor eating could not explain it, and he ate normally with a stable weight before." },
       { "q": "Would a prealbumin test settle whether he is malnourished?", "options": ["No: prealbumin also falls with inflammation", "Yes: prealbumin ignores inflammation", "Yes: it is the gold standard", "Only if taken fasting"], "answer": 0, "why": "Prealbumin falls with inflammation too. Current guidance says neither protein should be used as a nutrition marker." },
-      { "q": "How should his nutrition be judged instead?", "options": ["Weight history, food intake, muscle and fat on exam, and function", "Albumin alone, repeated daily", "Cholesterol level", "Ask him to guess his BMI"], "answer": 0, "why": "Malnutrition is diagnosed from weight loss, reduced intake, muscle and fat loss, fluid and function, put together with the illness." }],
+      { "q": "How should his nutrition be judged instead?", "options": ["Weight change, intake, muscle and fat, function", "Albumin and prealbumin, rechecked daily until they rise", "A low cholesterol level as the main marker", "His BMI alone, since his weight is stable"], "answer": 0, "why": "Malnutrition is diagnosed from weight loss, reduced intake, muscle and fat loss, fluid and function, put together with the illness." }],
     "takeaway": "Low albumin in acute illness reflects inflammation; judge nutrition with the whole ABCD picture." },
   { "id": "c4", "cat": "screen", "icon": "clipboard", "spot": ["screen", "MNA"], "title": "Living alone",
     "who": "Edith, 84, widow",
@@ -266,8 +266,8 @@ BGX.registerGame({
     "data": [["Age", "84"], ["Weight loss", "About 2 kg in 3 months"], ["MNA short form", "9 / 14"]],
     "steps": [
       { "q": "Which screening tool was designed for people her age?", "options": ["MNA (Mini Nutritional Assessment)", "Food frequency questionnaire", "HbA1c", "Waist-to-hip ratio"], "answer": 0, "why": "The MNA was developed for adults aged 65 and over. MUST can also be used for any adult." },
-      { "q": "What does her MNA short-form score of 9 mean?", "options": ["At risk of malnutrition", "Normal nutrition", "Severely obese", "Score too low to count"], "answer": 0, "why": "Short form: 12–14 normal, 8–11 at risk, 0–7 malnourished." },
-      { "q": "Which plan fits best?", "options": ["Refer to a dietitian, fix the dentures and arrange meal support", "Start a low-calorie diet", "Tell her appetite always falls with age, so do nothing", "Order albumin and wait"], "answer": 0, "why": "Treat the causes (teeth, isolation, low mood), add energy- and protein-dense foods, and involve a dietitian and community meal services." }],
+      { "q": "What does her MNA short-form score of 9 mean?", "options": ["At risk of malnutrition", "Normal nutrition", "Malnourished", "Mild risk: no action needed"], "answer": 0, "why": "Short form: 12–14 normal, 8–11 at risk, 0–7 malnourished." },
+      { "q": "Which plan fits best?", "options": ["Dietitian referral, denture review, meal support", "Prescribe a vitamin tablet and review her in a year", "Reassure her that appetite falls with age", "Order an albumin level and wait for the result"], "answer": 0, "why": "Treat the causes (teeth, isolation, low mood), add energy- and protein-dense foods, and involve a dietitian and community meal services." }],
     "takeaway": "Older adults: screen with MNA or MUST, then fix teeth, loneliness and food access, not just calories." },
   { "id": "c5", "cat": "diet", "icon": "plate", "spot": ["diary"], "title": "Which diet history?",
     "who": "Dr Okafor, family physician",
@@ -275,8 +275,8 @@ BGX.registerGame({
     "data": [["Patient 1", "Short visit"], ["Patient 2", "Carb counting"], ["Patient 3", "Research study"]],
     "steps": [
       { "q": "Patient 1 has a short visit. Quickest method?", "options": ["24-hour recall", "7-day weighed food record", "Food frequency questionnaire of 150 items", "No dietary history"], "answer": 0, "why": "A 24-hour recall takes about 20 minutes, needs no forms, and gives a quick snapshot of one day." },
-      { "q": "Patient 2 needs exact amounts and timing. Best method?", "options": ["Food record (diary) kept as she eats", "24-hour recall once a year", "Food frequency questionnaire", "Waist measurement"], "answer": 0, "why": "A food record written at the time captures amounts, times and glucose readings, which is exactly what carb counting needs." },
-      { "q": "Patient 3's study wants usual intake over a year. Best method?", "options": ["Food frequency questionnaire", "A single 24-hour recall", "A one-day diary", "Haemoglobin"], "answer": 0, "why": "An FFQ asks how often foods are eaten over months, capturing usual patterns. It is cheap for large groups." }],
+      { "q": "Patient 2 needs exact amounts and timing. Best method?", "options": ["Food record (diary) kept as she eats", "24-hour recall once a year", "Food frequency questionnaire", "A photo of her plate once a week"], "answer": 0, "why": "A food record written at the time captures amounts, times and glucose readings, which is exactly what carb counting needs." },
+      { "q": "Patient 3's study wants usual intake over a year. Best method?", "options": ["Food frequency questionnaire", "A single 24-hour recall", "A one-day diary", "A 3-day food diary"], "answer": 0, "why": "An FFQ asks how often foods are eaten over months, capturing usual patterns. It is cheap for large groups." }],
     "takeaway": "Recall = one day, fast. Diary = detailed, in real time. FFQ = usual pattern over months." },
   { "id": "c6", "cat": "clin", "icon": "hand", "spot": ["body", "nails"], "title": "Tired and pale",
     "who": "Aisha, 19, university student",
@@ -284,8 +284,8 @@ BGX.registerGame({
     "data": [["Diet", "Vegetarian"], ["Periods", "Heavy"], ["Nails", "Spoon-shaped"]],
     "steps": [
       { "q": "Which deficiency do spoon-shaped nails point to?", "options": ["Iron", "Vitamin C", "Vitamin A", "Iodine"], "answer": 0, "why": "Koilonychia (spoon nails) is a classic sign of long-standing iron deficiency." },
-      { "q": "Which blood tests confirm it?", "options": ["Haemoglobin and ferritin", "HbA1c only", "Lipid panel", "Vitamin D"], "answer": 0, "why": "Low haemoglobin shows anaemia; low ferritin shows empty iron stores. Small red cells (low MCV) fit iron deficiency." },
-      { "q": "Which diet tip helps her absorb plant iron?", "options": ["Eat vitamin C foods with iron-rich meals", "Drink tea with every meal", "Take calcium with her iron", "Avoid beans and lentils"], "answer": 0, "why": "Vitamin C boosts absorption of non-haem (plant) iron; tea, coffee and calcium taken with the meal reduce it." }],
+      { "q": "Which blood tests confirm it?", "options": ["Haemoglobin and ferritin", "Vitamin B12 and folate", "Serum iron alone", "Albumin and prealbumin"], "answer": 0, "why": "Low haemoglobin shows anaemia; low ferritin shows empty iron stores. Small red cells (low MCV) fit iron deficiency. Serum iron alone swings from day to day and does not show stores." },
+      { "q": "Which diet tip helps her absorb plant iron?", "options": ["Eat vitamin C foods with iron-rich meals", "Drink green tea with meals for antioxidants", "Take a calcium supplement with her iron", "Add wholegrain bran to each iron-rich meal"], "answer": 0, "why": "Vitamin C boosts absorption of non-haem (plant) iron; tea, coffee, calcium and the phytates in bran taken with the meal reduce it." }],
     "takeaway": "Clinical signs point the way; blood tests confirm; diet and the cause (heavy periods) are both treated." },
   { "id": "c7", "cat": "bio", "icon": "drop", "spot": ["tube", "HbA1c"], "title": "A borderline result",
     "who": "Kwame, 50, taxi driver",
@@ -293,8 +293,8 @@ BGX.registerGame({
     "data": [["HbA1c", "6.1%"], ["BMI", "31"], ["Family history", "Type 2 diabetes"]],
     "steps": [
       { "q": "What does an HbA1c of 6.1% mean?", "options": ["Prediabetes", "Normal", "Diabetes", "Low blood sugar"], "answer": 0, "why": "Under 5.7% is normal, 5.7–6.4% prediabetes, 6.5% or more diabetes." },
-      { "q": "What period of blood sugar does HbA1c reflect?", "options": ["About the last 2–3 months", "The last hour", "The last 24 hours", "His whole life"], "answer": 0, "why": "Glucose sticks to haemoglobin over the life of the red cell, so HbA1c reflects roughly the past 2–3 months." },
-      { "q": "What is the best first step?", "options": ["Lifestyle change: cut sugary drinks, aim for 5–7% weight loss and 150 minutes of activity a week", "Insulin injections today", "Nothing until it reaches 6.5%", "A high-sugar diet to test his pancreas"], "answer": 0, "why": "Lifestyle programmes cut progression to diabetes by more than half. Swapping soda for water is an easy first win." }],
+      { "q": "What period of blood sugar does HbA1c reflect?", "options": ["About the last 2–3 months", "About the last 2–3 weeks", "The last 24 hours", "About the last 12 months"], "answer": 0, "why": "Glucose sticks to haemoglobin over the life of the red cell, so HbA1c reflects roughly the past 2–3 months." },
+      { "q": "What is the best first step?", "options": ["Cut soda, lose 5–7%, 150 active minutes a week", "Start insulin now to protect his pancreas", "Recheck in a year and only act if it reaches 6.5%", "Switch his soda to fruit juice and recheck"], "answer": 0, "why": "Lifestyle programmes cut progression to diabetes by more than half. Swapping soda for water is an easy first win." }],
     "takeaway": "HbA1c 5.7–6.4% is prediabetes: the best time to act on diet, weight and activity." }
 ],
 "problems": [

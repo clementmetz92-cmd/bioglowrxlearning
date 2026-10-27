@@ -155,7 +155,7 @@ BGX.registerGame({
     "data": [["Fever", "None"], ["Finger", "Red, swollen"]],
     "steps": [
       { "q": "Which defence is at work in Leo's finger?", "options": ["Inflammation", "An allergy", "An antibody memory response", "A fever"], "answer": 0, "why": "Redness, heat, swelling and pain at an injury are the four classic signs of inflammation." },
-      { "q": "Why is the area red and warm?", "options": ["Blood vessels have widened, bringing more blood", "The skin is making extra pigment", "Bacteria glow red", "Nerves are firing"], "answer": 0, "why": "Histamine and other chemicals widen the blood vessels, so more warm blood reaches the area." },
+      { "q": "Why is the area red and warm?", "options": ["Blood vessels have widened, bringing more blood", "The skin is making extra pigment", "The hypothalamus has raised the body's set point", "Nerve signals are making the skin sweat"], "answer": 0, "why": "Histamine and other chemicals widen the blood vessels, so more warm blood reaches the area." },
       { "q": "Which white cells arrive first in large numbers and make up the yellow pus?", "options": ["Neutrophils", "Plasma cells", "Memory T cells", "Red blood cells"], "answer": 0, "why": "Neutrophils arrive within hours to eat bacteria. Dead neutrophils, bacteria and fluid form pus." }],
     "takeaway": "Inflammation brings defenders fast: neutrophils first, macrophages to clean up." },
   { "id": "c2", "cat": "adaptive", "icon": "brain", "cell": "memory", "title": "Second time lucky",
@@ -165,7 +165,7 @@ BGX.registerGame({
     "steps": [
       { "q": "Which cells protected Mia?", "options": ["Memory cells", "Mast cells", "Neutrophils", "Platelets"], "answer": 0, "why": "The vaccine left long-lived memory B and T cells that recognise measles." },
       { "q": "What type of immunity is this?", "options": ["Artificial active", "Natural passive", "Artificial passive", "Natural active"], "answer": 0, "why": "Her own body made the response (active), triggered by a vaccine (artificial). Natural active immunity comes from catching the illness itself." },
-      { "q": "Why did her body react in time?", "options": ["The second response is faster and stronger", "The virus was weaker this year", "Vaccines block all viruses", "Her skin kept it out"], "answer": 0, "why": "On a second meeting, memory cells start a response within days, with far more antibodies (mostly IgG) than the first time." }],
+      { "q": "Why did her body react in time?", "options": ["The second response is faster and stronger", "Her innate defences were stronger this year", "The virus mutated into a milder strain", "Her skin barrier kept the virus out"], "answer": 0, "why": "On a second meeting, memory cells start a response within days, with far more antibodies (mostly IgG) than the first time." }],
     "takeaway": "Vaccines create memory cells, so the first real meeting with a microbe gets a fast secondary response." },
   { "id": "c3", "cat": "innate", "icon": "drop", "cell": "mast", "title": "Spring sneezes",
     "who": "Omar, 30",
@@ -182,7 +182,7 @@ BGX.registerGame({
     "data": [["CD4 count", "180 cells/µL"]],
     "steps": [
       { "q": "Which cells does HIV mainly infect and destroy?", "options": ["Helper T cells", "Red blood cells", "Neutrophils", "Platelets"], "answer": 0, "why": "HIV binds to the CD4 marker on helper T cells." },
-      { "q": "Why does losing these cells weaken so much of the immune system?", "options": ["They activate both B cells and cytotoxic T cells", "They make all the antibodies themselves", "They form the skin barrier", "They carry oxygen"], "answer": 0, "why": "Helper T cells coordinate adaptive immunity. Without them, B cells and cytotoxic T cells respond poorly." },
+      { "q": "Why does losing these cells weaken so much of the immune system?", "options": ["They activate both B cells and cytotoxic T cells", "They make all the antibodies themselves", "They are the main phagocytes", "They kill infected cells directly"], "answer": 0, "why": "Helper T cells coordinate adaptive immunity. Without them, B cells and cytotoxic T cells respond poorly." },
       { "q": "What does a CD4 count under 200 cells/µL indicate?", "options": ["AIDS", "A normal immune system", "An allergy", "A bacterial infection only"], "answer": 0, "why": "A CD4 count below 200 cells per microlitre defines AIDS, the advanced stage of HIV. Treatment can raise it again." }],
     "takeaway": "HIV targets the coordinator (helper T cells), so the whole adaptive response fails." },
   { "id": "c5", "cat": "adaptive", "icon": "shield", "cell": "antibody", "title": "Borrowed protection",
@@ -200,7 +200,7 @@ BGX.registerGame({
     "data": [["Temperature", "38.2 °C (100.8 °F)"], ["Throat", "Red tonsils"]],
     "steps": [
       { "q": "What are the lumps?", "options": ["Swollen lymph nodes", "The thyroid gland", "Salivary stones", "Muscle knots"], "answer": 0, "why": "Lymph nodes in the neck drain the throat. They swell during an infection." },
-      { "q": "Why have they swollen?", "options": ["Lymphocytes are multiplying to fight the infection", "They are filling with blood", "They are storing fat", "They are making red blood cells"], "answer": 0, "why": "As lymph from the infected throat is filtered, lymphocytes that recognise the microbe multiply, and the node enlarges." },
+      { "q": "Why have they swollen?", "options": ["Lymphocytes inside them are multiplying", "They are filling with leaked blood", "Fat is building up around them", "They are making extra red blood cells"], "answer": 0, "why": "As lymph from the infected throat is filtered, lymphocytes that recognise the microbe multiply, and the node enlarges." },
       { "q": "Which organ filters blood rather than lymph?", "options": ["Spleen", "Lymph node", "Tonsil", "Thymus"], "answer": 0, "why": "The spleen filters blood, removing old red cells and microbes. Lymph nodes filter lymph." }],
     "takeaway": "Swollen, tender neck nodes are a sign that adaptive immunity is busy fighting a nearby infection." }
 ],

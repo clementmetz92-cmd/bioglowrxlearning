@@ -217,7 +217,7 @@ BGX.registerGame({
     "data": [["Heart rate", "130/min"], ["Colour", "Body pink, hands and feet blue"], ["Cry", "Weak"]],
     "steps": [
       { "q": "What is his Apgar score?", "options": ["6", "8", "10", "4"], "answer": 0, "why": "Appearance 1 (blue hands and feet), Pulse 2 (100 or more), Grimace 1, Activity 1 (some flexion), Respiration 1 (weak cry): 6 out of 10." },
-      { "q": "What should happen next?", "options": ["Dry and stimulate him, then score again at 5 minutes", "Nothing: the score is never repeated", "Start him on solid food", "Send him home immediately"], "answer": 0, "why": "The score is repeated at 5 minutes. A score of 4–6 usually needs simple help such as drying, warming and stimulation." },
+      { "q": "What should happen next?", "options": ["Dry and stimulate him, then rescore at 5 minutes", "Start chest compressions straight away", "Nothing more: the score is only taken once", "Transfer him to intensive care at once"], "answer": 0, "why": "The score is repeated at 5 minutes. A score of 4–6 usually needs simple help such as drying, warming and stimulation. Chest compressions are only for a heart rate below 60, and his is 130." },
       { "q": "Which letter scores his heart rate?", "options": ["P: Pulse", "A: Activity", "G: Grimace", "R: Respiration"], "answer": 0, "why": "Pulse: 100 or more per minute scores 2; below 100 scores 1; none scores 0." }],
     "takeaway": "Apgar: Appearance, Pulse, Grimace, Activity, Respiration; 0–2 each, at 1 and 5 minutes." },
   { "id": "c2", "cat": "circ", "icon": "heart", "spot": "da", "title": "A murmur in the NICU",
@@ -226,8 +226,8 @@ BGX.registerGame({
     "data": [["Gestation", "29 weeks (from last period)"], ["Murmur", "Continuous"]],
     "steps": [
       { "q": "Which fetal shortcut has failed to close?", "options": ["Ductus arteriosus", "Foramen ovale", "Ductus venosus", "Umbilical vein"], "answer": 0, "why": "The ductus arteriosus joins the pulmonary trunk and aorta. Open after birth, it lets aortic blood leak back into the lungs." },
-      { "q": "Before birth, what did this vessel do?", "options": ["Sent blood from the pulmonary trunk to the aorta, bypassing the lungs", "Sent blood past the liver", "Linked the two atria", "Carried blood to the placenta"], "answer": 0, "why": "The fetal lungs are fluid-filled and do not exchange gas, so most right-ventricle output skips them through the ductus." },
-      { "q": "Which medicine can help it close?", "options": ["Ibuprofen (blocks prostaglandins)", "Oxytocin", "Prostaglandin E", "Insulin"], "answer": 0, "why": "Prostaglandins keep the ductus open, so drugs that block their production, such as ibuprofen or indomethacin, help it close. Prostaglandin E does the opposite and keeps it open." }],
+      { "q": "Before birth, what did this vessel do?", "options": ["Shunted blood from pulmonary trunk to aorta", "Sent blood from the aorta into the lungs", "Carried blood past the liver", "Let blood pass between the atria"], "answer": 0, "why": "The fetal lungs are fluid-filled and do not exchange gas, so most right-ventricle output skips them through the ductus." },
+      { "q": "Which medicine can help it close?", "options": ["Ibuprofen (blocks prostaglandins)", "Oxytocin (contracts smooth muscle)", "Prostaglandin E (relaxes vessels)", "Surfactant (helps the lungs open)"], "answer": 0, "why": "Prostaglandins keep the ductus open, so drugs that block their production, such as ibuprofen or indomethacin, help it close. Prostaglandin E does the opposite and keeps it open." }],
     "takeaway": "A patent ductus arteriosus is common in premature babies; normally it closes and becomes the ligamentum arteriosum." },
   { "id": "c3", "cat": "support", "icon": "ban", "spot": "teratogen", "title": "Before she knew",
     "who": "Jade, 26, and her son Max, 4",
@@ -243,18 +243,18 @@ BGX.registerGame({
     "story": "Elena, who never had the MMR vaccine, catches rubella at 8 weeks of pregnancy. Her baby is born with cataracts, hearing loss and a heart defect.",
     "data": [["Infection", "Rubella"], ["Timing", "Week 8"]],
     "steps": [
-      { "q": "Why did a mild infection in the mother harm the baby so much?", "options": ["The virus is a teratogen and infected the embryo during organogenesis", "The fever lasted nine months", "Rubella blocks implantation", "It only affects the placenta"], "answer": 0, "why": "Rubella crosses the placenta and damages organs that are forming, especially the eyes, ears and heart." },
+      { "q": "Why did a mild infection in the mother harm the baby so much?", "options": ["The virus crossed the placenta during organogenesis", "Maternal antibodies attacked the baby's organs", "The virus changed her eggs before conception", "Bacterial toxins from the rash reached the baby"], "answer": 0, "why": "Rubella crosses the placenta and damages organs that are forming, especially the eyes, ears and heart." },
       { "q": "Which germ layer forms the lens of the eye?", "options": ["Ectoderm", "Mesoderm", "Endoderm", "Trophoblast"], "answer": 0, "why": "The lens develops from ectoderm, like the epidermis and nervous system." },
-      { "q": "How is this prevented?", "options": ["MMR vaccination before pregnancy", "Antibiotics in pregnancy", "Extra folic acid", "Avoiding sunlight"], "answer": 0, "why": "Rubella immunity is checked and MMR given before pregnancy. It is a live vaccine, so it is not given during pregnancy." }],
+      { "q": "How is this prevented?", "options": ["MMR vaccination before pregnancy", "MMR vaccination during pregnancy", "Antibiotics early in pregnancy", "Extra folic acid before pregnancy"], "answer": 0, "why": "Rubella immunity is checked and MMR given before pregnancy. It is a live vaccine, so it is not given during pregnancy." }],
     "takeaway": "Congenital rubella shows why timing matters: infection during organogenesis causes major malformations." },
   { "id": "c5", "cat": "life", "icon": "bone", "spot": "senescence", "title": "A fall at home",
     "who": "Margaret, 82",
     "story": "Margaret slipped on her kitchen floor and broke her hip. She wears glasses for reading, has cataracts and takes a medicine that is cleared by the kidneys. Her doctor reduces its dose.",
     "data": [["Bone density", "Low"], ["Kidney function (GFR)", "Reduced"]],
     "steps": [
-      { "q": "Why did a simple fall break her hip?", "options": ["Osteoporosis: bone mass falls after about 30, faster after menopause", "Her bones are still growing", "Her epiphyseal plates are open", "Excess vitamin D"], "answer": 0, "why": "With age, bone loss outpaces bone building; in women, loss speeds up after menopause as oestrogen falls." },
-      { "q": "Why was her medicine dose reduced?", "options": ["Fewer nephrons and a lower GFR clear drugs more slowly", "Her liver is growing", "Her stomach absorbs nothing", "Older people need no medicine"], "answer": 0, "why": "The kidneys lose nephrons with age, so a drug they clear stays in the blood longer and can build up." },
-      { "q": "Which of her eye problems is part of normal ageing of the lens?", "options": ["Presbyopia: the lens becomes less flexible for near vision", "Night blindness from vitamin A excess", "Colour blindness", "A detached retina"], "answer": 0, "why": "The lens stiffens with age, so near focus becomes hard (presbyopia); clouding of the lens (cataract) is also common." }],
+      { "q": "Why did a simple fall break her hip?", "options": ["Osteoporosis: bone loss speeds up after menopause", "Her epiphyseal plates are still open", "Her bones have become too dense and brittle", "Osteoarthritis has worn away her femur"], "answer": 0, "why": "With age, bone loss outpaces bone building; in women, loss speeds up after menopause as oestrogen falls." },
+      { "q": "Why was her medicine dose reduced?", "options": ["Fewer nephrons and lower GFR slow clearance", "Her stomach absorbs drugs much faster", "She has more body water to dilute it", "Her kidneys get more blood flow with age"], "answer": 0, "why": "The kidneys lose nephrons with age, so a drug they clear stays in the blood longer and can build up." },
+      { "q": "Which eye change is a normal part of ageing of the lens?", "options": ["Presbyopia: a stiffer lens makes near focus hard", "Myopia: the eyeball grows longer with age", "Night blindness from too much vitamin A", "Hyperopia: the eyeball shrinks with age"], "answer": 0, "why": "The lens stiffens with age, so near focus becomes hard (presbyopia); clouding of the lens (cataract) is also common." }],
     "takeaway": "Senescence affects every system: bone, kidneys and senses all explain common problems in older patients." }
 ],
 "notes": {

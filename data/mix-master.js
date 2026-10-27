@@ -267,8 +267,8 @@ BGX.registerGame({
     "data": [["Depth", "30 m (about 4 atm)"], ["Ascent", "Rapid"]],
     "steps": [
       { "q": "Which law says more nitrogen dissolves in his blood at depth?", "options": ["Henry's law", "Raoult's law", "Le Châtelier's principle", "The third law of thermodynamics"], "answer": 0, "why": "Henry's law: gas solubility is proportional to the partial pressure of the gas. At 30 m the pressure is about 4 times higher." },
-      { "q": "What happens to the dissolved nitrogen when he rises fast?", "options": ["It comes out of solution as bubbles", "It turns into oxygen", "It stays dissolved forever", "It freezes"], "answer": 0, "why": "As the pressure falls, the gas becomes less soluble and forms bubbles in blood and tissues, like opening a fizzy drink." },
-      { "q": "How is decompression sickness treated?", "options": ["Recompression in a hyperbaric chamber", "Drinking fizzy water", "Cooling him with ice", "A hypotonic IV drip"], "answer": 0, "why": "Raising the pressure again redissolves the bubbles; the pressure is then lowered slowly so the gas leaves through the lungs." }],
+      { "q": "What happens to the dissolved nitrogen when he rises fast?", "options": ["It comes out of solution as bubbles", "It dissolves even more into the blood", "It binds to haemoglobin like oxygen", "It turns into carbon dioxide"], "answer": 0, "why": "As the pressure falls, the gas becomes less soluble and forms bubbles in blood and tissues, like opening a fizzy drink." },
+      { "q": "How is decompression sickness treated?", "options": ["Recompression in a hyperbaric chamber", "Cooling him in ice to shrink bubbles", "A hypotonic drip to dissolve bubbles", "Exercise to shake the bubbles loose"], "answer": 0, "why": "Raising the pressure again redissolves the bubbles; the pressure is then lowered slowly so the gas leaves through the lungs." }],
     "takeaway": "Henry's law (C = k·P): high pressure dissolves more gas; a sudden drop in pressure lets it bubble out." },
   { "id": "c5", "cat": "basics", "icon": "flame", "spot": "tempgas", "title": "The flat fizzy drink",
     "who": "A picnic on a hot afternoon",
@@ -277,7 +277,7 @@ BGX.registerGame({
     "steps": [
       { "q": "Why does the warm bottle lose its fizz faster?", "options": ["Gases are less soluble at higher temperature", "Gases are more soluble at higher temperature", "Sugar dissolves less when warm", "Warm bottles have less CO₂ to start with"], "answer": 0, "why": "Unlike most solids, gases dissolve less as the temperature rises." },
       { "q": "Opening the cap releases gas because…", "options": ["The CO₂ pressure above the drink drops", "The CO₂ pressure above the drink rises", "Air pushes CO₂ in", "The drink becomes saturated with sugar"], "answer": 0, "why": "Henry's law: lower gas pressure above the liquid means less gas can stay dissolved." },
-      { "q": "Which also follows from the same temperature rule?", "options": ["Warm ponds hold less dissolved oxygen", "Hot tea dissolves more sugar", "Salt melts ice", "Oil floats on water"], "answer": 0, "why": "Oxygen is a gas too, so warm water holds less of it. Sugar in tea is a solid, which follows the opposite rule." }],
+      { "q": "Which also follows from the same temperature rule?", "options": ["Warm ponds hold less dissolved oxygen", "Chilled water holds less dissolved CO₂", "Salt lowers the freezing point of water", "Oil floats on water"], "answer": 0, "why": "Oxygen is a gas too, so warm water holds less of it. Cold water holds more dissolved gas, not less (solids like sugar follow the opposite rule)." }],
     "takeaway": "Gases dissolve better in cold liquids and under high pressure; heat or open the bottle and they escape." },
   { "id": "c6", "cat": "iv", "icon": "apple", "spot": "ivd5w", "title": "Why not D5W for blood loss?",
     "who": "A nursing student's question on the ward",
@@ -286,7 +286,7 @@ BGX.registerGame({
     "steps": [
       { "q": "What happens to the glucose in D5W after it enters the blood?", "options": ["Cells take it up and use it", "It stays in the blood for days", "It turns into salt", "It is breathed out at once"], "answer": 0, "why": "Cells take up and burn the glucose quickly." },
       { "q": "So once the glucose is used, D5W behaves like…", "options": ["Free water (hypotonic)", "A hypertonic fluid", "Normal saline", "Blood plasma"], "answer": 0, "why": "With the glucose gone, only water is left, which has no particles to keep it in the blood." },
-      { "q": "Where does most of that free water end up?", "options": ["Spread through all body water, mostly inside cells", "Staying inside the blood vessels", "In the lungs only", "In the bladder straight away"], "answer": 0, "why": "Water moves freely into cells by osmosis, so little stays in the blood vessels: poor for replacing blood volume." }],
+      { "q": "Where does most of that free water end up?", "options": ["Mostly inside cells, by osmosis", "Staying inside the blood vessels", "Mostly in the bladder, straight away", "Mostly in the tissue fluid between cells"], "answer": 0, "why": "Once the glucose is used, the free water spreads through all body water by osmosis: about two-thirds ends up inside cells and only about a twelfth stays in the blood." }],
     "takeaway": "D5W is isotonic in the bag but acts like free water in the body, so saline is used to restore blood volume." },
   { "id": "c7", "cat": "osmosis", "icon": "brain", "spot": "hypertonic", "title": "Shrinking swollen cells",
     "who": "Mr Okafor, 67, in intensive care",

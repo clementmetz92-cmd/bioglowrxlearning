@@ -194,7 +194,7 @@ BGX.registerGame({
     "steps": [
       { "q": "What is the likely diagnosis?", "options": ["Cataract", "Glaucoma", "Detached retina", "Myopia"], "answer": 0, "why": "A slowly increasing cloudy haze behind the pupil in an older person is a cataract." },
       { "q": "Which part of the eye has become cloudy?", "options": ["The lens", "The cornea", "The vitreous body", "The retina"], "answer": 0, "why": "A cataract is clouding of the lens as its proteins change with age, sun exposure, smoking or diabetes." },
-      { "q": "How is it usually treated?", "options": ["The cloudy lens is removed and replaced with a plastic one", "Drops that lower eye pressure", "Concave glasses", "Removing the cornea"], "answer": 0, "why": "Cataract surgery swaps the clouded lens for an artificial intraocular lens." }],
+      { "q": "How is it usually treated?", "options": ["Surgery to replace the cloudy lens", "Drops that lower eye pressure", "Laser surgery to reshape the cornea", "A corneal transplant"], "answer": 0, "why": "Cataract surgery swaps the clouded lens for an artificial intraocular lens." }],
     "takeaway": "Cataract = cloudy lens; fixed by lens replacement surgery." },
   { "id": "s4", "cat": "eye", "icon": "eye", "spot": "aqueous", "title": "The thief of sight",
     "who": "Kofi, 62, taxi driver",
@@ -202,7 +202,7 @@ BGX.registerGame({
     "data": [["Eye pressure", "29 mmHg (normal 10–21)"], ["Visual field", "Edges missing"]],
     "steps": [
       { "q": "What is the likely diagnosis?", "options": ["Glaucoma", "Cataract", "Macular degeneration", "Hyperopia"], "answer": 0, "why": "Raised eye pressure, loss of side vision and a damaged optic disc point to glaucoma." },
-      { "q": "Why is the pressure high?", "options": ["Aqueous humour is not draining away fast enough", "The vitreous body is growing", "The lens is swelling with water", "Too many tears are made"], "answer": 0, "why": "Aqueous humour is made all the time by the ciliary body; if its drainage is blocked, pressure builds up." },
+      { "q": "Why is the pressure high?", "options": ["Aqueous humour is not draining well", "The vitreous body keeps growing", "The lens is swelling with water", "Tears are building up inside the eye"], "answer": 0, "why": "Aqueous humour is made all the time by the ciliary body; if its drainage is blocked, pressure builds up." },
       { "q": "What does the raised pressure slowly damage?", "options": ["The optic nerve", "The cornea", "The iris muscles", "The eyelids"], "answer": 0, "why": "Pressure squeezes the optic nerve fibres at the optic disc; the vision lost cannot be regained, so early drops matter." }],
     "takeaway": "Glaucoma: poor aqueous drainage → high pressure → optic nerve damage, starting with side vision." },
   { "id": "s5", "cat": "ear", "icon": "wave", "spot": "tube", "title": "Tugging at his ear",
@@ -210,7 +210,7 @@ BGX.registerGame({
     "story": "After a week with a runny nose, Noah has a fever, is pulling at his right ear and will not sleep. The GP sees a red, bulging eardrum. He seems not to hear well on that side.",
     "data": [["Temperature", "38.6 °C"], ["Right eardrum", "Red, bulging"]],
     "steps": [
-      { "q": "What is the likely diagnosis?", "options": ["Otitis media (middle ear infection)", "Earwax blockage", "Damaged hair cells", "Motion sickness"], "answer": 0, "why": "Fever, ear pain and a red bulging eardrum after a cold are typical of a middle ear infection." },
+      { "q": "What is the likely diagnosis?", "options": ["Otitis media (middle ear infection)", "Otitis externa (ear canal infection)", "Earwax blocking the ear canal", "Labyrinthitis (inner ear infection)"], "answer": 0, "why": "Fever, ear pain and a red bulging eardrum after a cold are typical of a middle ear infection." },
       { "q": "How did the infection most likely reach the middle ear?", "options": ["Up the auditory tube from the throat", "Through the ear canal", "Through the blood from the gut", "Along the cochlear nerve"], "answer": 0, "why": "Young children have a short, horizontal auditory tube, so germs from the nose and throat spread up easily." },
       { "q": "What type of hearing loss does fluid behind the eardrum cause?", "options": ["Conductive", "Sensorineural", "Central", "None at all"], "answer": 0, "why": "Fluid stops the eardrum and ossicles vibrating freely: sound is not conducted to the inner ear." }],
     "takeaway": "Otitis media spreads via the auditory tube and causes conductive hearing loss." },
@@ -221,7 +221,7 @@ BGX.registerGame({
     "steps": [
       { "q": "What type of hearing loss is this?", "options": ["Sensorineural", "Conductive", "Caused by otitis media", "Caused by earwax"], "answer": 0, "why": "With a normal outer and middle ear, the problem lies in the cochlea or the nerve: sensorineural." },
       { "q": "Which cells are damaged by loud noise?", "options": ["Hair cells of the organ of Corti", "Cells of the auricle", "Ceruminous gland cells", "Cells of the auditory tube"], "answer": 0, "why": "Intense vibration destroys the delicate hair cells, which are not replaced." },
-      { "q": "Why are high pitches lost first?", "options": ["High pitches are sensed near the base of the cochlea, which takes the most strain", "High pitches are sensed by the semicircular canals", "High sounds travel through the auditory tube", "The eardrum cannot vibrate quickly"], "answer": 0, "why": "Every sound passes the base of the cochlea first, where high pitches are detected, so these hair cells wear out first." }],
+      { "q": "Why are high pitches lost first?", "options": ["High pitches are sensed at the base of the cochlea", "High pitches are sensed by the semicircular canals", "High pitches are sensed at the apex of the cochlea", "Loud noise stiffens the eardrum at high pitches"], "answer": 0, "why": "Every sound passes the base of the cochlea first, where high pitches are detected, so these hair cells wear out first." }],
     "takeaway": "Sensorineural loss = cochlea or nerve damage; it is usually permanent, so prevention matters." }
 ],
 "notes": {

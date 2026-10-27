@@ -278,7 +278,7 @@ BGX.registerGame({
     "data": [["Pain", "Sharp, on breathing in"], ["Sound", "Pleural rub"]],
     "steps": [
       { "q": "Which membrane is inflamed?", "options": ["Pleura", "Pericardium", "Peritoneum", "Meninges"], "answer": 0, "why": "The pleura covers the lungs and lines the chest wall. Inflamed pleura (pleurisy) rubs as the lungs move." },
-      { "q": "What normally fills the pleural cavity?", "options": ["A thin film of slippery fluid", "Air", "Blood", "Nothing at all"], "answer": 0, "why": "Pleural fluid lets the visceral and parietal pleura slide over each other. Air in the space is a pneumothorax." },
+      { "q": "What normally fills the pleural cavity?", "options": ["A thin film of slippery fluid", "Air, which keeps the lungs inflated", "A thin layer of blood", "Nothing: it is a vacuum"], "answer": 0, "why": "Pleural fluid lets the visceral and parietal pleura slide over each other. Air in the space is a pneumothorax." },
       { "q": "What separates the two pleural cavities?", "options": ["The mediastinum", "The diaphragm", "The pericardial cavity only", "The vertebral canal"], "answer": 0, "why": "The mediastinum, holding the heart, trachea, oesophagus and great vessels, sits between the two lungs." }],
     "takeaway": "Serous membranes have two layers, parietal and visceral, with a slippery fluid film between them." },
   { "id": "c5", "cat": "feedback", "icon": "sun", "spot": "negative", "title": "Marathon in the heat",

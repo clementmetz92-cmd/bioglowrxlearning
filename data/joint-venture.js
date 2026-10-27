@@ -224,8 +224,8 @@ BGX.registerGame({
     "story": "In goal, Jake swings his arm in big circles to warm up. Later he looks up at a high ball, tilting his head back as far as it goes, then lands on an opponent's foot and his sole twists inward.",
     "data": [["Injury", "Ankle"]],
     "steps": [
-      { "q": "Swinging the arm so the hand draws a circle is…", "options": ["Circumduction", "Rotation", "Abduction", "Elevation"], "answer": 0, "why": "In circumduction one end stays fixed and the other traces a circle, so the limb sweeps out a cone." },
-      { "q": "Tilting the head back beyond the upright position is…", "options": ["Hyperextension", "Flexion", "Rotation", "Elevation"], "answer": 0, "why": "Extension past the anatomical position is hyperextension." },
+      { "q": "Swinging the arm so the hand draws a circle is…", "options": ["Circumduction", "Lateral rotation", "Abduction", "Elevation"], "answer": 0, "why": "In circumduction one end stays fixed and the other traces a circle, so the limb sweeps out a cone." },
+      { "q": "Tilting the head back beyond the upright position is…", "options": ["Hyperextension", "Lateral flexion", "Rotation", "Elevation"], "answer": 0, "why": "Extension past the anatomical position is hyperextension." },
       { "q": "His sole twisted inward. That movement is…", "options": ["Inversion", "Eversion", "Plantar flexion", "Adduction"], "answer": 0, "why": "Turning the sole medially is inversion, the usual cause of a lateral ankle sprain." }],
     "takeaway": "Inversion is the commonest way to sprain an ankle." },
   { "id": "c1", "cat": "clinic", "icon": "leg", "spot": "acl", "title": "The pop in the knee",
@@ -235,7 +235,7 @@ BGX.registerGame({
     "steps": [
       { "q": "Which ligament stops the tibia sliding forward on the femur?", "options": ["Anterior cruciate ligament (ACL)", "Posterior cruciate ligament", "Medial collateral ligament", "Patellar ligament"], "answer": 0, "why": "The ACL runs from the front of the tibia up and back to the femur and resists forward sliding of the tibia. The PCL resists backward sliding." },
       { "q": "A torn ligament is classed as a…", "options": ["Sprain", "Strain", "Dislocation", "Fracture"], "answer": 0, "why": "Sprain = ligament injury. Strain = muscle or tendon injury." },
-      { "q": "Which C-shaped pad of cartilage is often torn at the same time?", "options": ["The medial meniscus", "The articular disc of the jaw", "The pubic symphysis", "An intervertebral disc"], "answer": 0, "why": "Twisting a weight-bearing knee can tear the ACL, the medial collateral ligament and the medial meniscus together (the classic 'unhappy triad')." }],
+      { "q": "Which C-shaped pad of cartilage is often torn at the same time?", "options": ["The medial meniscus", "The patellar cartilage", "The acetabular labrum", "The infrapatellar fat pad"], "answer": 0, "why": "Twisting a weight-bearing knee can tear the ACL, the medial collateral ligament and the medial meniscus together (the classic 'unhappy triad')." }],
     "takeaway": "Twist + pop + rapid swelling = think ACL tear." },
   { "id": "c2", "cat": "clinic", "icon": "foot", "spot": "gout", "title": "Night pain in the big toe",
     "who": "Gary, 56, enjoys beer and steak",
@@ -244,7 +244,7 @@ BGX.registerGame({
     "steps": [
       { "q": "What is the most likely diagnosis?", "options": ["Gout", "Osteoarthritis", "A sprain", "Rheumatoid arthritis"], "answer": 0, "why": "Sudden, severe, red-hot inflammation of one joint, classically the big toe, with high uric acid points to gout." },
       { "q": "What causes the inflammation?", "options": ["Uric acid (urate) crystals in the joint", "Worn articular cartilage", "Antibodies attacking the synovial membrane", "A torn ligament"], "answer": 0, "why": "When uric acid in the blood is too high, needle-like urate crystals form in joints and trigger intense inflammation." },
-      { "q": "Which joint is it?", "options": ["First metatarsophalangeal joint", "Ankle joint", "Knee joint", "Hip joint"], "answer": 0, "why": "Gout most often strikes the joint at the base of the big toe: the first metatarsophalangeal joint, where the cooler temperature favours crystal formation." }],
+      { "q": "Which joint is it?", "options": ["First metatarsophalangeal joint", "Fifth metatarsophalangeal joint", "Talocrural (ankle) joint", "Knee joint"], "answer": 0, "why": "Gout most often strikes the joint at the base of the big toe: the first metatarsophalangeal joint, where the cooler temperature favours crystal formation." }],
     "takeaway": "Gout: urate crystals, big toe, red and exquisitely painful. Alcohol and purine-rich food are triggers." },
   { "id": "c3", "cat": "clinic", "icon": "arm", "spot": "dislocation", "title": "Shoulder out",
     "who": "Kai, 19, rugby player",
@@ -252,17 +252,17 @@ BGX.registerGame({
     "data": [["Shape", "Squared-off shoulder"], ["X-ray", "Humeral head displaced"]],
     "steps": [
       { "q": "What is this injury called?", "options": ["Dislocation", "Sprain", "Gout", "Osteoarthritis"], "answer": 0, "why": "A dislocation (luxation) is when the bones of a joint are forced out of their normal position." },
-      { "q": "Why is the shoulder the most easily dislocated joint?", "options": ["Its socket is shallow, trading stability for mobility", "It has no joint capsule", "It is a hinge joint", "It has no muscles around it"], "answer": 0, "why": "The glenoid cavity is shallow, so the humeral head is held mainly by soft tissue. The hip's deep socket is far more stable." },
-      { "q": "Which muscles normally hold the humeral head in its socket?", "options": ["The rotator cuff", "The hamstrings", "The quadriceps", "The muscles of facial expression"], "answer": 0, "why": "The rotator cuff (supraspinatus, infraspinatus, teres minor, subscapularis) wraps the joint and gives most of its stability." }],
+      { "q": "Why is the shoulder the most easily dislocated joint?", "options": ["Its shallow socket trades stability for mobility", "It is a hinge joint with weak ligaments", "It carries more body weight than the hip", "It has no ligaments, only muscles, around it"], "answer": 0, "why": "The glenoid cavity is shallow, so the humeral head is held mainly by soft tissue. The hip's deep socket is far more stable." },
+      { "q": "Which muscles normally hold the humeral head in its socket?", "options": ["The rotator cuff", "Pectoralis major", "Serratus anterior", "The trapezius and rhomboids"], "answer": 0, "why": "The rotator cuff (supraspinatus, infraspinatus, teres minor, subscapularis) wraps the joint and gives most of its stability." }],
     "takeaway": "Shoulder = most mobile, least stable joint; the rotator cuff holds it together." },
   { "id": "c4", "cat": "clinic", "icon": "hand", "spot": "ra", "title": "Stiff hands every morning",
     "who": "Maria, 42, teacher",
     "story": "For three months Maria's knuckles on both hands have been swollen and tender. Every morning her hands are stiff for over an hour. Blood tests show inflammation and autoantibodies.",
     "data": [["Pattern", "Both hands, symmetrical"], ["Morning stiffness", "Over 1 hour"]],
     "steps": [
-      { "q": "What is the most likely diagnosis?", "options": ["Rheumatoid arthritis", "Osteoarthritis", "Gout", "A sprain"], "answer": 0, "why": "Symmetrical swelling of small hand joints, long morning stiffness and autoantibodies point to rheumatoid arthritis." },
-      { "q": "What causes rheumatoid arthritis?", "options": ["The immune system attacks the synovial membrane", "Wear and tear of articular cartilage", "Uric acid crystals", "A torn ligament"], "answer": 0, "why": "It is an autoimmune disease: the inflamed synovial membrane thickens (pannus) and slowly erodes cartilage and bone." },
-      { "q": "How does osteoarthritis differ?", "options": ["It is wear of articular cartilage, worse after use", "It is always autoimmune", "It only affects children", "It is caused by bacteria"], "answer": 0, "why": "Osteoarthritis is degeneration of articular cartilage with age and use; pain is worse after activity and morning stiffness is brief." }],
+      { "q": "What is the most likely diagnosis?", "options": ["Rheumatoid arthritis", "Osteoarthritis", "Gout", "Carpal tunnel syndrome"], "answer": 0, "why": "Symmetrical swelling of small hand joints, long morning stiffness and autoantibodies point to rheumatoid arthritis." },
+      { "q": "What causes rheumatoid arthritis?", "options": ["The immune system attacks the synovium", "Wear and tear of articular cartilage", "Uric acid crystals in the joint", "Bacteria infecting the joint space"], "answer": 0, "why": "It is an autoimmune disease: the inflamed synovial membrane thickens (pannus) and slowly erodes cartilage and bone." },
+      { "q": "How does osteoarthritis differ?", "options": ["It is cartilage wear, worse after use", "It is autoimmune too, but milder", "It is caused by bacteria in the joint", "It causes stiffness lasting all morning"], "answer": 0, "why": "Osteoarthritis is degeneration of articular cartilage with age and use; pain is worse after activity and morning stiffness is brief." }],
     "takeaway": "RA = autoimmune attack on the synovial membrane; OA = worn articular cartilage." },
   { "id": "c5", "cat": "clinic", "icon": "pelvis", "spot": "oa", "title": "Worn-out hip",
     "who": "Harold, 74, retired builder",
@@ -271,7 +271,7 @@ BGX.registerGame({
     "steps": [
       { "q": "What is the most likely diagnosis?", "options": ["Osteoarthritis", "Rheumatoid arthritis", "Gout", "Dislocation"], "answer": 0, "why": "Slow onset in an older adult, pain with use, joint-space narrowing and bony spurs are typical of osteoarthritis." },
       { "q": "Which tissue has worn away to narrow the joint space?", "options": ["Articular cartilage", "Synovial fluid", "The joint capsule", "The bursa"], "answer": 0, "why": "In osteoarthritis the articular cartilage thins and cracks, so the bone ends come closer together and rub." },
-      { "q": "What type of synovial joint is the hip?", "options": ["Ball-and-socket", "Hinge", "Pivot", "Saddle"], "answer": 0, "why": "The head of the femur fits into the deep acetabulum of the hip bone: a ball-and-socket joint. Severe OA may need a total hip replacement." }],
+      { "q": "What type of synovial joint is the hip?", "options": ["Ball-and-socket", "Hinge", "Plane (gliding)", "Condylar (ellipsoid)"], "answer": 0, "why": "The head of the femur fits into the deep acetabulum of the hip bone: a ball-and-socket joint. Severe OA may need a total hip replacement." }],
     "takeaway": "OA = cartilage wear; the hip and knee are the classic sites, and joint replacement is the last resort." },
   { "id": "c6", "cat": "clinic", "icon": "skull", "spot": "tmj", "title": "The clicking jaw",
     "who": "Sam, 31, grinds his teeth at night",
@@ -288,7 +288,7 @@ BGX.registerGame({
     "data": [["Swelling", "Soft, at the olecranon"], ["Movement", "Full range"]],
     "steps": [
       { "q": "What has become inflamed?", "options": ["A bursa (olecranon bursitis)", "The articular cartilage", "The ulnar collateral ligament", "A meniscus"], "answer": 0, "why": "Constant pressure on the point of the elbow inflames the olecranon bursa, which fills with fluid." },
-      { "q": "What is the normal job of a bursa?", "options": ["Reduce friction where structures rub over bone", "Join bone to bone", "Make red blood cells", "Attach muscle to bone"], "answer": 0, "why": "Bursae are small sacs of synovial fluid that let skin, tendons and muscles glide over bony points." },
+      { "q": "What is the normal job of a bursa?", "options": ["Reduce friction over bony points", "Hold the joint bones together", "Anchor tendons to the bone", "Store calcium for nearby bone"], "answer": 0, "why": "Bursae are small sacs of synovial fluid that let skin, tendons and muscles glide over bony points." },
       { "q": "What type of synovial joint is the humeroulnar joint of the elbow?", "options": ["Hinge", "Ball-and-socket", "Saddle", "Plane"], "answer": 0, "why": "The trochlea of the humerus fits the trochlear notch of the ulna, allowing flexion and extension only." }],
     "takeaway": "Bursitis is a swollen friction pad, not a damaged joint, so movement is usually kept." }
 ],

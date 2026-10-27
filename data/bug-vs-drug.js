@@ -230,7 +230,7 @@ BGX.registerGame({
 "Block DNA gyrase, an enzyme bacteria need to unwind and copy DNA.",
 "Names end in -floxacin, such as ciprofloxacin.",
 "Can cause tendon inflammation or rupture, especially in older adults.",
-"Boxed warnings also cover nerve damage, mood and memory changes and, rarely, aortic aneurysm, so they are kept for infections other antibiotics can't treat.",
+"The boxed warnings also cover nerve damage, mood and thinking changes and worse myasthenia gravis; a separate warning covers rare aortic aneurysm. For sinusitis, bronchitis and simple bladder infections, they are kept for when other antibiotics can't be used.",
 "Antacids and calcium reduce their absorption."
 ],
 "summary": "Antibiotics that stop bacteria copying their DNA."
@@ -348,7 +348,7 @@ BGX.registerGame({
 "title": "Antibiotics that block DNA or folate",
 "about": "These drugs stop bacteria copying their DNA or making folate, a vitamin they need to build DNA. Fluoroquinolones (-floxacin) block the enzymes that unwind and copy bacterial DNA. Folate blockers such as trimethoprim block the bacterial enzyme that turns folate into its working form; our own version of that enzyme binds the drug far less tightly, so we are much less affected. Nitroimidazoles such as metronidazole damage the DNA of germs that live without oxygen (anaerobes) and some parasites.",
 "points": [
-"-floxacin = fluoroquinolone (tendon warning).",
+"-floxacin = fluoroquinolone (boxed warnings: tendons, nerves, mood).",
 "Trimethoprim is often paired with sulfamethoxazole as co-trimoxazole.",
 "Metronidazole: anaerobic germs; avoid alcohol."
 ],

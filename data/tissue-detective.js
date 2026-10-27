@@ -253,7 +253,7 @@ BGX.registerGame({
     "story": "Graham has had acid reflux for 15 years. An endoscopy shows salmon-pink patches in the lower oesophagus, and a biopsy shows tall cells with goblet cells where there should be flat layered cells.",
     "data": [["Symptom", "Long-term reflux"], ["Biopsy", "Columnar cells, goblet cells"]],
     "steps": [
-      { "q": "Which epithelium normally lines the oesophagus?", "options": ["Non-keratinised stratified squamous", "Simple columnar", "Pseudostratified columnar", "Transitional"], "answer": 0, "why": "Several layers of flat, living cells protect the oesophagus from rubbing by food." },
+      { "q": "Which epithelium normally lines the oesophagus?", "options": ["Non-keratinised stratified squamous", "Keratinised stratified squamous", "Pseudostratified ciliated columnar", "Transitional epithelium"], "answer": 0, "why": "Several layers of flat, living cells protect the oesophagus from rubbing by food." },
       { "q": "What has it changed into?", "options": ["Simple columnar with goblet cells", "Keratinised stratified squamous", "Simple squamous", "Dense irregular connective tissue"], "answer": 0, "why": "Tall cells with goblet cells are a gut-type (intestinal) lining." },
       { "q": "What is this kind of change called?", "options": ["Metaplasia", "Atrophy", "Necrosis", "Fibrosis"], "answer": 0, "why": "Metaplasia is one mature tissue type turning into another, usually in response to irritation. Barrett's oesophagus raises the risk of cancer, so it is monitored." }],
     "takeaway": "Barrett's oesophagus: acid turns stratified squamous lining into columnar (metaplasia)." },
@@ -272,8 +272,8 @@ BGX.registerGame({
     "data": [["Smoking", "40 pack-years"], ["Cough", "Every morning"]],
     "steps": [
       { "q": "Which epithelium normally lines the bronchi?", "options": ["Pseudostratified ciliated columnar", "Simple squamous", "Transitional", "Keratinised stratified squamous"], "answer": 0, "why": "The airways are lined by pseudostratified columnar epithelium with cilia and goblet cells." },
-      { "q": "What job is lost when the cilia go?", "options": ["Sweeping mucus and dust out of the airways", "Gas exchange", "Making surfactant", "Stretching with each breath"], "answer": 0, "why": "Cilia beat mucus up toward the throat. Without them, mucus pools and must be coughed up." },
-      { "q": "Why does it only look stratified?", "options": ["Its nuclei sit at different heights, but every cell touches the basement membrane", "It has three true layers", "Its surface cells are dead", "It has no basement membrane"], "answer": 0, "why": "'Pseudo' means false: it is one layer of cells of different heights." }],
+      { "q": "What job is lost when the cilia go?", "options": ["Sweeping mucus up out of the airways", "Gas exchange across the bronchial wall", "Making surfactant to keep airways open", "Stretching and recoiling with each breath"], "answer": 0, "why": "Cilia beat mucus up toward the throat. Without them, mucus pools and must be coughed up." },
+      { "q": "Why does it only look stratified?", "options": ["One layer, but nuclei sit at different heights", "It has three true layers of cells", "Its surface cells are dead and flattened", "Only the top layer touches the basement membrane"], "answer": 0, "why": "'Pseudo' means false: it is one layer of cells of different heights, and every cell touches the basement membrane." }],
     "takeaway": "Smoke paralyses cilia and can turn airway lining into tougher, cilia-free squamous cells." },
   { "id": "c4", "cat": "muscle", "icon": "heart", "spot": "cardiac", "title": "After the heart attack",
     "who": "Patrick, 67",
@@ -299,7 +299,7 @@ BGX.registerGame({
     "data": [["Slide", "Pancreas"], ["Stain", "H&E"]],
     "steps": [
       { "q": "The cell clusters around ducts are…", "options": ["Exocrine tissue making digestive enzymes", "Endocrine tissue making insulin", "Adipose tissue", "Smooth muscle"], "answer": 0, "why": "Exocrine glands release their product through ducts; here the enzymes flow to the small intestine." },
-      { "q": "The pale islands with capillaries and no ducts are…", "options": ["Endocrine islets that release hormones into blood", "Lymph nodes", "Exocrine sweat glands", "Cartilage"], "answer": 0, "why": "Pancreatic islets are endocrine: insulin and glucagon pass straight into the capillaries." },
+      { "q": "The pale islands with capillaries and no ducts are…", "options": ["Endocrine islets releasing hormones", "Exocrine glands that have lost their ducts", "Lymphoid tissue fighting infection", "Adipose tissue storing fat"], "answer": 0, "why": "Pancreatic islets are endocrine: insulin and glucagon pass straight into the capillaries." },
       { "q": "Which tissue type are both glands built from?", "options": ["Epithelial tissue", "Muscle tissue", "Nervous tissue", "Cartilage"], "answer": 0, "why": "Glands develop from epithelium that grows down into the underlying connective tissue." }],
     "takeaway": "Exocrine = ducts onto a surface; endocrine = no ducts, hormones into the blood." }
 ],

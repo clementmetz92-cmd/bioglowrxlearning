@@ -67,7 +67,7 @@ BGX.registerGame({
     "facts": ["L → mL: multiply by 1,000.", "mL → L: divide by 1,000.", "1 mL is the same volume as 1 cc (cubic centimetre), but 'cc' is on many do-not-use lists."],
     "life": "A 1 L bag of saline is 1,000 mL." },
   { "icon": "pharm-bathscale", "name": "Pounds to kilograms", "cat": "convert", "spot": "scale", "formula": "kg = lb ÷ 2.2",
-    "use": "The child's weight is given in pounds but the dose is in mg per kg.",
+    "use": "The child weighs 44 lb and the dose is in mg per kg: what do you do first?",
     "summary": "Doses are always worked out in kilograms. Divide pounds by 2.2 to get kilograms.",
     "facts": ["1 kg = 2.2 lb, so kilograms are the smaller number.", "Convert the weight first, then calculate the dose.", "Round the weight to 1 decimal place unless told otherwise."],
     "life": "A 44 lb child weighs 44 ÷ 2.2 = 20 kg." },

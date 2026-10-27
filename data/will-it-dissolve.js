@@ -210,11 +210,11 @@ BGX.registerGame({
     "story": "Sudden severe pain in his side spreading to the groin. He drinks little water on shift and loves spinach smoothies. A scan shows a small stone; analysis finds calcium oxalate.",
     "data": [["Urine", "concentrated"], ["Stone", "CaC₂O₄"]], "spot": "precipitate",
     "steps": [
-      { "q": "What is the stone, chemically?", "options": ["A precipitate of Ca²⁺ and oxalate ions", "Dissolved sodium chloride", "A weak electrolyte", "Glucose crystals"], "answer": 0,
+      { "q": "What is the stone, chemically?", "options": ["A precipitate of Ca²⁺ and oxalate ions", "Crystals of sodium chloride from urine", "A weak electrolyte that partly ionises", "Glucose crystals from sugary drinks"], "answer": 0,
         "why": "Calcium ions and oxalate ions in urine combine into an insoluble solid: Ca²⁺(aq) + C₂O₄²⁻(aq) → CaC₂O₄(s)." },
-      { "q": "Which solubility rule explains it?", "options": ["Oxalates are insoluble except with group 1 and NH₄⁺", "Group 1 salts always dissolve", "Nitrates always dissolve", "Chlorides always dissolve"], "answer": 0,
+      { "q": "Which solubility rule explains it?", "options": ["Oxalates are insoluble unless group 1 or NH₄⁺", "Group 2 salts always dissolve in water", "Oxalates are soluble, like nitrates", "All calcium salts are insoluble in water"], "answer": 0,
         "why": "Oxalate behaves like carbonate and phosphate: insoluble unless its partner is a group 1 ion or ammonium. Calcium is group 2." },
-      { "q": "Why does drinking more water help?", "options": ["It dilutes the ions so the solid is less likely to form", "Water reacts with oxalate", "Water turns calcium into sodium", "Water makes the stone a strong electrolyte"], "answer": 0,
+      { "q": "Why does drinking more water help?", "options": ["It dilutes the ions so less solid can form", "Water reacts with oxalate to destroy it", "Water makes the stone a strong electrolyte", "Water neutralises the oxalate like a base"], "answer": 0,
         "why": "Lower concentrations of Ca²⁺ and C₂O₄²⁻ mean they meet less often and stay dissolved." }
     ],
     "takeaway": "Kidney stones are precipitates: too many insoluble-pair ions in too little water." },
@@ -223,7 +223,7 @@ BGX.registerGame({
     "story": "She has trouble swallowing. The radiographer gives her a thick white drink of barium sulfate before taking X-rays of her oesophagus and stomach.",
     "data": [["Contrast", "BaSO₄"], ["Free Ba²⁺", "toxic"]], "spot": "precipitate",
     "steps": [
-      { "q": "Why is it safe to swallow a barium compound?", "options": ["BaSO₄ is insoluble, so almost no Ba²⁺ is absorbed", "Barium is harmless in any form", "It dissolves and is breathed out", "It is a strong electrolyte"], "answer": 0,
+      { "q": "Why is it safe to swallow a barium compound?", "options": ["BaSO₄ is insoluble, so little Ba²⁺ is absorbed", "Barium ions are harmless in the gut", "It dissolves, but the kidneys clear it fast", "Stomach acid turns it into harmless BaCl₂"], "answer": 0,
         "why": "Barium ions are poisonous, but barium is an exception to the 'sulfates dissolve' rule, so the solid passes through the gut." },
       { "q": "Which of these would be dangerous to use instead?", "options": ["Barium chloride, BaCl₂", "Barium sulfate, BaSO₄", "Calcium carbonate, CaCO₃", "Magnesium hydroxide, Mg(OH)₂"], "answer": 0,
         "why": "Chlorides of barium dissolve, releasing toxic Ba²⁺ ions into the blood." },
@@ -236,7 +236,7 @@ BGX.registerGame({
     "story": "Dizzy and dehydrated, he is given a litre of normal saline (0.9% sodium chloride) through a drip.",
     "data": [["Fluid", "0.9% NaCl"], ["Volume", "1 L"]], "spot": "strong",
     "steps": [
-      { "q": "What kind of electrolyte is saline?", "options": ["Strong: NaCl splits completely into ions", "Weak: only a little ionises", "Non-electrolyte", "It is a precipitate"], "answer": 0,
+      { "q": "What kind of electrolyte is saline?", "options": ["Strong: NaCl splits completely into ions", "Weak: only some NaCl splits into ions", "Non-electrolyte: NaCl stays as molecules", "Weak: it is too dilute to conduct well"], "answer": 0,
         "why": "NaCl is a soluble ionic compound, and every soluble ionic compound is a strong electrolyte." },
       { "q": "0.9% NaCl is 9 g per litre (M = 58.44 g/mol). About what is its molarity?", "options": ["0.154 mol/L", "9 mol/L", "1.54 mol/L", "0.0154 mol/L"], "answer": 0,
         "why": "n = 9 ÷ 58.44 = 0.154 mol in 1 L, so 0.154 M." },
@@ -251,7 +251,7 @@ BGX.registerGame({
     "steps": [
       { "q": "Which ingredient is a non-electrolyte?", "options": ["Glucose", "Sodium chloride", "Potassium chloride", "Sodium citrate"], "answer": 0,
         "why": "Glucose dissolves as molecules; the other three are soluble salts (strong electrolytes)." },
-      { "q": "Why do all the salts dissolve?", "options": ["They are group 1 (Na⁺, K⁺) salts", "They are all carbonates", "They are weak acids", "They are hydroxides"], "answer": 0,
+      { "q": "Why do all the salts dissolve?", "options": ["They are group 1 (Na⁺, K⁺) salts", "Glucose helps the salts dissolve", "They are all chloride salts", "They are strong acids in water"], "answer": 0,
         "why": "Every sodium and potassium salt is soluble, so all the ions go into solution." },
       { "q": "In the bulb test, how would the finished drink behave?", "options": ["Bright bulb: plenty of ions", "Bulb off: only molecules", "Dim bulb: weak electrolyte only", "A solid would form"], "answer": 0,
         "why": "The dissolved salts provide many free ions, so the solution conducts well even though glucose does not." }

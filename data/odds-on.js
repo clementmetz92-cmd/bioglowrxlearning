@@ -14,7 +14,7 @@ const neg = x => (x < 0 ? "−" : "") + Math.abs(r(x, 4));
 /* Case Files helpers: the same four choices for every level-of-measurement step, and for every variable-type step */
 const LV = ["Nominal", "Ordinal", "Interval", "Ratio"];
 const lv = (q, a, why) => ({ q, options: LV, answer: LV.indexOf(a), why });
-const VT = ["Qualitative (categorical)", "Quantitative discrete", "Quantitative continuous", "Not a variable: it is the same for everyone"];
+const VT = ["Qualitative (categorical)", "Quantitative discrete", "Quantitative continuous", "A constant (same for everyone)"];
 const vt = (q, a, why) => ({ q, options: VT, answer: a, why });
 
 BGX.registerGame({
@@ -308,7 +308,7 @@ BGX.registerGame({
     "data": [["Groups", "0, 15 or 30 min a day"], ["Length", "8 weeks for everyone"], ["Measured", "systolic BP, walks completed"]],
     "steps": [
       { "q": "Which is the independent (explanatory) variable?", "options": ["Minutes of walking a day", "Systolic blood pressure after 8 weeks", "The 60 adults", "The 8-week length of the trial"], "answer": 0, "why": "The researchers set the walking time: it is the possible cause being tested." },
-      { "q": "Which is the dependent (response) variable?", "options": ["Systolic blood pressure after 8 weeks", "Minutes of walking a day", "The random assignment", "The number of groups"], "answer": 0, "why": "Blood pressure is the outcome measured to see whether walking had an effect." },
+      { "q": "Which is the dependent (response) variable?", "options": ["Systolic blood pressure after 8 weeks", "Minutes of walking a day", "Blood pressure before the trial began", "The 8-week length of the trial"], "answer": 0, "why": "Blood pressure is the outcome measured to see whether walking had an effect." },
       vt("The number of walks each person actually completed is…", 1, "It is a count (0, 1, 2…), so it is quantitative and discrete.")],
     "takeaway": "Set it = independent (x-axis); measure it = dependent (y-axis)." },
   { "id": "v2", "cat": "vars", "icon": "drop", "spot": "continuous", "title": "Diabetes clinic data",
@@ -338,7 +338,7 @@ BGX.registerGame({
     "steps": [
       { "q": "They pick a random name among the first 20, then every 20th name after it. Which method is this?", "options": ["Systematic sample", "Stratified sample", "Cluster sample", "Convenience sample"], "answer": 0, "why": "A random start, then every kth person (k = 2,000 ÷ 100 = 20) is systematic sampling." },
       { "q": "Instead they randomly pick staff within each profession, in proportion to its size. Which method is this?", "options": ["Stratified sample", "Cluster sample", "Systematic sample", "Simple random sample"], "answer": 0, "why": "Splitting into groups (strata) and sampling randomly from every group is stratified sampling." },
-      { "q": "A manager suggests just asking staff in the canteen at lunchtime. What is the main problem?", "options": ["It is a convenience sample and may miss groups such as night staff", "It is too random", "It needs a full staff list", "It is a cluster sample, so everyone must be asked"], "answer": 0, "why": "People who are easy to reach may differ from the rest (night shift, staff too busy to eat): the sample is likely biased." }],
+      { "q": "A manager suggests just asking staff in the canteen at lunchtime. What is the main problem?", "options": ["A convenience sample: it may miss groups like night staff", "It is a random sample, so results will vary too much", "It needs a full staff list, which takes too long", "It is a cluster sample, so everyone must be asked"], "answer": 0, "why": "People who are easy to reach may differ from the rest (night shift, staff too busy to eat): the sample is likely biased." }],
     "takeaway": "Every kth = systematic; some from every group = stratified; whoever is handy = convenience (biased)." },
   { "id": "s2", "cat": "study", "icon": "well-st-blindfold", "spot": "blind", "title": "Does the new drug work?",
     "who": "Drug company, 400 volunteers",
@@ -346,7 +346,7 @@ BGX.registerGame({
     "data": [["Volunteers", "400"], ["Outcome", "systolic BP after 12 weeks"]],
     "steps": [
       { "q": "Which design can show whether the tablet causes a fall in blood pressure?", "options": ["Randomised controlled trial", "Observational study of people already taking it", "Convenience survey of patients", "Asking doctors for their opinion"], "answer": 0, "why": "Only an experiment with random assignment makes the groups alike apart from the treatment, so it can show cause and effect." },
-      { "q": "Why does the control group get an identical-looking dummy tablet (placebo)?", "options": ["So both groups expect treatment and only the active drug differs", "To save money on real tablets", "So the control group gets better too", "Because it is the law to give everyone tablets"], "answer": 0, "why": "Expecting to get better can itself lower readings (the placebo effect); a placebo balances that out." },
+      { "q": "Why does the control group get an identical-looking dummy tablet (placebo)?", "options": ["So both groups expect treatment; only the drug differs", "So the researchers can tell the two groups apart", "So the control group's blood pressure falls as well", "Because it is the law to give everyone tablets"], "answer": 0, "why": "Expecting to get better can itself lower readings (the placebo effect); a placebo balances that out." },
       { "q": "Neither the volunteers nor the nurses measuring blood pressure know who got the real tablet. This is…", "options": ["A double-blind trial", "A single-blind trial", "An observational study", "A cluster sample"], "answer": 0, "why": "When both participants and the people measuring outcomes are kept unaware, the trial is double-blind." }],
     "takeaway": "Random assignment + control group + placebo + double-blinding = the strongest test of a treatment." },
   { "id": "s3", "cat": "study", "icon": "well-st-binoculars", "spot": "obs", "title": "The coffee headline",
@@ -355,8 +355,8 @@ BGX.registerGame({
     "data": [["Participants", "20,000 adults"], ["Coffee", "chosen by the participants"], ["Finding", "coffee drinkers had fewer heart attacks"]],
     "steps": [
       { "q": "What kind of study is this?", "options": ["Observational study", "Randomised controlled trial", "Double-blind experiment", "Systematic experiment"], "answer": 0, "why": "Nobody was assigned to drink coffee; researchers only recorded what people did." },
-      { "q": "What can the study honestly conclude?", "options": ["Coffee drinking is linked with fewer heart attacks, but may not be the cause", "Coffee prevents heart attacks", "Coffee causes heart attacks", "Nothing at all, because the sample was too big"], "answer": 0, "why": "An observational study shows an association (correlation), not cause and effect." },
-      { "q": "Which of these could be a lurking (confounding) variable?", "options": ["The coffee drinkers also exercised more", "The study lasted 10 years", "The heart attacks were recorded by doctors", "Coffee is a drink"], "answer": 0, "why": "Something linked to both coffee drinking and heart health, like exercise or income, could explain the link." }],
+      { "q": "What can the study honestly conclude?", "options": ["Coffee is linked with fewer heart attacks; cause is unproven", "Coffee prevents heart attacks, as the sample was so large", "Coffee prevents heart attacks, because it lasted 10 years", "Nothing, because people chose their own coffee intake"], "answer": 0, "why": "An observational study shows an association (correlation), not cause and effect." },
+      { "q": "Which of these could be a lurking (confounding) variable?", "options": ["The coffee drinkers also exercised more", "The study lasted 10 years", "The heart attacks were recorded by doctors", "The study included 20,000 adults"], "answer": 0, "why": "Something linked to both coffee drinking and heart health, like exercise or income, could explain the link." }],
     "takeaway": "Correlation is not causation: observational studies can't rule out lurking variables." },
 
   /* ---------- study clinic: centre ---------- */
@@ -375,8 +375,8 @@ BGX.registerGame({
     "data": [["O", "450"], ["A", "400"], ["B", "110"], ["AB", "40"]],
     "steps": [
       { "q": "Which average can describe these data?", "options": ["The mode", "The mean", "The median", "The standard deviation"], "answer": 0, "why": "Blood type is nominal: the only sensible 'average' is the most common category, type O." },
-      { "q": "Which graph suits these data best?", "options": ["Bar chart (or pie chart)", "Histogram", "Box plot", "Scatter plot"], "answer": 0, "why": "Separate categories go in a bar chart with gaps, or a pie chart; histograms and box plots are for numbers." },
-      { "q": "Why can't you find a median blood type?", "options": ["Blood types have no order to line them up in", "There are too many donors", "Type O is too common", "The numbers don't add up to 1,000"], "answer": 0, "why": "A median needs data that can be put in order; nominal labels have no order." }],
+      { "q": "Which graph suits these data best?", "options": ["Bar chart (or pie chart)", "Histogram of the counts", "Box plot of the counts", "Line graph of the counts"], "answer": 0, "why": "Separate categories go in a bar chart with gaps, or a pie chart; histograms and box plots are for numbers." },
+      { "q": "Why can't you find a median blood type?", "options": ["Blood types have no order to line them up in", "There are too many donors to line up in order", "Type O is so common that it hides the middle", "Only numbers with a true zero have a median"], "answer": 0, "why": "A median needs data that can be put in order; nominal labels have no order." }],
     "takeaway": "Nominal data: mode and bar chart, never mean or median." },
 
   /* ---------- study clinic: spread ---------- */
@@ -395,7 +395,7 @@ BGX.registerGame({
     "data": [["Clinic A", "mean 30 min, SD 5"], ["Clinic B", "mean 30 min, SD 20"]],
     "steps": [
       { "q": "Which clinic's waiting times are more predictable?", "options": ["Clinic A: smaller SD, less spread", "Clinic B: bigger SD", "Both the same, because the means are equal", "Impossible to tell"], "answer": 0, "why": "The SD measures typical distance from the mean: a smaller SD means waits cluster close to 30 minutes." },
-      { "q": "Clinic B has a few 2-hour waits that skew the data. Which measure of spread should the report use?", "options": ["Interquartile range (IQR)", "Range", "Standard deviation", "Mean"], "answer": 0, "why": "The IQR uses the middle 50% only, so a few extreme waits don't distort it." },
+      { "q": "Clinic B has a few 2-hour waits that skew the data. Which measure of spread should the report use?", "options": ["Interquartile range (IQR)", "Range (max − min)", "Standard deviation (SD)", "Variance (SD squared)"], "answer": 0, "why": "The IQR uses the middle 50% only, so a few extreme waits don't distort it." },
       { "q": "For clinic B, Q1 = 20 min and Q3 = 40 min. Above what wait is a time flagged as an outlier?", "options": ["70 minutes", "60 minutes", "50 minutes", "80 minutes"], "answer": 0, "why": "IQR = 40 − 20 = 20; upper fence = Q3 + 1.5 × IQR = 40 + 30 = 70 minutes." }],
     "takeaway": "Same mean, different spread: SD for symmetric data, IQR when there are outliers." },
 
@@ -407,7 +407,7 @@ BGX.registerGame({
     "steps": [
       { "q": "What is the probability that a patient does NOT get nausea?", "options": ["0.8", "0.2", "0.4", "1.2"], "answer": 0, "why": "Complement rule: 1 − 0.2 = 0.8." },
       { "q": "Two unrelated patients take it. What is the probability that both get nausea?", "options": ["0.04", "0.4", "0.2", "0.64"], "answer": 0, "why": "Independent events multiply: 0.2 × 0.2 = 0.04." },
-      { "q": "The last four patients had no nausea. What is the chance that the fifth patient gets it?", "options": ["Still 0.2", "Higher than 0.2, because it's 'due'", "Lower than 0.2, because of the streak", "Exactly 1"], "answer": 0, "why": "Each patient is independent: past patients don't change the next one. Thinking it is 'due' is the gambler's fallacy." }],
+      { "q": "The last four patients had no nausea. What is the chance that the fifth patient gets it?", "options": ["Still 0.2", "Higher than 0.2, because it's 'due'", "Lower than 0.2, because of the streak", "About 0.0003 (0.2 multiplied five times)"], "answer": 0, "why": "Each patient is independent: past patients don't change the next one. Thinking it is 'due' is the gambler's fallacy." }],
     "takeaway": "Not = 1 − P; independent 'and' = multiply; streaks don't change the next chance." }
 ],
 

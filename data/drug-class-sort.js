@@ -251,7 +251,7 @@ BGX.registerGame({
 },
 {
 "name": "Hydrochlorothiazide",
-"alsoOk": ["High blood pressure and heart failure", "High blood pressure, often when ACE inhibitors cause a cough"],
+"alsoOk": ["High blood pressure and heart failure", "High blood pressure, often when ACE inhibitors cause a cough", "Fluid build-up and heart failure"],
 "cat": "cardio",
 "cls": "Thiazide diuretic",
 "use": "Mild high blood pressure, often added to other tablets",
@@ -305,7 +305,7 @@ BGX.registerGame({
 "A beta-2 agonist: it switches on receptors that relax airway muscle.",
 "Albuterol is the US name; salbutamol is the UK name for the same drug.",
 "Shaky hands and a fast heartbeat are common short-lived side effects.",
-"Current asthma guidelines (GINA) advise against a reliever on its own: everyone with asthma also needs an inhaled steroid, and many adults now use one steroid-formoterol inhaler as both."
+"Current asthma guidelines (GINA) advise against a short-acting reliever such as albuterol on its own: adults, teenagers and children aged 6 and over also need an inhaled steroid, and many adults now use one steroid-formoterol inhaler as their reliever."
 ],
 "summary": "A fast-acting reliever inhaler that relaxes tight airways."
 },
@@ -473,7 +473,7 @@ BGX.registerGame({
 },
 {
 "name": "Lorazepam",
-"alsoOk": ["Depression and anxiety", "Epilepsy"],
+"alsoOk": ["Depression and anxiety", "Epilepsy", "Antiseizure medicine"],
 "cat": "cns",
 "cls": "Benzodiazepine",
 "use": "Anxiety and seizures",
@@ -620,9 +620,9 @@ BGX.registerGame({
 {
 "cat": "resp",
 "title": "Breathing and allergy",
-"about": "Asthma medicines are split into relievers and preventers. A reliever (short-acting bronchodilator such as albuterol) opens tight airways within minutes during an attack. A preventer (inhaled corticosteroid such as fluticasone) is used every day to calm the swelling and inflammation that make attacks likely, and does not help an attack already happening. Current guidelines (GINA, since 2019) no longer recommend a short-acting reliever on its own: everyone with asthma should also have an inhaled steroid, and many adults now use a single steroid-formoterol inhaler as both reliever and preventer. Montelukast is a tablet add-on that blocks leukotrienes, inflammatory messengers that narrow airways. Antihistamines such as cetirizine block histamine, the chemical behind sneezing, itching and hives.",
+"about": "Asthma medicines are split into relievers and preventers. A reliever (short-acting bronchodilator such as albuterol) opens tight airways within minutes during an attack. A preventer (inhaled corticosteroid such as fluticasone) is used every day to calm the swelling and inflammation that make attacks likely, and does not help an attack already happening. Current guidelines (GINA, since 2019) no longer recommend a short-acting reliever on its own: adults, teenagers and children aged 6 and over should also have an inhaled steroid, and many adults now use a single steroid-formoterol inhaler as both reliever and preventer. Montelukast is a tablet add-on that blocks leukotrienes, inflammatory messengers that narrow airways. Antihistamines such as cetirizine block histamine, the chemical behind sneezing, itching and hives.",
 "points": [
-"Reliever = quick, used when needed; preventer = slow, used daily; a reliever alone is no longer advised.",
+"Reliever = quick, used when needed; preventer = slow, used daily; a short-acting reliever alone is no longer advised.",
 "Rinse the mouth after an inhaled steroid to reduce the risk of oral thrush.",
 "Newer antihistamines like cetirizine cause much less drowsiness than older ones."
 ],

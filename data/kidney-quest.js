@@ -186,7 +186,7 @@ BGX.registerGame({
     "steps": [
       { "q": "Which hormone is making his urine small in volume and concentrated?", "options": ["Antidiuretic hormone (ADH)", "Atrial natriuretic peptide (ANP)", "Erythropoietin (EPO)", "Calcitonin"], "answer": 0, "why": "Concentrated blood triggers ADH release from the posterior pituitary to save water." },
       { "q": "Where in the kidney does it act?", "options": ["The collecting ducts", "The glomerulus", "The renal pelvis", "The ureter"], "answer": 0, "why": "ADH puts aquaporins into collecting duct cells, so water is drawn out into the salty medulla." },
-      { "q": "What first detected that his blood was too concentrated?", "options": ["Osmoreceptors in the hypothalamus", "The macula densa", "Baroreceptors in the bladder", "Chemoreceptors in the tongue"], "answer": 0, "why": "Hypothalamic osmoreceptors sense rising osmolarity and trigger both thirst and ADH release." }],
+      { "q": "What first detected that his blood was too concentrated?", "options": ["Osmoreceptors in the hypothalamus", "The macula densa", "Baroreceptors in the carotid sinus", "Chemoreceptors in the carotid bodies"], "answer": 0, "why": "Hypothalamic osmoreceptors sense rising osmolarity and trigger both thirst and ADH release. Baroreceptors sense pressure, and carotid chemoreceptors sense oxygen and CO₂." }],
     "takeaway": "Dehydration → high osmolarity → ADH → aquaporins in the collecting duct → little, concentrated urine." },
   { "id": "k2", "cat": "tract", "icon": "wave", "spot": "ureter", "title": "Loin to groin",
     "who": "Daniel, 41, chef",
@@ -194,17 +194,17 @@ BGX.registerGame({
     "data": [["Urine dipstick", "Blood +++"], ["Pain", "Colicky, right loin → groin"]],
     "steps": [
       { "q": "Where is the stone most likely stuck?", "options": ["In the ureter", "In the glomerulus", "In the urethra", "In the proximal convoluted tubule"], "answer": 0, "why": "Waves of pain from the loin to the groin follow the path of the ureter." },
-      { "q": "Why does the pain come in waves?", "options": ["Peristalsis in the ureter squeezes against the stone", "The bladder keeps filling and emptying", "The kidney stops filtering every few minutes", "Nerves in the skin are firing"], "answer": 0, "why": "The ureter's smooth muscle contracts in waves to push urine, and each wave pushes against the blockage." },
-      { "q": "What is the single best advice to prevent another stone?", "options": ["Drink more fluid so urine stays dilute", "Drink less fluid", "Cut out all calcium", "Take ADH tablets"], "answer": 0, "why": "Most stones are calcium oxalate crystals that form in concentrated urine; dilute urine helps prevent them." }],
+      { "q": "Why does the pain come in waves?", "options": ["Peristalsis in the ureter squeezes against the stone", "The bladder keeps filling and emptying", "The kidney stops filtering every few minutes", "The stone keeps slipping back into the kidney"], "answer": 0, "why": "The ureter's smooth muscle contracts in waves to push urine, and each wave pushes against the blockage." },
+      { "q": "What is the single best advice to prevent another stone?", "options": ["Drink more fluid to keep urine dilute", "Cut out all calcium-rich foods", "Eat more salt to replace sweat losses", "Take a daily vitamin C supplement"], "answer": 0, "why": "Most stones are calcium oxalate crystals that form in concentrated urine; dilute urine helps prevent them. Cutting dietary calcium backfires (calcium binds oxalate in the gut), and extra salt and high-dose vitamin C raise stone risk." }],
     "takeaway": "Kidney stone in the ureter: colicky loin-to-groin pain and blood in the urine; drink more." },
   { "id": "k3", "cat": "tract", "icon": "bug", "spot": "bladder", "title": "Burning and often",
     "who": "Priya, 23, student",
     "story": "Priya has burning when she passes urine and needs to go every half hour, but only a little comes out. Her urine is cloudy and smells strong. She has no fever or back pain.",
     "data": [["Dipstick", "Nitrites +, white cells +"], ["Temperature", "36.9 °C"]],
     "steps": [
-      { "q": "What is the most likely diagnosis?", "options": ["Cystitis (bladder infection)", "Kidney stone", "Diabetes insipidus", "Glomerulonephritis"], "answer": 0, "why": "Burning, frequency and cloudy urine without fever are typical of a lower urinary tract infection." },
-      { "q": "Why are women more prone to this than men?", "options": ["The female urethra is much shorter", "Women have only one ureter", "Women's bladders are smaller", "Women make more ADH"], "answer": 0, "why": "A 3–4 cm urethra close to the anus lets gut bacteria such as E. coli reach the bladder easily." },
-      { "q": "Which sign would suggest the infection had climbed to the kidney?", "options": ["Fever with loin (back) pain", "Clear urine", "Passing more urine at night only", "A dry mouth"], "answer": 0, "why": "Fever, loin pain and feeling very unwell suggest pyelonephritis, which needs urgent treatment." }],
+      { "q": "What is the most likely diagnosis?", "options": ["Cystitis (bladder infection)", "Pyelonephritis (kidney infection)", "Kidney stone in the ureter", "Glomerulonephritis"], "answer": 0, "why": "Burning, frequency and cloudy urine without fever are typical of a lower urinary tract infection. With no fever or loin pain, a kidney infection is unlikely." },
+      { "q": "Why are women more prone to this than men?", "options": ["The female urethra is much shorter", "Women's ureters are wider and shorter", "Women's bladders are smaller", "Women's urine is more concentrated"], "answer": 0, "why": "A 3–4 cm urethra close to the anus lets gut bacteria such as E. coli reach the bladder easily." },
+      { "q": "Which sign would suggest the infection had climbed to the kidney?", "options": ["Fever with loin (back) pain", "Pain just above the pubic bone", "Passing more urine at night only", "Even more frequent urination"], "answer": 0, "why": "Fever, loin pain and feeling very unwell suggest pyelonephritis, which needs urgent treatment." }],
     "takeaway": "UTIs climb up from the urethra; the short female urethra is the main risk." },
   { "id": "k4", "cat": "acid", "icon": "ph", "spot": "acid", "title": "Fruity breath",
     "who": "Lily, 17, type 1 diabetes",
@@ -212,8 +212,8 @@ BGX.registerGame({
     "data": [["pH", "7.22 (7.35–7.45)"], ["PaCO₂", "25 mmHg / 3.3 kPa (35–45 / 4.7–6.0)"], ["HCO₃⁻", "10 mmol/L (22–26)"]],
     "steps": [
       { "q": "What acid–base problem does she have?", "options": ["Metabolic acidosis", "Respiratory acidosis", "Metabolic alkalosis", "Respiratory alkalosis"], "answer": 0, "why": "pH is low (acidosis) and HCO₃⁻ is low: the cause is metabolic, from ketone acids made without insulin." },
-      { "q": "Why is her bicarbonate so low?", "options": ["It has been used up buffering the ketone acids", "Her lungs have removed it", "She is drinking too much water", "Her kidneys are making too much"], "answer": 0, "why": "Each H⁺ from the ketoacids combines with HCO₃⁻, so bicarbonate is consumed." },
-      { "q": "Why is she breathing deeply and fast, with a low PaCO₂?", "options": ["Respiratory compensation: blowing off CO₂ removes acid", "Her lungs are infected", "It is causing the acidosis", "She is having a panic attack"], "answer": 0, "why": "Deep, fast (Kussmaul) breathing lowers CO₂, pushing the buffer reaction away from H⁺ and raising pH towards normal." }],
+      { "q": "Why is her bicarbonate so low?", "options": ["It is used up buffering the ketone acids", "Her kidneys are excreting too much of it", "She has lost it through vomiting", "Without insulin, her liver cannot make it"], "answer": 0, "why": "Each H⁺ from the ketoacids combines with HCO₃⁻, so bicarbonate is consumed." },
+      { "q": "Why is she breathing deeply and fast, with a low PaCO₂?", "options": ["Compensation: blowing off CO₂ removes acid", "A chest infection from her stomach bug", "Her fast breathing is causing the acidosis", "Anxiety: she is having a panic attack"], "answer": 0, "why": "Deep, fast (Kussmaul) breathing lowers CO₂, pushing the buffer reaction away from H⁺ and raising pH towards normal." }],
     "takeaway": "Diabetic ketoacidosis = metabolic acidosis (low pH, low HCO₃⁻) with respiratory compensation (low PaCO₂)." },
   { "id": "k5", "cat": "acid", "icon": "ph", "spot": "alk", "title": "Pins and needles",
     "who": "Chloe, 20, before an exam",
@@ -221,8 +221,8 @@ BGX.registerGame({
     "data": [["pH", "7.55 (7.35–7.45)"], ["PaCO₂", "28 mmHg / 3.7 kPa (35–45 / 4.7–6.0)"], ["HCO₃⁻", "24 mmol/L (22–26)"]],
     "steps": [
       { "q": "What acid–base problem does she have?", "options": ["Respiratory alkalosis", "Metabolic alkalosis", "Respiratory acidosis", "Metabolic acidosis"], "answer": 0, "why": "pH is high (alkalosis) and PaCO₂ is low: over-breathing has blown off too much CO₂." },
-      { "q": "Why is her HCO₃⁻ still normal?", "options": ["Kidney compensation takes hours to days, and this started minutes ago", "Her kidneys have failed", "Bicarbonate is not part of the buffer system", "Her lungs have made extra bicarbonate"], "answer": 0, "why": "The lungs change pH in minutes, but the kidneys need hours to days to adjust HCO₃⁻." },
-      { "q": "If it lasted for days, how would her kidneys compensate?", "options": ["Excrete more HCO₃⁻ and secrete less H⁺", "Secrete more H⁺ and keep HCO₃⁻", "Release more renin", "Stop filtering"], "answer": 0, "why": "To lower pH, the kidneys let bicarbonate go in the urine and hold on to H⁺." }],
+      { "q": "Why is her HCO₃⁻ still normal?", "options": ["Renal compensation takes hours to days", "Her kidneys are already compensating fully", "Bicarbonate is not part of the buffer system", "Her lungs have made extra bicarbonate"], "answer": 0, "why": "The lungs change pH in minutes, but the kidneys need hours to days to adjust HCO₃⁻." },
+      { "q": "If it lasted for days, how would her kidneys compensate?", "options": ["Excrete more HCO₃⁻ and secrete less H⁺", "Secrete more H⁺ and keep HCO₃⁻", "Make more ammonia to excrete acid", "Release ADH to dilute the blood"], "answer": 0, "why": "To lower pH, the kidneys let bicarbonate go in the urine and hold on to H⁺." }],
     "takeaway": "Hyperventilation = respiratory alkalosis: low PaCO₂, high pH. Kidneys compensate slowly." },
   { "id": "k6", "cat": "acid", "icon": "ph", "spot": "alk", "title": "Days of vomiting",
     "who": "Ahmed, 58, gastric outlet blockage",
@@ -230,8 +230,8 @@ BGX.registerGame({
     "data": [["pH", "7.50 (7.35–7.45)"], ["PaCO₂", "48 mmHg / 6.4 kPa (35–45 / 4.7–6.0)"], ["HCO₃⁻", "34 mmol/L (22–26)"]],
     "steps": [
       { "q": "What acid–base problem does he have?", "options": ["Metabolic alkalosis", "Respiratory alkalosis", "Metabolic acidosis", "Respiratory acidosis"], "answer": 0, "why": "pH is high and HCO₃⁻ is high: the cause is metabolic." },
-      { "q": "What has he lost that caused it?", "options": ["Hydrochloric acid from the stomach", "Bicarbonate from the gut", "Carbon dioxide from the lungs", "Potassium from bone"], "answer": 0, "why": "Vomit from the stomach is full of HCl. Losing acid leaves extra bicarbonate behind." },
-      { "q": "Why is his PaCO₂ slightly high?", "options": ["Slower, shallower breathing keeps CO₂ in to compensate", "His lungs are the cause", "He is hyperventilating", "CO₂ is made by vomiting"], "answer": 0, "why": "Holding on to CO₂ adds acid back and pulls pH towards normal: respiratory compensation." }],
+      { "q": "What has he lost that caused it?", "options": ["Hydrochloric acid from the stomach", "Bicarbonate from the gut", "Carbon dioxide from the lungs", "Sodium chloride in sweat"], "answer": 0, "why": "Vomit from the stomach is full of HCl. Losing acid leaves extra bicarbonate behind." },
+      { "q": "Why is his PaCO₂ slightly high?", "options": ["Slower breathing keeps CO₂ in to compensate", "His lungs are the primary cause of it", "He is hyperventilating to raise his pH", "Dehydration has concentrated his blood CO₂"], "answer": 0, "why": "Holding on to CO₂ adds acid back and pulls pH towards normal: respiratory compensation." }],
     "takeaway": "Vomiting stomach acid = metabolic alkalosis (high pH, high HCO₃⁻), partly compensated by slower breathing." },
   { "id": "k7", "cat": "acid", "icon": "lungs", "spot": "acid", "title": "Breathless for years",
     "who": "Bill, 70, ex-smoker with COPD",
@@ -239,8 +239,8 @@ BGX.registerGame({
     "data": [["pH", "7.33 (7.35–7.45)"], ["PaCO₂", "62 mmHg / 8.3 kPa (35–45 / 4.7–6.0)"], ["HCO₃⁻", "32 mmol/L (22–26)"]],
     "steps": [
       { "q": "What acid–base problem does he have?", "options": ["Respiratory acidosis", "Metabolic acidosis", "Respiratory alkalosis", "Metabolic alkalosis"], "answer": 0, "why": "pH is low and PaCO₂ is high: CO₂ is building up because the lungs cannot remove it." },
-      { "q": "Why is his HCO₃⁻ high?", "options": ["His kidneys have kept extra bicarbonate to compensate", "He has been vomiting", "He eats too much salt", "His lungs make bicarbonate"], "answer": 0, "why": "Over days to weeks the kidneys secrete more H⁺ and reabsorb more HCO₃⁻, pulling pH back up." },
-      { "q": "Why is his pH only slightly low?", "options": ["Kidney compensation has corrected most of the change", "His lungs have recovered", "The buffer system has stopped working", "His PaCO₂ is normal"], "answer": 0, "why": "With long-standing disease, metabolic compensation has had time to work, so pH is close to normal." }],
+      { "q": "Why is his HCO₃⁻ high?", "options": ["Kidney compensation: they kept extra HCO₃⁻", "His lungs make bicarbonate to offset CO₂", "Salt in his diet has raised his bicarbonate", "He has been vomiting up stomach acid"], "answer": 0, "why": "Over days to weeks the kidneys secrete more H⁺ and reabsorb more HCO₃⁻, pulling pH back up." },
+      { "q": "Why is his pH only slightly low?", "options": ["Kidney compensation has corrected most of it", "His lungs have recovered from the COPD", "The buffer system has stopped working", "His PaCO₂ is back in the normal range"], "answer": 0, "why": "With long-standing disease, metabolic compensation has had time to work, so pH is close to normal." }],
     "takeaway": "COPD = respiratory acidosis (high PaCO₂) with kidney compensation (high HCO₃⁻)." }
 ],
 "notes": {

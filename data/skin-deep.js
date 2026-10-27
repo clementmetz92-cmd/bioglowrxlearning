@@ -180,7 +180,7 @@ BGX.registerGame({
     "steps": [
       { "q": "What depth of burn is this?", "options": ["Second-degree", "First-degree", "Third-degree", "Not a burn, just irritation"], "answer": 0, "why": "Blisters and severe pain mean the burn has reached the dermis but left some of it alive: second-degree (partial thickness, like first-degree)." },
       { "q": "Which layers are damaged?", "options": ["Epidermis and part of the dermis", "Epidermis only", "Epidermis, all of the dermis and the hypodermis", "Hypodermis only"], "answer": 0, "why": "A second-degree burn destroys the epidermis and part of the dermis." },
-      { "q": "Where will new epidermis grow from?", "options": ["Surviving hair follicles and sweat glands in the dermis", "The hypodermis fat cells", "A skin graft is always needed", "The blisters"], "answer": 0, "why": "Epithelial cells lining hair follicles and sweat glands in the surviving dermis spread out to resurface the wound." }],
+      { "q": "Where will new epidermis grow from?", "options": ["Hair follicles and sweat glands in the dermis", "Fat cells in the hypodermis", "Fibroblasts that change into keratinocytes", "A skin graft, which is always needed"], "answer": 0, "why": "Epithelial cells lining hair follicles and sweat glands in the surviving dermis spread out to resurface the wound." }],
     "takeaway": "Blisters plus pain = second-degree: some dermis survives and the skin can regrow." },
   { "id": "s2", "cat": "burns", "icon": "body", "spot": "burn3", "title": "House fire",
     "who": "Mark, 45",
@@ -188,15 +188,15 @@ BGX.registerGame({
     "data": [["Burned", "Front of trunk + left arm"], ["Feeling", "Numb in white areas"]],
     "steps": [
       { "q": "Using the rule of nines, roughly what percentage of his body is burned?", "options": ["27%", "18%", "36%", "9%"], "answer": 0, "why": "Front of the trunk is 18% and one upper limb is 9%: 18 + 9 = 27%." },
-      { "q": "Why are the white, leathery areas painless?", "options": ["Nerve endings in the dermis are destroyed", "The burn is only in the epidermis", "Burns never hurt", "The hypodermis blocks pain"], "answer": 0, "why": "In a third-degree (full-thickness) burn the whole dermis and its nerve endings are destroyed." },
-      { "q": "What is the most urgent early threat after a large burn?", "options": ["Fluid loss and dehydration", "Excess vitamin D", "Too much sweating", "Hair loss"], "answer": 0, "why": "Without skin, large amounts of fluid and electrolytes leak out; later, infection is the main danger." }],
+      { "q": "Why are the white, leathery areas painless?", "options": ["Nerve endings in the dermis are destroyed", "The burn is only in the epidermis", "Thick scar tissue has already formed", "The hypodermis blocks pain"], "answer": 0, "why": "In a third-degree (full-thickness) burn the whole dermis and its nerve endings are destroyed." },
+      { "q": "What is the most urgent early threat after a large burn?", "options": ["Fluid loss and dehydration", "Scarring and joint contractures", "Vitamin D deficiency", "Overheating from lost sweat glands"], "answer": 0, "why": "In a house fire the airway and smoke inhalation are checked first. After that, the big early danger of a large burn is fluid and electrolyte loss through the damaged skin; later, infection." }],
     "takeaway": "Rule of nines estimates the area; painless white or charred skin signals a full-thickness burn needing grafts." },
   { "id": "s3", "cat": "cancer", "icon": "search", "spot": "melanoma", "title": "The changing mole",
     "who": "Sofia, 52, keen gardener",
     "story": "Sofia noticed a mole on her calf has grown over the summer. It is about 8 mm across, its two halves do not match in shape, it has brown and black areas, and its edge is notched.",
     "data": [["Size", "8 mm"], ["Colours", "Brown and black"], ["Change", "Grown in 3 months"]],
     "steps": [
-      { "q": "Which features of the ABCDE rule does it show?", "options": ["Asymmetry, border, colour, diameter and evolving", "Only diameter", "None of them", "Only colour"], "answer": 0, "why": "Uneven halves (A), notched edge (B), two colours (C), over 6 mm (D) and growing (E): every warning sign." },
+      { "q": "Which features of the ABCDE rule does it show?", "options": ["All five: A, B, C, D and E", "A, B and C, but not D or E", "A, B, C and D, but not E", "B, C and E, but not A or D"], "answer": 0, "why": "Uneven halves (A), notched edge (B), two colours (C), over 6 mm (D) and growing (E): every warning sign." },
       { "q": "Which cell type gives rise to melanoma?", "options": ["Melanocytes", "Keratinocytes of the stratum spinosum", "Dendritic cells", "Fibroblasts"], "answer": 0, "why": "Melanoma is a cancer of the pigment-producing melanocytes in the stratum basale." },
       { "q": "Why is melanoma the most dangerous skin cancer?", "options": ["It spreads to other organs early", "It is the most common", "It only grows on the face", "It cannot be removed"], "answer": 0, "why": "Melanoma metastasises quickly through lymph and blood. Basal cell carcinoma is far more common but rarely spreads." }],
     "takeaway": "A mole that ticks the ABCDE boxes needs urgent review: early removal of melanoma is usually curative." },
@@ -205,9 +205,9 @@ BGX.registerGame({
     "story": "Mr Ahmed has been lying on his back in bed for three weeks. A nurse finds an open, deep sore over his lower back, just above the buttocks.",
     "data": [["Mobility", "Bed-bound"], ["Site", "Over the sacrum"]],
     "steps": [
-      { "q": "What is this sore most likely to be?", "options": ["A pressure ulcer (bedsore)", "A first-degree burn", "Basal cell carcinoma", "Jaundice"], "answer": 0, "why": "Constant pressure over a bony point in someone who cannot move is the classic cause of a pressure (decubitus) ulcer." },
-      { "q": "How does pressure kill the skin?", "options": ["It squeezes dermal blood vessels shut, starving the tissue of oxygen", "It burns the epidermis", "It blocks sweat glands", "It makes melanocytes divide"], "answer": 0, "why": "Prolonged pressure compresses the blood vessels between bone and surface, so the tissue becomes ischaemic and dies (necrosis)." },
-      { "q": "Which simple measure helps prevent pressure ulcers?", "options": ["Changing the patient's position regularly (about every 2 hours)", "Keeping the room cold", "Rubbing the area with alcohol", "Reducing fluid intake"], "answer": 0, "why": "Regular repositioning restores blood flow. Pressure-relieving mattresses, good nutrition and dry skin help too." }],
+      { "q": "What is this sore most likely to be?", "options": ["A pressure ulcer (bedsore)", "A first-degree burn", "Basal cell carcinoma", "An infected insect bite"], "answer": 0, "why": "Constant pressure over a bony point in someone who cannot move is the classic cause of a pressure (decubitus) ulcer." },
+      { "q": "How does pressure kill the skin?", "options": ["It shuts dermal vessels, starving tissue of oxygen", "Friction heat burns through the epidermis", "It blocks sweat glands, so toxins build up", "It triggers an allergy to the bedsheets"], "answer": 0, "why": "Prolonged pressure compresses the blood vessels between bone and surface, so the tissue becomes ischaemic and dies (necrosis)." },
+      { "q": "Which simple measure helps prevent pressure ulcers?", "options": ["Changing his position about every 2 hours", "Keeping him still so the skin can heal", "Massaging red areas firmly with alcohol", "Reducing fluids so the skin stays dry"], "answer": 0, "why": "Regular repositioning restores blood flow. Pressure-relieving mattresses, good nutrition and dry skin help too." }],
     "takeaway": "Pressure over bony points (sacrum, heels, hips) cuts off dermal blood flow: reposition often." }
 ],
 "notes": {

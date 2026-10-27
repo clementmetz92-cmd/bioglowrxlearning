@@ -270,8 +270,8 @@ BGX.registerGame({
     "data": [["Face", "Right side weak, forehead included"], ["Limbs", "Normal strength"]],
     "steps": [
       { "q": "Which cranial nerve is most likely affected?", "options": ["Facial nerve (VII)", "Trigeminal nerve (V)", "Hypoglossal nerve (XII)", "Vagus nerve (X)"], "answer": 0, "why": "The facial nerve moves the muscles of facial expression. The trigeminal carries facial feeling and chewing, not expression." },
-      { "q": "Why might food taste odd?", "options": ["Nerve VII carries taste from the front two-thirds of the tongue", "Nerve VII carries smell", "The tongue muscles are paralysed", "Saliva has stopped completely"], "answer": 0, "why": "Taste from the front two-thirds of the tongue travels in a branch of the facial nerve." },
-      { "q": "Why does Sam need eye drops and a patch at night?", "options": ["He cannot close the eye, so the cornea dries out", "His pupil cannot narrow", "His retina is damaged", "His eye cannot move outward"], "answer": 0, "why": "Nerve VII closes the eyelid. An eye that stays open dries and can ulcerate." }],
+      { "q": "Why might food taste odd?", "options": ["VII carries taste from the front of the tongue", "VII carries smell signals from the nose", "VII moves the tongue, which is now weak", "VII carries taste from the back of the tongue"], "answer": 0, "why": "Taste from the front two-thirds of the tongue travels in a branch of the facial nerve." },
+      { "q": "Why does Sam need eye drops and a patch at night?", "options": ["He cannot close the eye, so the cornea dries out", "His pupil cannot narrow, so light hurts the eye", "His eye cannot move outward, so he sees double", "He has lost corneal feeling, so can't sense dryness"], "answer": 0, "why": "Nerve VII closes the eyelid. An eye that stays open dries and can ulcerate." }],
     "takeaway": "Bell's palsy = facial nerve (VII): one-sided face weakness, taste change and a dry eye." },
   { "id": "n2", "cat": "glia", "icon": "layers", "spot": "oligo", "title": "Blurred and tingling",
     "who": "Hana, 29, nurse",
@@ -280,25 +280,25 @@ BGX.registerGame({
     "steps": [
       { "q": "What is being damaged in her white matter?", "options": ["The myelin sheaths around axons", "Neuron cell bodies in the cortex", "The meninges", "Synaptic vesicles"], "answer": 0, "why": "White matter is white because of myelin; MS plaques are areas where myelin has been stripped away." },
       { "q": "Which cells make the myelin that is attacked in MS?", "options": ["Oligodendrocytes", "Schwann cells", "Astrocytes", "Microglia"], "answer": 0, "why": "MS affects the CNS, where myelin is made by oligodendrocytes. Schwann cells make PNS myelin." },
-      { "q": "Why do her signals slow down or fail?", "options": ["Without myelin, saltatory conduction from node to node is lost", "Her resting potential becomes positive", "Her neurotransmitters run out", "Her axons become shorter"], "answer": 0, "why": "Myelin lets the impulse jump from node to node. Bare axons conduct slowly or not at all." }],
+      { "q": "Why do her signals slow down or fail?", "options": ["Without myelin, the impulse can't jump from node to node", "Her resting potential becomes positive, so axons can't fire", "Her neurons run out of neurotransmitter at each synapse", "Her Schwann cells stop making new myelin in the cord"], "answer": 0, "why": "Myelin lets the impulse jump from node to node. Bare axons conduct slowly or not at all." }],
     "takeaway": "Multiple sclerosis: CNS myelin (from oligodendrocytes) is destroyed, so saltatory conduction fails." },
   { "id": "n3", "cat": "brain", "icon": "layers", "spot": "meninges", "title": "Stiff neck and fever",
     "who": "Ollie, 19, student",
     "story": "Ollie has a high fever, a severe headache and a stiff neck, and the light hurts his eyes. The doctor suspects bacterial meningitis and arranges a lumbar puncture.",
     "data": [["Temperature", "39.4 °C"], ["Neck", "Stiff on bending"]],
     "steps": [
-      { "q": "What is inflamed in meningitis?", "options": ["The membranes covering the brain and spinal cord", "The cerebellum", "The grey matter of the cord", "The corpus callosum"], "answer": 0, "why": "The meninges (dura, arachnoid and pia mater) are inflamed. The stiff neck comes from irritated meninges around the cord." },
+      { "q": "What is inflamed in meningitis?", "options": ["The membranes around the brain and spinal cord", "The brain tissue itself, mainly the cortex", "The grey matter at the centre of the cord", "The fluid-filled ventricles deep in the brain"], "answer": 0, "why": "The meninges (dura, arachnoid and pia mater) are inflamed. The stiff neck comes from irritated meninges around the cord." },
       { "q": "Which space does the lumbar puncture needle sample?", "options": ["The subarachnoid space, which holds CSF", "The space inside the dura only, with no fluid", "The central canal of the cord", "The third ventricle"], "answer": 0, "why": "CSF flows in the subarachnoid space, between the arachnoid mater and the pia mater." },
-      { "q": "Why is the needle put in low, usually between L3 and L5?", "options": ["The spinal cord ends at about L1–L2, so it is safely above the needle", "There is no CSF higher up", "The meninges stop at L2", "The vertebrae are bigger there"], "answer": 0, "why": "Below the end of the cord there are only nerve roots floating in CSF (the cauda equina), which move aside." }],
+      { "q": "Why is the needle put in low, usually between L3 and L5?", "options": ["The cord ends at about L1–L2, above the needle", "There is no CSF above the lumbar region", "The meninges stop at L2, so the needle avoids them", "The cauda equina has no nerve roots to damage"], "answer": 0, "why": "Below the end of the cord there are only nerve roots floating in CSF (the cauda equina), which move aside." }],
     "takeaway": "Meningitis inflames the meninges; CSF is sampled from the subarachnoid space below the end of the cord." },
   { "id": "n4", "cat": "cord", "icon": "steps", "spot": "reflex", "title": "The knee-jerk test",
     "who": "Grace, 45, routine check",
     "story": "The doctor taps Grace's patellar tendon just below the kneecap with a reflex hammer. Her lower leg kicks forward at once, before she has time to think about it.",
     "data": [["Reflex", "Brisk, both knees equal"]],
     "steps": [
-      { "q": "What does the tap actually stimulate?", "options": ["Stretch receptors in the thigh muscle", "Pain receptors in the knee", "The motor cortex", "The cerebellum"], "answer": 0, "why": "Tapping the tendon suddenly stretches the quadriceps; muscle spindles (stretch receptors) detect it." },
+      { "q": "What does the tap actually stimulate?", "options": ["Stretch receptors in the thigh muscle", "Pain receptors in the patellar tendon", "Touch receptors in the skin over the knee", "Joint receptors inside the knee capsule"], "answer": 0, "why": "Tapping the tendon suddenly stretches the quadriceps; muscle spindles (stretch receptors) detect it." },
       { "q": "Where is this reflex processed?", "options": ["In the spinal cord", "In the occipital lobe", "In the medulla", "In the thalamus"], "answer": 0, "why": "It is a spinal reflex handled in the lumbar cord (about L2–L4), so it is fast and automatic." },
-      { "q": "What is special about the knee-jerk reflex arc?", "options": ["It is monosynaptic: the sensory neuron synapses directly on the motor neuron", "It has no sensory neuron", "It uses three interneurons", "It needs the brain to decide"], "answer": 0, "why": "With only one synapse it is one of the fastest reflexes. Most other reflexes include interneurons." }],
+      { "q": "What is special about the knee-jerk reflex arc?", "options": ["It is monosynaptic: sensory neuron straight to motor neuron", "It is polysynaptic, with an interneuron in the cord", "It has no sensory neuron: the muscle triggers itself", "It runs through the brainstem before reaching the leg"], "answer": 0, "why": "The kick itself uses one synapse, sensory neuron to motor neuron, so it is one of the fastest reflexes. Relaxing the hamstrings at the same time uses an extra interneuron, and most other reflexes include interneurons." }],
     "takeaway": "Receptor → sensory neuron → (cord) → motor neuron → muscle. The knee jerk skips the interneuron." }
 ],
 "notes": {
