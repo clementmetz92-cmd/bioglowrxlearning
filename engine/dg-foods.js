@@ -9,6 +9,7 @@
 
   /* each food: u => svg centred on 0,0, roughly ±24 */
   const F = {
+    water: u => `${lg(u + "wt", "h", [[0, "#cfe8fb"], [.5, "#eaf6ff"], [1, "#b9dcf5"]])}<path d="M-13-22 L-10 22 Q-10 24 -7 24 H7 Q10 24 10 22 L13-22Z" fill="#e8f1f6" fill-opacity=".35" stroke="#9fb3c4"/><path d="M-12-10 L-10 22 Q-10 24 -7 24 H7 Q10 24 10 22 L12-10Z" fill="url(#${u}wt)"/><path d="M-12-10 H12" stroke="#7fb6dd" stroke-width="1.2"/><path d="M-6-4 v18" stroke="#fff" stroke-width="2" stroke-linecap="round" opacity=".7"/>`,
     carrot: u => `${lg(u + "ca", "h", [[0, "#ffab4a"], [1, "#d9530f"]])}<path d="M-4-16 Q6-18 9-9 L-15 21 Q-18 22 -16 18Z" fill="url(#${u}ca)"/><path d="M-1-7 l5 2 M-5 1 l4 2 M-9 9 l3 2" stroke="#b8420a" stroke-width="1.3" stroke-linecap="round"/><path d="M3-14 Q2-24 -4-27 M4-13 Q8-25 13-25 M6-11 Q15-17 19-12" stroke="#3e9a2e" stroke-width="3" fill="none" stroke-linecap="round"/>`,
     sweetpotato: u => `${lg(u + "sp", "v", [[0, "#b8664c"], [1, "#6e2f22"]])}<g transform="rotate(-18)"><path d="M-24 0 Q-20-12 0-12 Q20-11 22 0 Q20 11 0 12 Q-20 12 -24 0Z" fill="url(#${u}sp)"/><path d="M-12-4 Q-4-7 6-5" stroke="#e6a58c" stroke-width="1.5" fill="none" opacity=".6"/><ellipse cx="19" rx="4.5" ry="10.5" fill="#ff9a3c" stroke="#a8442a" stroke-width="1.2"/></g>`,
     egg: u => `${rg(u + "eg", [[0, "#fff9ef"], [.7, "#f0d9b5"], [1, "#c99f6c"]])}${rg(u + "yk", [[0, "#ffe27a"], [1, "#f29d0c"]])}<ellipse cx="-7" cy="-3" rx="12" ry="15" fill="url(#${u}eg)"/><ellipse cx="9" cy="8" rx="13" ry="10" fill="#fff" stroke="#e2d7c3"/><circle cx="9" cy="8" r="6" fill="url(#${u}yk)"/><circle cx="7" cy="6" r="1.8" fill="#fff" opacity=".7"/>`,
@@ -53,7 +54,9 @@
     B2: ["mushroom", "egg"], B3: ["drumstick", "fish", "peanut"], B9: ["asparagus", "orange", "chickpeas"],
     B12: ["fish", "milk", "egg"], Ca: ["milk", "cheese", "tofu"], K: ["banana", "avocado", "potato"],
     Mg: ["pumpkinseed", "choc", "beans"], Na: ["salt", "bread"], Fe: ["steak", "lentils", "greens"],
-    I: ["fish", "seaweed", "milk"], Zn: ["oyster", "steak", "pumpkinseed"]
+    I: ["fish", "seaweed", "milk"], Zn: ["oyster", "steak", "pumpkinseed"],
+    B6: ["chickpeas", "fish", "potato"], B5: ["mushroom", "drumstick", "bread"], B7: ["egg", "peanut", "sunseed"],
+    P: ["milk", "fish", "peanut"], Cl: ["salt", "bread"], Se: ["oyster", "fish", "steak"], Cu: ["oyster", "sunseed", "choc"], F: ["water"]
   };
   const NAME = {
     carrot: "carrots", sweetpotato: "sweet potato", egg: "eggs", sun: "sunlight", fish: "oily fish", oil: "vegetable oil",
@@ -61,7 +64,7 @@
     strawberry: "strawberries", bread: "wholegrain bread", beans: "beans", mushroom: "mushrooms", drumstick: "chicken", peanut: "peanuts",
     asparagus: "asparagus", chickpeas: "chickpeas", milk: "milk", cheese: "cheese", tofu: "tofu", banana: "bananas", avocado: "avocado",
     potato: "potatoes", pumpkinseed: "pumpkin seeds", choc: "dark chocolate", salt: "salt", steak: "red meat", lentils: "lentils",
-    seaweed: "seaweed", oyster: "oysters"
+    seaweed: "seaweed", oyster: "oysters", water: "fluoridated tap water"
   };
 
   function table(u) {

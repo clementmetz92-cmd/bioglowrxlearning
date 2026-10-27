@@ -43,6 +43,12 @@ BGX.registerGame({
 "name": "Other organs",
 "color": "cat-sky",
 "icon": "heart"
+},
+{
+"id": "hypothalamus",
+"name": "Hypothalamus",
+"color": "cat-lilac",
+"icon": "brain"
 }
 ],
 "categoryLabel": "Gland",
@@ -96,10 +102,10 @@ BGX.registerGame({
 "id": "gland",
 "format": "sortit",
 "title": "Which gland?",
-"desc": "Name the gland that makes it.",
+"desc": "Name the gland that releases it.",
 "icon": "⌖",
 "color": "cat-lemon",
-"prompt": "Which gland makes this hormone?"
+"prompt": "Which gland releases this hormone into the blood?"
 },
 {
 "id": "pairs",
@@ -110,6 +116,16 @@ BGX.registerGame({
 "color": "cat-mint",
 "clue": "job",
 "clueLabel": "Job"
+},
+{
+"id": "cases",
+"format": "cases",
+"title": "Clinic cases",
+"desc": "An underactive thyroid, steroid tablets, Addison's disease and a labour that stalls.",
+"icon": "✚",
+"color": "cat-coral",
+"rounds": 3,
+"extra": true
 }
 ],
 "items": [
@@ -402,6 +418,255 @@ BGX.registerGame({
 "Acts on the hypothalamus to reduce appetite and signal adequate energy reserves.",
 "Not to be confused with insulin: leptin is about long-term stores, not blood sugar."
 ]
+},
+{
+"name": "ACTH",
+"cat": "pituitary",
+"gland": "Anterior pituitary",
+"job": "Tells the adrenal cortex to release cortisol",
+"summary": "Adrenocorticotropic hormone: the pituitary's signal to the adrenal cortex.",
+"life": "ACTH peaks in the early morning, which is why cortisol is highest around the time you wake up.",
+"icon": "anat1-endocrine",
+"num": 19,
+"spot": "pituitary",
+"facts": [
+"Released by the anterior pituitary when CRH arrives from the hypothalamus.",
+"Makes the adrenal cortex release cortisol. Aldosterone is mainly controlled by the renin-angiotensin system instead.",
+"Cortisol feeds back on the hypothalamus and pituitary to cut CRH and ACTH: negative feedback."
+]
+},
+{
+"name": "FSH",
+"cat": "pituitary",
+"gland": "Anterior pituitary",
+"job": "Makes egg follicles grow and supports sperm production",
+"summary": "Follicle-stimulating hormone, one of the two gonadotropins that act on the ovaries and testes.",
+"life": "Fertility clinics measure FSH; a high level can mean the ovaries are responding poorly and the pituitary is pushing harder.",
+"icon": "anat2-fsh",
+"num": 20,
+"spot": "pituitary",
+"facts": [
+"Released by the anterior pituitary in response to GnRH from the hypothalamus.",
+"In women it makes ovarian follicles grow and make estrogen; in men it acts on Sertoli cells to support sperm production.",
+"Inhibin from the ovaries and testes holds FSH back, with little effect on LH."
+]
+},
+{
+"name": "LH",
+"cat": "pituitary",
+"gland": "Anterior pituitary",
+"job": "Triggers ovulation and makes the testes release testosterone",
+"summary": "Luteinising hormone, the second gonadotropin.",
+"life": "Home ovulation tests detect the LH surge in urine, a day or so before ovulation.",
+"icon": "anat2-lh",
+"num": 21,
+"spot": "pituitary",
+"facts": [
+"Released by the anterior pituitary in response to GnRH from the hypothalamus.",
+"A mid-cycle LH surge triggers ovulation and turns the empty follicle into the corpus luteum.",
+"In men it makes the interstitial (Leydig) cells of the testes produce testosterone."
+]
+},
+{
+"name": "Triiodothyronine (T3)",
+"cat": "thyroid",
+"gland": "Thyroid gland (and made from T4 in body tissues)",
+"job": "The more active thyroid hormone, mostly made from T4 in the tissues",
+"summary": "The thyroid hormone that does most of the work inside target cells.",
+"life": "Thyroid blood tests usually start with TSH and T4; T3 is often added when an overactive thyroid is suspected.",
+"icon": "flame",
+"num": 22,
+"spot": "thyroid",
+"alsoOk": ["Sets the body's metabolic rate"],
+"facts": [
+"Holds three iodine atoms; T4 holds four.",
+"The thyroid releases mostly T4. Body cells remove one iodine to make T3, which binds the receptors far more strongly.",
+"T3 and T4 feed back on the hypothalamus and pituitary to reduce TRH and TSH."
+]
+},
+{
+"name": "TRH",
+"cat": "hypothalamus",
+"gland": "Hypothalamus",
+"job": "Tells the pituitary to release TSH",
+"summary": "Thyrotropin-releasing hormone, the top of the thyroid axis.",
+"life": "TRH travels only a few millimetres, in tiny portal vessels, so it is not measured in routine blood tests.",
+"icon": "anat2-hypothal",
+"num": 23,
+"spot": "brain",
+"spotCaption": "Made in the hypothalamus, at the base of the brain",
+"facts": [
+"Made by the hypothalamus and carried in portal blood vessels to the anterior pituitary.",
+"Makes the pituitary release TSH; it can also raise prolactin.",
+"Thyroid axis: TRH → TSH → T4 and T3. High T4 and T3 switch TRH and TSH down."
+]
+},
+{
+"name": "CRH",
+"cat": "hypothalamus",
+"gland": "Hypothalamus",
+"job": "Tells the pituitary to release ACTH",
+"summary": "Corticotropin-releasing hormone, the top of the stress-hormone axis.",
+"life": "Physical or emotional stress raises CRH within minutes, so cortisol starts to climb soon after.",
+"icon": "brain",
+"num": 24,
+"spot": "brain",
+"spotCaption": "Made in the hypothalamus, at the base of the brain",
+"facts": [
+"Released by the hypothalamus in response to stress, low blood sugar and the daily body clock.",
+"Travels in portal vessels to the anterior pituitary, which then releases ACTH.",
+"Stress axis: CRH → ACTH → cortisol. Cortisol switches CRH and ACTH down."
+]
+},
+{
+"name": "GnRH",
+"cat": "hypothalamus",
+"gland": "Hypothalamus",
+"job": "Tells the pituitary to release FSH and LH",
+"summary": "Gonadotropin-releasing hormone, the top of the reproductive axis.",
+"life": "Some prostate cancer treatments give a steady GnRH-like drug; without the normal pulses, the pituitary stops responding and testosterone falls.",
+"icon": "anat2-gnrh",
+"num": 25,
+"spot": "brain",
+"spotCaption": "Made in the hypothalamus, at the base of the brain",
+"facts": [
+"Released in pulses by the hypothalamus; the pulse pattern is needed for normal FSH and LH release.",
+"Its rise at puberty starts the hormone changes of puberty.",
+"Reproductive axis: GnRH → FSH and LH → sex hormones, which mostly feed back to hold it down. Mid-cycle, high estrogen briefly does the opposite."
+]
+},
+{
+"name": "GHRH",
+"cat": "hypothalamus",
+"gland": "Hypothalamus",
+"job": "Tells the pituitary to release growth hormone",
+"summary": "Growth hormone-releasing hormone, from the hypothalamus.",
+"life": "The biggest bursts of growth hormone come in deep sleep, one reason sleep matters for growing children.",
+"icon": "sprout",
+"num": 26,
+"spot": "brain",
+"spotCaption": "Made in the hypothalamus, at the base of the brain",
+"facts": [
+"Made by the hypothalamus and carried to the anterior pituitary in portal blood.",
+"Makes the pituitary release growth hormone in bursts.",
+"Its opposite, somatostatin (growth hormone-inhibiting hormone), holds growth hormone back."
+]
+},
+{
+"name": "Dopamine (PIH)",
+"cat": "hypothalamus",
+"gland": "Hypothalamus",
+"job": "Holds back prolactin release from the pituitary",
+"summary": "Prolactin-inhibiting hormone: the hypothalamus keeps prolactin low with a steady supply of dopamine.",
+"life": "Some medicines that block dopamine, such as certain antipsychotics, can raise prolactin and cause milk production.",
+"icon": "nerve",
+"num": 27,
+"spot": "brain",
+"spotCaption": "Made in the hypothalamus, at the base of the brain",
+"facts": [
+"Unlike the other anterior pituitary hormones, prolactin is mainly held back, not switched on, by the hypothalamus.",
+"Suckling reduces dopamine release, so prolactin rises and milk is made.",
+"Damage to the pituitary stalk lowers most pituitary hormones but raises prolactin."
+]
+},
+{
+"name": "Progesterone",
+"cat": "gonads",
+"gland": "Ovaries (corpus luteum)",
+"job": "Keeps the uterine lining ready for pregnancy after ovulation",
+"summary": "A steroid made by the corpus luteum after ovulation, and later by the placenta, that prepares the uterus for pregnancy.",
+"life": "Its name means 'for gestation'. In pregnancy the placenta takes over making it.",
+"icon": "anat2-progesterone",
+"num": 28,
+"spot": "ovaries",
+"alsoOk": ["Female development and the menstrual cycle"],
+"facts": [
+"Made by the corpus luteum, the follicle left behind after ovulation, under the influence of LH.",
+"Readies the uterine lining for an embryo and keeps it in place; when progesterone falls, the lining is shed as a period.",
+"With estrogen, it feeds back to hold down GnRH, FSH and LH. Combined contraceptive pills use this to stop ovulation."
+]
+},
+{
+"name": "Inhibin",
+"cat": "gonads",
+"gland": "Ovaries and testes",
+"job": "Holds back FSH release from the pituitary, with little effect on LH",
+"summary": "A hormone from the gonads that tells the pituitary to cut back FSH.",
+"life": "Inhibin A is one of the markers in a blood screening test offered in pregnancy.",
+"icon": "anat2-inhibin",
+"num": 29,
+"spot": ["ovaries", "testes"],
+"facts": [
+"Made by Sertoli cells in the testes and by follicle (granulosa) cells in the ovaries.",
+"Lowers FSH with little effect on LH.",
+"Negative feedback: the cells that FSH stimulates send back a signal that slows FSH."
+]
+}
+],
+"cases": [
+{
+"id": "h1",
+"cat": "thyroid",
+"icon": "gland",
+"spot": "thyroid",
+"title": "Always cold, always tired",
+"who": "Margaret, 52, teacher",
+"story": "Over a year Margaret has become tired, slow and constipated. She feels cold when others are warm, has gained weight and her skin is dry. Her pulse is slow. Blood tests show thyroid antibodies (Hashimoto's thyroiditis).",
+"data": [["TSH", "High"], ["Free T4", "Low"], ["Pulse", "54 a minute"]],
+"steps": [
+{ "q": "Where is the main problem in her hormone axis?", "options": ["The thyroid gland itself", "The anterior pituitary", "The hypothalamus", "The adrenal cortex"], "answer": 0, "why": "Low T4 with high TSH means the pituitary is pushing hard but the thyroid cannot respond: primary hypothyroidism." },
+{ "q": "Why is her TSH high?", "options": ["Low T4 has removed the negative feedback on the pituitary", "A tumour in her pituitary is making extra TSH", "Her body is clearing TSH from the blood more slowly", "Her pituitary raises TSH to slow her metabolism down"], "answer": 0, "why": "Normally T4 and T3 hold TRH and TSH down. With little T4, that brake is off, so TSH rises." },
+{ "q": "She starts levothyroxine (T4) tablets. What should happen to her TSH?", "options": ["It falls back towards normal as her T4 rises", "It rises further as her thyroid recovers", "It stays high whatever dose she takes", "It drops to zero and stays there for good"], "answer": 0, "why": "Restoring T4 restores the negative feedback, so TSH falls. Doctors adjust the dose until TSH is back in the normal range." }
+],
+"takeaway": "Primary hypothyroidism: low T4, high TSH. Lost negative feedback is why TSH is the best test of how the thyroid is doing."
+},
+{
+"id": "h2",
+"cat": "adrenal",
+"icon": "pill",
+"spot": "adrenals",
+"title": "A moon-shaped face",
+"who": "Carol, 61, retired nurse",
+"story": "Carol has taken prednisolone, a steroid tablet, for 18 months for an inflammatory lung disease. Her face has become rounded, she has put on weight around her middle, her skin bruises easily and she has purple stretch marks.",
+"data": [["Prednisolone", "20 mg a day for 18 months"], ["Blood glucose", "Raised"], ["ACTH", "Low"]],
+"steps": [
+{ "q": "What is causing her Cushing's features?", "options": ["Long-term high doses of a cortisol-like drug", "A tumour in her pituitary making extra ACTH", "A tumour in her adrenal making extra aldosterone", "Too little cortisol from her damaged adrenals"], "answer": 0, "why": "Prednisolone acts like cortisol. Months of high doses cause the same effects as too much cortisol: Cushing's syndrome." },
+{ "q": "Why is her ACTH low?", "options": ["The drug feeds back on her hypothalamus and pituitary", "The drug destroys the pituitary cells that make ACTH", "Her adrenal glands are using up all of her ACTH", "Her kidneys are clearing ACTH faster than normal"], "answer": 0, "why": "Like cortisol, the drug switches off CRH and ACTH by negative feedback. Without ACTH, her own adrenal cortex shrinks." },
+{ "q": "Why must the tablets be reduced slowly, not stopped at once?", "options": ["Her shrunken adrenals cannot make enough cortisol yet", "Her blood sugar would rise sharply if she stopped", "Her pituitary would release a dangerous ACTH surge", "Stopping at once makes the drug stay in her body longer"], "answer": 0, "why": "Her axis has been switched off for months. Stopping suddenly can cause an adrenal crisis; a slow taper lets ACTH and the adrenals recover." }
+],
+"takeaway": "Steroid tablets switch off CRH and ACTH by negative feedback, so the adrenals shrink. Never stop long-term steroids suddenly."
+},
+{
+"id": "h3",
+"cat": "adrenal",
+"icon": "kidney",
+"spot": "adrenals",
+"title": "Salt cravings and dizzy spells",
+"who": "Priya, 34, accountant",
+"story": "For months Priya has felt exhausted and lost weight. She feels faint when she stands up and craves salty food. Her skin has darkened, especially in the creases of her palms and inside her mouth. Tests show her adrenal cortex has been destroyed by her own immune system.",
+"data": [["Blood pressure", "92/58, falls on standing"], ["Sodium", "Low"], ["Potassium", "High"], ["ACTH", "High"]],
+"steps": [
+{ "q": "Which hormones is she short of?", "options": ["Cortisol and aldosterone", "Adrenaline and noradrenaline", "Thyroxine and T3", "Insulin and glucagon"], "answer": 0, "why": "Addison's disease is failure of the adrenal cortex, the source of cortisol and aldosterone. The medulla's adrenaline is mostly spared." },
+{ "q": "Why are her sodium low and her potassium high?", "options": ["Without aldosterone her kidneys lose sodium and keep potassium", "Without cortisol her kidneys keep sodium and lose potassium", "She is drinking too much water because of her salt cravings", "Extra insulin is moving potassium out of her body cells"], "answer": 0, "why": "Aldosterone normally makes the kidneys keep sodium and get rid of potassium. Without it, sodium and water are lost, so blood pressure falls too." },
+{ "q": "Why has her skin darkened?", "options": ["High ACTH also stimulates the skin's pigment cells", "Low cortisol lets the skin make extra vitamin D", "High aldosterone thickens the outer skin layer", "Low blood pressure leaves blood pooling in the skin"], "answer": 0, "why": "With no cortisol to feed back, the pituitary makes lots of ACTH. ACTH and related molecules also act on melanocytes." }
+],
+"takeaway": "Addison's disease: the adrenal cortex fails, cortisol and aldosterone fall, and lost negative feedback drives ACTH high."
+},
+{
+"id": "h4",
+"cat": "pituitary",
+"icon": "baby",
+"spot": "pituitary",
+"title": "A labour that stalls",
+"who": "Hannah, 30, first baby",
+"story": "Hannah is in labour at 40 weeks. After a good start, her contractions have become weaker and further apart, and her cervix has stopped opening. The obstetrician suggests a hormone drip to strengthen the contractions.",
+"data": [["Pregnancy", "40 weeks"], ["Contractions", "Weak, every 6 minutes"], ["Cervix", "No change in 3 hours"]],
+"steps": [
+{ "q": "Which hormone is in the drip?", "options": ["Oxytocin", "Prolactin", "Progesterone", "ADH"], "answer": 0, "why": "Synthetic oxytocin makes the uterine muscle contract more strongly and more often. The drip is started low and increased slowly, with the baby's heart rate monitored throughout, because contractions that are too strong or too frequent can starve the baby of oxygen." },
+{ "q": "In normal labour, why does each contraction lead to a stronger one?", "options": ["Stretching of the cervix triggers more oxytocin release", "Each contraction lowers oxytocin, so the brain makes more", "The baby's movements signal the pituitary to release more", "Contractions raise blood calcium, which stimulates the uterus"], "answer": 0, "why": "Stretch of the cervix sends nerve signals to the hypothalamus, which releases more oxytocin from the posterior pituitary. The response increases the stimulus: positive feedback." },
+{ "q": "What ends this loop?", "options": ["Birth of the baby, which ends the stretch of the cervix", "Rising cortisol, which switches off the posterior pituitary", "Running out of oxytocin stored in the pituitary", "Prolactin, which blocks oxytocin receptors in the uterus"], "answer": 0, "why": "Positive feedback needs an outside event to stop it. Once the baby is born, the cervix is no longer stretched and the loop ends." }
+],
+"takeaway": "Labour is positive feedback: the response (stronger contractions) increases the stimulus (stretch) until birth breaks the loop."
 }
 ],
 "diagram": "body",
@@ -414,7 +679,7 @@ BGX.registerGame({
 "title": "Pituitary gland",
 "about": "The pituitary is a pea-sized gland hanging under the brain, with two different halves. The anterior (front) pituitary makes its own hormones, including growth hormone, TSH and prolactin. The posterior (back) pituitary makes nothing itself: it stores and releases ADH and oxytocin, which are made by nerve cells in the hypothalamus. That is why the game lists those two as made by the hypothalamus but released by the posterior pituitary. TSH is a 'tropic' hormone, meaning its target is another gland (the thyroid).",
 "points": [
-"Anterior pituitary: growth hormone, TSH, prolactin.",
+"Anterior pituitary: growth hormone, TSH, ACTH, FSH, LH, prolactin.",
 "Hypothalamus → posterior pituitary: ADH and oxytocin.",
 "Prolactin makes milk; oxytocin lets milk flow out (let-down). Don't mix them up."
 ],
@@ -460,7 +725,8 @@ BGX.registerGame({
 "points": [
 "Ovaries → estrogen (and progesterone). Testes → testosterone.",
 "Both are steroids made from cholesterol.",
-"Estrogen loss at menopause speeds up bone loss."
+"Estrogen loss at menopause speeds up bone loss.",
+"Progesterone (corpus luteum) keeps the uterine lining ready after ovulation; inhibin from both gonads holds back FSH."
 ],
 "tip": "Estrogen and Egg both start with E, so it comes from the ovaries; TESTosterone comes from the TESTes."
 },
@@ -474,6 +740,18 @@ BGX.registerGame({
 "Fat tissue → leptin → 'enough stored', less hunger."
 ],
 "tip": "Leptin from the Greek leptos, 'thin': it signals there is enough stored, so you need not eat more."
+},
+{
+"cat": "hypothalamus",
+"title": "Hypothalamus and feedback",
+"about": "The hypothalamus, at the base of the brain, controls the anterior pituitary with releasing and inhibiting hormones carried a short distance in tiny portal blood vessels. Each releasing hormone switches on its own pituitary hormone (GnRH switches on two, FSH and LH), which in turn switches on a target gland: this chain is called an axis. Thyroid axis: TRH → TSH → T4 and T3. Stress axis: CRH → ACTH → cortisol. Reproductive axis: GnRH → FSH and LH → estrogen, progesterone or testosterone. GHRH switches on growth hormone, while dopamine (prolactin-inhibiting hormone) keeps prolactin held back. Most axes are kept steady by negative feedback: the final hormone travels back to the hypothalamus and pituitary and turns down the hormones above it, so a rise in the output reduces the drive. Inhibin from the gonads is another brake, on FSH alone. Positive feedback is rarer: the response makes the stimulus bigger until an outside event stops it. In labour, stretch of the cervix triggers oxytocin, which strengthens contractions, which stretch the cervix more, until the baby is born.",
+"points": [
+"TRH → TSH → T4/T3; CRH → ACTH → cortisol; GnRH → FSH and LH → sex hormones.",
+"Negative feedback: the end hormone switches off the ones above it. Too little end hormone → the pituitary hormone rises (high TSH in an underactive thyroid).",
+"Steroid tablets act like cortisol, so they switch off CRH and ACTH and the adrenals shrink.",
+"Positive feedback: oxytocin in labour (and the LH surge before ovulation). The loop ends with an outside event such as birth."
+],
+"tip": "Read a pituitary hormone like a thermostat: if the end hormone is low and the pituitary hormone is high, the target gland is the problem."
 }
 ],
 "outro": "In the sort game, think of the gland first; in the job quiz, think of what the hormone raises or lowers. Learning the opposing pairs together halves the work."

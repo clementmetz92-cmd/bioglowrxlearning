@@ -17,6 +17,52 @@ const lv = (q, a, why) => ({ q, options: LV, answer: LV.indexOf(a), why });
 const VT = ["Qualitative (categorical)", "Quantitative discrete", "Quantitative continuous", "A constant (same for everyone)"];
 const vt = (q, a, why) => ({ q, options: VT, answer: a, why });
 
+/* Risk and screening helpers: every generator loops until the asked-for answer comes out clean (illustrative numbers) */
+const clean = (x, dp) => Math.abs(x * Math.pow(10, dp) - Math.round(x * Math.pow(10, dp))) < 1e-7;
+const whole = x => Math.abs(x - Math.round(x)) < 1e-9;
+const SCREEN = [
+  { test: "rapid strep throat test", dis: "strep throat", n1: [40, 50, 60, 75, 80, 100, 120], n0: [150, 200, 250, 300, 400], se: [0.80, 0.84, 0.85, 0.86, 0.88, 0.90], sp: [0.90, 0.92, 0.94, 0.95, 0.96] },
+  { test: "depression screening questionnaire", dis: "depression", n1: [40, 50, 60, 80, 100], n0: [400, 500, 600, 800, 900], se: [0.80, 0.85, 0.88, 0.90], sp: [0.80, 0.85, 0.88, 0.90] },
+  { test: "rapid antigen test", dis: "COVID-19", n1: [50, 80, 100, 120, 150, 200], n0: [500, 800, 1000, 1200, 1500, 2000], se: [0.70, 0.75, 0.80, 0.85], sp: [0.97, 0.98, 0.99] },
+  { test: "screening mammogram", dis: "breast cancer", n1: [20, 25, 40, 50], n0: [2000, 2500, 4000, 5000], se: [0.80, 0.85, 0.88, 0.90], sp: [0.90, 0.92, 0.94, 0.95] }];
+const screen = need => {
+  let v = null;
+  for (let t = 0; t < 4000; t++) {
+    const S = pick(SCREEN), n1 = pick(S.n1), n0 = pick(S.n0), tp = n1 * pick(S.se), tn = n0 * pick(S.sp);
+    if (!whole(tp) || !whole(tn)) continue;
+    v = { test: S.test, dis: S.dis, n1, n0, n: n1 + n0, tp: Math.round(tp), fn: n1 - Math.round(tp), tn: Math.round(tn), fp: n0 - Math.round(tn) };
+    v.pos = v.tp + v.fp; v.neg = v.tn + v.fn;
+    v.sens = 100 * v.tp / n1; v.spec = 100 * v.tn / n0; v.ppv = 100 * v.tp / v.pos; v.npv = 100 * v.tn / v.neg;
+    if (v.fp > 0 && v.fn > 0 && v.fp !== v.fn && clean(v[need], 1) && ["sens", "spec", "ppv", "npv"].every(k => k === need || Math.abs(v[k] - v[need]) >= 0.5)) return v;
+  }
+  return v;
+};
+const COHORT = [
+  { exp: "smokers", unexp: "non-smokers", out: "developed COPD", time: "over 20 years", re: [0.10, 0.12, 0.15, 0.18, 0.20, 0.24], ru: [0.02, 0.03, 0.04, 0.05, 0.06] },
+  { exp: "adults with obesity", unexp: "adults of a healthy weight", out: "developed type 2 diabetes", time: "over 10 years", re: [0.10, 0.12, 0.15, 0.18, 0.20], ru: [0.03, 0.04, 0.05, 0.06] },
+  { exp: "adults who walked at least 30 minutes a day", unexp: "adults who walked less", out: "had a heart attack", time: "over 10 years", re: [0.02, 0.03, 0.04, 0.05], ru: [0.06, 0.08, 0.10] },
+  { exp: "vaccinated care-home residents", unexp: "unvaccinated residents", out: "were admitted to hospital with flu", time: "over one winter", re: [0.02, 0.03, 0.04, 0.05], ru: [0.06, 0.08, 0.10, 0.12] }];
+const CASECON = [
+  { cases: "adults with a hip fracture", controls: "adults of the same age without one", exp: "had taken steroid tablets for a long time", short: "long-term steroid use", nca: [100, 150, 200], nco: [200, 300, 400] },
+  { cases: "wedding guests with food poisoning", controls: "guests who stayed well", exp: "ate the chicken salad", short: "eating the chicken salad", nca: [40, 50, 60], nco: [80, 100, 120] },
+  { cases: "people with lung cancer", controls: "similar people without lung cancer", exp: "had worked with asbestos", short: "asbestos exposure", nca: [200, 250, 300], nco: [300, 400, 500] }];
+const TRIAL = [
+  { drug: "a statin", out: "a heart attack or stroke", time: "over 5 years", cer: [6, 8, 10, 12], eer: [4, 5, 6, 8, 9] },
+  { drug: "a blood-thinning drug", out: "a stroke", time: "over 2 years", cer: [4, 5, 6, 8], eer: [2, 3, 4] },
+  { drug: "an antibiotic before surgery", out: "a wound infection", time: "within 30 days", cer: [8, 10, 12, 15], eer: [3, 4, 5, 6] },
+  { drug: "a new asthma inhaler", out: "an attack needing hospital care", time: "over a year", cer: [10, 12, 15, 20], eer: [5, 6, 8, 10] }];
+const trial = (test) => {
+  let v = null;
+  for (let t = 0; t < 4000; t++) {
+    const T = pick(TRIAL), cerp = pick(T.cer), eerp = pick(T.eer), nc = pick([200, 250, 400, 500, 800, 1000]), nt = pick([200, 250, 400, 500, 800, 1000]);
+    if (eerp >= cerp || !whole(nc * cerp / 100) || !whole(nt * eerp / 100)) continue;
+    v = { drug: T.drug, out: T.out, time: T.time, cerp, eerp, nc, nt, ec: nc * cerp / 100, et: nt * eerp / 100, arrp: cerp - eerp };
+    v.arr = r(v.arrp / 100, 4); v.rrr = 100 * v.arrp / cerp;
+    if (test(v)) return v;
+  }
+  return v;
+};
+
 BGX.registerGame({
 "id": "odds-on",
 "title": "Odds On",
@@ -31,7 +77,9 @@ BGX.registerGame({
   { "id": "study", "name": "Sampling and study design", "color": "cat-sage", "icon": "search" },
   { "id": "centre", "name": "Measures of centre", "color": "cat-sky", "icon": "scale" },
   { "id": "spread", "name": "Spread and the normal curve", "color": "cat-lilac", "icon": "chart" },
-  { "id": "prob", "name": "Probability", "color": "cat-peach", "icon": "question" }
+  { "id": "prob", "name": "Probability", "color": "cat-peach", "icon": "question" },
+  { "id": "test", "name": "Testing ideas", "color": "cat-mint", "icon": "lab" },
+  { "id": "risk", "name": "Risk and screening", "color": "cat-orchid", "icon": "shield" }
 ],
 "categoryLabel": "Topic",
 "hint": "Start with the study notes: what kind of data you have decides which average, spread and graph you can use. Then classify real health data, judge study designs and work out the numbers.",
@@ -52,12 +100,14 @@ BGX.registerGame({
   { "id": "idea", "format": "quiz", "title": "Name the idea", "desc": "Read the key idea, pick the statistics term.", "icon": "?", "color": "cat-sky", "prompt": "Which idea is this?", "show": "key", "showAs": "text", "answer": "name", "answerAs": "small" },
   { "id": "example", "format": "quiz", "title": "Spot it in action", "desc": "A sample, a study, an average or a chance: name what is going on.", "icon": "?", "color": "cat-sage", "prompt": "Which idea does this example show?", "show": "eg", "showAs": "text", "answer": "name", "answerAs": "small", "only": ["study", "centre", "spread", "prob"] },
   { "id": "classify", "format": "cases", "title": "Classify the data", "desc": "Real health data sets: nominal, ordinal, interval or ratio? Discrete or continuous? Which variable is which?", "icon": "⌖", "color": "cat-amber", "rounds": 3, "only": ["levels", "vars"] },
-  { "id": "sort", "format": "sortit", "title": "Which topic?", "desc": "Variables, levels, sampling, centre, spread or probability?", "icon": "⌖", "color": "cat-lilac", "prompt": "Which topic does this belong to?", "choices": 4 },
+  { "id": "sort", "format": "sortit", "title": "Which topic?", "desc": "Variables, levels, sampling, centre, spread, probability, testing ideas or risk?", "icon": "⌖", "color": "cat-lilac", "prompt": "Which topic does this belong to?", "choices": 4 },
   { "id": "myth", "format": "truemyth", "title": "True or myth?", "desc": "Correlation and cause, the gambler's fallacy, medians and more.", "icon": "✓✕", "color": "cat-coral", "prompt": "True or myth?" },
   { "id": "pairs", "format": "matchpairs", "title": "Match Pairs", "desc": "Pair each term with its key idea.", "icon": "⇄", "color": "cat-lemon", "clue": "key", "clueLabel": "Key idea", "pairs": 6 },
   { "id": "clinic", "format": "cases", "title": "Study clinic", "desc": "Pick the sample, the design, the average or the chance for a health study.", "icon": "✚", "color": "cat-mint", "rounds": 3, "only": ["study", "centre", "spread", "prob"] },
-  { "id": "lab", "format": "calculator", "title": "Number lab", "desc": "Mean, median, mode, range, IQR, SD, z-scores and probability, with the formula and a helper.", "icon": "÷", "color": "cat-sand", "rounds": 8, "help": true, "formula": true },
-  { "id": "challenge", "format": "calculator", "title": "Challenge round", "desc": "10 mixed calculations, no formula, no helper.", "icon": "★", "color": "cat-orchid", "rounds": 10 }
+  { "id": "lab", "format": "calculator", "title": "Number lab", "desc": "Mean, median, mode, range, IQR, SD, z-scores and probability, with the formula and a helper.", "icon": "÷", "color": "cat-sand", "rounds": 8, "help": true, "formula": true, "only": ["centre", "spread", "prob"] },
+  { "id": "challenge", "format": "calculator", "title": "Challenge round", "desc": "10 mixed calculations, no formula, no helper.", "icon": "★", "color": "cat-orchid", "rounds": 10, "only": ["centre", "spread", "prob"] },
+  { "id": "evidence", "format": "cases", "title": "Reading the evidence", "desc": "A trial's p-value and confidence interval, a screening test, a cohort study and a risky headline.", "icon": "✚", "color": "cat-mint", "rounds": 3, "only": ["test", "risk"], "extra": true },
+  { "id": "risklab", "format": "calculator", "title": "Risk and screening lab", "desc": "Sensitivity, specificity, PPV, NPV, relative risk, odds ratio, ARR, RRR and NNT, with the formula and a helper.", "icon": "÷", "color": "cat-orchid", "rounds": 8, "help": true, "formula": true, "only": ["risk"], "extra": true }
 ],
 "items": [
   /* ---------- types of variables ---------- */
@@ -250,7 +300,119 @@ BGX.registerGame({
     "summary": "Independent events don't change each other's chances; for them, P(A and B) = P(A) × P(B).",
     "facts": ["Coin tosses, dice rolls and unrelated patients are independent.", "P(A and B) = P(A) × P(B): two unrelated patients each with a 0.2 chance gives 0.2 × 0.2 = 0.04.", "Past results don't change the next one: expecting a result to be 'due' is the gambler's fallacy."],
     "life": "Each toss is independent: after five heads the next toss is still 50:50. Thinking tails is 'due' is the gambler's fallacy.",
-    "claim": "After five heads in a row, tails is more likely on the next toss.", "verdict": false }
+    "claim": "After five heads in a row, tails is more likely on the next toss.", "verdict": false },
+
+  /* ---------- testing ideas (hypothesis tests, p-values, errors, confidence intervals, correlation) ---------- */
+  { "name": "Null and alternative hypotheses", "cat": "test", "icon": "pharm-signpost",
+    "key": "'No effect' claim vs the effect you look for", "eg": "H₀: the drug doesn't change BP; H₁: it does",
+    "summary": "A hypothesis test starts with two competing claims about the population. The null hypothesis (H₀) says there is no effect or no difference; the alternative hypothesis (H₁ or Hₐ) says there is one.",
+    "facts": ["H₀ is the 'nothing is going on' claim: no difference between the groups, no link between the variables.", "H₁ is what the researchers suspect: the groups differ, or the treatment has an effect.", "The test asks whether the data give enough evidence to reject H₀.", "If they don't, we 'fail to reject' H₀. That is not proof that H₀ is true: the study may just be too small."],
+    "life": "A painkiller trial sets H₀: pain scores are the same on the drug and on placebo. H₁: the pain scores differ.",
+    "claim": "Failing to reject the null hypothesis proves that there is no effect.", "verdict": false },
+  { "name": "p-value", "cat": "test", "icon": "chem-percent",
+    "key": "Chance of a result at least this extreme if H₀ were true", "eg": "A 5 mmHg difference in BP with p = 0.02",
+    "summary": "The p-value is the probability of getting a result at least as extreme as the one observed, assuming the null hypothesis is true.",
+    "facts": ["A small p-value means data like these would be unusual if there were no effect, so it counts as evidence against H₀.", "It is NOT the probability that H₀ is true, and 1 − p is not the chance that the treatment works.", "It says nothing about how big or how important the effect is.", "Very large studies can give tiny p-values for tiny effects."],
+    "life": "p = 0.02 means: if the drug truly did nothing, a difference this big or bigger would turn up in only about 2% of similar trials.",
+    "claim": "A p-value of 0.03 means there is a 3% chance that the null hypothesis is true.", "verdict": false },
+  { "name": "Significance level (α = 0.05)", "cat": "test", "icon": "pharm-barrier",
+    "key": "The cut-off: reject H₀ if p falls below it", "eg": "p = 0.01 is below 0.05, so the result is significant",
+    "summary": "The significance level, alpha (α), is chosen before the study. If the p-value is below α, the result is called statistically significant and H₀ is rejected.",
+    "facts": ["0.05 is a convention, not a law of nature: some studies use 0.01 or stricter.", "α is also the type I error rate the researchers accept: the chance of rejecting H₀ when it is really true.", "p = 0.049 and p = 0.051 carry almost the same evidence, so treat the cut-off as a guide, not a cliff edge.", "At α = 0.05, p < 0.05 goes with a 95% confidence interval that leaves out the 'no effect' value."],
+    "life": "A study reporting p = 0.04 is significant at the 0.05 level, but would not be at the stricter 0.01 level.",
+    "claim": "A result with p = 0.04 is statistically significant at the 0.05 level.", "verdict": true },
+  { "name": "Type I error", "cat": "test", "icon": "pharm-alarm",
+    "key": "Rejecting a true H₀: a false alarm", "eg": "Concluding that a useless drug works",
+    "summary": "A type I error happens when the null hypothesis is really true but the test rejects it: you 'find' an effect that isn't there.",
+    "facts": ["When H₀ is true, the chance of a type I error is α, usually 0.05.", "It is a false positive in research, like a smoke alarm going off with no fire.", "Running many tests raises the chance that at least one gives a false alarm.", "Lowering α (say to 0.01) makes type I errors rarer but type II errors more likely."],
+    "life": "Test 20 useless supplements at α = 0.05 and, on average, one of them will look 'significant' just by luck.",
+    "claim": "A type I error means concluding there is an effect when there really is none.", "verdict": true },
+  { "name": "Type II error and power", "cat": "test", "icon": "nutr-eye-closed",
+    "key": "Missing a real effect: a false negative", "eg": "A small trial misses a drug that really works",
+    "summary": "A type II error happens when there really is an effect but the test fails to reject the null hypothesis. Power is the chance of avoiding this.",
+    "facts": ["The chance of a type II error is called beta (β).", "Power = 1 − β: the chance of detecting a real effect of a given size.", "Small samples, noisy measurements and small effects all raise the risk of a type II error.", "Trials plan their sample size to reach a power of about 80% or 90%."],
+    "life": "A trial of 30 patients may 'find no effect' of a drug that helps, simply because it was too small to detect it.",
+    "claim": "A bigger sample makes a type II error less likely.", "verdict": true },
+  { "name": "Confidence interval (CI)", "cat": "test", "icon": "pharm-range",
+    "key": "A range of plausible values for the true effect", "eg": "Mean fall 8 mmHg, 95% CI 5 to 11 mmHg",
+    "summary": "A confidence interval is a range of plausible values for the true population value, worked out from the sample. A 95% CI comes from a method that captures the true value in about 95% of samples.",
+    "facts": ["A narrow CI means a precise estimate; bigger samples give narrower intervals.", "For a difference, the 'no effect' value is 0. For a ratio (RR or OR) it is 1. A 95% CI that includes it means not significant at 0.05.", "It is not the range that holds 95% of the patients' values.", "It shows the size of the effect as well as the uncertainty, so it tells you more than a p-value."],
+    "life": "A drug lowers BP by 8 mmHg on average (95% CI 5 to 11): the true average fall is plausibly anywhere from 5 to 11 mmHg.",
+    "claim": "A 95% confidence interval contains 95% of the individual patients' values.", "verdict": false },
+  { "name": "Statistical vs clinical significance", "cat": "test", "icon": "chem-balance",
+    "key": "A real effect, but is it big enough to matter?", "eg": "BP 1 mmHg lower, p < 0.001, in 50,000 people",
+    "summary": "Statistical significance says an effect is unlikely to be zero. Clinical significance asks whether it is big enough to make a real difference to patients.",
+    "facts": ["Huge studies can make tiny, unimportant effects statistically significant.", "Small studies can miss effects that would matter (a type II error).", "Judge clinical importance from the size of the effect and its CI, along with side effects, cost and what patients value.", "Researchers often name a minimal clinically important difference before the study starts."],
+    "life": "A diet that lowers weight by 0.3 kg on average could be 'significant' in a huge trial yet make no real difference to patients.",
+    "claim": "A statistically significant result is always clinically important.", "verdict": false },
+  { "name": "Correlation coefficient (r)", "cat": "test", "icon": "nutr-trend-down",
+    "key": "Strength and direction of a straight-line link: −1 to +1", "eg": "r = −0.6 for weekly exercise and resting heart rate",
+    "summary": "Pearson's correlation coefficient, r, measures how closely two quantitative variables follow a straight line, from −1 to +1.",
+    "facts": ["r near +1: a strong positive link (both rise together). Near −1: a strong negative link. Near 0: no straight-line link.", "The sign gives the direction; the size (ignoring the sign) gives the strength, so r = −0.9 is stronger than r = +0.3.", "It only measures straight-line links: a curved pattern can have r near 0.", "Even a strong r does not show that one variable causes the other: a lurking variable may drive both."],
+    "life": "Exercise and resting heart rate might have r = −0.6: more exercise goes with a lower heart rate, but r alone can't prove that one causes the other.",
+    "claim": "An r of −0.9 shows a weaker link than an r of +0.3.", "verdict": false },
+
+  /* ---------- risk and screening ---------- */
+  { "name": "Relative risk (RR)", "cat": "risk", "icon": "chem-ratio", "spot": "obs",
+    "key": "Risk in the exposed ÷ risk in the unexposed", "eg": "COPD in 12% of smokers vs 3% of non-smokers: RR = 4",
+    "summary": "Relative risk compares the risk of an outcome in an exposed group with the risk in an unexposed group. Risk = number with the outcome ÷ number in the group.",
+    "facts": ["RR = 1: no difference. RR > 1: higher risk in the exposed group. RR < 1: lower risk (a protective factor).", "Used in cohort studies and trials, which follow groups forward and count new cases.", "An RR of 0.75 means 25% lower risk; an RR of 2 means double the risk.", "RR says nothing about how common the outcome is: RR = 2 can mean 2 in a million vs 1 in a million."],
+    "life": "If 12% of smokers and 3% of non-smokers in a cohort develop COPD, the smokers have 4 times the risk: RR = 0.12 ÷ 0.03 = 4.",
+    "claim": "A relative risk of 1 means the exposure doubles the risk.", "verdict": false },
+  { "name": "Odds ratio (OR)", "cat": "risk", "icon": "pharm-columns", "spot": "obs",
+    "key": "Odds in one group ÷ odds in the other", "eg": "Hip fracture cases vs controls: who took steroids?",
+    "summary": "The odds ratio compares the odds of an outcome (or of an exposure) in one group with the odds in another. Odds = number with it ÷ number without it.",
+    "facts": ["From a 2×2 table with cells a, b (cases exposed, unexposed) and c, d (controls exposed, unexposed): OR = (a × d) ÷ (b × c).", "OR = 1: no link. OR > 1: exposure linked with higher odds. OR < 1: linked with lower odds.", "The usual measure in case–control studies, where the researchers pick how many cases and controls, so the true risk can't be worked out.", "When the outcome is rare (under about 10%), the OR is close to the RR."],
+    "life": "A case–control study compares people with and without a hip fracture and reports an odds ratio for long-term steroid use, not a risk.",
+    "claim": "When an outcome is rare, the odds ratio is close to the relative risk.", "verdict": true },
+  { "name": "Absolute vs relative risk reduction", "cat": "risk", "icon": "pharm-ad-box", "spot": "rct",
+    "key": "ARR = risk difference; RRR = that difference ÷ control risk", "eg": "Risk 2% → 1%: ARR 1 point, RRR 50%",
+    "summary": "The absolute risk reduction (ARR) is how much a treatment lowers the risk, in percentage points. The relative risk reduction (RRR) gives that drop as a share of the risk without treatment.",
+    "facts": ["ARR = control risk − treatment risk (often written CER − EER).", "RRR = ARR ÷ control risk, which is the same as 1 − RR.", "The same RRR can mean a big or a tiny ARR, depending on how high the risk was to start with.", "Headlines like the RRR because it sounds bigger: always ask for the absolute risks."],
+    "life": "'Halves your risk!' may mean 2 in 100 down to 1 in 100: an RRR of 50% but an ARR of just 1 percentage point.",
+    "claim": "A 50% relative risk reduction always means a large benefit for each patient.", "verdict": false },
+  { "name": "Number needed to treat (NNT)", "cat": "risk", "icon": "pharm-people", "spot": "rct",
+    "key": "Patients treated for one extra to benefit: 1 ÷ ARR", "eg": "ARR 0.05 (5 points) → NNT = 20",
+    "summary": "The NNT is how many patients need the treatment, for the length of time studied, for one extra patient to avoid the bad outcome compared with control.",
+    "facts": ["NNT = 1 ÷ ARR, with the ARR as a decimal (5% = 0.05), or 100 ÷ ARR when the ARR is in percentage points.", "If it isn't a whole number, round up to the next whole patient.", "Smaller NNT = more effective treatment. An NNT of 1 would mean every treated patient benefits.", "Always give the time period: 'NNT 50 over 5 years'. The same idea for harms is the number needed to harm (NNH)."],
+    "life": "If a statin lowers 5-year heart attack risk from 4% to 2%, the ARR is 0.02, so the NNT is 1 ÷ 0.02 = 50 people for 5 years.",
+    "claim": "A smaller number needed to treat means a more effective treatment.", "verdict": true },
+  { "name": "Sensitivity", "cat": "risk", "icon": "chem-scanner", "spot": "scale",
+    "key": "Share of people with the disease who test positive", "eg": "90 of the 100 people who have it test positive: 90%",
+    "summary": "Sensitivity is the true positive rate: of everyone who really has the condition, the proportion the test correctly picks up.",
+    "facts": ["Sensitivity = TP ÷ (TP + FN): true positives ÷ everyone with the disease.", "A highly sensitive test rarely misses the disease, so it gives few false negatives.", "So a negative result on a very sensitive test helps rule the disease out (SnNout).", "It describes the test itself: it doesn't depend on how common the disease is."],
+    "life": "Screening tests aim for high sensitivity so that few people with the disease are missed.",
+    "claim": "A test with high sensitivity rarely misses people who have the disease.", "verdict": true },
+  { "name": "Specificity", "cat": "risk", "icon": "shield", "spot": "scale",
+    "key": "Share of people without the disease who test negative", "eg": "950 of 1,000 people without it test negative: 95%",
+    "summary": "Specificity is the true negative rate: of everyone who does not have the condition, the proportion the test correctly clears.",
+    "facts": ["Specificity = TN ÷ (TN + FP): true negatives ÷ everyone without the disease.", "A highly specific test gives few false positives.", "So a positive result on a very specific test helps rule the disease in (SpPin).", "1 − specificity is the false positive rate: 95% specificity means 5% of healthy people test positive."],
+    "life": "A follow-up test after a positive screen needs high specificity so that healthy people are not wrongly diagnosed.",
+    "claim": "Specificity is the share of people with the disease who test positive.", "verdict": false },
+  { "name": "Positive predictive value (PPV)", "cat": "risk", "icon": "check", "spot": "scale",
+    "key": "Chance that a positive result is a true positive", "eg": "90 true positives out of 585 positives: PPV ≈ 15%",
+    "summary": "The PPV answers the patient's question after a positive test: how likely is it that I really have the condition?",
+    "facts": ["PPV = TP ÷ (TP + FP): true positives ÷ everyone who tested positive.", "It depends on prevalence: the rarer the condition, the lower the PPV, even with a good test.", "That is why screening a low-risk group produces many false alarms.", "Read it across the 'test positive' row of the 2×2 table, not down the 'has the disease' column."],
+    "life": "When 1 in 100 people has a condition, a test with 90% sensitivity and 95% specificity has a PPV of only about 15%.",
+    "claim": "The positive predictive value of a test stays the same whether a disease is rare or common.", "verdict": false },
+  { "name": "Negative predictive value (NPV)", "cat": "risk", "icon": "pharm-seal", "spot": "scale",
+    "key": "Chance that a negative result is a true negative", "eg": "9,405 true negatives out of 9,415 negatives: NPV ≈ 99.9%",
+    "summary": "The NPV answers the question after a negative test: how likely is it that I really am free of the condition?",
+    "facts": ["NPV = TN ÷ (TN + FN): true negatives ÷ everyone who tested negative.", "It also depends on prevalence: NPV is high when the condition is rare and falls as it becomes more common.", "A high NPV makes a negative result reassuring.", "PPV and NPV describe results in a particular population; sensitivity and specificity describe the test."],
+    "life": "In a low-risk group, a negative result from a sensitive test is very reassuring: the NPV is close to 100%.",
+    "claim": "When a disease becomes more common, the NPV of a test tends to fall.", "verdict": true },
+  { "name": "Incidence", "cat": "risk", "icon": "pharm-calendar", "spot": "scale",
+    "key": "New cases over a set time ÷ people at risk", "eg": "8 new cases of diabetes per 1,000 adults in a year",
+    "summary": "Incidence measures how often new cases of a condition appear in a population at risk over a stated length of time.",
+    "facts": ["Incidence (risk) = new cases during the period ÷ people at risk at the start.", "It always needs a time period: 'per year', 'over 5 years'.", "People who already have the condition are not at risk of getting it, so they are left out.", "Used to study causes and to track outbreaks: is the disease spreading?"],
+    "life": "During a flu outbreak, public health teams watch the incidence (new cases each week) to see whether it is spreading.",
+    "claim": "Incidence counts everyone who has a condition at a given moment.", "verdict": false },
+  { "name": "Prevalence", "cat": "risk", "icon": "pharm-pie", "spot": "scale",
+    "key": "All current cases ÷ whole population at one time", "eg": "About 1 in 10 adults living with diabetes today",
+    "summary": "Prevalence is the proportion of a population who have a condition at a particular time, whether their case is new or long-standing.",
+    "facts": ["Point prevalence = people with the condition now ÷ everyone in the population now.", "Long-lasting conditions build up: when things are steady and the condition is fairly rare, prevalence ≈ incidence × average duration.", "A treatment that keeps people alive longer without curing them raises prevalence, even if incidence stays the same.", "Used to plan services, and it drives a test's PPV and NPV."],
+    "life": "Diabetes has a high prevalence partly because people live with it for decades, so cases build up over time.",
+    "claim": "A treatment that keeps people alive longer, without curing them, can raise prevalence.", "verdict": true }
 ],
 
 "cases": [
@@ -408,7 +570,45 @@ BGX.registerGame({
       { "q": "What is the probability that a patient does NOT get nausea?", "options": ["0.8", "0.2", "0.4", "1.2"], "answer": 0, "why": "Complement rule: 1 − 0.2 = 0.8." },
       { "q": "Two unrelated patients take it. What is the probability that both get nausea?", "options": ["0.04", "0.4", "0.2", "0.64"], "answer": 0, "why": "Independent events multiply: 0.2 × 0.2 = 0.04." },
       { "q": "The last four patients had no nausea. What is the chance that the fifth patient gets it?", "options": ["Still 0.2", "Higher than 0.2, because it's 'due'", "Lower than 0.2, because of the streak", "About 0.0003 (0.2 multiplied five times)"], "answer": 0, "why": "Each patient is independent: past patients don't change the next one. Thinking it is 'due' is the gambler's fallacy." }],
-    "takeaway": "Not = 1 − P; independent 'and' = multiply; streaks don't change the next chance." }
+    "takeaway": "Not = 1 − P; independent 'and' = multiply; streaks don't change the next chance." },
+
+  /* ---------- reading the evidence (extra mode): testing ideas, risk and screening ---------- */
+  { "id": "t1", "cat": "test", "icon": "pharm-bp-gauge", "title": "Reading a trial result",
+    "who": "Journal abstract, blood pressure trial",
+    "story": "600 adults with high blood pressure were randomly given a new tablet or a placebo for 12 weeks. The abstract says systolic BP fell 6 mmHg more on the tablet than on placebo (95% CI 2 to 10 mmHg, p = 0.003).",
+    "data": [["Difference", "6 mmHg more fall on the tablet"], ["95% CI", "2 to 10 mmHg"], ["p-value", "0.003"]],
+    "steps": [
+      { "q": "What does p = 0.003 tell you?", "options": ["If the tablet did nothing, a gap this big would be very rare", "There is a 0.3% chance that the tablet does nothing at all", "There is a 99.7% chance that the tablet lowers BP", "The tablet lowered BP in 99.7% of the patients"], "answer": 0, "why": "A p-value assumes H₀ is true (no effect) and asks how often data at least this extreme would turn up. It is not the chance that H₀ is true or that the drug works." },
+      { "q": "What does the 95% CI of 2 to 10 mmHg tell you?", "options": ["The true extra fall is plausibly between 2 and 10 mmHg", "95% of patients had a fall of between 2 and 10 mmHg", "Every patient's BP fell by between 2 and 10 mmHg", "There is a 95% chance the trial was run correctly"], "answer": 0, "why": "A CI is a range of plausible values for the true average effect in the population, not the spread of individual patients' results." },
+      { "q": "Is the result statistically significant at the 0.05 level?", "options": ["Yes: p is below 0.05 and the CI leaves out 0", "No: the CI is too wide for the result to count", "Yes: but only because 600 people took part", "No: p has to be below 0.001 to be significant"], "answer": 0, "why": "p = 0.003 is below α = 0.05, and the 95% CI for the difference does not include 0 (no effect): the two agree." }],
+    "takeaway": "Significant, with a plausible effect of 2 to 10 mmHg; whether that matters to patients is the clinical question." },
+  { "id": "r1", "cat": "risk", "icon": "chem-scanner", "spot": "scale", "title": "A new screening test",
+    "who": "Screening programme, 10,000 adults",
+    "story": "A new blood test is checked in 10,000 adults; 100 of them really have the condition (1%). Of those 100, 90 test positive. Of the 9,900 without it, 495 test positive. Maria, who has no symptoms, tests positive.",
+    "data": [["Has it: test +", "90 (of 100)"], ["Doesn't: test +", "495 (of 9,900)"], ["All positives", "585"], ["All negatives", "9,415"]],
+    "steps": [
+      { "q": "What is the test's sensitivity?", "options": ["90%: 90 of the 100 who have it", "15%: 90 of the 585 positives", "95%: 9,405 of the 9,900 without it", "99.9%: 9,405 of the 9,415 negatives"], "answer": 0, "why": "Sensitivity = TP ÷ everyone with the condition = 90 ÷ 100 = 90%. (95% is the specificity; 15% and 99.9% are the PPV and NPV.)" },
+      { "q": "About how likely is it that Maria really has the condition?", "options": ["About 15%: most positives are false alarms", "About 90%: the same as the test's sensitivity", "About 95%: the same as the test's specificity", "About 1%: a positive result changes nothing"], "answer": 0, "why": "This is the PPV: 90 true positives ÷ 585 positives ≈ 15%. Her chance has risen from 1% to about 15%, but most positives are false." },
+      { "q": "Why is the positive predictive value so low?", "options": ["The condition is rare, so false positives outnumber true ones", "The test misses too many of the people who have the condition", "A sample of 10,000 people is too small to judge a new test", "A specificity of 95% means that 95% of the positives are wrong"], "answer": 0, "why": "5% of 9,900 healthy people (495) is far more than 90% of the 100 who are ill (90). The lower the prevalence, the lower the PPV." }],
+    "takeaway": "Sensitivity and specificity describe the test; PPV and NPV also depend on how common the condition is." },
+  { "id": "r2", "cat": "risk", "icon": "well-st-binoculars", "spot": "obs", "title": "Smokers and COPD",
+    "who": "Cohort study, 3,000 adults followed for 20 years",
+    "story": "Researchers recorded who smoked, then followed 1,000 smokers and 2,000 non-smokers for 20 years. 120 smokers and 60 non-smokers developed COPD (illustrative numbers).",
+    "data": [["Smokers", "120 of 1,000 got COPD"], ["Non-smokers", "60 of 2,000 got COPD"], ["Design", "cohort (observational)"]],
+    "steps": [
+      { "q": "What was the risk of COPD in each group?", "options": ["12% for smokers, 3% for non-smokers", "12% for smokers, 6% for non-smokers", "67% for smokers, 33% for non-smokers", "1.2% for smokers, 0.3% for non-smokers"], "answer": 0, "why": "Risk = cases ÷ group size: 120 ÷ 1,000 = 0.12 (12%) and 60 ÷ 2,000 = 0.03 (3%)." },
+      { "q": "What is the relative risk for smokers compared with non-smokers?", "options": ["4: smokers had four times the risk", "2: there were twice as many cases", "9: the two risks differ by 9 points", "0.25: smokers had a quarter of the risk"], "answer": 0, "why": "RR = 0.12 ÷ 0.03 = 4. Comparing raw counts (120 vs 60) ignores that the groups are different sizes; 9 points is the risk difference." },
+      { "q": "On its own, does this one study prove that smoking causes COPD?", "options": ["No: it is observational, so confounding is possible", "Yes: any RR above 1 proves cause and effect", "Yes: a cohort that follows people forward proves it", "No: an RR can't be worked out from a cohort study"], "answer": 0, "why": "People chose whether to smoke, so smokers may differ in other ways. Cause is judged from many studies together: strength, consistency, dose–response and timing." }],
+    "takeaway": "Cohort study: risk = cases ÷ group size, RR = risk exposed ÷ risk unexposed; a link, not proof on its own." },
+  { "id": "r3", "cat": "risk", "icon": "pharm-ad-box", "spot": "rct", "title": "'Pill halves heart attacks!'",
+    "who": "Newspaper headline about a 5-year trial",
+    "story": "A headline says a new pill 'halves the risk of heart attack'. In the trial, 2 in every 100 people on placebo had a heart attack over 5 years, compared with 1 in every 100 people on the pill.",
+    "data": [["Placebo", "2 in 100 (2%)"], ["Pill", "1 in 100 (1%)"], ["Time", "5 years"]],
+    "steps": [
+      { "q": "What is the relative risk reduction?", "options": ["50%", "1%", "2%", "99%"], "answer": 0, "why": "RRR = (2% − 1%) ÷ 2% = 0.5 = 50%. This is the 'halves the risk' in the headline." },
+      { "q": "What is the absolute risk reduction?", "options": ["1 percentage point", "50 percentage points", "2 percentage points", "0.5 percentage points"], "answer": 0, "why": "ARR = control risk − treatment risk = 2% − 1% = 1 percentage point (0.01)." },
+      { "q": "How many people need the pill for 5 years to prevent one heart attack?", "options": ["100", "50", "200", "2"], "answer": 0, "why": "NNT = 1 ÷ ARR = 1 ÷ 0.01 = 100 people for 5 years. For every 100 treated, one heart attack is prevented; the other 99 gain nothing from it but can still get side effects." }],
+    "takeaway": "'Halves the risk' can mean 2 in 100 down to 1 in 100: always ask for the absolute risks and the NNT." }
 ],
 
 "problems": [
@@ -541,7 +741,88 @@ BGX.registerGame({
     "text": "In a clinic's records, {u}% of adults are underweight, {h}% a healthy weight, {o}% overweight and {b}% obese (each adult is in exactly one group). What is the probability (as a decimal) that a random adult is {an} or {bn}?",
     "answer": v => v.pa + v.pb,
     "steps": ["The BMI groups can't overlap: mutually exclusive, so add", "P(A or B) = {pa} + {pb}", "= {answer}"],
-    "hint": (v, x) => Math.abs(x - v.pa * v.pb) < 0.006 ? "You multiplied: for 'or' with events that can't happen together, add the probabilities." : Math.abs(x - (v.pa + v.pb) * 100) < 0.6 ? "Give the answer as a decimal between 0 and 1." : "" }
+    "hint": (v, x) => Math.abs(x - v.pa * v.pb) < 0.006 ? "You multiplied: for 'or' with events that can't happen together, add the probabilities." : Math.abs(x - (v.pa + v.pb) * 100) < 0.6 ? "Give the answer as a decimal between 0 and 1." : "" },
+
+  /* ---------- risk and screening (all numbers illustrative; each generator keeps only clean answers) ---------- */
+  { "id": "sens", "cat": "risk", "title": "Sensitivity from a 2×2 table", "spot": "scale", "unit": "%", "dp": 1, "formula": "Sensitivity = TP ÷ (TP + FN)",
+    "make": () => screen("sens"), "ok": v => clean(v.sens, 1),
+    "text": "A {test} is checked against a reference test in {n} people. Of the {n1} who have {dis}, {tp} test positive and {fn} test negative. Of the {n0} who don't, {fp} test positive and {tn} test negative. What is the sensitivity?",
+    "answer": v => v.sens,
+    "steps": ["Sensitivity = TP ÷ everyone with the disease = TP ÷ (TP + FN)", "= {tp} ÷ ({tp} + {fn}) = {tp} ÷ {n1}, then × 100", "= {answer}"],
+    "tip": "Sensitivity looks only at the people who HAVE the disease.",
+    "hint": (v, x) => Math.abs(x - v.spec) < 0.06 ? "That is the specificity (people without the disease). Sensitivity uses the people who have it." : Math.abs(x - v.ppv) < 0.06 ? "You divided by everyone who tested positive: that is the PPV. Sensitivity divides by everyone who has the disease." : "" },
+  { "id": "spec", "cat": "risk", "title": "Specificity from a 2×2 table", "spot": "scale", "unit": "%", "dp": 1, "formula": "Specificity = TN ÷ (TN + FP)",
+    "make": () => screen("spec"), "ok": v => clean(v.spec, 1),
+    "text": "A {test} is checked against a reference test in {n} people. Of the {n1} who have {dis}, {tp} test positive and {fn} test negative. Of the {n0} who don't, {fp} test positive and {tn} test negative. What is the specificity?",
+    "answer": v => v.spec,
+    "steps": ["Specificity = TN ÷ everyone without the disease = TN ÷ (TN + FP)", "= {tn} ÷ ({tn} + {fp}) = {tn} ÷ {n0}, then × 100", "= {answer}"],
+    "tip": "Specificity looks only at the people who do NOT have the disease.",
+    "hint": (v, x) => Math.abs(x - v.sens) < 0.06 ? "That is the sensitivity. Specificity uses the people without the disease: TN ÷ (TN + FP)." : Math.abs(x - v.npv) < 0.06 ? "You divided by everyone who tested negative: that is the NPV. Specificity divides by everyone without the disease." : Math.abs(x - (100 - v.spec)) < 0.06 ? "That is the false positive rate: specificity is the share who test NEGATIVE." : "" },
+  { "id": "ppv", "cat": "risk", "title": "Positive predictive value", "spot": "scale", "unit": "%", "dp": 1, "formula": "PPV = TP ÷ (TP + FP)",
+    "make": () => screen("ppv"), "ok": v => clean(v.ppv, 1),
+    "text": "A {test} is checked against a reference test in {n} people. Of the {n1} who have {dis}, {tp} test positive and {fn} test negative. Of the {n0} who don't, {fp} test positive and {tn} test negative. What is the positive predictive value?",
+    "answer": v => v.ppv,
+    "steps": ["PPV = TP ÷ everyone who tested positive = TP ÷ (TP + FP)", "= {tp} ÷ ({tp} + {fp}) = {tp} ÷ {pos}, then × 100", "= {answer}"],
+    "tip": "PPV answers: I tested positive, so how likely is it that I really have it?",
+    "hint": (v, x) => Math.abs(x - v.sens) < 0.06 ? "That is the sensitivity. PPV divides by everyone who tested POSITIVE, true and false." : "" },
+  { "id": "npv", "cat": "risk", "title": "Negative predictive value", "spot": "scale", "unit": "%", "dp": 1, "formula": "NPV = TN ÷ (TN + FN)",
+    "make": () => screen("npv"), "ok": v => clean(v.npv, 1),
+    "text": "A {test} is checked against a reference test in {n} people. Of the {n1} who have {dis}, {tp} test positive and {fn} test negative. Of the {n0} who don't, {fp} test positive and {tn} test negative. What is the negative predictive value?",
+    "answer": v => v.npv,
+    "steps": ["NPV = TN ÷ everyone who tested negative = TN ÷ (TN + FN)", "= {tn} ÷ ({tn} + {fn}) = {tn} ÷ {neg}, then × 100", "= {answer}"],
+    "tip": "NPV answers: I tested negative, so how likely is it that I really am clear?",
+    "hint": (v, x) => Math.abs(x - v.spec) < 0.06 ? "That is the specificity. NPV divides by everyone who tested NEGATIVE, true and false." : "" },
+  { "id": "rr", "cat": "risk", "title": "Relative risk (cohort study)", "spot": "obs", "unit": "", "dp": 2, "formula": "RR = risk in exposed ÷ risk in unexposed",
+    "make": () => { let v = null;
+      for (let t = 0; t < 4000; t++) {
+        const C = pick(COHORT), re = pick(C.re), ru = pick(C.ru), ne = pick([400, 500, 800, 1000, 1200, 2000]), nu = pick([400, 500, 800, 1000, 1500, 2000]);
+        v = { exp: C.exp, unexp: C.unexp, out: C.out, time: C.time, re, ru, ne, nu, a: Math.round(ne * re), c: Math.round(nu * ru) };
+        v.or = (v.a / (ne - v.a)) / (v.c / (nu - v.c));
+        if (ne !== nu && clean(re / ru, 2) && Math.abs(re / ru - 1) > 0.1) return v;
+      }
+      return v; },
+    "ok": (v, a) => clean(a, 2),
+    "text": "A cohort study follows {ne} {exp} and {nu} {unexp} {time}. {a} of the {exp} and {c} of the {unexp} {out}. What is the relative risk for the {exp} compared with the {unexp}?",
+    "answer": v => v.re / v.ru,
+    "steps": ["Risk in the {exp} = {a} ÷ {ne} = {re}", "Risk in the {unexp} = {c} ÷ {nu} = {ru}", "RR = {re} ÷ {ru}", "= {answer}"],
+    "tip": "RR above 1: higher risk in the exposed group. Below 1: lower risk (protective).",
+    "hint": (v, x) => Math.abs(x - v.a / v.c) < 0.006 ? "You compared the counts, but the groups are different sizes. Work out each risk first (cases ÷ group size)." : Math.abs(x - v.ru / v.re) < 0.006 ? "Upside down: put the exposed group's risk on top." : Math.abs(x - v.or) < 0.006 ? "That is the odds ratio. For relative risk, divide the two risks (cases ÷ everyone in the group)." : "" },
+  { "id": "oddsratio", "cat": "risk", "title": "Odds ratio (case–control study)", "spot": "obs", "unit": "", "dp": 1, "formula": "OR = (a × d) ÷ (b × c)",
+    "make": () => { let v = null;
+      for (let t = 0; t < 4000; t++) {
+        const C = pick(CASECON), nca = pick(C.nca), nco = pick(C.nco), a = Math.round(nca * (0.2 + Math.random() * 0.6)), c = Math.round(nco * (0.05 + Math.random() * 0.35));
+        v = { cases: C.cases, controls: C.controls, exp: C.exp, short: C.short, nca, nco, a, b: nca - a, c, d: nco - c };
+        v.ad = v.a * v.d; v.bc = v.b * v.c; v.rr = (a / nca) / (c / nco);
+        if (v.b > 0 && v.c > 0 && clean(v.ad / v.bc, 1) && v.ad / v.bc >= 1.5 && v.ad / v.bc <= 9) return v;
+      }
+      return v; },
+    "ok": (v, a) => clean(a, 1) && a >= 1.5 && a <= 9,
+    "text": "A case–control study compares {nca} {cases} with {nco} {controls}. {a} of the cases and {c} of the controls {exp}. What is the odds ratio for {short}?",
+    "answer": v => v.ad / v.bc,
+    "steps": ["Cases: {a} exposed, {b} not, so odds = {a} ÷ {b}", "Controls: {c} exposed, {d} not, so odds = {c} ÷ {d}", "OR = ({a} × {d}) ÷ ({b} × {c}) = {ad} ÷ {bc}", "= {answer}"],
+    "tip": "Odds = exposed ÷ NOT exposed (not ÷ everyone). Cross-multiply: (a × d) ÷ (b × c).",
+    "hint": (v, x) => Math.abs(x - v.rr) < 0.06 ? "You divided by everyone in each group (like a risk). Odds divide the exposed by the NOT exposed." : Math.abs(x - 1 / (v.ad / v.bc)) < 0.06 ? "Upside down: put the cases' odds on top." : "" },
+  { "id": "arr", "cat": "risk", "title": "Absolute risk reduction", "spot": "rct", "unit": "percentage points", "dp": 0, "formula": "ARR = control risk − treatment risk",
+    "make": () => trial(v => v.nc !== v.nt), "ok": (v, a) => whole(a),
+    "text": "In a trial, {ec} of {nc} patients on placebo and {et} of {nt} patients on {drug} had {out} {time}. What is the absolute risk reduction, in percentage points?",
+    "answer": v => v.arrp,
+    "steps": ["Control risk = {ec} ÷ {nc} = {cerp}%", "Treatment risk = {et} ÷ {nt} = {eerp}%", "ARR = {cerp}% − {eerp}%", "= {answer}"],
+    "tip": "Work out each group's risk first: the groups are different sizes.",
+    "hint": (v, x) => Math.abs(x - v.rrr) < 0.6 && v.rrr !== v.arrp ? "That is the relative risk reduction. The ARR is just control risk − treatment risk." : Math.abs(x - (v.ec - v.et)) < 0.6 ? "You subtracted the counts: turn each into a risk (cases ÷ group size) first." : "" },
+  { "id": "rrr", "cat": "risk", "title": "Relative risk reduction", "spot": "rct", "unit": "%", "dp": 0, "formula": "RRR = ARR ÷ control risk",
+    "make": () => trial(v => whole(v.rrr) && v.nc !== v.nt), "ok": v => whole(v.rrr),
+    "text": "In a trial, {ec} of {nc} patients on placebo and {et} of {nt} patients on {drug} had {out} {time}. What is the relative risk reduction?",
+    "answer": v => v.rrr,
+    "steps": ["Control risk = {ec} ÷ {nc} = {cerp}%; treatment risk = {et} ÷ {nt} = {eerp}%", "ARR = {cerp}% − {eerp}% = {arrp} percentage points", "RRR = {arrp} ÷ {cerp}, then × 100", "= {answer}"],
+    "tip": "RRR is the drop as a share of the control risk; it always sounds bigger than the ARR.",
+    "hint": (v, x) => Math.abs(x - v.arrp) < 0.6 ? "That is the absolute risk reduction. Now divide it by the control risk." : Math.abs(x - 100 * v.arrp / v.eerp) < 0.6 ? "Divide by the CONTROL (placebo) risk, not the treatment risk." : "" },
+  { "id": "nnt", "cat": "risk", "title": "Number needed to treat", "spot": "rct", "unit": "patients", "dp": 0, "formula": "NNT = 1 ÷ ARR (ARR as a decimal)",
+    "make": () => trial(v => [1, 2, 4, 5, 10].indexOf(v.arrp) >= 0), "ok": (v, a) => whole(a),
+    "text": "In a trial, {cerp}% of patients on placebo and {eerp}% of patients on {drug} had {out} {time}. How many patients need to be treated with {drug} for one extra patient to avoid {out}?",
+    "answer": v => 100 / v.arrp,
+    "steps": ["ARR = {cerp}% − {eerp}% = {arrp}% = {arr}", "NNT = 1 ÷ ARR = 1 ÷ {arr}", "= {answer}"],
+    "tip": "If the NNT is not a whole number, round up to the next whole patient.",
+    "hint": (v, x) => Math.abs(x - v.arrp) < 0.6 ? "That is the ARR. The NNT is 1 ÷ ARR, with the ARR as a decimal." : Math.abs(x - 100 / v.cerp) < 0.6 || Math.abs(x - 100 / v.eerp) < 0.6 ? "Use the difference between the two risks (the ARR), not one risk on its own." : "" }
 ],
 
 "notes": {
@@ -564,7 +845,13 @@ BGX.registerGame({
       "tip": "68–95–99.7: one, two, three SDs, like a bigger and bigger net." },
     { "cat": "prob", "about": "A probability runs from 0 (impossible) to 1 (certain) and can be written as a decimal, a percentage or a fraction. From data, P = number with the outcome ÷ total. The complement rule: P(not A) = 1 − P(A). For mutually exclusive events (they can't happen together), P(A or B) = P(A) + P(B). For independent events (one doesn't affect the other), P(A and B) = P(A) × P(B). Odds compare 'happens' with 'doesn't happen', so they are not the same as probability.",
       "points": ["'Or' with no overlap: add. 'And' with independent events: multiply.", "If events can overlap, subtract the overlap: P(A) + P(B) − P(A and B).", "Gambler's fallacy: past independent results don't change the next one."],
-      "tip": "OR adds, AND multiplies (when the rules' conditions hold)." }
+      "tip": "OR adds, AND multiplies (when the rules' conditions hold)." },
+    { "cat": "test", "about": "A hypothesis test weighs the evidence against a 'no effect' claim. The null hypothesis (H₀) says there is no difference or no effect; the alternative (H₁) says there is. The p-value is the probability of a result at least as extreme as the one seen, if H₀ were true. If p is below the significance level chosen in advance (usually α = 0.05), the result is statistically significant and H₀ is rejected. Rejecting a true H₀ is a type I error (a false alarm, chance α); missing a real effect is a type II error (chance β, and power = 1 − β). A 95% confidence interval gives a range of plausible values for the true effect, and shows its size as well as the uncertainty. Statistical significance is not the same as clinical importance. The correlation coefficient r (from −1 to +1) measures the strength and direction of a straight-line link, and never proves cause on its own.",
+      "points": ["The p-value is NOT the chance that H₀ is true, and 1 − p is not the chance the treatment works.", "Not significant ≠ no effect: the study may be too small (low power).", "CI for a difference includes 0, or CI for a ratio (RR, OR) includes 1: not significant at 0.05.", "A 95% CI is about the true average effect, not where 95% of patients' values lie.", "Big studies make tiny effects significant: ask whether the size of the effect matters to patients.", "r = −0.9 is a stronger link than r = +0.3; correlation is not causation."],
+      "tip": "Type I: crying wolf when there is no wolf. Type II: missing the wolf that is really there." },
+    { "cat": "risk", "about": "Risk is the number who get an outcome ÷ the number in the group. Relative risk (RR) divides the risk in the exposed group by the risk in the unexposed group; it comes from cohort studies and trials. The odds ratio (OR) divides odds (with ÷ without) and is used in case–control studies; for rare outcomes it is close to the RR. In a trial, the absolute risk reduction is ARR = control risk − treatment risk, the relative risk reduction is RRR = ARR ÷ control risk, and the number needed to treat is NNT = 1 ÷ ARR (rounded up). For a screening test, sensitivity = TP ÷ (TP + FN) and specificity = TN ÷ (TN + FP) describe the test; PPV = TP ÷ (TP + FP) and NPV = TN ÷ (TN + FN) describe what a result means, and they change with prevalence. Incidence counts new cases over a period among people at risk; prevalence counts all current cases at one time.",
+      "points": ["RR or OR = 1: no difference; above 1: higher risk or odds; below 1: lower (protective).", "Headlines quote the RRR; patients need the ARR and the NNT, with the time period.", "Sensitivity and specificity: read down the columns (has it / doesn't). PPV and NPV: read across the rows (tested positive / negative).", "SnNout: a negative on a highly Sensitive test rules it out. SpPin: a positive on a highly Specific test rules it in.", "Rare condition: PPV falls (many false alarms) and NPV rises.", "Roughly, prevalence ≈ incidence × average duration: long-lasting conditions build up."],
+      "tip": "Risk divides by everyone in the group; odds divide by those WITHOUT it." }
   ]
 }
 });
