@@ -100,7 +100,212 @@ BGX.registerGame({
 "clue": "meaning",
 "clueLabel": "Meaning",
 "pairs": 6
-}
+},
+{"id":"exam","format":"exam","title":"Exam-style questions","desc":"Select all that apply, and what to do first.","icon":"✓✓","color":"cat-sand","rounds":8,"extra":true}
+],
+"exam": [
+ {
+  "id": "dj-x1",
+  "cat": "pk",
+  "kind": "sata",
+  "q": "Which routes avoid the first-pass effect? Select all that apply.",
+  "options": [
+   "Under the tongue (sublingual)",
+   "Skin patch (transdermal)",
+   "Intravenous",
+   "Oral tablet",
+   "Oral liquid",
+   "Enteric-coated tablet"
+  ],
+  "answer": [
+   0,
+   1,
+   2
+  ],
+  "why": "Sublingual, transdermal and IV drugs reach the general circulation without passing through the liver first. Anything swallowed, whatever its form, is absorbed from the gut into the portal vein and meets the liver before the rest of the body."
+ },
+ {
+  "id": "dj-x2",
+  "cat": "pk",
+  "kind": "sata",
+  "stem": "A patient with a low serum albumin takes phenytoin, a highly protein-bound drug.",
+  "q": "Which statements are correct? Select all that apply.",
+  "options": [
+   "More free (unbound) drug is in the blood",
+   "Toxic effects may occur at a usual dose",
+   "Another highly bound drug can displace it",
+   "Bound drug passes easily into the tissues",
+   "Low albumin weakens the drug's effect",
+   "Only the bound drug can reach receptors"
+  ],
+  "answer": [
+   0,
+   1,
+   2
+  ],
+  "why": "Only free drug can leave the blood and act. With less albumin, more of the dose is free, so a usual dose can be toxic. Another highly bound drug competes for albumin and frees more of it. Bound drug stays in the blood and cannot act."
+ },
+ {
+  "id": "dj-x3",
+  "cat": "dose",
+  "kind": "sata",
+  "stem": "A drug has a half-life of 8 hours.",
+  "q": "Which statements are correct? Select all that apply.",
+  "options": [
+   "About 50% of a dose remains after 8 hours",
+   "About 25% of a dose remains after 16 hours",
+   "Steady state takes about 32 to 40 hours",
+   "Most of a dose is cleared after 8 hours",
+   "A loading dose lengthens its half-life",
+   "Doubling the dose doubles the half-life"
+  ],
+  "answer": [
+   0,
+   1,
+   2
+  ],
+  "why": "Each half-life halves the amount: 50% after one, 25% after two. Steady state takes about 4 to 5 half-lives, here 32 to 40 hours. A loading dose reaches a working level sooner but does not change the half-life, which depends on how fast the body removes the drug, not on the dose."
+ },
+ {
+  "id": "dj-x4",
+  "cat": "dose",
+  "kind": "sata",
+  "stem": "A patient is receiving IV gentamicin every 8 hours with peak and trough levels ordered.",
+  "q": "Which actions are correct? Select all that apply.",
+  "options": [
+   "Draw the trough just before the next dose",
+   "Draw the peak at the set time after the infusion",
+   "Report a high trough before giving the next dose",
+   "Draw the trough from the line the drug runs in",
+   "Draw the peak just before the infusion starts"
+  ],
+  "answer": [
+   0,
+   1,
+   2
+  ],
+  "why": "The trough is the lowest level, just before the next dose; the peak is the highest, at a set time after the infusion ends. A high trough means the drug is building up and the dose needs review. Blood drawn from the drug's own line gives a falsely high level."
+ },
+ {
+  "id": "dj-x5",
+  "cat": "dose",
+  "kind": "sata",
+  "q": "Which statements about drugs with a narrow therapeutic index are correct? Select all that apply.",
+  "options": [
+   "Small dose changes can cause toxicity",
+   "Blood levels are often monitored",
+   "Digoxin and lithium are examples",
+   "Effective and toxic levels are far apart",
+   "Switching brands carries little risk",
+   "Amoxicillin is a classic example"
+  ],
+  "answer": [
+   0,
+   1,
+   2
+  ],
+  "why": "A narrow index means a small gap between the effective and the toxic level, so small changes from doses, interactions or a brand switch matter and levels are checked. Digoxin, lithium, warfarin and gentamicin are classic examples; amoxicillin has a wide margin."
+ },
+ {
+  "id": "dj-x6",
+  "cat": "pk",
+  "kind": "sata",
+  "stem": "An 82-year-old has reduced kidney function.",
+  "q": "Which statements are correct? Select all that apply.",
+  "options": [
+   "Drugs cleared by the kidneys may build up",
+   "Their half-life may become longer",
+   "Lower or less frequent doses may be ordered",
+   "IV drugs are unaffected as they skip absorption",
+   "Gentamicin will be cleared faster than usual",
+   "Creatinine results help guide dosing"
+  ],
+  "answer": [
+   0,
+   1,
+   2,
+   5
+  ],
+  "why": "Poor kidney function slows excretion, so renally cleared drugs stay longer, their half-life lengthens and doses are reduced or spaced out, guided by creatinine and eGFR. Skipping absorption does not help: IV drugs still have to be excreted, and gentamicin clearance falls, not rises."
+ },
+ {
+  "id": "dj-x7",
+  "cat": "pd",
+  "kind": "sata",
+  "q": "Which statements about agonists and antagonists are correct? Select all that apply.",
+  "options": [
+   "Albuterol is an agonist at beta-2 receptors",
+   "Naloxone is an antagonist at opioid receptors",
+   "Metoprolol is an antagonist at beta-1 receptors",
+   "An antagonist switches the receptor on weakly",
+   "Naloxone reverses sedation from benzodiazepines"
+  ],
+  "answer": [
+   0,
+   1,
+   2
+  ],
+  "why": "Albuterol activates beta-2 receptors to open the airways, and metoprolol blocks beta-1 receptors in the heart. Naloxone blocks opioid receptors, so it does not reverse benzodiazepines, which act on a different receptor. An antagonist binds without switching the receptor on; a weak activator is a partial agonist."
+ },
+ {
+  "id": "dj-x8",
+  "cat": "pk",
+  "kind": "first",
+  "stem": "A patient with liver cirrhosis was given a usual dose of a drug cleared by the liver. Two hours later he is very drowsy.",
+  "q": "What should the nurse do first?",
+  "options": [
+   "Review the latest liver function tests",
+   "Hold the next dose of the drug",
+   "Assess his breathing and oxygen saturation",
+   "Notify the prescriber"
+  ],
+  "answer": 2,
+  "why": "Airway and breathing first: slow metabolism can let the drug build up and depress breathing. Once breathing is checked and supported, the nurse holds further doses, reports to the prescriber with findings and reviews the labs."
+ },
+ {
+  "id": "dj-x9",
+  "cat": "dose",
+  "kind": "first",
+  "stem": "A gentamicin dose is due now. The trough drawn 30 minutes ago is above the target range.",
+  "q": "What should the nurse do first?",
+  "options": [
+   "Hold the scheduled dose",
+   "Notify the prescriber",
+   "Ask the patient about hearing changes",
+   "Check the latest creatinine result"
+  ],
+  "answer": 0,
+  "why": "Safety first: giving the dose would push a level that is already too high even higher, so the dose is held. The nurse then checks for ear and kidney effects and contacts the prescriber, who will adjust the dose."
+ },
+ {
+  "id": "dj-x10",
+  "cat": "pk",
+  "kind": "first",
+  "stem": "A patient has chest pain. Sublingual nitroglycerin (glyceryl trinitrate) is ordered.",
+  "q": "What should the nurse do first?",
+  "options": [
+   "Place the tablet under the tongue",
+   "Check the blood pressure",
+   "Tell him not to swallow the tablet",
+   "Recheck the chest pain in 5 minutes"
+  ],
+  "answer": 1,
+  "why": "Assess before acting: nitroglycerin widens blood vessels and can drop the blood pressure sharply, so it is checked first. The tablet then goes under the tongue to avoid the first pass, with teaching not to swallow it, and the pain is rechecked after 5 minutes."
+ },
+ {
+  "id": "dj-x11",
+  "cat": "dose",
+  "kind": "first",
+  "q": "Which patient should the nurse see first?",
+  "options": [
+   "Lithium, coarse tremor, vomiting and confusion",
+   "Digoxin, pulse 72 before the 09:00 dose",
+   "Warfarin, INR 2.5, asking about diet",
+   "Phenytoin, level in range, asking about gum care"
+  ],
+  "answer": 0,
+  "why": "Unstable over stable: coarse tremor, vomiting and confusion suggest lithium toxicity, and lithium has a narrow therapeutic index. A pulse of 72 is safe for the digoxin dose, an INR of 2.5 is within the usual warfarin target range, and the two questions can wait."
+ }
 ],
 "items": [
 {

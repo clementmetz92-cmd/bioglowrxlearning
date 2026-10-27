@@ -20,7 +20,7 @@
   const poolFor = m => m && m.only ? pool().filter(it => m.only.indexOf(it.cat) >= 0) : pool();
   /* saved-mistake review: each question has a stable key; a review round keeps only the questions whose keys are due */
   const itemKey = it => it && it.num != null && it.num !== "" ? "i:" + it.num : null;
-  const qKey = q => !q ? null : q.p ? "p:" + q.p.id : q.c ? "c:" + (q.c.id || q.c.title) : q.item && q.item.seq ? "s:" + (q.item.seq.id || q.item.seq.title) : itemKey(q.item);
+  const qKey = q => !q ? null : q.x ? "x:" + q.x.id : q.p ? "p:" + q.p.id : q.c ? "c:" + (q.c.id || q.c.title) : q.item && q.item.seq ? "s:" + (q.item.seq.id || q.item.seq.title) : itemKey(q.item);
   const reviewing = m => S.review && S.reviewMode === m.id;
   const rv = (m, list, key) => { if (!reviewing(m)) return list; const out = list.filter(x => S.review.has(key(x))); if (!out.length) S.reviewEmpty = true; return out.length ? out : list; };
   const roundPool = m => rv(m, poolFor(m), itemKey);
@@ -62,7 +62,7 @@
     document.addEventListener("keydown", ev => {
       if (S.screen !== "game" || document.querySelector(".br-milestone")) return;
       if (S.answered && (ev.key === "Enter" || ev.key === " ")) { ev.preventDefault(); nextQ(); return; }
-      const n = "1234".indexOf(ev.key), b = view.querySelectorAll(".br-ans")[n];
+      const n = "123456".indexOf(ev.key), b = view.querySelectorAll(".br-ans")[n];
       if (n >= 0 && b && !S.answered) b.click();
     });
   }
@@ -115,7 +115,7 @@
      then quizzes and sorting before order and true-or-myth rounds, at most two of the same kind, Match Pairs last. */
   const CORE_N = 4, RANK = { cases: 0, calculator: 0, quiz: 1, findit: 1, sortit: 2, buildit: 2, sequence: 3, truemyth: 3, matchpairs: 5 };
   function coreIds() {
-    const sc = G.modes.filter(m => m._ready && BGX.formats[m.format].scored);
+    const sc = G.modes.filter(m => m._ready && BGX.formats[m.format].scored && !m.extra);   // extra: true = always optional practice
     if (G.core) return G.core.filter(id => sc.some(m => m.id === id));
     if (sc.length <= CORE_N) return sc.map(m => m.id);
     const out = [], kind = {}, take = m => { out.push(m); kind[m.format] = (kind[m.format] || 0) + 1; };
@@ -780,5 +780,54 @@
     }
   };
   BGX.calc = { makeVars, parseNum, roundTo };
+
+  /* ---------- format: Exam-style questions ----------
+     game.exam: [{ id, cat, kind: "sata" | "first", stem?, q, options: [...], answer: index | [indices], why }]
+     "sata" = select all that apply (every right option and no wrong one); "first" = one priority action.
+     mode: { rounds (default 8), kind (play one kind), only: [cats], extra: true (never a core activity) } */
+  const examPool = m => (G.exam || []).filter(x => (!m.kind || x.kind === m.kind) && (!m.only || m.only.indexOf(x.cat) >= 0));
+  const isMulti = x => Array.isArray(x.answer);
+  const examItem = x => x._item || (x._item = { name: (x.kind === "sata" ? "Select all: " : "First: ") + (x.q.length > 34 ? x.q.slice(0, 32).replace(/\s+\S*$/, "") + "…" : x.q),
+    cat: x.cat, icon: (G.catMap[x.cat] || {}).icon, num: "", life: "", _exam: x, _i: -1 });
+  BGX.formats.exam = {
+    scored: true,
+    roundSize: m => Math.min(m.rounds || 8, examPool(m).length),
+    makeRound: m => BGX.shuffle(rv(m, examPool(m), x => "x:" + x.id)).slice(0, m.rounds || 8)
+      .map(x => ({ item: examItem(x), x, order: BGX.shuffle(x.options.map((o, k) => k)), picked: new Set() })),
+    prompt: (m, q) => `<div class="br-case br-exam${S.i === 0 ? " br-pop" : ""}">
+        <p class="br-label" style="margin:0">${esc(catOf(q.item).name)}</p>
+        ${q.x.stem ? `<p class="story">${esc(q.x.stem)}</p>` : ""}</div>
+      <div class="br-casestep"><span class="br-mkey ${isMulti(q.x) ? "is-clue" : "is-item"}">${isMulti(q.x) ? "Select all that apply" : "Priority: one answer"}</span></div>
+      <div class="big is-text br-caseq">${esc(q.x.q)}</div>`,
+    body: (m, q) => isMulti(q.x)
+      ? `<div class="br-answers br-caseans br-sata" role="group" aria-label="Select all that apply">${q.order.map(k => `<button class="br-ans is-small br-chk" data-k="${k}" aria-pressed="false"><span class="box" aria-hidden="true"></span><span>${esc(q.x.options[k])}</span></button>`).join("")}</div>
+         <div class="br-btns" style="margin-top:12px"><button class="br-next" id="br-check" disabled>Check answer</button></div>`
+      : `<div class="br-answers br-caseans">${q.order.map(k => `<button class="br-ans is-small" data-k="${k}">${esc(q.x.options[k])}</button>`).join("")}</div>`,
+    bind: (m, q, answer) => {
+      if (!isMulti(q.x)) return view.querySelectorAll(".br-ans").forEach(b => b.onclick = () => answer(+b.dataset.k === q.x.answer, b));
+      const chk = $("#br-check");
+      view.querySelectorAll(".br-chk").forEach(b => b.onclick = () => {
+        if (S.answered) return; const k = +b.dataset.k; BGX.sfx.tap();
+        if (q.picked.has(k)) q.picked.delete(k); else q.picked.add(k);
+        b.setAttribute("aria-pressed", q.picked.has(k)); b.classList.toggle("is-picked", q.picked.has(k));
+        chk.disabled = !q.picked.size;
+      });
+      chk.onclick = () => { const want = new Set(q.x.answer); answer(q.picked.size === want.size && [...q.picked].every(k => want.has(k)), chk); };
+    },
+    reveal: (m, q, correct, el) => {
+      const want = isMulti(q.x) ? new Set(q.x.answer) : new Set([q.x.answer]);
+      view.querySelectorAll(".br-ans").forEach(b => { const k = +b.dataset.k; b.disabled = true;
+        if (want.has(k)) b.classList.add(isMulti(q.x) && !q.picked.has(k) ? "is-missed" : "is-correct");
+        else if (isMulti(q.x) ? q.picked.has(k) : b === el) b.classList.add("is-wrong"); });
+      const c = $("#br-check"); if (c) c.disabled = true;
+    },
+    feedback: (m, q, correct) => {
+      const multi = isMulti(q.x), want = multi ? q.x.answer : [q.x.answer];
+      const right = multi ? [...q.picked].filter(k => want.indexOf(k) >= 0).length : 0, wrongPicks = multi ? q.picked.size - right : 0;
+      const verdict = correct ? BGX.pick(["Correct!", "Spot on.", "Yes!", "Nailed it."]) : multi ? `Not quite: ${right} of ${want.length} right options${wrongPicks ? `, plus ${wrongPicks} that ${wrongPicks === 1 ? "isn't" : "aren't"} right` : ""}.` : "Not quite.";
+      return `<span class="${correct ? "ok" : "no"}">${verdict}</span> ${multi ? "Right options" : "Do first"}: <b>${want.map(k => esc(q.x.options[k])).join(" · ")}</b>
+        <div class="br-why">${esc(q.x.why || "")}</div>${multi && !correct ? `<div class="br-why">Select all that apply counts only when you pick every right option and none of the wrong ones.</div>` : ""}`;
+    }
+  };
   BGX.testState = () => S;   // read-only peek for automated play-through tests
 })();

@@ -150,17 +150,17 @@ window.BGX_CATALOG = {
         { id: "syringe-prep", ch: "2 + All", title: "Syringe Prep", icon: "pill", text: "Work out the dose, then draw it up to the exact line on the syringe.", status: "live", url: "games/syringe-prep/index.html" }
       ],
       chapters: [
-        { ch: "1", title: "How a drug travels through the body", icon: "steps", game: "Drug Journey", formats: ["Explore", "Sequence", "Quick Quiz", "Sort It", "Match Pairs"], status: "live", url: "games/drug-journey/index.html",
+        { ch: "1", title: "How a drug travels through the body", icon: "steps", game: "Drug Journey", formats: ["Explore", "Sequence", "Quick Quiz", "Sort It", "Match Pairs", "Exam style"], status: "live", url: "games/drug-journey/index.html",
           tiles: [{corner: "1", icon: "steps", color: "cat-sky"}, {corner: "7", icon: "zap", color: "cat-lilac"}, {corner: "10", icon: "chart", color: "cat-amber"}] },
-        { ch: "2", title: "Giving medicines safely", icon: "shield", game: "Med Safety Check", formats: ["Explore", "Quick Quiz", "Sort It", "Match Pairs"], status: "live", url: "games/med-safety-check/index.html",
+        { ch: "2", title: "Giving medicines safely", icon: "shield", game: "Med Safety Check", formats: ["Explore", "Quick Quiz", "Sort It", "Match Pairs", "Exam style"], status: "live", url: "games/med-safety-check/index.html",
           tiles: [{corner: "1", icon: "check", color: "cat-sage"}, {corner: "3", icon: "scale", color: "cat-sage"}, {corner: "10", icon: "ban", color: "cat-coral"}] },
-        { ch: "3", title: "Antibiotics and other antimicrobials", icon: "bug", game: "Bug vs Drug", formats: ["Explore", "Quick Quiz", "Sort It", "Match Pairs"], status: "live", url: "games/bug-vs-drug/index.html",
+        { ch: "3", title: "Antibiotics and other antimicrobials", icon: "bug", game: "Bug vs Drug", formats: ["Explore", "Quick Quiz", "Sort It", "Match Pairs", "Exam style"], status: "live", url: "games/bug-vs-drug/index.html",
           tiles: [{corner: "1", icon: "shield", color: "cat-coral"}, {corner: "5", icon: "factory", color: "cat-amber"}, {corner: "12", icon: "bug", color: "cat-lilac"}] },
-        { ch: "4", title: "Fight or rest: the autonomic system", icon: "nerve", game: "Fight or Rest", formats: ["Explore", "Sort It", "Match Pairs"], status: "live", url: "games/fight-or-rest/index.html",
+        { ch: "4", title: "Fight or rest: the autonomic system", icon: "nerve", game: "Fight or Rest", formats: ["Explore", "Sort It", "Match Pairs", "Exam style"], status: "live", url: "games/fight-or-rest/index.html",
           tiles: [{corner: "1", icon: "eye", color: "cat-coral"}, {corner: "4", icon: "heart", color: "cat-sage"}, {corner: "5", icon: "lungs", color: "cat-coral"}] },
-        { ch: "5–9", title: "Drug families by body system", icon: "pill", game: "Drug Class Sort", formats: ["Explore", "Sort It", "Quick Quiz", "Match Pairs"], status: "live", url: "games/drug-class-sort/index.html",
+        { ch: "5–9", title: "Drug families by body system", icon: "pill", game: "Drug Class Sort", formats: ["Explore", "Sort It", "Quick Quiz", "Match Pairs", "Exam style"], status: "live", url: "games/drug-class-sort/index.html",
           tiles: [{corner: "1", icon: "heart", color: "cat-coral"}, {corner: "9", icon: "lungs", color: "cat-sky"}, {corner: "18", icon: "brain", color: "cat-lilac"}] },
-        { ch: "10", title: "Pain relief and muscle drugs", icon: "steps", game: "Pain Ladder", formats: ["Explore", "Quick Quiz", "Sort It", "Sequence", "Match Pairs", "True or Myth", "Case Files"], status: "live", url: "games/pain-ladder/index.html",
+        { ch: "10", title: "Pain relief and muscle drugs", icon: "steps", game: "Pain Ladder", formats: ["Explore", "Quick Quiz", "Sort It", "Sequence", "Match Pairs", "True or Myth", "Case Files", "Exam style"], status: "live", url: "games/pain-ladder/index.html",
           tiles: [{corner: "1", icon: "gauge", color: "cat-sky"}, {corner: "3", icon: "capsule", color: "cat-coral"}, {corner: "6", icon: "foot", color: "cat-amber"}] },
         { ch: "All", label: "All chapters", title: "Dose calculations", icon: "scale", game: "Dose Calc", formats: ["Calculator", "Explore", "Quick Quiz", "Match Pairs"], status: "live", url: "games/dose-calc/index.html",
           tiles: [{corner: "D÷H", icon: "pill", color: "cat-lilac"}, {corner: "kg", icon: "scale", color: "cat-sage"}, {corner: "mL/h", icon: "timer", color: "cat-coral"}] }

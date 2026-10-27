@@ -22,6 +22,7 @@ SOLVE = r"""() => {
  if (f === 'cases') return c(`.br-ans[data-k="${q.st.answer}"]`);
  if (f === 'sequence') { for (let k = 0; k < q.steps.length; k++) { const j = q.steps.findIndex(s => s.i === k); v.querySelector(`.br-step[data-j="${j}"]`).click(); } return c('#br-check'); }
  if (f === 'buildit') { v.querySelectorAll('.br-stepper').forEach((s, i) => { const p = q.parts[i], w = p.value != null ? +p.value : +q.item[p.field]; let n = w - q.vals[i]; while (n > 0) { s.querySelector('.plus').click(); n--; } while (n < 0) { s.querySelector('.minus').click(); n++; } }); return c('#br-check'); }
+ if (f === 'exam') { if (Array.isArray(q.x.answer)) { q.x.answer.forEach(k => v.querySelector(`.br-chk[data-k="${k}"]`).click()); return c('#br-check'); } return c(`.br-ans[data-k="${q.x.answer}"]`); }
  if (f === 'calculator') { const i = v.querySelector('#br-num'); i.value = String(BGX.calc.roundTo(q.v.answer, q.p.dp || 0)); i.dispatchEvent(new Event('input')); return c('#br-check'); }
  return 'skip';
 }"""

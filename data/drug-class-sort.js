@@ -122,6 +122,16 @@ BGX.registerGame({
 "color": "cat-mint",
 "clue": "cls",
 "clueLabel": "Class"
+},
+{
+"id": "exam",
+"format": "exam",
+"title": "Exam-style questions",
+"desc": "Select all that apply, and what to do first.",
+"icon": "✓✓",
+"color": "cat-sand",
+"rounds": 8,
+"extra": true
 }
 ],
 "items": [
@@ -189,7 +199,7 @@ BGX.registerGame({
 },
 {
 "name": "Metoprolol",
-"alsoOk": ["High blood pressure and angina", "High blood pressure and heart failure", "Mild high blood pressure, often added to other tablets"],
+"alsoOk": ["High blood pressure and angina", "High blood pressure and heart failure", "Mild high blood pressure, often added to other tablets", "Heart failure and atrial fibrillation rate control", "Irregular heart rhythms such as atrial fibrillation"],
 "cat": "cardio",
 "cls": "Beta blocker",
 "use": "Fast heart rate and high blood pressure",
@@ -271,8 +281,9 @@ BGX.registerGame({
 },
 {
 "name": "Warfarin",
+"alsoOk": ["Preventing stroke in atrial fibrillation", "Treating clots, and during heart surgery and dialysis", "Preventing DVT after surgery"],
 "cat": "cardio",
-"cls": "Anticoagulant",
+"cls": "Vitamin K antagonist (anticoagulant)",
 "use": "Preventing blood clots",
 "life": "People on warfarin have regular blood tests (INR) and watch their vitamin K intake.",
 "icon": "pharm-drop-thin",
@@ -288,6 +299,132 @@ BGX.registerGame({
 "Prevents clots in conditions such as atrial fibrillation and deep vein thrombosis."
 ],
 "summary": "An anticoagulant that slows clotting by blocking vitamin K."
+},
+{
+"name": "Apixaban",
+"alsoOk": ["Preventing blood clots", "Treating clots, and during heart surgery and dialysis", "Preventing DVT after surgery"],
+"cat": "cardio",
+"cls": "Factor Xa inhibitor (DOAC)",
+"use": "Preventing stroke in atrial fibrillation",
+"life": "A twice-daily blood thinner tablet that needs no routine INR blood tests, unlike warfarin.",
+"icon": "pharm-tablets",
+"num": 26,
+"spot": [
+"heart",
+"vessels"
+],
+"facts": [
+"Blocks clotting factor Xa directly, so doses are fixed and no routine INR checks are needed.",
+"Missed doses or stopping suddenly raise the risk of stroke and clots, so teach patients to take it every day.",
+"Bleeding is the main risk. Andexanet alfa was withdrawn in the US in December 2025, so serious bleeding is now treated with prothrombin complex concentrate (PCC).",
+"Rivaroxaban (-xaban) works the same way; its higher doses are taken with food."
+],
+"summary": "A direct oral anticoagulant (DOAC) that blocks clotting factor Xa."
+},
+{
+"name": "Heparin",
+"alsoOk": ["Preventing blood clots", "Preventing stroke in atrial fibrillation", "Preventing DVT after surgery"],
+"cat": "cardio",
+"cls": "Unfractionated heparin",
+"use": "Treating clots, and during heart surgery and dialysis",
+"life": "A fast-acting hospital blood thinner, given as an IV drip or an injection under the skin.",
+"icon": "pharm-ivbag",
+"num": 27,
+"spot": [
+"heart",
+"vessels"
+],
+"facts": [
+"Boosts antithrombin, the body's own clot blocker, so it works within minutes when given IV.",
+"IV doses are adjusted to aPTT (or anti-Xa) blood tests by protocol.",
+"Watch the platelet count: a sudden drop can mean heparin-induced thrombocytopenia (HIT).",
+"Bleeding is the main risk; protamine sulfate is its antidote."
+],
+"summary": "An injected anticoagulant that acts fast and is adjusted to aPTT results."
+},
+{
+"name": "Enoxaparin",
+"alsoOk": ["Preventing blood clots", "Preventing stroke in atrial fibrillation", "Treating clots, and during heart surgery and dialysis"],
+"cat": "cardio",
+"cls": "Low molecular weight heparin",
+"use": "Preventing DVT after surgery",
+"life": "A once- or twice-daily injection under the skin of the belly to prevent clots after surgery.",
+"icon": "pharm-syringe-im",
+"num": 28,
+"spot": [
+"heart",
+"vessels"
+],
+"facts": [
+"A smaller form of heparin that mainly blocks factor Xa and lasts longer, so it can be given once or twice a day by injection under the skin.",
+"Inject into the abdomen without expelling the air bubble in the prefilled syringe, and do not rub the site.",
+"Routine clotting tests are not needed; anti-Xa levels may be checked in kidney disease, pregnancy or very high or low body weight.",
+"Bleeding is the main risk, including a spinal haematoma after a spinal or epidural; protamine only partly reverses it."
+],
+"summary": "A low molecular weight heparin injected under the skin, mainly to prevent clots."
+},
+{
+"name": "Digoxin",
+"alsoOk": ["Irregular heart rhythms such as atrial fibrillation", "Fast heart rate and high blood pressure"],
+"cat": "cardio",
+"cls": "Cardiac glycoside",
+"use": "Heart failure and atrial fibrillation rate control",
+"life": "Nurses count the apical pulse for a full minute before every dose.",
+"icon": "pharm-heart-alert",
+"num": 29,
+"spot": [
+"heart",
+"vessels"
+],
+"facts": [
+"Makes each heartbeat stronger and slows the heart rate.",
+"Count the apical pulse for one full minute and hold the dose if it is under 60 in an adult, then report it.",
+"Toxicity is more likely with low potassium; signs include nausea, yellow-green halos around lights and new rhythm problems.",
+"Digoxin immune fab is the antidote for serious toxicity."
+],
+"summary": "A cardiac glycoside that strengthens and slows the heartbeat."
+},
+{
+"name": "Nitroglycerin",
+"alsoOk": ["High blood pressure and angina"],
+"cat": "cardio",
+"cls": "Nitrate vasodilator",
+"use": "Quick relief of angina chest pain",
+"life": "A tablet or spray under the tongue that eases angina within minutes.",
+"icon": "heart",
+"num": 30,
+"spot": [
+"heart",
+"vessels"
+],
+"facts": [
+"Releases nitric oxide, which widens veins and arteries and cuts the heart's oxygen demand.",
+"For chest pain: one dose under the tongue every 5 minutes, up to 3 doses; call 911 if the pain is not better 5 minutes after the first.",
+"Check blood pressure; headache and dizziness are common, so the patient should sit or lie down.",
+"Never used with sildenafil or tadalafil (PDE-5 inhibitors), as blood pressure can fall dangerously."
+],
+"summary": "A nitrate that widens blood vessels to relieve angina fast."
+},
+{
+"name": "Amiodarone",
+"alsoOk": ["Heart failure and atrial fibrillation rate control", "Fast heart rate and high blood pressure"],
+"cat": "cardio",
+"cls": "Class III antiarrhythmic",
+"use": "Irregular heart rhythms such as atrial fibrillation",
+"life": "A strong rhythm medicine; people on it long term have regular lung, thyroid, liver and eye checks.",
+"icon": "pharm-heart-fast",
+"num": 31,
+"spot": [
+"heart",
+"vessels"
+],
+"facts": [
+"Blocks potassium channels so heart cells take longer to reset, calming fast or irregular rhythms.",
+"Monitor the ECG for a slow heart rate or a long QT interval, and check blood pressure.",
+"Boxed warning: it can harm the lungs and liver and can cause new rhythm problems, so it is kept for serious or life-threatening rhythms. Long-term use can also affect the thyroid and eyes; teach patients to report a new cough or breathlessness.",
+"Skin burns easily in the sun, so sunscreen and covered skin help. It raises warfarin and digoxin levels, so their doses are often lowered."
+],
+"summary": "A class III antiarrhythmic for serious fast or irregular heart rhythms."
 },
 {
 "name": "Albuterol (salbutamol)",
@@ -311,6 +448,7 @@ BGX.registerGame({
 },
 {
 "name": "Fluticasone",
+"alsoOk": ["Daily COPD maintenance"],
 "cat": "resp",
 "cls": "Inhaled corticosteroid",
 "use": "Preventing asthma attacks (inhaled preventer)",
@@ -367,6 +505,27 @@ BGX.registerGame({
 "Famotidine blocks H2 receptors in the stomach; cetirizine blocks H1 receptors elsewhere."
 ],
 "summary": "An antihistamine that blocks histamine to ease allergy symptoms."
+},
+{
+"name": "Tiotropium",
+"alsoOk": ["Preventing asthma attacks (inhaled preventer)"],
+"cat": "resp",
+"cls": "Long-acting anticholinergic bronchodilator",
+"use": "Daily COPD maintenance",
+"life": "A once-a-day inhaler that keeps airways open in COPD.",
+"icon": "pharm-bronchus-open",
+"num": 32,
+"spot": [
+"lungs",
+"airways"
+],
+"facts": [
+"Blocks acetylcholine (muscarinic) receptors in the airways, so the muscles stay relaxed for about 24 hours.",
+"Used once a day for COPD; it is not a rescue inhaler for sudden breathlessness.",
+"Dry mouth is common; report eye pain, blurred vision or trouble passing urine (take care in glaucoma and an enlarged prostate).",
+"With the capsule device, the capsule is pierced inside the inhaler and never swallowed."
+],
+"summary": "A long-acting anticholinergic inhaler for daily COPD control."
 },
 {
 "name": "Omeprazole",
@@ -473,7 +632,7 @@ BGX.registerGame({
 },
 {
 "name": "Lorazepam",
-"alsoOk": ["Depression and anxiety", "Epilepsy", "Antiseizure medicine"],
+"alsoOk": ["Depression and anxiety", "Epilepsy", "Broad-spectrum antiseizure medicine", "Tonic-clonic and focal seizures"],
 "cat": "cns",
 "cls": "Benzodiazepine",
 "use": "Anxiety and seizures",
@@ -491,9 +650,9 @@ BGX.registerGame({
 },
 {
 "name": "Levetiracetam",
-"alsoOk": ["Anxiety and seizures"],
+"alsoOk": ["Anxiety and seizures", "Tonic-clonic and focal seizures"],
 "cat": "cns",
-"cls": "Antiseizure medicine",
+"cls": "Broad-spectrum antiseizure medicine",
 "use": "Epilepsy",
 "life": "Taken every day to prevent seizures.",
 "icon": "bolt",
@@ -523,6 +682,129 @@ BGX.registerGame({
 "Nausea and a slow heart rate are possible side effects."
 ],
 "summary": "A cholinesterase inhibitor that raises acetylcholine to ease Alzheimer's symptoms."
+},
+{
+"name": "Haloperidol",
+"alsoOk": ["Schizophrenia and bipolar disorder", "Bipolar disorder"],
+"cat": "cns",
+"cls": "First-generation antipsychotic",
+"use": "Schizophrenia and severe agitation",
+"life": "An older antipsychotic, used as tablets or injections for psychosis and severe agitation.",
+"icon": "pharm-antagonist",
+"num": 33,
+"spot": "brain",
+"facts": [
+"Blocks dopamine (D2) receptors in the brain, easing hallucinations and agitation.",
+"Watch for movement side effects: muscle spasms, restlessness, stiffness and, with long use, tardive dyskinesia.",
+"High fever, rigid muscles and confusion may be neuroleptic malignant syndrome: hold the drug and report at once.",
+"Can lengthen the QT interval, especially when given IV, so the ECG may be monitored."
+],
+"summary": "A first-generation antipsychotic that blocks dopamine."
+},
+{
+"name": "Quetiapine",
+"alsoOk": ["Schizophrenia and severe agitation", "Bipolar disorder"],
+"cat": "cns",
+"cls": "Second-generation antipsychotic",
+"use": "Schizophrenia and bipolar disorder",
+"life": "A newer antipsychotic, often taken at night because it makes people sleepy.",
+"icon": "pharm-sleepy-face",
+"num": 34,
+"spot": "brain",
+"facts": [
+"Blocks dopamine and serotonin receptors; it causes fewer movement side effects than haloperidol.",
+"Sleepiness and dizziness on standing up (orthostatic hypotension) are common, especially at first.",
+"Can raise weight, blood sugar and cholesterol, so these are checked regularly.",
+"Boxed warnings: a higher risk of death in older adults with dementia-related psychosis, and of suicidal thoughts in children and young adults."
+],
+"summary": "A second-generation antipsychotic for schizophrenia and bipolar disorder."
+},
+{
+"name": "Lithium",
+"cat": "cns",
+"cls": "Mood stabiliser",
+"use": "Bipolar disorder",
+"life": "People on lithium have regular blood tests and keep their fluid and salt intake steady.",
+"icon": "pharm-range",
+"num": 35,
+"spot": "brain",
+"facts": [
+"Steadies mood in bipolar disorder and lowers the risk of suicide; exactly how it works is not fully known.",
+"Narrow therapeutic range of about 0.6 to 1.2 mEq/L; levels are drawn about 12 hours after the last dose.",
+"Toxicity signs: vomiting, diarrhoea, a coarse tremor, unsteadiness and confusion. There is no antidote; severe cases need dialysis.",
+"Dehydration, a low-salt diet, NSAIDs, ACE inhibitors and thiazide diuretics raise levels; kidney and thyroid tests are checked."
+],
+"summary": "A mood stabiliser for bipolar disorder with a narrow safe range."
+},
+{
+"name": "Phenytoin",
+"alsoOk": ["Epilepsy"],
+"cat": "cns",
+"cls": "Hydantoin antiseizure medicine",
+"use": "Tonic-clonic and focal seizures",
+"life": "An older seizure medicine with a narrow safe range, checked by blood levels.",
+"icon": "pharm-head-bolt",
+"num": 36,
+"spot": "brain",
+"facts": [
+"Blocks sodium channels so nerve cells cannot fire in rapid bursts.",
+"Narrow range (total level about 10 to 20 mcg/mL); jerky eye movements (nystagmus), unsteadiness and slurred speech suggest the level is too high.",
+"Can cause gum overgrowth, so good mouth care and dental visits matter.",
+"IV: give slowly (no faster than 50 mg a minute), with normal saline only, while watching the ECG and blood pressure."
+],
+"summary": "A hydantoin antiseizure medicine with a narrow therapeutic range."
+},
+{
+"name": "Morphine",
+"cat": "cns",
+"cls": "Opioid agonist analgesic",
+"use": "Severe pain",
+"life": "A strong pain medicine; nurses check breathing and sleepiness before and after each dose.",
+"icon": "pharm-poppy-pod",
+"num": 37,
+"spot": "brain",
+"facts": [
+"Switches on mu opioid receptors in the brain and spinal cord to block pain signals.",
+"Check breathing rate and sedation level before and after doses; hold and report if breathing is under 12 a minute.",
+"Sleepiness usually comes before slowed breathing, so a patient who is hard to wake is a warning sign.",
+"Constipation is expected, so a laxative is usually given with it; naloxone reverses an overdose."
+],
+"summary": "An opioid agonist for severe pain that can slow breathing."
+},
+{
+"name": "Naloxone",
+"cat": "cns",
+"cls": "Opioid antagonist",
+"use": "Reversing an opioid overdose",
+"life": "A nasal spray anyone can carry and use to reverse an opioid overdose.",
+"icon": "pharm-nasal-spray",
+"num": 38,
+"spot": "brain",
+"facts": [
+"Pushes opioids off their receptors, quickly reversing slowed breathing and sleepiness.",
+"Given as a nasal spray or by IV, IM or subcutaneous injection; repeat every 2 to 3 minutes if needed.",
+"Its effect can wear off before the opioid's, so keep watching breathing after the person wakes.",
+"Can cause sudden opioid withdrawal: pain, agitation, sweating and vomiting."
+],
+"summary": "An opioid antagonist that reverses an opioid overdose."
+},
+{
+"name": "Buprenorphine",
+"alsoOk": ["Severe pain", "Opioid agonist analgesic"],
+"cat": "cns",
+"cls": "Partial opioid agonist",
+"use": "Opioid use disorder",
+"life": "A film or tablet under the tongue, often combined with naloxone, to treat opioid addiction.",
+"icon": "pharm-agonist",
+"num": 39,
+"spot": "brain",
+"facts": [
+"Partly switches on opioid receptors: it eases cravings and withdrawal, with a ceiling on how much it slows breathing.",
+"Started only once withdrawal symptoms have begun (often scored with COWS), or it can trigger sudden withdrawal.",
+"The film or tablet dissolves under the tongue; it is not chewed or swallowed.",
+"Often combined with naloxone to discourage injecting; since 2023, US prescribers no longer need a special waiver."
+],
+"summary": "A partial opioid agonist used to treat opioid use disorder."
 },
 {
 "name": "Metformin",
@@ -597,6 +879,211 @@ BGX.registerGame({
 "Swallowed tablet, unlike fluticasone, which is an inhaled corticosteroid."
 ],
 "summary": "An oral corticosteroid that copies cortisol to reduce inflammation."
+},
+{
+"name": "Insulin lispro",
+"alsoOk": ["Diabetes that needs insulin (type 1 or type 2)", "Type 2 diabetes"],
+"cat": "endo",
+"cls": "Rapid-acting insulin",
+"use": "Mealtime blood sugar control",
+"life": "A mealtime insulin injected just before eating.",
+"icon": "pharm-vial",
+"num": 40,
+"spot": "pancreas",
+"spotCaption": "Replaces mealtime insulin from the pancreas",
+"facts": [
+"Starts working in about 15 minutes, so it is given within 15 minutes before a meal (or just after).",
+"Check blood sugar first and make sure the meal is there before giving it.",
+"Low blood sugar (hypoglycaemia) is the main risk: shakiness, sweating and confusion.",
+"Usually paired with a long-acting background insulin such as glargine."
+],
+"summary": "A rapid-acting insulin that covers the rise in blood sugar after meals."
+},
+{
+"name": "Glipizide",
+"alsoOk": ["Type 2 diabetes"],
+"cat": "endo",
+"cls": "Sulfonylurea",
+"use": "Type 2 diabetes, by boosting insulin release",
+"life": "A diabetes tablet taken before breakfast; skipping meals can cause low blood sugar.",
+"icon": "pill",
+"num": 41,
+"spot": "pancreas",
+"spotCaption": "Makes the pancreas release more insulin",
+"facts": [
+"Makes beta cells in the pancreas release more insulin, so it only works if the pancreas still makes some.",
+"Taken about 30 minutes before breakfast; meals should not be skipped.",
+"Low blood sugar is the main risk, especially in older adults or with alcohol.",
+"Not used for type 1 diabetes."
+],
+"summary": "A sulfonylurea tablet that pushes the pancreas to release insulin."
+},
+{
+"name": "Empagliflozin",
+"alsoOk": ["Type 2 diabetes", "Diabetes that needs insulin (type 1 or type 2)"],
+"cat": "endo",
+"cls": "SGLT2 inhibitor",
+"use": "Type 2 diabetes, heart failure and kidney disease",
+"life": "A daily tablet that lowers blood sugar by passing extra sugar out in the urine.",
+"icon": "pharm-kidney-out",
+"num": 42,
+"spot": "kidneys",
+"spotCaption": "Passes extra sugar out through the kidneys",
+"facts": [
+"Stops the kidneys taking glucose back into the blood, so extra sugar leaves in the urine (-gliflozin).",
+"Also lowers the risk of heart failure admissions and slows kidney disease, even in people without diabetes.",
+"Genital yeast infections, urinary tract infections and dehydration are common side effects.",
+"Rarely causes ketoacidosis with near-normal blood sugar; it is paused during illness with vomiting and about 3 days before planned surgery."
+],
+"summary": "An SGLT2 inhibitor that removes sugar through the kidneys and protects the heart and kidneys."
+},
+{
+"name": "Semaglutide",
+"alsoOk": ["Type 2 diabetes", "Type 2 diabetes, by boosting insulin release", "Type 2 diabetes, heart failure and kidney disease", "Diabetes that needs insulin (type 1 or type 2)"],
+"cat": "endo",
+"cls": "GLP-1 receptor agonist",
+"use": "Type 2 diabetes and obesity",
+"life": "A once-a-week injection for diabetes or weight loss that reduces appetite.",
+"icon": "pharm-weight",
+"num": 43,
+"spot": "pancreas",
+"spotCaption": "Boosts insulin from the pancreas after meals",
+"facts": [
+"Copies GLP-1, a gut hormone: it boosts insulin after meals, slows stomach emptying and reduces appetite (-glutide).",
+"Injected once a week; there is also a daily tablet form.",
+"Nausea, vomiting and diarrhoea are common, especially when the dose goes up; report severe stomach pain (possible pancreatitis).",
+"Boxed warning: thyroid C-cell tumours were seen in rodents, so it is not used with a personal or family history of medullary thyroid cancer or MEN 2; teach patients to report a neck lump, hoarseness or trouble swallowing."
+],
+"summary": "A GLP-1 receptor agonist for type 2 diabetes and weight loss."
+}
+],
+"exam": [
+{
+"id": "dcs-x1",
+"cat": "cardio",
+"kind": "sata",
+"stem": "A patient with a new deep vein thrombosis is started on a continuous IV heparin infusion.",
+"q": "Which actions should the nurse take? Select all that apply.",
+"options": [
+"Adjust the rate by protocol using aPTT or anti-Xa results",
+"Watch the platelet count for a sudden drop",
+"Teach the patient to report bleeding gums or dark stools",
+"Use the INR result to decide the infusion rate",
+"Give vitamin K if the aPTT is above the target range"
+],
+"answer": [0, 1, 2],
+"why": "Heparin infusions are adjusted to aPTT or anti-Xa results by protocol, and a sudden fall in platelets can mean heparin-induced thrombocytopenia (HIT). Patients should report any signs of bleeding. The INR guides warfarin, and vitamin K reverses warfarin; protamine sulfate is the antidote for heparin."
+},
+{
+"id": "dcs-x2",
+"cat": "cardio",
+"kind": "sata",
+"stem": "A patient with heart failure takes digoxin and furosemide. The apical pulse is 64 a minute, potassium is 3.1 mEq/L, and the patient reports nausea and yellow halos around lights.",
+"q": "Which actions should the nurse take? Select all that apply.",
+"options": [
+"Hold the digoxin and notify the provider",
+"Expect an order for a serum digoxin level",
+"Report the low potassium level to the provider",
+"Give the digoxin, as the apical pulse is above 60",
+"Give the digoxin with an antiemetic for the nausea"
+],
+"answer": [0, 1, 2],
+"why": "Nausea and yellow-green halos are classic signs of digoxin toxicity, and low potassium (here likely from furosemide) makes toxicity more likely, so the dose is held, a level is checked and the provider is told. A pulse above 60 does not make the dose safe when toxicity signs are present, and treating only the nausea misses the cause. Digoxin immune fab is the antidote for severe toxicity."
+},
+{
+"id": "dcs-x3",
+"cat": "cns",
+"kind": "sata",
+"stem": "A patient with bipolar disorder is starting lithium.",
+"q": "Which points should the nurse include in the teaching? Select all that apply.",
+"options": [
+"Drink about 2 to 3 L of fluid a day and keep salt intake steady",
+"Have blood levels checked about 12 hours after a dose",
+"Report vomiting, diarrhoea, a coarse tremor or confusion",
+"Check with the provider before starting a new water tablet",
+"Ibuprofen is a good choice for headaches while on lithium",
+"Cut down on salt to lower the risk of side effects"
+],
+"answer": [0, 1, 2, 3],
+"why": "Lithium has a narrow range (about 0.6 to 1.2 mEq/L), so levels are drawn about 12 hours after a dose and early signs of toxicity are reported. Dehydration and a low salt intake make the kidneys hold on to lithium, so fluid and salt stay steady. Thiazide water tablets and NSAIDs such as ibuprofen raise lithium levels."
+},
+{
+"id": "dcs-x4",
+"cat": "endo",
+"kind": "sata",
+"stem": "A patient with type 2 diabetes and heart failure is starting empagliflozin.",
+"q": "Which points should the nurse include in the teaching? Select all that apply.",
+"options": [
+"Keep the genital area clean and report itching or discharge",
+"Report burning or pain when passing urine",
+"Ask about pausing it if you are ill and cannot eat or drink",
+"Tell the surgical team about it before a planned operation",
+"Expect your weight to go up in the first few weeks",
+"Eat a carbohydrate snack with each dose to prevent lows"
+],
+"answer": [0, 1, 2, 3],
+"why": "Sugar in the urine raises the risk of genital yeast infections and urinary tract infections. Empagliflozin can rarely cause ketoacidosis with near-normal blood sugar, so it is paused during illness with poor intake and about 3 days before planned surgery. On its own it rarely causes low blood sugar, and it usually causes mild weight loss, not gain."
+},
+{
+"id": "dcs-x5",
+"cat": "cns",
+"kind": "sata",
+"stem": "A patient taking haloperidol develops a temperature of 39.8 °C (103.6 °F), rigid muscles, heavy sweating, a fast heart rate and new confusion.",
+"q": "Which actions should the nurse take? Select all that apply.",
+"options": [
+"Hold the next dose of haloperidol",
+"Notify the provider straight away",
+"Start cooling measures and check vital signs often",
+"Give a PRN dose of haloperidol for the confusion",
+"Give acetaminophen and recheck the temperature in 4 hours"
+],
+"answer": [0, 1, 2],
+"why": "Fever, rigid muscles, sweating, a fast pulse and confusion suggest neuroleptic malignant syndrome, a medical emergency. The antipsychotic is stopped, the provider is told at once, and the patient is cooled and closely monitored. More haloperidol would make it worse, and waiting 4 hours delays urgent care."
+},
+{
+"id": "dcs-x6",
+"cat": "cns",
+"kind": "first",
+"stem": "A patient using a morphine PCA after surgery is hard to wake. Respirations are 6 a minute and shallow, SpO2 is 84% and the pupils are pinpoint. The nurse has stopped the PCA and called for help. Naloxone is ordered as needed.",
+"q": "What should the nurse do first?",
+"options": [
+"Open the airway and give breaths with a bag-valve mask",
+"Give naloxone IV as ordered and watch the response",
+"Notify the surgeon of the change in condition",
+"Check the PCA history for the doses given"
+],
+"answer": 0,
+"why": "Airway and breathing come first: with breathing at 6 a minute and low oxygen, the nurse opens the airway and gives breaths with a bag-valve mask and oxygen straight away, as resuscitation guidelines advise for an opioid overdose. Naloxone does not replace breathing support and takes time to draw up and work, so it is given next, often in small repeated IV doses after surgery. Then the surgeon is told and the PCA record is reviewed."
+},
+{
+"id": "dcs-x7",
+"cat": "cardio",
+"kind": "first",
+"stem": "The nurse receives report on four patients who take anticoagulants.",
+"q": "Which patient should the nurse see first?",
+"options": [
+"A patient on apixaban with a sudden severe headache and slurred speech",
+"A patient on enoxaparin with a small bruise at the injection site",
+"A patient on warfarin for atrial fibrillation with an INR of 2.6",
+"A patient on a heparin infusion whose aPTT needs a rate change"
+],
+"answer": 0,
+"why": "Unstable over stable: a sudden severe headache and slurred speech in a patient on an anticoagulant may mean bleeding in the brain, an emergency. A small bruise at an enoxaparin site is expected, an INR of 2.6 is within the usual 2 to 3 target, and a protocol rate change for heparin can follow straight after."
+},
+{
+"id": "dcs-x8",
+"cat": "endo",
+"kind": "first",
+"stem": "A patient with type 1 diabetes is due insulin lispro with lunch. Blood glucose is 62 mg/dL (3.4 mmol/L). The patient is alert, shaky and sweaty, and the lunch tray is 20 minutes away.",
+"q": "What should the nurse do first?",
+"options": [
+"Give 15 g of fast-acting carbohydrate, such as juice",
+"Hold the lispro dose and inform the provider",
+"Recheck the blood glucose in 15 minutes",
+"Record the reading and the symptoms"
+],
+"answer": 0,
+"why": "Treat the immediate danger first: the patient is alert and can swallow, so the rule of 15 starts with 15 g of fast-acting carbohydrate. The glucose is rechecked 15 minutes later, the lispro dose is held and discussed with the provider, and the event is documented."
 }
 ],
 "note": "For learning only. Not medical advice: always follow your doctor or pharmacist.",
@@ -608,7 +1095,7 @@ BGX.registerGame({
 {
 "cat": "cardio",
 "title": "Heart and blood vessels",
-"about": "These medicines lower blood pressure, control heart rate, remove extra fluid, lower cholesterol or prevent clots. Blood pressure can be lowered in several ways: blocking the angiotensin hormone system (ACE inhibitors and ARBs), relaxing artery walls (calcium channel blockers), slowing the heart (beta blockers) or making the kidneys pass more water (diuretics). Statins work on cholesterol, not pressure. Anticoagulants such as warfarin stop clots forming; they do not dissolve clots that are already there. The name ending is the fastest way to tell the classes apart.",
+"about": "These medicines lower blood pressure, control heart rate, remove extra fluid, lower cholesterol or prevent clots. Blood pressure can be lowered in several ways: blocking the angiotensin hormone system (ACE inhibitors and ARBs), relaxing artery walls (calcium channel blockers), slowing the heart (beta blockers) or making the kidneys pass more water (diuretics). Statins work on cholesterol, not pressure. Anticoagulants such as warfarin stop clots forming; they do not dissolve clots that are already there. Heparin and enoxaparin are injected anticoagulants (heparin is adjusted to aPTT and reversed with protamine), and apixaban (-xaban) is a tablet that blocks factor Xa without routine blood tests. Digoxin strengthens and slows the heartbeat (count the apical pulse first), amiodarone calms irregular rhythms, and nitroglycerin widens vessels to ease angina within minutes. The name ending is the fastest way to tell the classes apart.",
 "points": [
 "-pril = ACE inhibitor; -sartan = ARB; -olol = beta blocker; -dipine = calcium channel blocker; -statin = statin.",
 "Loop diuretic (furosemide) is strong and used for fluid overload; thiazide (hydrochlorothiazide) is milder and used for blood pressure.",
@@ -620,7 +1107,7 @@ BGX.registerGame({
 {
 "cat": "resp",
 "title": "Breathing and allergy",
-"about": "Asthma medicines are split into relievers and preventers. A reliever (short-acting bronchodilator such as albuterol) opens tight airways within minutes during an attack. A preventer (inhaled corticosteroid such as fluticasone) is used every day to calm the swelling and inflammation that make attacks likely, and does not help an attack already happening. Current guidelines (GINA, since 2019) no longer recommend a short-acting reliever on its own: adults, teenagers and children aged 6 and over should also have an inhaled steroid, and many adults now use a single steroid-formoterol inhaler as both reliever and preventer. Montelukast is a tablet add-on that blocks leukotrienes, inflammatory messengers that narrow airways. Antihistamines such as cetirizine block histamine, the chemical behind sneezing, itching and hives.",
+"about": "Asthma medicines are split into relievers and preventers. A reliever (short-acting bronchodilator such as albuterol) opens tight airways within minutes during an attack. A preventer (inhaled corticosteroid such as fluticasone) is used every day to calm the swelling and inflammation that make attacks likely, and does not help an attack already happening. Current guidelines (GINA, since 2019) no longer recommend a short-acting reliever on its own: adults, teenagers and children aged 6 and over should also have an inhaled steroid, and many adults now use a single steroid-formoterol inhaler as both reliever and preventer. Montelukast is a tablet add-on that blocks leukotrienes, inflammatory messengers that narrow airways. Antihistamines such as cetirizine block histamine, the chemical behind sneezing, itching and hives. Tiotropium is a long-acting anticholinergic inhaler used once a day in COPD; like a preventer, it does not rescue a sudden attack.",
 "points": [
 "Reliever = quick, used when needed; preventer = slow, used daily; a short-acting reliever alone is no longer advised.",
 "Rinse the mouth after an inhaled steroid to reduce the risk of oral thrush.",
@@ -642,7 +1129,7 @@ BGX.registerGame({
 {
 "cat": "cns",
 "title": "Brain and nerves",
-"about": "These medicines change brain chemistry to treat mood, anxiety, seizures or memory loss. SSRIs such as sertraline raise serotonin by stopping its reuptake, and take a few weeks to work fully. Benzodiazepines (-azepam, -azolam) boost GABA, the brain's calming messenger, so they act fast for anxiety and seizures but can cause dependence. Antiseizure medicines such as levetiracetam are taken daily to prevent epileptic seizures. Cholinesterase inhibitors such as donepezil stop acetylcholine being broken down, which supports memory in Alzheimer's disease for a time.",
+"about": "These medicines change brain chemistry to treat mood, anxiety, psychosis, seizures, memory loss or pain. SSRIs such as sertraline raise serotonin by stopping its reuptake, and take a few weeks to work fully. Benzodiazepines (-azepam, -azolam) boost GABA, the brain's calming messenger, so they act fast for anxiety and seizures but can cause dependence. Antiseizure medicines such as levetiracetam are taken daily to prevent epileptic seizures. Cholinesterase inhibitors such as donepezil stop acetylcholine being broken down, which supports memory in Alzheimer's disease for a time. Antipsychotics block dopamine: older ones such as haloperidol cause more movement side effects, and newer ones such as quetiapine cause more weight gain and raised blood sugar. Lithium (range about 0.6 to 1.2 mEq/L) and phenytoin (about 10 to 20 mcg/mL) both have a narrow safe range, so their blood levels are checked. Opioids such as morphine relieve severe pain but can slow breathing; naloxone reverses an overdose, and buprenorphine, a partial agonist, treats opioid use disorder.",
 "points": [
 "SSRI = slow, long-term mood treatment; benzodiazepine = fast, short-term calming.",
 "Benzodiazepines are not stopped suddenly after regular use because of withdrawal risk.",
@@ -653,7 +1140,7 @@ BGX.registerGame({
 {
 "cat": "endo",
 "title": "Hormones and diabetes",
-"about": "Hormone medicines either replace a hormone the body lacks or copy one to get a strong effect. Metformin (a biguanide) is often the first tablet for type 2 diabetes (people with heart or kidney disease may start an SGLT2 or GLP-1 medicine first); it lowers the sugar released by the liver and rarely causes low blood sugar on its own. Insulin glargine is a long-acting, once-daily background insulin injection used when the body needs insulin. Levothyroxine replaces thyroxine (T4) in an underactive thyroid. Prednisone is an oral corticosteroid that copies cortisol to damp down inflammation and the immune system.",
+"about": "Hormone medicines either replace a hormone the body lacks or copy one to get a strong effect. Metformin (a biguanide) is often the first tablet for type 2 diabetes (people with heart or kidney disease may start an SGLT2 or GLP-1 medicine first); it lowers the sugar released by the liver and rarely causes low blood sugar on its own. Insulin glargine is a long-acting, once-daily background insulin injection used when the body needs insulin, and insulin lispro is a rapid-acting mealtime insulin. Glipizide (a sulfonylurea) makes the pancreas release more insulin and can cause low blood sugar; empagliflozin (an SGLT2 inhibitor, -gliflozin) passes sugar out in the urine, and semaglutide (a GLP-1 receptor agonist, -glutide) is a weekly injection that also reduces appetite. Levothyroxine replaces thyroxine (T4) in an underactive thyroid. Prednisone is an oral corticosteroid that copies cortisol to damp down inflammation and the immune system.",
 "points": [
 "Type 1 diabetes always needs insulin; type 2 usually starts with metformin.",
 "Levothyroxine is taken on an empty stomach, usually in the morning.",

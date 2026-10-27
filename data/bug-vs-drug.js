@@ -105,7 +105,193 @@ BGX.registerGame({
 "color": "cat-mint",
 "clue": "example",
 "clueLabel": "Example"
-}
+},
+{"id":"exam","format":"exam","title":"Exam-style questions","desc":"Select all that apply, and what to do first.","icon":"✓✓","color":"cat-sand","rounds":8,"extra":true}
+],
+"exam": [
+ {
+  "id": "bd-x1",
+  "cat": "wall",
+  "kind": "sata",
+  "stem": "A patient with cellulitis is due for the first dose of IV cefazolin.",
+  "q": "Which actions should the nurse take? Select all that apply.",
+  "options": [
+   "Ask about drug allergies and the type of reaction",
+   "Make sure any ordered cultures are taken first",
+   "Watch for hives, wheeze or low blood pressure",
+   "Delay the dose until culture results are back",
+   "Give diphenhydramine first to prevent a reaction"
+  ],
+  "answer": [
+   0,
+   1,
+   2
+  ],
+  "why": "Check allergies (some people allergic to penicillin also react to cephalosporins), take cultures before the first dose so the antibiotic does not spoil them, and monitor for anaphylaxis, which is most likely with the first dose. Treatment should not wait days for results, and routine premedication can hide an early reaction."
+ },
+ {
+  "id": "bd-x2",
+  "cat": "protein",
+  "kind": "sata",
+  "stem": "A patient has had IV gentamicin for 6 days.",
+  "q": "Which findings should the nurse report? Select all that apply.",
+  "options": [
+   "Ringing in the ears",
+   "Rising serum creatinine",
+   "Dizziness and an unsteady walk",
+   "Trough level above the target range",
+   "Urine output of 60 mL an hour",
+   "Peak level within the target range"
+  ],
+  "answer": [
+   0,
+   1,
+   2,
+   3
+  ],
+  "why": "Aminoglycosides damage the ears (hearing and balance) and the kidneys. A high trough means the drug is building up, raising the risk of both. A urine output of 60 mL an hour is normal, and a peak within range shows the dose is reaching an effective level."
+ },
+ {
+  "id": "bd-x3",
+  "cat": "protein",
+  "kind": "sata",
+  "stem": "A patient is starting oral doxycycline.",
+  "q": "Which teaching is appropriate? Select all that apply.",
+  "options": [
+   "Use sunscreen and cover up outdoors",
+   "Take it apart from antacids and iron tablets",
+   "Take it with a full glass of water and stay upright",
+   "It is a good choice during pregnancy",
+   "Stop taking it as soon as you feel better"
+  ],
+  "answer": [
+   0,
+   1,
+   2
+  ],
+  "why": "Tetracyclines make the skin burn easily, and antacids (calcium, magnesium, aluminium) and iron reduce their absorption. A full glass of water and staying upright prevent the tablet irritating the oesophagus. They are avoided in pregnancy and young children because they stain growing teeth, and the course is taken as prescribed."
+ },
+ {
+  "id": "bd-x4",
+  "cat": "dna",
+  "kind": "sata",
+  "stem": "A 76-year-old is taking ciprofloxacin for a complicated urinary infection.",
+  "q": "Which findings should the nurse report promptly? Select all that apply.",
+  "options": [
+   "Sudden pain and swelling at the back of the heel",
+   "Tingling or burning in the hands and feet",
+   "New confusion or agitation",
+   "Mild nausea after doses",
+   "Mild headache that eases with rest"
+  ],
+  "answer": [
+   0,
+   1,
+   2
+  ],
+  "why": "Fluoroquinolone boxed warnings cover tendon rupture (older adults are most at risk), peripheral nerve damage, and mood and thinking changes such as new confusion. Mild nausea, which food can ease, and a mild headache that settles are common, minor effects that do not need urgent reporting."
+ },
+ {
+  "id": "bd-x5",
+  "cat": "wall",
+  "kind": "sata",
+  "stem": "On day 5 of IV ceftriaxone, a patient has had 4 watery stools today with cramping.",
+  "q": "Which actions should the nurse take? Select all that apply.",
+  "options": [
+   "Place the patient on contact precautions",
+   "Wash hands with soap and water after care",
+   "Collect a stool sample for C. diff testing",
+   "Give loperamide to slow the diarrhoea",
+   "Use alcohol hand gel to kill the spores",
+   "Monitor fluid balance and electrolytes"
+  ],
+  "answer": [
+   0,
+   1,
+   2,
+   5
+  ],
+  "why": "Antibiotics can let C. difficile overgrow. Use contact precautions, test the stool as ordered and watch for dehydration. Alcohol gel does not kill C. diff spores, so soap and water is used. Antidiarrhoeal drugs can keep the toxin in the bowel and are avoided unless prescribed."
+ },
+ {
+  "id": "bd-x6",
+  "cat": "virus",
+  "kind": "sata",
+  "q": "Which statements about antiviral and antifungal drugs are correct? Select all that apply.",
+  "options": [
+   "Oseltamivir works best within 48 hours of flu symptoms",
+   "Aciclovir (acyclovir) removes herpes virus from the body",
+   "Fluconazole can raise the levels of other drugs",
+   "Oseltamivir is used to treat the common cold",
+   "A course of antibiotics can trigger thrush",
+   "Metronidazole is an azole antifungal"
+  ],
+  "answer": [
+   0,
+   2,
+   4
+  ],
+  "why": "Oseltamivir works on influenza and should start early. Azole antifungals slow the liver's breakdown of many drugs, raising their levels. Antibiotics can kill helpful bacteria and let Candida grow. Aciclovir calms outbreaks but the virus stays in the body, and metronidazole is an antibiotic despite its name."
+ },
+ {
+  "id": "bd-x7",
+  "cat": "wall",
+  "kind": "first",
+  "stem": "Ten minutes into a first IV dose of piperacillin-tazobactam, a patient says her throat feels tight. She has hives and a wheeze.",
+  "q": "What should the nurse do first?",
+  "options": [
+   "Call the rapid response team",
+   "Stop the antibiotic infusion",
+   "Prepare IM epinephrine as ordered",
+   "Check blood pressure and SpO₂"
+  ],
+  "answer": 1,
+  "why": "Safety first: stopping the infusion takes seconds and stops more allergen entering the blood. The nurse then calls for help, gives epinephrine as ordered and monitors vital signs. Each of those is needed, but none should happen while the drug keeps running."
+ },
+ {
+  "id": "bd-x8",
+  "cat": "wall",
+  "kind": "first",
+  "stem": "A patient with suspected sepsis has new orders: blood cultures, a first dose of IV antibiotic, a chest X-ray and a temperature check in 1 hour.",
+  "q": "What should the nurse do first?",
+  "options": [
+   "Hang the IV antibiotic",
+   "Draw the blood cultures",
+   "Send the patient for the chest X-ray",
+   "Recheck the temperature"
+  ],
+  "answer": 1,
+  "why": "Cultures are taken before the first antibiotic dose, because the antibiotic can stop the germ growing in the sample. They are drawn quickly so the antibiotic can follow without delay. The X-ray and temperature check come after."
+ },
+ {
+  "id": "bd-x9",
+  "cat": "wall",
+  "kind": "first",
+  "stem": "During an IV vancomycin infusion, a patient's face, neck and upper chest turn red and itchy. Blood pressure is stable.",
+  "q": "What should the nurse do first?",
+  "options": [
+   "Notify the prescriber",
+   "Give an antihistamine as ordered",
+   "Stop the infusion",
+   "Restart it at a slower rate as ordered"
+  ],
+  "answer": 2,
+  "why": "This is a vancomycin infusion reaction, usually caused by infusing too fast. Stop the infusion first, then notify the prescriber, who may order an antihistamine and a slower rate. Restarting comes last."
+ },
+ {
+  "id": "bd-x10",
+  "cat": "wall",
+  "kind": "first",
+  "q": "Which patient should the nurse see first?",
+  "options": [
+   "IV ceftriaxone, new wheeze and swollen lips",
+   "Gentamicin, trough level due in an hour",
+   "Ciprofloxacin, asking if it can be taken with milk",
+   "Oseltamivir, mild nausea after the first dose"
+  ],
+  "answer": 0,
+  "why": "Airway first: wheeze and lip swelling suggest anaphylaxis, which can block the airway within minutes. The trough is a scheduled task, and the question and mild nausea are stable."
+ }
 ],
 "items": [
 {

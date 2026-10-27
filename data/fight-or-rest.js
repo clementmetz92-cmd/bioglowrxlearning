@@ -79,7 +79,215 @@ BGX.registerGame({
 "clue": "organ",
 "clueLabel": "Organ",
 "pairs": 6
-}
+},
+{"id":"exam","format":"exam","title":"Exam-style questions","desc":"Select all that apply, and what to do first.","icon":"✓✓","color":"cat-sand","rounds":8,"extra":true}
+],
+"exam": [
+ {
+  "id": "fr-x1",
+  "cat": "fight",
+  "kind": "sata",
+  "stem": "A patient receives IM epinephrine (adrenaline) for anaphylaxis.",
+  "q": "Which effects should the nurse expect? Select all that apply.",
+  "options": [
+   "Faster heart rate",
+   "Wider airways",
+   "Higher blood pressure",
+   "Smaller pupils",
+   "Lower blood glucose",
+   "Tremor and anxiety"
+  ],
+  "answer": [
+   0,
+   1,
+   2,
+   5
+  ],
+  "why": "Epinephrine copies fight or flight: beta-1 speeds the heart, beta-2 opens the airways and alpha-1 narrows blood vessels, raising blood pressure. Tremor and anxiety are common adverse effects. It widens the pupils and raises blood glucose."
+ },
+ {
+  "id": "fr-x2",
+  "cat": "fight",
+  "kind": "sata",
+  "stem": "A patient with asthma uses an albuterol (salbutamol) inhaler.",
+  "q": "Which adverse effects should the nurse teach about? Select all that apply.",
+  "options": [
+   "Shaky hands (tremor)",
+   "Fast heartbeat or palpitations",
+   "Feeling nervous or restless",
+   "Slow heart rate",
+   "Increased saliva"
+  ],
+  "answer": [
+   0,
+   1,
+   2
+  ],
+  "why": "Albuterol is a beta-2 agonist that copies the fight or flight effect on the airways. At higher doses it also stimulates the heart and muscles, causing a fast pulse, tremor and nervousness. A slow pulse and more saliva are rest and digest effects."
+ },
+ {
+  "id": "fr-x3",
+  "cat": "fight",
+  "kind": "sata",
+  "stem": "A patient with high blood pressure is starting prazosin, an alpha-1 blocker.",
+  "q": "Which teaching should the nurse include? Select all that apply.",
+  "options": [
+   "Take the first dose at bedtime",
+   "Get up slowly from a bed or chair",
+   "Report dizziness or fainting",
+   "Expect your pulse to become slower",
+   "Take a double dose if you miss one"
+  ],
+  "answer": [
+   0,
+   1,
+   2
+  ],
+  "why": "Alpha-1 blockers stop sympathetic narrowing of blood vessels, so blood pressure can drop on standing, especially after the first dose. A bedtime first dose and rising slowly reduce falls. The heart rate may rise as a reflex, not fall, and missed doses are not doubled."
+ },
+ {
+  "id": "fr-x4",
+  "cat": "fight",
+  "kind": "sata",
+  "q": "Which drugs block a fight or flight (adrenergic) receptor? Select all that apply.",
+  "options": [
+   "Tamsulosin",
+   "Metoprolol",
+   "Propranolol",
+   "Phenylephrine",
+   "Bethanechol",
+   "Albuterol (salbutamol)"
+  ],
+  "answer": [
+   0,
+   1,
+   2
+  ],
+  "why": "Tamsulosin blocks alpha-1 receptors (relaxing the prostate and bladder neck), metoprolol blocks beta-1 and propranolol blocks beta-1 and beta-2. Phenylephrine (alpha-1) and albuterol (beta-2) are adrenergic agonists, and bethanechol copies acetylcholine."
+ },
+ {
+  "id": "fr-x5",
+  "cat": "fight",
+  "kind": "sata",
+  "q": "Which findings should lead the nurse to hold a beta blocker and contact the prescriber? Select all that apply.",
+  "options": [
+   "Apical pulse 48/min before metoprolol",
+   "Blood pressure 86/52 mmHg before metoprolol",
+   "New wheeze in a patient taking propranolol",
+   "Apical pulse 74/min before metoprolol",
+   "Blood pressure 146/90 mmHg before propranolol"
+  ],
+  "answer": [
+   0,
+   1,
+   2
+  ],
+  "why": "Beta blockers block the fight or flight effect on the heart, so a slow pulse or low blood pressure means the dose could do harm. Propranolol also blocks beta-2 in the airways and can cause bronchospasm. A pulse of 74 is normal, and high blood pressure is a reason the drug is given."
+ },
+ {
+  "id": "fr-x6",
+  "cat": "rest",
+  "kind": "sata",
+  "stem": "Bethanechol copies acetylcholine, and neostigmine stops it being broken down.",
+  "q": "Which effects can these drugs cause? Select all that apply.",
+  "options": [
+   "Slower heart rate",
+   "More saliva and sweating",
+   "Urge to pass urine",
+   "Wider pupils",
+   "Dry mouth",
+   "Wheeze in a patient with asthma"
+  ],
+  "answer": [
+   0,
+   1,
+   2,
+   5
+  ],
+  "why": "Both boost acetylcholine, so they cause rest and digest (cholinergic) effects: slow pulse, saliva, urination and airway narrowing, which can trigger wheeze in asthma. Sweat glands also respond to acetylcholine. Wide pupils and dry mouth are anticholinergic effects. Atropine is the antidote."
+ },
+ {
+  "id": "fr-x7",
+  "cat": "rest",
+  "kind": "sata",
+  "stem": "Anticholinergics such as atropine, oxybutynin and scopolamine block acetylcholine.",
+  "q": "Which adverse effects should the nurse monitor for in an older adult? Select all that apply.",
+  "options": [
+   "Dry mouth",
+   "Constipation",
+   "Confusion",
+   "Urinary retention",
+   "Watery eyes and drooling",
+   "Slow heart rate"
+  ],
+  "answer": [
+   0,
+   1,
+   2,
+   3
+  ],
+  "why": "Blocking rest and digest leaves fight or flight effects: dry mouth, slow gut, held urine, wide pupils, a fast pulse and, in older adults, confusion (they are on the Beers list). Watery eyes, drooling and a slow pulse are cholinergic effects, the opposite."
+ },
+ {
+  "id": "fr-x8",
+  "cat": "fight",
+  "kind": "first",
+  "stem": "After a bee sting, a patient has hives, a wheeze, a swollen tongue and blood pressure of 82/48 mmHg.",
+  "q": "What should the nurse do first?",
+  "options": [
+   "Give IV diphenhydramine as ordered",
+   "Give IM epinephrine as ordered",
+   "Insert a second IV line",
+   "Give nebulised albuterol as ordered"
+  ],
+  "answer": 1,
+  "why": "Epinephrine is the first-line treatment for anaphylaxis: it opens the airways, narrows blood vessels to raise blood pressure and reduces swelling. Antihistamines and albuterol only help some symptoms and act more slowly, and IV access can follow."
+ },
+ {
+  "id": "fr-x9",
+  "cat": "rest",
+  "kind": "first",
+  "stem": "A patient with myasthenia gravis on pyridostigmine is sweating and drooling, with severe muscle weakness and difficulty breathing.",
+  "q": "What should the nurse do first?",
+  "options": [
+   "Hold the next pyridostigmine dose",
+   "Prepare atropine as ordered",
+   "Assess her breathing and SpO₂",
+   "Notify the provider"
+  ],
+  "answer": 2,
+  "why": "Airway and breathing first: these may be signs of cholinergic crisis from too much cholinesterase inhibitor, and weak breathing muscles can fail quickly. The nurse then gets help, holds further doses and prepares atropine as ordered."
+ },
+ {
+  "id": "fr-x10",
+  "cat": "fight",
+  "kind": "first",
+  "stem": "A patient is on an IV phenylephrine infusion. The IV site is now cool, pale and swollen.",
+  "q": "What should the nurse do first?",
+  "options": [
+   "Notify the prescriber",
+   "Stop the infusion",
+   "Prepare phentolamine as ordered",
+   "Mark the edges of the swelling"
+  ],
+  "answer": 1,
+  "why": "Phenylephrine is an alpha-1 agonist that narrows blood vessels, so leakage into the tissue can cause ischaemia. Stopping the infusion first limits the damage. The prescriber is then told, phentolamine (an alpha blocker) may be ordered, and the area is monitored."
+ },
+ {
+  "id": "fr-x11",
+  "cat": "rest",
+  "kind": "first",
+  "stem": "A patient has not passed urine for 8 hours after surgery. Bethanechol is ordered.",
+  "q": "What should the nurse do first?",
+  "options": [
+   "Give the bethanechol as ordered",
+   "Assess the bladder with a bladder scan",
+   "Offer a warm drink and privacy",
+   "Notify the prescriber"
+  ],
+  "answer": 1,
+  "why": "Assess before acting: bethanechol contracts the bladder and is contraindicated if a blockage stops urine flowing. A bladder scan shows how much urine is held. Comfort measures and the drug come after the assessment, and findings are reported."
+ }
 ],
 "items": [
 {

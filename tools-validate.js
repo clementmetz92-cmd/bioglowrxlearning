@@ -19,7 +19,15 @@ for(const f of fs.readdirSync(D).filter(f=>f.endsWith('.js')&&!['catalog.js','se
  (G.cases||[]).forEach(c=>{(c.steps||[]).forEach((s,i)=>{if(!(s.answer>=0&&s.answer<s.options.length))out.push(`${f}: case ${c.id} step ${i} bad answer idx`); if(new Set(s.options).size!==s.options.length)out.push(`${f}: case ${c.id} step ${i} duplicate options`)}); });
  const sl=new Set((G.cases||[]).map(c=>c.steps.length));if(sl.size>1)out.push(`${f}: cases have unequal step counts ${[...sl]}`);
  (G.problems||[]).forEach(p=>{let bad=0;for(let t=0;t<200;t++){try{const v=p.make?p.make():{};Object.keys(p.vars||{}).forEach(k=>{const d=p.vars[k];v[k]=Array.isArray(d)?d[Math.floor(Math.random()*d.length)]:d.min});Object.assign(v,p.derive?p.derive(v):{});const a=p.answer(v);if(!isFinite(a))bad++;
-   const txt=String(p.text).replace(/\{(\w+)\}/g,(m,k)=>v[k]==null?'@@'+k:'');if(txt.includes('@@'))out.push(`${f}: problem ${p.id} text placeholder unresolved ${txt.match(/@@\w+/)[0]}`)}catch(e){bad++}} if(bad)out.push(`${f}: problem ${p.id} ${bad}/200 non-finite or throwing`)});
+   const txt=[p.text,...(p.steps||[]),p.tip||''].join(' ').replace(/\{(\w+)\}/g,(m,k)=>v[k]==null&&k!=='answer'?'@@'+k:'');if(txt.includes('@@'))out.push(`${f}: problem ${p.id} text placeholder unresolved ${txt.match(/@@\w+/)[0]}`)}catch(e){bad++}} if(bad)out.push(`${f}: problem ${p.id} ${bad}/200 non-finite or throwing`)});
+ const xid=new Set();(G.exam||[]).forEach(x=>{ if(xid.has(x.id))out.push(`${f}: exam duplicate id ${x.id}`);xid.add(x.id);
+   if(!x.q||!Array.isArray(x.options))return out.push(`${f}: exam ${x.id} missing q/options`);
+   if(new Set(x.options).size!==x.options.length)out.push(`${f}: exam ${x.id} duplicate options`);
+   if(x.cat&&!cats.has(x.cat))out.push(`${f}: exam ${x.id} unknown cat ${x.cat}`);
+   const A=Array.isArray(x.answer)?x.answer:[x.answer];
+   if(!A.every(k=>Number.isInteger(k)&&k>=0&&k<x.options.length)||new Set(A).size!==A.length)out.push(`${f}: exam ${x.id} bad answer idx`);
+   if(x.kind==="sata"&&(!Array.isArray(x.answer)||A.length<2))out.push(`${f}: exam ${x.id} sata needs 2+ right options`);
+   if(x.kind==="first"&&(Array.isArray(x.answer)||x.options.length!==4))out.push(`${f}: exam ${x.id} first needs 4 options and one answer`); });
  (G.sequences||[]).forEach(s=>{if(new Set(s.steps).size!==s.steps.length)out.push(`${f}: sequence ${s.id} duplicate step text`)});
 }
 console.log([...new Set(out)].join('\n'));console.log('TOTAL items',totalItems);

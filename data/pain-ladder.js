@@ -39,7 +39,196 @@ BGX.registerGame({
   { "id": "order", "format": "sequence", "title": "Step by step", "desc": "The WHO ladder, an overdose response, a PRN opioid, a fentanyl patch, the pain pathway and uric acid.", "icon": "1→", "color": "cat-mint" },
   { "id": "pairs", "format": "matchpairs", "title": "Match Pairs", "desc": "Pair each card with its one-line clue.", "icon": "⇄", "color": "cat-lilac", "clue": "tag", "clueLabel": "Clue", "pairs": 6 },
   { "id": "truemyth", "format": "truemyth", "title": "True or myth?", "desc": "Quick-fire statements about pain and its drugs.", "icon": "✓✕", "color": "cat-sage" },
-  { "id": "cases", "format": "cases", "title": "Case Files", "desc": "Oversedation, hidden acetaminophen, gout, patches and malignant hyperthermia.", "icon": "✚", "color": "cat-orchid", "rounds": 3 }
+  { "id": "cases", "format": "cases", "title": "Case Files", "desc": "Oversedation, hidden acetaminophen, gout, patches and malignant hyperthermia.", "icon": "✚", "color": "cat-orchid", "rounds": 3 },
+{"id":"exam","format":"exam","title":"Exam-style questions","desc":"Select all that apply, and what to do first.","icon":"✓✓","color":"cat-sand","rounds":8,"extra":true}
+],
+"exam": [
+ {
+  "id": "pl-x1",
+  "cat": "opioid",
+  "kind": "sata",
+  "stem": "A patient has taken oral morphine every 4 hours for 2 weeks for cancer pain.",
+  "q": "Which statements about opioid adverse effects are accurate? Select all that apply.",
+  "options": [
+   "Tolerance to sedation usually develops over time",
+   "Constipation continues even after tolerance develops",
+   "A stool softener alone usually prevents constipation",
+   "Pinpoint pupils can be a sign of opioid effect",
+   "Itching with morphine usually means a true allergy",
+   "Urinary retention can occur"
+  ],
+  "answer": [
+   0,
+   1,
+   3,
+   5
+  ],
+  "why": "Tolerance develops to sedation, nausea and breathing depression, but not to constipation or small pupils. Constipation needs a stimulant laxative such as senna; a softener alone is not enough. Morphine itching is usually histamine release, not allergy. Urinary retention is a known opioid effect."
+ },
+ {
+  "id": "pl-x2",
+  "cat": "assess",
+  "kind": "sata",
+  "stem": "Thirty minutes after IV hydromorphone, a patient keeps drifting off to sleep mid-sentence (POSS 3). Respiratory rate is 12.",
+  "q": "Which actions should the nurse take? Select all that apply.",
+  "options": [
+   "Hold or reduce the next opioid dose as ordered",
+   "Stay and monitor breathing and SpO₂ closely",
+   "Wake him and encourage deep breaths",
+   "Give naloxone 0.4 mg IV push undiluted now",
+   "Let him sleep, as sleep shows good pain relief",
+   "Give his scheduled gabapentin dose early"
+  ],
+  "answer": [
+   0,
+   1,
+   2
+  ],
+  "why": "POSS 3 is unacceptable sedation: hold or reduce the opioid, stimulate the patient and monitor closely, because sedation comes before respiratory depression. Naloxone is for POSS 4 or slowed breathing, and in hospital it is diluted and titrated to avoid sudden withdrawal. Gabapentin adds to the sedation."
+ },
+ {
+  "id": "pl-x3",
+  "cat": "nonop",
+  "kind": "sata",
+  "stem": "A nurse teaches a patient who uses acetaminophen at home.",
+  "q": "Which statements show the patient understands? Select all that apply.",
+  "options": [
+   "\"I will add up acetaminophen from all my medicines.\"",
+   "\"Some cold remedies contain acetaminophen too.\"",
+   "\"It will bring down the swelling in my knee.\"",
+   "\"It is gentler on my stomach than ibuprofen.\"",
+   "\"Drinking heavily lowers my safe daily limit.\"",
+   "\"I can take 1 g every 4 hours if I need it.\""
+  ],
+  "answer": [
+   0,
+   1,
+   3,
+   4
+  ],
+  "why": "Acetaminophen is hidden in many combination and cold products, so every source counts towards the 4 g limit (lower with heavy alcohol use or liver disease). It does not irritate the stomach, but it does not treat inflammation. 1 g every 4 hours could reach 6 g a day, which risks liver failure."
+ },
+ {
+  "id": "pl-x4",
+  "cat": "nonop",
+  "kind": "sata",
+  "stem": "A 68-year-old with osteoarthritis is starting regular ibuprofen.",
+  "q": "Which teaching points should the nurse include? Select all that apply.",
+  "options": [
+   "Take each dose with food or milk",
+   "Report black, tarry stools",
+   "Report swollen ankles or sudden weight gain",
+   "Take it at the same time as your low-dose aspirin",
+   "It lowers blood pressure, so stand up slowly",
+   "It has no effect on warfarin"
+  ],
+  "answer": [
+   0,
+   1,
+   2
+  ],
+  "why": "NSAIDs irritate the stomach (take with food, report signs of GI bleeding) and cause fluid retention. Taken together with low-dose aspirin, ibuprofen can block aspirin's heart protection, so doses are spaced. NSAIDs raise blood pressure and increase bleeding risk with warfarin."
+ },
+ {
+  "id": "pl-x5",
+  "cat": "gout",
+  "kind": "sata",
+  "q": "Which statements about gout medicines are correct? Select all that apply.",
+  "options": [
+   "Colchicine is a good choice for general joint pain",
+   "Diarrhoea can be an early sign of colchicine toxicity",
+   "Allopurinol is the drug of choice to end an active flare",
+   "Allopurinol should be stopped at the first sign of a rash",
+   "Probenecid works well alongside daily aspirin",
+   "Probenecid users should drink 2 to 3 L of fluid a day"
+  ],
+  "answer": [
+   1,
+   3,
+   5
+  ],
+  "why": "Diarrhoea, nausea and vomiting are the first signs of colchicine toxicity, and colchicine treats gout flares, not general pain. A rash on allopurinol can be the start of Stevens-Johnson syndrome or DRESS. Allopurinol prevents flares but does not end one. Probenecid needs plenty of fluid, and aspirin cancels its effect."
+ },
+ {
+  "id": "pl-x6",
+  "cat": "relax",
+  "kind": "sata",
+  "stem": "A patient is prescribed cyclobenzaprine for a strained back.",
+  "q": "Which teaching should the nurse include? Select all that apply.",
+  "options": [
+   "Avoid alcohol while taking this medicine",
+   "Report any difficulty passing urine",
+   "Avoid driving until you know how it affects you",
+   "It is safe with any antidepressant you take",
+   "It is meant for long-term daily use",
+   "Double the dose if spasms are worse at night"
+  ],
+  "answer": [
+   0,
+   1,
+   2
+  ],
+  "why": "Cyclobenzaprine causes drowsiness and anticholinergic effects such as urinary retention, so alcohol and driving are avoided until its effects are known. It is contraindicated with MAOIs and can cause serotonin syndrome with other serotonergic drugs. It is for short-term use, usually 2 to 3 weeks, at the prescribed dose."
+ },
+ {
+  "id": "pl-x7",
+  "cat": "opioid",
+  "kind": "first",
+  "stem": "A post-operative patient on IV morphine is hard to rouse, snoring, with a respiratory rate of 6 and SpO₂ of 84%. His pupils are pinpoint.",
+  "q": "What should the nurse do first?",
+  "options": [
+   "Notify the prescriber",
+   "Give naloxone as ordered",
+   "Stimulate him and support his breathing",
+   "Review how much morphine he has had"
+  ],
+  "answer": 2,
+  "why": "Airway and breathing come first: rousing the patient, opening the airway and supporting breathing takes seconds and treats the immediate threat. Naloxone follows straight after as ordered, then the prescriber is told and the doses are reviewed."
+ },
+ {
+  "id": "pl-x8",
+  "cat": "opioid",
+  "kind": "first",
+  "q": "Which patient should the nurse see first?",
+  "options": [
+   "Fentanyl patch, temperature 39.2 °C, drowsier than usual",
+   "Gout flare, big toe pain rated 7/10, on colchicine",
+   "Gabapentin, mild dizziness when standing this morning",
+   "Allopurinol, asking why colchicine was added"
+  ],
+  "answer": 0,
+  "why": "Unstable over stable: fever raises fentanyl absorption from the patch, and new drowsiness warns of opioid overdose and respiratory depression. The gout pain needs attention but is expected and being treated; the dizziness and the question are stable."
+ },
+ {
+  "id": "pl-x9",
+  "cat": "relax",
+  "kind": "first",
+  "stem": "In theatre, minutes after succinylcholine and sevoflurane, a patient's jaw is rigid, heart rate is rising and end-tidal CO₂ keeps climbing.",
+  "q": "What should the team do first?",
+  "options": [
+   "Prepare IV dantrolene 2.5 mg/kg",
+   "Stop the triggering anaesthetic agents",
+   "Start cooling with ice packs and cold fluids",
+   "Send blood for potassium and CK"
+  ],
+  "answer": 1,
+  "why": "These are signs of malignant hyperthermia. The first step is to remove the cause: stop the volatile gas and succinylcholine, then give dantrolene as fast as possible. Cooling and blood tests support treatment but come after."
+ },
+ {
+  "id": "pl-x10",
+  "cat": "assess",
+  "kind": "first",
+  "stem": "On day 2 after hip surgery, a patient with PRN oxycodone reports a new, sharp pain in his left calf rated 7/10.",
+  "q": "What should the nurse do first?",
+  "options": [
+   "Give the PRN oxycodone as ordered",
+   "Assess the calf and ask about the pain",
+   "Notify the provider of the new pain",
+   "Recheck the pain score in 60 minutes"
+  ],
+  "answer": 1,
+  "why": "Assess before acting: new pain in a new place after surgery may be a blood clot, not surgical pain. A focused assessment gives the provider the facts and decides whether an analgesic is safe to give. Reassessment comes after any treatment."
+ }
 ],
 "items": [
   { "name": "Acute pain", "cat": "assess", "icon": "pharm-bandage", "spot": "acute",

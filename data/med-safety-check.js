@@ -86,7 +86,192 @@ BGX.registerGame({
 "color": "cat-mint",
 "clue": "check",
 "clueLabel": "Do this"
-}
+},
+{"id":"exam","format":"exam","title":"Exam-style questions","desc":"Select all that apply, and what to do first.","icon":"✓✓","color":"cat-sand","rounds":8,"extra":true}
+],
+"exam": [
+ {
+  "id": "ms-x1",
+  "cat": "rights",
+  "kind": "sata",
+  "q": "Which are acceptable ways to confirm a patient's identity before giving a medicine? Select all that apply.",
+  "options": [
+   "Ask the patient to state their full name",
+   "Check the date of birth against the wristband",
+   "Scan the wristband and compare it with the MAR",
+   "Check the room and bed number",
+   "Ask \"Are you Mr Lee?\" and wait for a yes"
+  ],
+  "answer": [
+   0,
+   1,
+   2
+  ],
+  "why": "Use two identifiers, such as full name and date of birth, checked against the wristband and the medication record. Room and bed numbers change and are never identifiers. A yes-or-no question invites a confused or hard-of-hearing patient to agree with the wrong name."
+ },
+ {
+  "id": "ms-x2",
+  "cat": "abbr",
+  "kind": "sata",
+  "q": "Which orders contain an abbreviation or number style on the do-not-use list? Select all that apply.",
+  "options": [
+   "Insulin lispro 6 U subcut before meals",
+   "Digoxin .125 mg by mouth daily",
+   "Warfarin 5.0 mg by mouth daily",
+   "Metoprolol 25 mg by mouth twice daily",
+   "Heparin 5,000 units subcut every 12 hours",
+   "MSO4 2 mg IV every 4 hours as needed"
+  ],
+  "answer": [
+   0,
+   1,
+   2,
+   5
+  ],
+  "why": "U can be read as 0 or 4, .125 without a leading zero can be read as 125, 5.0 with a trailing zero can be read as 50, and MSO4 can be confused with magnesium sulfate. Metoprolol and heparin are written correctly, with units in full."
+ },
+ {
+  "id": "ms-x3",
+  "cat": "rights",
+  "kind": "sata",
+  "stem": "A nurse is preparing a continuous IV heparin infusion.",
+  "q": "Which actions help prevent an error? Select all that apply.",
+  "options": [
+   "Ask a second nurse for an independent double-check",
+   "Use the smart pump's drug library",
+   "Check the latest aPTT or anti-Xa result",
+   "Use the bag strength that matches the last bag",
+   "Override pump alerts when the rate looks right"
+  ],
+  "answer": [
+   0,
+   1,
+   2
+  ],
+  "why": "Heparin is a high-alert medicine: independent double-checks, smart pump libraries and checking the lab result that guides the rate all catch errors. The strength must be checked against the current order, not the last bag, and pump alerts should be investigated, not overridden."
+ },
+ {
+  "id": "ms-x4",
+  "cat": "rights",
+  "kind": "sata",
+  "q": "Which medicines are on the ISMP list of high-alert medicines in hospitals? Select all that apply.",
+  "options": [
+   "Insulin",
+   "IV heparin",
+   "Concentrated IV potassium chloride",
+   "IV hydromorphone",
+   "Oral amoxicillin",
+   "Oral ondansetron"
+  ],
+  "answer": [
+   0,
+   1,
+   2,
+   3
+  ],
+  "why": "High-alert medicines cause serious harm when an error happens: insulin, anticoagulants such as heparin, concentrated electrolytes such as potassium chloride, and opioids are on the list. Errors with amoxicillin or ondansetron matter too, but they are not usually as dangerous."
+ },
+ {
+  "id": "ms-x5",
+  "cat": "rights",
+  "kind": "sata",
+  "stem": "A patient refuses her 09:00 enoxaparin injection.",
+  "q": "Which actions are appropriate? Select all that apply.",
+  "options": [
+   "Ask about her reason for refusing",
+   "Explain the risk of not having it",
+   "Tell the prescriber about the refusal",
+   "Record the refusal and the reason given",
+   "Give it anyway, as it is a high-alert drug",
+   "Ask her husband to consent for her instead"
+  ],
+  "answer": [
+   0,
+   1,
+   2,
+   3
+  ],
+  "why": "A patient with capacity may refuse any medicine. The nurse explores the reason, explains the risk, informs the prescriber and documents it. Giving it anyway would be treatment without consent, and a relative cannot consent for an adult who has capacity."
+ },
+ {
+  "id": "ms-x6",
+  "cat": "rights",
+  "kind": "sata",
+  "stem": "A patient with a feeding tube has several tablets due, including an extended-release one.",
+  "q": "Which actions are correct? Select all that apply.",
+  "options": [
+   "Check whether each tablet may be crushed",
+   "Ask pharmacy about another form of the ER tablet",
+   "Crush the extended-release tablet finely",
+   "Give each drug separately and flush between",
+   "Mix all the crushed drugs to save time"
+  ],
+  "answer": [
+   0,
+   1,
+   3
+  ],
+  "why": "Crushing an extended-release tablet can release the whole dose at once, so the nurse checks and asks pharmacy or the prescriber for a liquid or other form. Drugs are given one at a time with flushes to prevent interactions and tube blockage."
+ },
+ {
+  "id": "ms-x7",
+  "cat": "rights",
+  "kind": "first",
+  "stem": "A nurse realises she has just given metoprolol 50 mg instead of the ordered 25 mg.",
+  "q": "What should the nurse do first?",
+  "options": [
+   "Notify the prescriber",
+   "Check the patient's pulse and blood pressure",
+   "Complete an incident report",
+   "Inform the charge nurse"
+  ],
+  "answer": 1,
+  "why": "Patient safety comes first: assess the patient for the effects of the extra dose (slow pulse, low blood pressure). The nurse then tells the prescriber with these findings, informs the charge nurse and completes an incident report."
+ },
+ {
+  "id": "ms-x8",
+  "cat": "rights",
+  "kind": "first",
+  "stem": "At the bedside, a patient says, \"That pill looks different from the one I take at home.\"",
+  "q": "What should the nurse do first?",
+  "options": [
+   "Explain that generic pills can look different",
+   "Hold the pill and recheck it against the order",
+   "Call the pharmacist about the tablet",
+   "Document the patient's concern"
+  ],
+  "answer": 1,
+  "why": "Safety first: a patient's concern is a warning sign of a possible error. Stop and recheck the label against the order before anything else. Calling the pharmacist may follow, and an explanation is given only once the drug is confirmed correct."
+ },
+ {
+  "id": "ms-x9",
+  "cat": "rights",
+  "kind": "first",
+  "q": "Which patient should the nurse see first?",
+  "options": [
+   "On insulin, sweaty and shaky, glucose 58 mg/dL",
+   "Due for metoprolol at 09:00, pulse 72 at 08:30",
+   "Wants to talk about stopping her statin",
+   "Asking for acetaminophen, headache 3/10"
+  ],
+  "answer": 0,
+  "why": "Unstable over stable: symptomatic low blood sugar can quickly lead to confusion and seizures, and needs treatment now. The scheduled dose, the conversation and the mild headache can wait a few minutes."
+ },
+ {
+  "id": "ms-x10",
+  "cat": "abbr",
+  "kind": "first",
+  "stem": "A patient with pre-eclampsia has a new order: \"MSO4 4 g IV over 30 minutes.\"",
+  "q": "What should the nurse do first?",
+  "options": [
+   "Prepare the infusion on a smart pump",
+   "Ask a second nurse to double-check the dose",
+   "Clarify the drug name with the prescriber",
+   "Teach the patient about the infusion"
+  ],
+  "answer": 2,
+  "why": "MSO4 can mean morphine or magnesium sulfate, so the order is unsafe until clarified. Preparing, double-checking and teaching all depend on knowing which drug is meant, and the prescriber should rewrite it with the full drug name."
+ }
 ],
 "items": [
 {

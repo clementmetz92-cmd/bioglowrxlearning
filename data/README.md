@@ -74,9 +74,11 @@ Write everything in our own words, never copied from the textbook.
 | `truemyth` | True or Myth: two big buttons | items need `claim`, `verdict` (true/false); `labels` to rename the buttons |
 | `buildit` | Build It with +/− steppers | `parts: [{ label, field, max }]`, `draw: "atom"` |
 | `cases` | Case Files: a patient story worked through in steps | uses `cases` (below); `rounds` (cases per round, default 3), `only` (category ids) |
+| `exam` | Exam-style questions: select all that apply, and what to do first | uses `exam` (below); `rounds` (default 8), `kind` (`sata` or `first`), `only` (category ids) |
 | `calculator` | Calculator Challenge: type a number, new numbers every time | uses `problems` (below); `rounds` (default 8), `only` (category ids), `help: true` ("Show me how"), `formula: true` (show the formula) |
 
-Every mode also takes `id`, `title`, `desc`, `icon` (a short glyph) and `color` (a `cat-*` token).
+Every mode also takes `id`, `title`, `desc`, `icon` (a short glyph) and `color` (a `cat-*` token), and `extra: true` to keep it as optional extra practice that never counts toward the certificate.
+About four scored modes per chapter are its **core activities** (they count toward the certificate). The engine picks them (one cases or calculator mode first, then quizzes and sorting); a game can name them with `"core": ["mode-id", …]`.
 Quiz, Sort It, True or Myth, Find It and Match Pairs modes can take `only: [category ids]` to play one group (Sort It then offers only those groups).
 Build It items can carry their own steppers: `parts: [{ label, value, start, max }]` (e.g. coefficients when balancing equations).
 Streaks, confetti, sounds, milestones and the review screen are automatic.
@@ -97,6 +99,19 @@ Streaks, confetti, sounds, milestones and the review screen are automatic.
 }]
 ```
 Options are shuffled when played, so the right one can always be written first. Each answered step is added to the case file.
+
+### Exam-style questions (`exam`)
+
+```js
+"exam": [
+  { "id": "pl-x1", "cat": "opioid", "kind": "sata", "stem": "Optional patient context.",
+    "q": "Which actions should the nurse take? Select all that apply.",
+    "options": ["…", "…", "…", "…", "…"], "answer": [0, 2, 3], "why": "Why each is right or wrong." },
+  { "id": "pl-x2", "cat": "opioid", "kind": "first", "q": "What should the nurse do first?",
+    "options": ["…", "…", "…", "…"], "answer": 1, "why": "The priority principle." }
+]
+```
+Select all that apply scores only when every right option and no wrong one is picked. "First" items have exactly four options and one answer.
 
 ### Calculator Challenge (`problems`)
 

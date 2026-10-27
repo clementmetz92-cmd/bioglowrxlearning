@@ -1091,3 +1091,11 @@ html.bgx-t2 .br-wrap, html.bgx-t2 .br-sheet, html.bgx-t2 .br-milestone .box, htm
 .sp-prepbtn.is-on { background: var(--good-tint); border-color: var(--good); }
 .sp-prepbtn.is-wrong { background: var(--bad-tint); border-color: var(--bad); }
 .sp-band { border-style: dashed; }
+/* exam-style questions: select all that apply */
+.br-sata .br-chk { display: flex; align-items: center; gap: 10px; text-align: left; justify-content: flex-start; }
+.br-sata .box { flex: none; width: 20px; height: 20px; border-radius: 5px; border: 2px solid var(--muted); background: var(--surface); position: relative; }
+.br-sata .br-chk.is-picked { border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent) inset; }
+.br-sata .br-chk.is-picked .box { background: var(--accent); border-color: var(--accent); }
+.br-sata .br-chk.is-picked .box::after { content: "✓"; position: absolute; inset: 0; color: #fff; font-size: 14px; line-height: 16px; text-align: center; font-weight: 900; }
+.br-ans.is-missed { border: 2px dashed var(--good); background: var(--good-tint); }
+.br-exam .story { margin: 6px 0 0; }

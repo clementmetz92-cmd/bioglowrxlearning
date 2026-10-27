@@ -20,7 +20,11 @@ BGX.registerGame({
   { "id": "convert", "name": "Unit conversions", "color": "cat-amber", "icon": "scale" },
   { "id": "weight", "name": "Weight-based doses", "color": "cat-sage", "icon": "baby" },
   { "id": "ivrate", "name": "IV pump rates", "color": "cat-coral", "icon": "timer" },
-  { "id": "drip", "name": "Drip rates (gravity)", "color": "cat-mint", "icon": "drop" }
+  { "id": "drip", "name": "Drip rates (gravity)", "color": "cat-mint", "icon": "drop" },
+  { "id": "safe", "name": "Safe dose ranges", "color": "cat-lemon", "icon": "scale" },
+  { "id": "titrate", "name": "mcg/kg/min infusions", "color": "cat-orchid", "icon": "timer" },
+  { "id": "recon", "name": "Reconstitution (powders)", "color": "cat-peach", "icon": "drop" },
+  { "id": "insulin", "name": "Insulin", "color": "cat-sand", "icon": "drop" }
 ],
 "categoryLabel": "Type",
 "hint": "Learn the six formulas in the study notes, then work through real-style orders. New numbers every time you play.",
@@ -36,13 +40,14 @@ BGX.registerGame({
 "diagramCaption": "What you are working with",
 "modes": [
   { "id": "explore", "format": "explorer", "title": "Explore the formulas", "desc": "Each formula with a worked example.", "icon": "◎", "color": "cat-peach" },
-  { "id": "learn", "format": "calculator", "title": "Learn the method", "desc": "Mixed questions with the formula shown and a \"Show me how\" helper.", "icon": "÷", "color": "cat-lemon", "rounds": 8, "help": true, "formula": true },
+  { "id": "learn", "format": "calculator", "title": "Learn the method", "desc": "Mixed questions with the formula shown and a \"Show me how\" helper.", "icon": "÷", "color": "cat-lemon", "rounds": 8, "help": true, "formula": true, "only": ["tablets", "liquids", "convert", "weight", "ivrate", "drip"] },
   { "id": "oral", "format": "calculator", "title": "Tablets and liquids", "desc": "D ÷ H and D ÷ H × V, with unit conversions.", "icon": "℞", "color": "cat-lilac", "rounds": 8, "help": true, "only": ["tablets", "liquids", "convert"] },
   { "id": "weight", "format": "calculator", "title": "Weight-based doses", "desc": "mg/kg, pounds to kg, and doses split through the day.", "icon": "kg", "color": "cat-sage", "rounds": 8, "help": true, "only": ["weight"] },
   { "id": "iv", "format": "calculator", "title": "IV rates and drips", "desc": "Pump rates in mL/h, drops per minute and time to finish.", "icon": "⏱", "color": "cat-coral", "rounds": 8, "help": true, "only": ["ivrate", "drip"] },
-  { "id": "challenge", "format": "calculator", "title": "Challenge round", "desc": "10 mixed questions, no formula, no helper.", "icon": "★", "color": "cat-amber", "rounds": 10 },
+  { "id": "challenge", "format": "calculator", "title": "Challenge round", "desc": "10 mixed questions, no formula, no helper.", "icon": "★", "color": "cat-amber", "rounds": 10, "only": ["tablets", "liquids", "convert", "weight", "ivrate", "drip"] },
   { "id": "which", "format": "quiz", "title": "Which formula?", "desc": "Read the situation, pick the formula.", "icon": "?", "color": "cat-sky", "prompt": "Which formula do you use?", "show": "use", "showAs": "text", "answer": "formula", "answerAs": "small" },
-  { "id": "pairs", "format": "matchpairs", "title": "Match Pairs", "desc": "Pair each calculation with its formula.", "icon": "⇄", "color": "cat-mint", "clue": "formula", "clueLabel": "Formula", "pairs": 6 }
+  { "id": "pairs", "format": "matchpairs", "title": "Match Pairs", "desc": "Pair each calculation with its formula.", "icon": "⇄", "color": "cat-mint", "clue": "formula", "clueLabel": "Formula", "pairs": 6 },
+  { "id": "advanced", "format": "calculator", "title": "Exam calculations", "desc": "Safe dose ranges, mcg/kg/min drips, powders and insulin.", "icon": "∑", "color": "cat-lilac", "rounds": 8, "only": ["safe", "titrate", "recon", "insulin"], "help": true, "formula": true, "extra": true }
 ],
 "items": [
   { "icon": "pharm-tablets", "name": "Tablets to give",
@@ -95,7 +100,27 @@ BGX.registerGame({
     "use": "No pump: 1,000 mL over 8 hours through a 15 gtt/mL giving set.",
     "summary": "For a gravity drip, multiply the volume by the drop factor of the giving set, then divide by the time in minutes.",
     "facts": ["The drop factor (gtt/mL) is printed on the giving-set packet.", "Macrodrip sets: 10, 15 or 20 gtt/mL. Microdrip sets: 60 gtt/mL.", "Drops are always rounded to a whole number.", "With a 60 gtt/mL set, drops per minute equal mL per hour."],
-    "life": "1,000 mL × 15 ÷ 480 min = 31 drops a minute." }
+    "life": "1,000 mL × 15 ÷ 480 min = 31 drops a minute." },
+  { "icon": "pharm-weight", "name": "Safe dose range", "alsoOk": ["per dose = (mg/kg/day × kg) ÷ doses a day"], "cat": "safe", "spot": "scale", "formula": "safe range = low to high mg/kg/day × kg",
+    "use": "The reference says 25–50 mg/kg/day; the child weighs 16 kg and the order is 200 mg every 6 hours.",
+    "summary": "Multiply both ends of the reference range by the weight, work out what the order gives in a day, and compare.",
+    "facts": ["Safe range (mg/day) = low mg/kg/day × kg to high mg/kg/day × kg.", "Ordered per day = one dose × doses a day (every 6 hours = 4, every 8 hours = 3, every 12 hours = 2).", "Above the range: hold the dose and contact the prescriber. Below the range: it may not work, so check with the prescriber too.", "Acetaminophen (paracetamol): no more than 75 mg/kg/day, and never more than 4,000 mg/day."],
+    "life": "Cephalexin 25–50 mg/kg/day for 16 kg = 400–800 mg/day; 200 mg every 6 hours = 800 mg/day: safe." },
+  { "icon": "pharm-pump", "name": "Dose per kg per minute", "cat": "titrate", "spot": "pump", "formula": "mL/h = mcg/kg/min × kg × 60 ÷ mcg/mL",
+    "use": "Dopamine 5 mcg/kg/min for an 80 kg patient; the bag is 400 mg in 250 mL.",
+    "summary": "Turn the bag into mcg per mL, turn the order into mcg per hour, then divide.",
+    "facts": ["Concentration (mcg/mL) = mg in the bag × 1,000 ÷ mL in the bag.", "mcg/kg/min × kg = mcg per minute; × 60 = mcg per hour.", "Reverse: mcg/kg/min = mL/h × mcg/mL ÷ 60 ÷ kg.", "Vasoactive drips are high-alert: an independent double-check and a smart-pump drug library are used."],
+    "life": "400 mg/250 mL = 1,600 mcg/mL. 5 × 80 × 60 = 24,000 mcg/h ÷ 1,600 = 15 mL/h." },
+  { "icon": "pharm-vial", "name": "Mixing a powder", "alsoOk": ["D ÷ H × V"], "cat": "recon", "spot": "vial", "formula": "mL = D ÷ mg/mL after mixing",
+    "use": "A 1 g ceftriaxone vial: add 9.6 mL sterile water to make 100 mg/mL. The order is 500 mg.",
+    "summary": "Follow the label to add the diluent, then use the concentration the label gives (not the volume of diluent) to measure the dose.",
+    "facts": ["The powder takes up space, so the final volume is more than the diluent you add.", "Use the label's concentration (mg/mL) or the drug ÷ final volume.", "Label the vial after mixing: date, time, concentration and your initials.", "Use only the diluent and volume the label or pharmacy reference names."],
+    "life": "Ceftriaxone 1 g + 9.6 mL = 100 mg/mL; 500 mg ÷ 100 mg/mL = 5 mL." },
+  { "icon": "pharm-ivbag", "name": "Insulin units", "cat": "insulin", "spot": "vial", "formula": "units/h = mL/h × units/mL",
+    "use": "Regular insulin 100 units in 100 mL runs at 6 mL/h: how many units per hour?",
+    "summary": "Insulin is always counted in units. U-100 means 100 units in 1 mL, and insulin syringes and pens are marked in units, not mL.",
+    "facts": ["Use a U-100 insulin syringe for U-100 insulin and read the units line directly.", "Mixing regular and NPH in one syringe: clear (regular) first, then cloudy (NPH).", "Only regular insulin is given IV. A drip's units per hour = mL/h × units/mL.", "Insulin is high-alert: doses are double-checked by a second nurse."],
+    "life": "100 units in 100 mL = 1 unit/mL; 6 mL/h × 1 unit/mL = 6 units/h." }
 ],
 "problems": [
   /* ---------- tablets ---------- */
@@ -260,7 +285,154 @@ BGX.registerGame({
     "make": () => pick([{ vol: 100, min: 30, df: 20 }, { vol: 100, min: 60, df: 15 }, { vol: 50, min: 30, df: 20 }, { vol: 250, min: 60, df: 10 }, { vol: 100, min: 40, df: 10 }]),
     "text": "Give {vol} mL over {min} minutes with a {df} gtt/mL giving set. How many drops per minute?",
     "answer": v => v.vol * v.df / v.min,
-    "steps": ["gtt/min = mL × drop factor ÷ minutes", "= {vol} × {df} ÷ {min}", "= {answer}"] }
+    "steps": ["gtt/min = mL × drop factor ÷ minutes", "= {vol} × {df} ÷ {min}", "= {answer}"] },
+
+  /* ---------- safe dose ranges (textbook ranges from product labels; always check the current reference) ---------- */
+  { "id": "safemax", "cat": "safe", "title": "Maximum safe daily dose", "icon": "pharm-weight", "spot": "scale", "unit": "mg/day", "dp": 0,
+    "make": () => { const m = pick([{ drug: "cephalexin", lo: 25, hi: 50 }, { drug: "cefazolin", lo: 25, hi: 50 }, { drug: "erythromycin ethylsuccinate", lo: 30, hi: 50 }]);
+      return Object.assign({ kg: pick([8, 10, 12, 14, 15, 16, 18, 20, 22, 25, 28, 30]) }, m); },
+    "text": "A child weighs {kg} kg. The safe range for {drug} is {lo}–{hi} mg/kg/day. What is the MAXIMUM safe daily dose?",
+    "answer": v => v.hi * v.kg,
+    "formula": "max mg/day = high mg/kg/day × kg",
+    "steps": ["The maximum uses the top of the range: {hi} mg/kg/day (the bottom, {lo} mg/kg/day, gives the minimum)", "Maximum = {hi} mg/kg/day × {kg} kg", "= {answer}"],
+    "hint": (v, x) => Math.abs(x - v.lo * v.kg) < 0.5 ? "That is the minimum: the maximum uses the top of the range." : Math.abs(x - v.hi) < 0.5 ? "Multiply by the weight in kg." : "",
+    "tip": "Any order whose daily total is above this number is unsafe: hold it and contact the prescriber." },
+  { "id": "safeorder", "cat": "safe", "title": "Is the order safe?", "icon": "pharm-weight", "spot": "clock", "unit": "mg/day", "dp": 0,
+    "make": () => { const m = pick([{ drug: "cephalexin", lo: 25, hi: 50, q: 6 }, { drug: "cefazolin", lo: 25, hi: 50, q: 8 }, { drug: "erythromycin ethylsuccinate", lo: 30, hi: 50, q: 6 }]);
+      const kg = pick([8, 10, 12, 14, 15, 16, 18, 20, 22, 25, 28, 30]), n = 24 / m.q, t = pick([0.6 * m.lo, m.lo, (m.lo + m.hi) / 2, m.hi, 1.5 * m.hi, 2 * m.hi]);
+      const dose = Math.max(25, Math.round(t * kg / n / 25) * 25), day = dose * n, min = m.lo * kg, max = m.hi * kg;
+      const verdict = day > max ? "above the safe range, so it is NOT safe. Hold the dose and contact the prescriber"
+        : day < min ? "below the safe range, so it may not work. Check with the prescriber before giving it"
+        : "within the safe range, so the order is safe to give";
+      return Object.assign({ kg, n, dose, min, max, verdict }, m); },
+    "text": "A child weighs {kg} kg. The safe range for {drug} is {lo}–{hi} mg/kg/day. Order: {dose} mg every {q} hours. What daily dose is ordered?",
+    "answer": v => v.dose * v.n,
+    "formula": "mg/day = one dose × doses a day; compare with the range × kg",
+    "steps": ["Safe range = {lo}–{hi} mg/kg/day × {kg} kg = {min}–{max} mg/day", "Every {q} hours = {n} doses a day", "Ordered per day = {dose} mg × {n}", "= {answer}, which is {verdict}"],
+    "hint": (v, x) => Math.abs(x - v.dose) < 0.5 ? "That is one dose: multiply by the number of doses in 24 hours." : Math.abs(x - v.max) < 0.5 ? "That is the maximum safe dose: the question asks what the order gives in a day." : "",
+    "tip": "Safe-range check: work out the range for this child, work out the order's daily total, then compare. Above the range: hold and call. Below the range: check too." },
+  { "id": "apapmax", "cat": "safe", "title": "Acetaminophen daily maximum", "icon": "pharm-weight", "spot": "scale", "unit": "mg/day", "dp": 0,
+    "vars": { "kg": [10, 12, 14, 16, 18, 20, 24, 28, 30, 36, 40, 56, 60, 64] },
+    "derive": v => ({ raw: 75 * v.kg, one: 15 * v.kg, which: 75 * v.kg > 4000 ? "that is more than 4,000 mg, so the cap applies" : "that is under the cap, so it stands" }),
+    "text": "A child weighs {kg} kg. Acetaminophen (paracetamol): no more than 75 mg/kg/day, and never more than 4,000 mg/day. What is the most this child may have in 24 hours?",
+    "answer": v => Math.min(75 * v.kg, 4000),
+    "formula": "the smaller of 75 mg/kg/day × kg and 4,000 mg",
+    "steps": ["75 mg/kg/day × {kg} kg = {raw} mg", "Compare with the 4,000 mg/day cap: {which}", "= {answer}"],
+    "hint": (v, x) => Math.abs(x - v.raw) < 0.5 && v.raw > 4000 ? "That is over the 4,000 mg/day cap: the cap always wins." : Math.abs(x - v.one) < 0.5 ? "That is one 15 mg/kg dose: the question asks for the whole day." : "",
+    "tip": "75 mg/kg/day is 15 mg/kg up to 5 times in 24 hours. Count acetaminophen in every product the child takes, including combination cold medicines." },
+
+  /* ---------- mcg/kg/min infusions ---------- */
+  { "id": "mcgkg", "cat": "titrate", "title": "mcg/kg/min to pump rate", "icon": "pharm-pump", "spot": "pump", "unit": "mL/h", "dp": 1,
+    "make": () => { const m = pick([
+        { drug: "dopamine", mg: 400, ml: 250, d: [2, 3, 5, 8, 10, 15, 20] }, { drug: "dopamine", mg: 800, ml: 500, d: [2, 5, 10, 15, 20] },
+        { drug: "dobutamine", mg: 250, ml: 250, d: [2.5, 5, 7.5, 10, 15, 20] }, { drug: "dobutamine", mg: 500, ml: 250, d: [2.5, 5, 10, 15, 20] },
+        { drug: "norepinephrine", mg: 4, ml: 250, d: [0.05, 0.1, 0.15, 0.2, 0.25, 0.3] }, { drug: "norepinephrine", mg: 8, ml: 250, d: [0.05, 0.1, 0.2, 0.3, 0.4] },
+        { drug: "nitroprusside", mg: 50, ml: 250, d: [0.5, 1, 2, 3] }]);
+      const conc = m.mg * 1000 / m.ml;
+      for (let t = 0; ; t++) { const kg = pick([50, 56, 60, 64, 70, 72, 75, 80, 84, 88, 90, 96, 100]), dose = pick(m.d), rate = dose * kg * 60 / conc;
+        if (Math.abs(rate * 10 - Math.round(rate * 10)) < 1e-6 || t > 200) return { drug: m.drug, mg: m.mg, ml: m.ml, conc, kg, dose, mcgmin: r(dose * kg, 2), mcgh: r(dose * kg * 60, 1) }; } },
+    "ok": (v, a) => Math.abs(a * 10 - Math.round(a * 10)) < 1e-6,
+    "text": "Order: {drug} {dose} mcg/kg/min. The patient weighs {kg} kg. Bag: {mg} mg in {ml} mL. What rate do you set on the pump?",
+    "answer": v => v.dose * v.kg * 60 / v.conc,
+    "steps": ["Concentration = {mg} mg × 1,000 ÷ {ml} mL = {conc} mcg/mL", "Dose per minute = {dose} mcg/kg/min × {kg} kg = {mcgmin} mcg/min; × 60 = {mcgh} mcg/h", "mL/h = {mcgh} mcg/h ÷ {conc} mcg/mL", "= {answer}"],
+    "hint": (v, x) => { const a = v.dose * v.kg * 60 / v.conc; return Math.abs(x - a / 60) < 0.06 ? "That is mL per minute: the order is per minute, the pump is per hour, so × 60." : Math.abs(x - a / v.kg) < 0.06 ? "Multiply by the weight: the order is per kg." : ""; },
+    "tip": "Critical-care pumps take one decimal place (0.1 mL/h). Vasoactive drips are double-checked and titrated to the ordered target." },
+  { "id": "mcgkgrev", "cat": "titrate", "title": "Pump rate to mcg/kg/min", "icon": "pharm-pump", "spot": "pump", "unit": "mcg/kg/min", "dp": 2,
+    "make": () => { const m = pick([
+        { drug: "dopamine", mg: 400, ml: 250, d: [2, 3, 5, 8, 10, 15] }, { drug: "dobutamine", mg: 250, ml: 250, d: [2.5, 5, 7.5, 10] },
+        { drug: "dobutamine", mg: 500, ml: 250, d: [2.5, 5, 10, 15] }, { drug: "norepinephrine", mg: 4, ml: 250, d: [0.05, 0.1, 0.15, 0.2, 0.25] },
+        { drug: "norepinephrine", mg: 8, ml: 250, d: [0.1, 0.2, 0.3] }]);
+      const conc = m.mg * 1000 / m.ml;
+      for (let t = 0; ; t++) { const kg = pick([50, 56, 60, 64, 70, 72, 75, 80, 84, 88, 90, 96, 100]), dose = pick(m.d), rate = dose * kg * 60 / conc;
+        if (Math.abs(rate * 10 - Math.round(rate * 10)) < 1e-6 || t > 200) { const rt = r(rate, 1); return { drug: m.drug, mg: m.mg, ml: m.ml, conc, kg, rate: rt, mcgh: r(rt * conc, 2), mcgmin: r(rt * conc / 60, 3) }; } } },
+    "ok": (v, a) => Math.abs(a * 100 - Math.round(a * 100)) < 1e-6,
+    "text": "{drug} {mg} mg in {ml} mL is running at {rate} mL/h. The patient weighs {kg} kg. What dose is the patient getting in mcg/kg/min?",
+    "answer": v => v.rate * v.conc / 60 / v.kg,
+    "formula": "mcg/kg/min = mL/h × mcg/mL ÷ 60 ÷ kg",
+    "steps": ["Concentration = {mg} mg × 1,000 ÷ {ml} mL = {conc} mcg/mL", "mcg per hour = {rate} mL/h × {conc} mcg/mL = {mcgh} mcg/h", "mcg per minute = {mcgh} ÷ 60 = {mcgmin} mcg/min", "Per kg = {mcgmin} ÷ {kg} kg = {answer}"],
+    "hint": (v, x) => { const a = v.rate * v.conc / 60 / v.kg; return Math.abs(x - a * v.kg) < 0.01 ? "That is mcg per minute for the whole patient: divide by the weight." : Math.abs(x - a * 60) < 0.05 ? "That is per hour: divide by 60 for per minute." : ""; },
+    "tip": "Check the running dose against the order at every handover: rate × concentration should give back the ordered mcg/kg/min." },
+
+  /* ---------- reconstitution ---------- */
+  { "id": "recon", "cat": "recon", "title": "Draw up a mixed powder", "icon": "pharm-vial", "spot": "vial", "unit": "mL", "dp": 1,
+    "make": () => { const m = pick([
+        { drug: "ceftriaxone", vial: "1 g", amt: 1000, dil: 3.6, diluent: "1% lidocaine without epinephrine (IM use only, never IV)", conc: 250, u: "mg", d: [250, 500] },
+        { drug: "ceftriaxone", vial: "1 g", amt: 1000, dil: 9.6, diluent: "sterile water (for IV use)", conc: 100, u: "mg", d: [250, 500, 750, 1000] },
+        { drug: "ampicillin", vial: "500 mg", amt: 500, dil: 1.8, diluent: "sterile water", conc: 250, u: "mg", d: [125, 250, 500] },
+        { drug: "ampicillin", vial: "1 g", amt: 1000, dil: 3.5, diluent: "sterile water", conc: 250, u: "mg", d: [500, 750] },
+        { drug: "penicillin G potassium", vial: "5,000,000 units", amt: 5000000, dil: 8.2, diluent: "sterile water", conc: 500000, u: "units", d: [1000000, 2000000] },
+        { drug: "penicillin G potassium", vial: "5,000,000 units", amt: 5000000, dil: 3.2, diluent: "sterile water", conc: 1000000, u: "units", d: [1000000, 2000000, 3000000] }]);
+      return Object.assign({ dose: pick(m.d) }, m); },
+    "text": "Vial: {drug} {vial} powder. Label: add {dil} mL {diluent} to make {conc} {u}/mL. Order: {drug} {dose} {u}. How many mL do you draw up?",
+    "answer": v => v.dose / v.conc,
+    "steps": ["After mixing: {conc} {u} in 1 mL", "Volume = D ÷ H × V = {dose} {u} ÷ {conc} {u} × 1 mL", "= {answer}"],
+    "hint": (v, x) => Math.abs(x - v.dose / v.amt * v.dil) < 0.01 ? "You used the diluent volume: the powder adds volume, so use the concentration on the label." : Math.abs(x - v.conc / v.dose) < 0.01 ? "You divided the wrong way round: it is what you want ÷ what 1 mL has." : "",
+    "tip": "After mixing, write the date, time, concentration and your initials on the vial." },
+  { "id": "reconc", "cat": "recon", "title": "Concentration after mixing", "icon": "pharm-vial", "spot": "vial", "unit": "mg/mL", "dp": 0,
+    "make": () => pick([
+      { drug: "ceftriaxone", vial: "1 g", mg: 1000, dil: 9.6, fin: 10, how: "1 g × 1,000 = 1,000 mg" }, { drug: "ceftriaxone", vial: "2 g", mg: 2000, dil: 19.2, fin: 20, how: "2 g × 1,000 = 2,000 mg" },
+      { drug: "ceftriaxone", vial: "500 mg", mg: 500, dil: 4.8, fin: 5, how: "500 mg" }, { drug: "ceftriaxone", vial: "1 g", mg: 1000, dil: 3.6, fin: 4, how: "1 g × 1,000 = 1,000 mg" },
+      { drug: "ampicillin", vial: "500 mg", mg: 500, dil: 1.8, fin: 2, how: "500 mg" }, { drug: "ampicillin", vial: "2 g", mg: 2000, dil: 6.8, fin: 8, how: "2 g × 1,000 = 2,000 mg" }]),
+    "text": "Vial: {drug} {vial} powder. You add {dil} mL of diluent and the label says the final volume is {fin} mL. What is the concentration in mg/mL?",
+    "answer": v => v.mg / v.fin,
+    "formula": "mg/mL = drug in the vial ÷ final volume",
+    "steps": ["Drug in the vial = {how}", "Concentration = {mg} mg ÷ {fin} mL (the final volume, not the diluent)", "= {answer}"],
+    "hint": (v, x) => Math.abs(x - v.mg / v.dil) < 1 ? "You divided by the diluent only: the powder takes up space, so divide by the final volume." : "",
+    "tip": "The powder adds volume (displacement), so the final volume is always a little more than the diluent you add." },
+
+  /* ---------- insulin ---------- */
+  { "id": "insunits", "cat": "insulin", "title": "Weight-based insulin units", "icon": "pharm-vial", "spot": "vial", "unit": "units", "dp": 0,
+    "vars": { "per": [0.1, 0.2], "kg": [50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100, 110, 120] },
+    "ok": (v, a) => Math.abs(a - Math.round(a)) < 1e-6,
+    "text": "Order: start insulin glargine {per} units/kg once a day. The patient weighs {kg} kg. How many units do you give with a U-100 pen or syringe?",
+    "answer": v => v.per * v.kg,
+    "formula": "units = units/kg × kg",
+    "steps": ["Dose = units/kg × kg", "= {per} units/kg × {kg} kg", "= {answer}"],
+    "hint": (v, x) => Math.abs(x - v.kg) < 0.5 ? "Multiply the weight by the units per kg." : "",
+    "tip": "U-100 means 100 units in 1 mL. Insulin syringes and pens measure units, not mL: dial or read the units directly." },
+  { "id": "insmix", "cat": "insulin", "title": "Mixing two insulins", "icon": "pharm-vial", "spot": "vial", "unit": "units", "dp": 0,
+    "vars": { "a": [2, 3, 4, 5, 6, 8, 10], "b": [8, 10, 12, 14, 16, 18, 20, 24, 28] },
+    "text": "Order: regular insulin {a} units and NPH insulin {b} units subcut before breakfast, mixed in one U-100 insulin syringe. What should the syringe read in total?",
+    "answer": v => v.a + v.b,
+    "formula": "total units = regular + NPH",
+    "steps": ["Draw up clear (regular) first: {a} units", "Then add cloudy (NPH) on top: {a} + {b} units", "= {answer} on the syringe"],
+    "hint": (v, x) => Math.abs(x - v.b) < 0.5 || Math.abs(x - v.a) < 0.5 ? "That is one insulin only: the syringe shows the total of both." : "",
+    "tip": "Clear before cloudy. Long-acting insulins such as glargine are never mixed with other insulins." },
+  { "id": "sliding", "cat": "insulin", "title": "Sliding scale", "icon": "pharm-vial", "spot": "vial", "unit": "units", "dp": 0,
+    "vars": { "bg": [162, 178, 194, 207, 223, 246, 258, 271, 289, 305, 318, 337] },
+    "derive": v => { const s = v.bg <= 200 ? ["151–200", 2] : v.bg <= 250 ? ["201–250", 4] : v.bg <= 300 ? ["251–300", 6] : ["301–350", 8]; return { band: s[0], corr: s[1] }; },
+    "text": "Glucose: {bg} mg/dL. Correction scale (insulin lispro): 151–200 mg/dL 2 units; 201–250, 4 units; 251–300, 6 units; 301–350, 8 units; over 350, call the prescriber. How many units does the scale say?",
+    "answer": v => v.corr,
+    "formula": "find the glucose band, read off the units",
+    "steps": ["{bg} mg/dL is in the {band} mg/dL band", "That band gives {corr} units", "= {answer}"],
+    "hint": (v, x) => Math.abs(x - v.corr) <= 2.5 ? "Check the band again: find the row whose range includes the glucose." : "",
+    "tip": "Use the glucose you just checked. Over the top of the scale or under 70 mg/dL: follow the hypo or call-the-prescriber orders, not the scale." },
+  { "id": "slidingmeal", "cat": "insulin", "title": "Mealtime dose plus correction", "icon": "pharm-vial", "spot": "vial", "unit": "units", "dp": 0,
+    "vars": { "bg": [128, 145, 162, 178, 194, 207, 223, 246, 258, 271, 289, 305, 318, 337], "meal": [4, 5, 6, 8, 10] },
+    "derive": v => { const s = v.bg <= 150 ? ["150 or under", 0] : v.bg <= 200 ? ["151–200", 2] : v.bg <= 250 ? ["201–250", 4] : v.bg <= 300 ? ["251–300", 6] : ["301–350", 8]; return { band: s[0], corr: s[1] }; },
+    "text": "Before lunch, glucose is {bg} mg/dL and the patient is eating. Order: insulin lispro {meal} units with meals, plus correction: 150 mg/dL or under, no correction; 151–200 mg/dL, 2 units; 201–250, 4 units; 251–300, 6 units; 301–350, 8 units; over 350, call the prescriber. How many units in total?",
+    "answer": v => v.meal + v.corr,
+    "formula": "total = mealtime units + correction units",
+    "steps": ["{bg} mg/dL is in the {band} mg/dL band: correction {corr} units", "Total = mealtime {meal} units + correction {corr} units", "= {answer}"],
+    "hint": (v, x) => Math.abs(x - v.corr) < 0.5 && v.corr ? "That is the correction only: add the mealtime dose." : Math.abs(x - v.meal) < 0.5 && v.corr ? "That is the mealtime dose only: add the correction from the scale." : "",
+    "tip": "Rapid-acting insulin goes with the meal. If the patient is not eating, check whether the mealtime dose should be held." },
+  { "id": "insdrip", "cat": "insulin", "title": "Insulin drip: units per hour", "icon": "pharm-ivbag", "spot": "pump", "unit": "units/h", "dp": 1,
+    "make": () => Object.assign({ rate: pick([2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 14]) }, pick([{ u: 100, ml: 100 }, { u: 250, ml: 250 }, { u: 50, ml: 50 }, { u: 125, ml: 250 }])),
+    "derive": v => ({ conc: v.u / v.ml, cu: v.u === v.ml ? "unit" : "units" }),
+    "text": "Regular insulin {u} units in {ml} mL is running at {rate} mL/h. How many units per hour is the patient getting?",
+    "answer": v => v.rate * v.conc,
+    "steps": ["Concentration = {u} units ÷ {ml} mL = {conc} {cu}/mL", "units/h = {rate} mL/h × {conc} {cu}/mL", "= {answer}"],
+    "hint": (v, x) => Math.abs(x - v.rate / v.conc) < 0.05 && v.conc !== 1 ? "You divided: units per hour = mL/h × units in each mL." : "",
+    "tip": "Only regular insulin is given IV. At 1 unit/mL, the mL/h and the units/h are the same number." },
+  { "id": "insdka", "cat": "insulin", "title": "Insulin drip: set the rate", "icon": "pharm-ivbag", "spot": "pump", "unit": "mL/h", "dp": 1,
+    "make": () => Object.assign({ kg: pick([40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 100]) }, pick([{ u: 100, ml: 100 }, { u: 250, ml: 250 }, { u: 125, ml: 250 }])),
+    "derive": v => ({ conc: v.u / v.ml, cu: v.u === v.ml ? "unit" : "units", uh: r(0.1 * v.kg, 1) }),
+    "text": "Order: regular insulin 0.1 units/kg/h IV. The patient weighs {kg} kg. Bag: {u} units in {ml} mL. What rate do you set on the pump?",
+    "answer": v => v.uh / v.conc,
+    "formula": "mL/h = (units/kg/h × kg) ÷ units/mL",
+    "steps": ["Dose = 0.1 units/kg/h × {kg} kg = {uh} units/h", "Concentration = {u} units ÷ {ml} mL = {conc} {cu}/mL", "mL/h = {uh} units/h ÷ {conc} {cu}/mL", "= {answer}"],
+    "hint": (v, x) => Math.abs(x - v.uh * v.conc) < 0.05 && v.conc !== 1 ? "You multiplied by the concentration: mL/h = units/h ÷ units/mL." : "",
+    "tip": "Insulin drips are high-alert: a second nurse checks the order, the bag and the pump, and glucose is checked every hour." }
 ],
 "notes": {
   "intro": "Almost every dose calculation uses one of six ideas: count tablets (D ÷ H), measure a liquid (D ÷ H × V), convert units first, scale by body weight, set a pump in mL per hour, or count drops per minute. Always get both numbers into the same unit before you divide, estimate roughly what the answer should be, and question any answer that looks too big or too small. Practice only: real doses are checked against the order, the label and local policy.",
@@ -282,7 +454,19 @@ BGX.registerGame({
       "tip": "Pumps think in hours." },
     { "cat": "drip", "about": "Without a pump, the nurse counts drops in the drip chamber. Drops per minute = volume (mL) × drop factor (gtt/mL) ÷ time (minutes). The drop factor is on the giving-set packet: macrodrip 10, 15 or 20; microdrip 60. With a microdrip set, drops per minute equal mL per hour.",
       "points": ["1,000 mL over 8 h with 15 gtt/mL: 1,000 × 15 ÷ 480 = 31 gtt/min.", "Always change hours to minutes for drip rates.", "Round drops to a whole number."],
-      "tip": "Drops need minutes; pumps need hours." }
+      "tip": "Drops need minutes; pumps need hours." },
+    { "cat": "safe", "about": "Before giving a weight-based medicine, check the order against the safe range in the drug reference. Multiply both ends of the range by the weight to get the safe range in mg per day, work out what the order gives in 24 hours (one dose × doses a day), and compare. Above the range: hold it and contact the prescriber. Below the range: it may not work, so check with the prescriber too.",
+      "points": ["25–50 mg/kg/day × 16 kg = 400–800 mg/day.", "200 mg every 6 hours = 4 doses = 800 mg/day: within the range.", "Acetaminophen (paracetamol): no more than 75 mg/kg/day and never over 4,000 mg/day."],
+      "tip": "Range × kg, then order × doses a day, then compare." },
+    { "cat": "titrate", "about": "Drips such as dopamine, dobutamine and norepinephrine are ordered in mcg/kg/min, but the pump runs in mL/h. Change the bag to mcg per mL (mg × 1,000 ÷ mL), change the order to mcg per hour (mcg/kg/min × kg × 60), then divide. To check a running drip, go backwards: mL/h × mcg/mL ÷ 60 ÷ kg.",
+      "points": ["Dopamine 400 mg in 250 mL = 1,600 mcg/mL.", "5 mcg/kg/min × 80 kg × 60 = 24,000 mcg/h ÷ 1,600 = 15 mL/h.", "Norepinephrine 4 mg in 250 mL = 16 mcg/mL."],
+      "tip": "mg to mcg, minutes to hours, and don't forget the kilos." },
+    { "cat": "recon", "about": "Some medicines come as a powder. The label says how much diluent to add and the concentration you get. The powder takes up space, so the final volume is more than the diluent: always use the label's concentration (or drug ÷ final volume), then D ÷ H × V.",
+      "points": ["Ceftriaxone 1 g + 9.6 mL sterile water = 100 mg/mL (final volume 10 mL).", "Order 500 mg: 500 ÷ 100 = 5 mL.", "Label the vial: date, time, concentration, initials."],
+      "tip": "Use the concentration, not the diluent." },
+    { "cat": "insulin", "about": "Insulin is measured in units. U-100 insulin has 100 units in 1 mL, and U-100 insulin syringes and pens are marked in units, so you read units directly and never convert to mL. Weight-based doses are units/kg × kg; correction (sliding) scales give units for a glucose band; IV drips use only regular insulin, and units/h = mL/h × units/mL.",
+      "points": ["Glargine 0.2 units/kg × 70 kg = 14 units.", "Regular 4 units + NPH 12 units in one syringe: clear first, total 16 units.", "100 units in 100 mL at 6 mL/h = 6 units/h."],
+      "tip": "Units, not mL. Clear before cloudy." }
   ]
 }
 });
