@@ -9,7 +9,7 @@ SITE = "https://bioglowrx.netlify.app/"
 n = 0
 for f in sorted(ROOT.rglob("index.html")):
     rel = f.relative_to(ROOT).as_posix()
-    if rel.startswith("practice/"):
+    if rel.startswith(("practice/", "exams/")):   # exam pages: noindex until launch, built by tools-exam-pages.py
         continue
     t = f.read_text()
     path = rel[: -len("index.html")]                      # "" for the hub, "games/bone-rush/" …

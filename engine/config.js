@@ -5,6 +5,7 @@
      Feedback buttons only appear when this is set, so nobody is asked for feedback that goes nowhere.
    - tallySurvey: Tally form id for the 5-question beta survey (Founding Tester badge).
    - productionHost: analytics only run on this address, so local tests never reach the real data.
+   - examsLive: show the Pre-exam simulator links (subject pages, hub). ?exams=1 previews them.
    - cookieless: set true once "Cookieless tracking" is switched on in PostHog (Settings > Project > Web analytics):
      PostHog then counts daily unique visitors with a server-side hash, still with no cookies or storage. */
 window.BGX_CONFIG = {
@@ -14,7 +15,10 @@ window.BGX_CONFIG = {
   tallySurvey: "rDDyKo",
   productionHost: "bioglowrx.netlify.app",
   cookieless: false,
-  contactEmail: "clementmetz92@gmail.com"
+  contactEmail: "clementmetz92@gmail.com",
+  /* Pre-exam simulator: entry points on subject pages and the hub. Keep false until all five subjects launch together;
+     add ?exams=1 to a subject page or the hub to preview them. /exams/ pages work either way. */
+  examsLive: false
 };
 
 /* The site moved from GitHub Pages to Netlify: send old links to the same page on the new address. */

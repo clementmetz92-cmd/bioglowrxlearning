@@ -24,7 +24,9 @@
         <rect width="160" height="160" rx="18" fill="url(#${id}bg)"/>${inner}</svg>`;
     },
     /* small text label pill (for diagrams that name the highlighted part) */
+    /* dg.quiet (set by the exam simulator) hides the name pill, so a diagram question doesn't show its own answer */
     tag: (x, y, text) => {
+      if (dg.quiet) return "";
       const w = Math.max(28, text.length * 5.6 + 12);
       return `<g><rect x="${x - w / 2}" y="${y - 9}" width="${w}" height="16" rx="8" fill="#1B2430" opacity=".86"/><text x="${x}" y="${y + 2.5}" font-family="Chivo, sans-serif" font-size="9" font-weight="700" fill="#fff" text-anchor="middle">${BGX.esc(text)}</text></g>`;
     }

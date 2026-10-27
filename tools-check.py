@@ -1,6 +1,6 @@
 """Checks to run before every push (the git pre-push hook in .githooks runs this):
   1. every engine and data script parses (node --check)
-  2. content checks on every game (tools-validate.js): errors stop the push, warnings are listed
+  2. content checks on every game and every exam bank (tools-validate.js): errors stop the push, warnings are listed
   3. every page: local links and scripts exist, no inline scripts or on…= handlers (the site's
      Content-Security-Policy would block them), study.js loads straight after core.js
   4. optional: python3 tools-check.py --smoke  opens every page and one round of every game in a
@@ -12,7 +12,7 @@ ROOT = pathlib.Path(__file__).parent
 bad, warn = [], []
 
 # 1. syntax
-for f in sorted(list((ROOT / "engine").glob("*.js")) + list((ROOT / "data").glob("*.js"))):
+for f in sorted(list((ROOT / "engine").glob("*.js")) + list((ROOT / "data").glob("*.js")) + list((ROOT / "data" / "exams").glob("*.js"))):
     r = subprocess.run(["node", "--check", str(f)], capture_output=True, text=True)
     if r.returncode: bad.append(f"syntax: {f.relative_to(ROOT)}: {r.stderr.strip().splitlines()[-1] if r.stderr.strip() else 'error'}")
 
@@ -39,6 +39,12 @@ for f in sorted(ROOT.rglob("*.html")):
         if not p.exists(): bad.append(f"page: {rel}: missing {u}")
     if "engine/core.js" in t and not re.search(r'engine/core\.js[^"]*"></script>\s*<script src="[^"]*engine/study\.js', t):
         bad.append(f"page: {rel}: study.js must load straight after core.js")
+
+# 3b. pre-exam simulator pages: in step with the banks (tools-exam-pages.py), and out of the sitemap until launch
+if (ROOT / "data" / "exams").is_dir():
+    r = subprocess.run([sys.executable, str(ROOT / "tools-exam-pages.py"), "--check"], capture_output=True, text=True)
+    for line in r.stdout.splitlines(): bad.append(f"exam pages: {line} (run python3 tools-exam-pages.py)")
+    if "/exams/" in (ROOT / "sitemap.xml").read_text(): bad.append("exam pages: remove /exams/ from sitemap.xml until exams launch")
 
 # 4. smoke test in a browser
 if "--smoke" in sys.argv:

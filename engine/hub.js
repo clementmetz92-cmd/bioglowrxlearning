@@ -14,6 +14,10 @@
     : `<div class="br-tile ${cls}${t.icon ? " is-icon" : ""}" style="background:var(--${t.color})"><small>${esc(t.corner)}</small><b>${t.icon ? BGX.icon(t.icon) : esc(t.big)}</b>${t.label ? `<em>${esc(t.label)}</em>` : ""}</div>`;
 
   const PG = BGX.progress;
+  /* Pre-exam simulator links: only when switched on in config.js (examsLive) or previewed with ?exams=1 */
+  const examsOn = () => !!((window.BGX_CONFIG || {}).examsLive || /[?&]exams=1\b/.test(location.search));
+  const EXAM_IC = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 3v2h6V3M8.5 10l1.5 1.5L13 8.5M8.5 15.5l1.5 1.5 3-3M15 10.5h1M15 16h1"/></svg>';
+  const examStrip = (href, eyebrow, title, line, cls) => examsOn() ? `<a class="ex-strip${cls ? " " + cls : ""}" href="${href}"><span class="ic">${EXAM_IC}</span><span class="tx"><span class="eyebrow">${esc(eyebrow)}</span><b>${esc(title)}</b><span class="ln">${esc(line)}</span></span><span class="go">Open</span></a>` : "";
   const art = id => BGX.ART && BGX.ART[id] ? BGX.ART[id]() : "";
   BGX.shell();
 
@@ -123,6 +127,7 @@
         : ""}
       ${featuredHTML()}
       ${BGX.community ? BGX.community.hubCard() : ""}
+      ${examStrip(`${R}exams/index.html`, "New · Pre-exam simulator", "Mock exams for every subject", "Timed, exam-style papers with a full review. Practice only: they never count toward certificates.", "is-hub")}
       ${levelCard()}
       ${PG ? PG.hubCard() : ""}`;
     startCarousel();
@@ -159,7 +164,7 @@
         </section>
         <div id="br-search"></div>
         ${PG ? PG.subjectPanel(s) : ""}
-        ${s.labs && s.labs.length ? `<div class="br-labs">${s.labs.map(labCard).join("")}</div>` : ""}
+        ${s.labs && s.labs.length || examsOn() ? `<div class="br-labs">${(s.labs || []).map(labCard).join("")}${examStrip(`${R}exams/${s.id}/index.html`, "Pre-exam simulator · practice only", s.name + " mock exams", "Timed papers like your course's online exam: navigator, flags, calculator, full review.")}</div>` : ""}
         <p class="br-label" style="margin:10px 0 0">Chapters</p>
         <div class="br-seg" role="group" aria-label="Filter chapters" style="margin-top:-8px">
           ${FILTERS.map(([k, l]) => `<button data-f="${k}" aria-pressed="${filter === k}">${l}</button>`).join("")}

@@ -1,0 +1,76 @@
+/* Pre-exam simulator: Chemistry question bank. Schema: data/README.md › "Pre-exam simulator" (and SCHEMA.md for writers).
+   items: questions written for the exam. sources: content reused from the games (loaded on the same page).
+   New questions go in items[]; give each a new stable id (ch-<topic>-<n>) and never reuse an old one. */
+BGX.registerExamBank({
+"subject": "chemistry",
+"title": "Chemistry",
+"groups": { "A": "Ch 1–3 · Measurement, formulas, moles", "B": "Ch 4–5 · Solutions and heat", "C": "Ch 6–9 · Atoms, the periodic table, bonding", "D": "Ch 10–13 · States and mixtures", "E": "Ch 14–18 · Rates, acids, energy", "F": "Ch 19–24 · Redox, nuclear, elements, organic" },
+"topics": [
+  { "id": "measure", "label": "Measurement and units", "game": "lab-basics", "ch": "1", "group": "A" },
+  { "id": "formulas", "label": "Formulas and names", "game": "formula-forge", "ch": "2", "group": "A" },
+  { "id": "stoich", "label": "Equations and moles", "game": "balance-it", "ch": "3", "group": "A" },
+  { "id": "aqueous", "label": "Aqueous reactions and solubility", "game": "will-it-dissolve", "ch": "4", "group": "B" },
+  { "id": "thermo", "label": "Heat and enthalpy", "game": "hot-or-cold", "ch": "5", "group": "B" },
+  { "id": "atoms", "label": "Atomic structure", "game": "atom-builder", "ch": "6", "group": "C" },
+  { "id": "periodic", "label": "The periodic table", "game": "element-rush", "ch": "7", "group": "C" },
+  { "id": "bonding", "label": "Bonding and molecular shape", "game": "bond-match", "ch": "8–9", "group": "C" },
+  { "id": "states", "label": "Gases, liquids and solids", "game": "states-of-matter", "ch": "10–12", "group": "D" },
+  { "id": "solutions", "label": "Solutions and concentration", "game": "mix-master", "ch": "13", "group": "D" },
+  { "id": "kinetics", "label": "Rates and equilibrium", "game": "faster-or-slower", "ch": "14–15", "group": "E" },
+  { "id": "acids", "label": "Acids, bases and pH", "game": "ph-patrol", "ch": "16–17", "group": "E" },
+  { "id": "spont", "label": "Entropy and free energy", "game": "will-it-happen", "ch": "18", "group": "E" },
+  { "id": "redox", "label": "Electrochemistry", "game": "battery-lab", "ch": "19", "group": "F" },
+  { "id": "nuclear", "label": "Nuclear chemistry", "game": "half-life-hunt", "ch": "20", "group": "F" },
+  { "id": "elements", "label": "The elements in groups", "game": "block-party", "ch": "21–23", "group": "F" },
+  { "id": "organic", "label": "Organic functional groups", "game": "functional-group-hunt", "ch": "24", "group": "F" }
+],
+"sources": [
+  { "game": "lab-basics", "use": "problems", "topic": "measure" }, { "game": "lab-basics", "use": "quiz", "mode": "use", "topic": "measure" }, { "game": "lab-basics", "use": "pairs", "topic": "measure" },
+  { "game": "formula-forge", "use": "quiz", "mode": "formula", "topic": "formulas" }, { "game": "formula-forge", "use": "sortit", "topic": "formulas" }, { "game": "formula-forge", "use": "pairs", "topic": "formulas" },
+  { "game": "balance-it", "use": "problems", "topic": "stoich" }, { "game": "balance-it", "use": "sortit", "topic": "stoich" },
+  { "game": "will-it-dissolve", "use": "problems", "topic": "aqueous" }, { "game": "will-it-dissolve", "use": "cases", "topic": "aqueous" }, { "game": "will-it-dissolve", "use": "sortit", "topic": "aqueous" }, { "game": "will-it-dissolve", "use": "truemyth", "topic": "aqueous" },
+  { "game": "hot-or-cold", "use": "problems", "topic": "thermo" }, { "game": "hot-or-cold", "use": "quiz", "mode": "terms", "topic": "thermo" }, { "game": "hot-or-cold", "use": "pairs", "topic": "thermo" }, { "game": "hot-or-cold", "use": "truemyth", "topic": "thermo" },
+  { "game": "atom-builder", "use": "quiz", "mode": "neutrons", "topic": "atoms" }, { "game": "atom-builder", "use": "quiz", "mode": "shells", "topic": "atoms" },
+  { "game": "element-rush", "use": "quiz", "mode": "sym", "topic": "periodic" }, { "game": "element-rush", "use": "sortit", "topic": "periodic" },
+  { "game": "bond-match", "use": "quiz", "mode": "shape", "topic": "bonding" }, { "game": "bond-match", "use": "quiz", "mode": "angle", "topic": "bonding" }, { "game": "bond-match", "use": "sortit", "topic": "bonding" }, { "game": "bond-match", "use": "pairs", "topic": "bonding" },
+  { "game": "states-of-matter", "use": "problems", "topic": "states" }, { "game": "states-of-matter", "use": "sequences", "topic": "states" }, { "game": "states-of-matter", "use": "quiz", "mode": "name", "topic": "states" }, { "game": "states-of-matter", "use": "sortit", "topic": "states" },
+  { "game": "mix-master", "use": "problems", "topic": "solutions" }, { "game": "mix-master", "use": "cases", "topic": "solutions" }, { "game": "mix-master", "use": "quiz", "mode": "term", "topic": "solutions" },
+  { "game": "faster-or-slower", "use": "sequences", "topic": "kinetics" }, { "game": "faster-or-slower", "use": "sortit", "topic": "kinetics" }, { "game": "faster-or-slower", "use": "quiz", "mode": "terms", "topic": "kinetics" }, { "game": "faster-or-slower", "use": "truemyth", "topic": "kinetics" },
+  { "game": "ph-patrol", "use": "quiz", "mode": "value", "topic": "acids" }, { "game": "ph-patrol", "use": "sortit", "topic": "acids" },
+  { "game": "will-it-happen", "use": "problems", "topic": "spont" }, { "game": "will-it-happen", "use": "sortit", "topic": "spont" }, { "game": "will-it-happen", "use": "quiz", "mode": "terms", "topic": "spont" },
+  { "game": "battery-lab", "use": "problems", "topic": "redox" }, { "game": "battery-lab", "use": "sequences", "topic": "redox" }, { "game": "battery-lab", "use": "quiz", "mode": "term", "topic": "redox" }, { "game": "battery-lab", "use": "sortit", "topic": "redox" },
+  { "game": "half-life-hunt", "use": "problems", "topic": "nuclear" }, { "game": "half-life-hunt", "use": "quiz", "mode": "term", "topic": "nuclear" }, { "game": "half-life-hunt", "use": "sortit", "topic": "nuclear" },
+  { "game": "block-party", "use": "quiz", "mode": "use", "topic": "elements" }, { "game": "block-party", "use": "sortit", "topic": "elements" }, { "game": "block-party", "use": "truemyth", "topic": "elements" },
+  { "game": "functional-group-hunt", "use": "sequences", "topic": "organic" }, { "game": "functional-group-hunt", "use": "quiz", "mode": "which", "topic": "organic" }, { "game": "functional-group-hunt", "use": "sortit", "topic": "organic" }
+],
+"items": [
+  { "id": "ch-sol-1", "topic": "solutions", "kind": "single", "difficulty": 2, "src": "13",
+    "stem": "How many grams of NaCl (58.44 g/mol) are in 250. mL of 0.150 M saline?",
+    "options": ["2.19 g", "2,190 g", "0.0375 g", "8.77 g"], "answer": 0,
+    "whyOpt": ["Correct: 0.250 L × 0.150 mol/L = 0.0375 mol, × 58.44 g/mol = 2.19 g.", "Used 250 mL as 250 L (no mL→L conversion).", "Stopped at moles and reported it as grams.", "Multiplied molarity by molar mass and ignored the volume."],
+    "why": "Convert the volume to litres, multiply by molarity to get moles, then by molar mass to get grams." },
+  { "id": "ch-bond-1", "topic": "bonding", "kind": "sata", "difficulty": 2, "src": "8–9",
+    "stem": "Which molecules are polar? Select all that apply.",
+    "options": ["CO₂", "H₂O", "NH₃", "CCl₄", "CHCl₃"], "answer": [1, 2, 4],
+    "whyOpt": ["No: linear, and the two C=O dipoles cancel.", "Yes: bent shape, so the dipoles do not cancel.", "Yes: trigonal pyramidal, with a lone pair on N.", "No: polar bonds, but the symmetric tetrahedron cancels them.", "Yes: one C–H in place of a C–Cl breaks the symmetry."],
+    "why": "A molecule is polar when it has polar bonds and a shape in which the bond dipoles do not cancel." },
+  { "id": "ch-nuc-1", "topic": "nuclear", "kind": "single", "difficulty": 2, "src": "20",
+    "stem": "A patient receives 80.0 mCi of technetium-99m (half-life 6.0 h). How much activity remains after 18.0 h?",
+    "options": ["10.0 mCi", "26.7 mCi", "20.0 mCi", "40.0 mCi"], "answer": 0,
+    "whyOpt": ["Correct: 18.0 h is 3 half-lives, so 80.0 → 40.0 → 20.0 → 10.0.", "Divided by 3 instead of halving three times.", "Counted only 2 half-lives.", "Applied one half-life to the whole 18 h."],
+    "why": "Number of half-lives = time ÷ half-life; halve the activity once for each half-life." }
+],
+"formats": [
+  { "id": "quick", "label": "Quick check", "desc": "One chapter, 10 questions.", "n": 10, "minutes": 15, "pass": 70, "choose": "topic", "calculator": "scientific", "sheet": ["ptable", "constants"],
+    "blueprint": { "kinds": { "single": 6, "numeric": 3, "sata": 1 } } },
+  { "id": "group", "label": "Chapter-group quiz", "desc": "One group of chapters (A–F), 15 questions.", "n": 15, "minutes": 25, "pass": 70, "choose": "group", "calculator": "scientific", "sheet": ["ptable", "constants"],
+    "blueprint": { "kinds": { "single": 9, "numeric": 4, "sata": 1, "match": 1 } } },
+  { "id": "midterm", "label": "Midterm 1", "desc": "Chapters 1–9.", "n": 35, "minutes": 70, "pass": 70, "topics": ["A", "B", "C"], "calculator": "scientific", "sheet": ["ptable", "constants"],
+    "blueprint": { "topics": { "measure": 4, "formulas": 4, "stoich": 6, "aqueous": 5, "thermo": 4, "atoms": 3, "periodic": 3, "bonding": 6 }, "kinds": { "single": 21, "numeric": 9, "sata": 2, "match": 2, "order": 1 } } },
+  { "id": "midterm2", "label": "Midterm 2", "desc": "Chapters 10–18.", "n": 35, "minutes": 70, "pass": 70, "topics": ["D", "E"], "calculator": "scientific", "sheet": ["ptable", "constants"],
+    "blueprint": { "topics": { "states": 8, "solutions": 8, "kinetics": 7, "acids": 7, "spont": 5 }, "kinds": { "single": 21, "numeric": 9, "sata": 2, "match": 2, "order": 1 } } },
+  { "id": "final", "label": "Final exam", "desc": "All 24 chapters, weighted like a cumulative final.", "n": 50, "minutes": 120, "pass": 70, "calculator": "scientific", "sheet": ["ptable", "constants"], "navigation": "choose",
+    "blueprint": { "topics": { "measure": 5, "formulas": 5, "stoich": 10, "aqueous": 7, "solutions": 8, "atoms": 5, "periodic": 5, "bonding": 10, "states": 10, "thermo": 3, "kinetics": 4, "spont": 3, "acids": 10, "redox": 2, "nuclear": 2, "organic": 1, "elements": 0 },
+      "kinds": { "single": 30, "numeric": 12, "sata": 4, "match": 3, "order": 1 } } }
+]
+});

@@ -141,3 +141,67 @@ Answers off by 10, 100 or 1,000 get an automatic "check the decimal point / unit
 - Labs earn medals from their stars in the cabinet (cabinet/index.html); they don't count towards completion.
 - After adding a game or changing its modes, rebuild data/progress-map.js: `python3 tools-progress-map.py` (tools-bump-version.py runs it too).
 - Saved per device: bgx_prog_<game> (best % per mode), bgx_awards, bgx_name.
+
+## Pre-exam simulator (data/exams/<subject>.js)
+Timed mock exams that work like a course's online quiz (one question per page, countdown to a fixed end time, navigator, flags, autosave, review-before-submit, no feedback until submit, full review after). **Mock exams never count toward certificates or chapter progress**; they give a little XP (5 per right question + 50 for passing, once per attempt).
+
+Files: `engine/exam-core.js` (pool, papers, scoring; also run by tools-validate.js), `engine/exam.js` + `engine/exam.css` (pages), `data/exams/<subject>.js` (one bank per subject), pages in `exams/` built by `python3 tools-exam-pages.py` (run it after adding a source game to a bank; tools-check.py reports stale pages). Links on subject pages and the hub appear only when `examsLive: true` in engine/config.js, or with `?exams=1`. Exam pages carry `noindex` and stay out of sitemap.xml until launch. Test hook: `BGX.examTest` (`expire()`, `endsIn(ms)`, `correct(i)`, `set(i, v)`, `submit()`…).
+
+```js
+BGX.registerExamBank({
+  subject: "chemistry", title: "Chemistry",
+  groups: { "A": "Ch 1–3 · Measurement, formulas, moles" },      // optional names for topic groups (units)
+  rules: "Optional extra line on the start screen.",
+  sheets: { "mysheet": { title: "Pharmacokinetics formulas", rows: [["Half-life", "t½ = 0.693 × Vd ÷ CL"]] } },   // optional custom sheets
+  topics: [ { id: "stoich", label: "Equations and moles", game: "balance-it", mode: "calc", ch: "3", group: "A" } ],
+  items:   [ /* questions written for the exam, see below */ ],
+  sources: [ /* content reused from the games, see below */ ],
+  formats: [ /* papers, see below */ ]
+});
+```
+- **topics**: every topic names a `game` (results link "Practise in <game>" to `games/<game>/`, with `?mode=<mode>` if given). `group` lets formats and blueprints address several topics at once.
+
+### Items (written questions)
+Every item: `id` (stable, unique in the bank, never reused: `ch-sol-1`), `topic`, `kind`, `stem`, `why` (overall rationale), `difficulty` 1–3, optional `src` (textbook chapter), optional `whyOpt` (one rationale per option, same order as `options`), optional `lead` (a line above the question). Write options with the right answer anywhere: they are shuffled per attempt (numbers are sorted ascending instead; `fixedOrder: true` keeps the written order, e.g. ordered scales). `{{us:…|uk:…}}` tokens work in any text.
+
+| kind | fields | scoring |
+| --- | --- | --- |
+| `single` | `options` (3–5), `answer` (index) | 1 point |
+| `first` | `options` (exactly 4), `answer` (index): "what should the nurse do first?" | 1 point |
+| `sata` | `options` (4–7), `answer` ([indices], 2+ and not all) | 1 point, all-or-nothing; the review shows "3 of 4 right options" |
+| `numeric` | `answer` (number), `unit` (shown beside the box), `dp` (decimals expected), `tol` (`{abs: 0.5}` or `{pct: 1}`; without it the answer must match after rounding to `dp`), `steps` (worked solution lines), `traps` ([{value, why}] review notes for typical wrong numbers), `noTrail: true` (medication style) — or `problem: { game, id }` to take fresh numbers from a game's calculator problem (its text, unit, dp and steps; `stem` may override the text with `{var}` placeholders) | 1 point |
+| `match` | `pairs` ([[left, right], …], 3+), optional `extra` (spare right-hand options), `whyPair`, `allOrNothing: true` | 1 point per pair, or 1 point when all are right |
+| `order` | `steps` (in the right order, 3+); shown shuffled, the student moves them up/down | 1 point, all-or-nothing |
+| `case` | shared `stem` (+ optional `title`, `who`, `data: [[label, value]]`) and `parts`: 2–4 sub-items of any kind above | each part scores separately |
+| `diagram` | `diagram` (an engine diagram id: `heart`, `skeleton`, `nerve`…), `spot` (the part to highlight), `options`, `answer`. The diagram is drawn with its name label hidden | 1 point |
+
+Numeric answers accept `1,050`, `1050.0`, `0,5` and `2.19e-3`; out-by-1,000 / power-of-ten / wrong-sign answers get a note in the review.
+
+### Sources (reuse game content instead of copying it)
+`{ game, use, topic, mode?, only?, pairs?, prompt? }` — `topic` is a topic id, or a map from the game's category ids to topic ids (`{ "cardio": "cardio", "resp": "resp" }`), with optional `topicDefault`.
+
+| use | becomes | from the game |
+| --- | --- | --- |
+| `problems` | numeric (new numbers every attempt, worked steps in the review) | `problems` (`only`: categories) |
+| `sequences` | order | `sequences` (`only`: sequence ids) |
+| `cases` | case (one question per step) | `cases` (`only`: categories) |
+| `pairs` | match (`pairs`: how many, default 5) | the Match Pairs mode (`mode`, else the first one) |
+| `exam` | sata / first | `exam` items (`only`: categories) |
+| `diagram` | diagram: name the highlighted structure (distractors from the same diagram and category) | items with `spot`, when the label-free drawing doesn't show the name |
+| `quiz` | single (recall) | a Quick Quiz mode (`mode`), distractors from the same category |
+| `sortit` | single (which group?) (recall) | the Sort It mode |
+| `truemyth` | single (True / Myth) (recall) | the True or Myth mode |
+
+Recall questions (`quiz`, `sortit`, `truemyth`) can be capped per format with `recallMax` (share of the paper, e.g. `0.4`). The ids of reused questions are `<game>:<type>:<id>`, so they stay stable when the game's content changes order.
+
+### Formats
+`{ id, label, desc, n (questions), minutes | secondsEach, pass (%), topics?, kinds?, blueprint?, choose?, units?, calculator?, sheet?, navigation?, recallMax? }`
+- `topics`: topic ids or group ids the paper may use. `kinds`: allowed kinds only (e.g. `["diagram"]` for a lab practical).
+- `blueprint: { topics: { id-or-group: weight }, kinds: { kind: weight } }`: the paper is split by these weights (largest remainder). Without it, questions are drawn at random from the scope.
+- `choose: "topic" | "group" | "unit"`: the student picks one topic, one group, or one of `units: [{ id, label, topics: [...] }]` on the start screen.
+- `calculator: "basic" | "scientific"` (four functions, √, x², brackets; scientific adds log, ln, 10ˣ, eˣ, xʸ, EE). `sheet`: list of `"ptable"`, `"constants"`, `"dosecalc"`, `"stats"` or keys of the bank's `sheets`.
+- `navigation: "forward"` forces one-way (no going back, no flags); `"choose"` or leaving it out lets the student pick Free or One-way. `secondsEach` (lab practical) gives a per-station timer that moves on automatically.
+- When the bank has fewer questions than `n`, the paper uses what there is (never repeating a question) and the page says "Practice bank: N questions"; the time is scaled to the number of questions.
+- Papers are fresh each attempt (questions on the last paper are avoided when the bank allows). "Retake only what I missed" builds a paper from the missed questions.
+
+Saved per device: `bgx_exam_<subject>_<format>` (the attempt: paper, answers, flags, `endsAt`, settings, result), `bgx_examhist_<subject>_<format>` (last 30 attempts), `bgx_examlast_<subject>_<format>`.
