@@ -229,7 +229,7 @@
       </div></section>`;
   }
   function refreshHub() { const el = document.getElementById("br-testers"); if (el) el.outerHTML = hubCard(); }
-  const headerButton = () => `<button class="br-cab br-invbtn" type="button" data-bgx-invite aria-label="Invite a friend">${BGX.icon("gift")}<span>Invite</span></button>`;
+  const headerButton = () => `<button class="br-iconbtn br-invbtn" type="button" data-bgx-invite aria-label="Invite a friend" data-tip="Invite a friend">${BGX.icon("gift")}</button>`;
   function cabinetShelfItem() {
     if (!on.survey && !fbDone().tester) return "";
     const won = !!fbDone().tester;

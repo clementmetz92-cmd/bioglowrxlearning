@@ -348,7 +348,7 @@
 
   function headerLink() {
     const a = loadAwards(), n = Object.keys(a.c).length + Object.keys(a.d).length;
-    return `<a class="br-cab" href="${R}cabinet/index.html" aria-label="Trophy cabinet: ${n} award${n === 1 ? "" : "s"}">${BGX.icon("trophy")}<b>${n}</b></a>`;
+    return `<a class="br-cab" href="${R}cabinet/index.html" aria-label="Trophy cabinet: ${n} award${n === 1 ? "" : "s"}" title="Trophy cabinet">${BGX.icon("trophy")}<span class="v"><b>${n}</b><small>award${n === 1 ? "" : "s"}</small></span></a>`;
   }
 
   function hubCard() {

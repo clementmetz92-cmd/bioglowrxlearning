@@ -59,13 +59,24 @@
   };
 
   /* ---------- page shell: header + footer ---------- */
+  const HDR_ICON = {
+    sliders: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" aria-hidden="true"><path d="M4 7h9M17 7h3M4 17h3M11 17h9"/><circle cx="15" cy="7" r="2.2"/><circle cx="9" cy="17" r="2.2"/></svg>',
+    bolt: '<svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><path d="M13.5 2 5 13.5h6L9.8 22 19 9.8h-6.2z" fill="currentColor"/></svg>'
+  };
   BGX.shell = (opts = {}) => {
     const header = document.getElementById("br-header"), foot = document.getElementById("br-foot");
     if (header) header.innerHTML = `
       <a class="br-brand" href="${BGX.root}index.html" aria-label="BioglowRX Sciences Learning home">${BGX.logo()}
         <div class="br-word"><div class="br-word-name">Bioglow<span>RX</span></div><p>Sciences Learning</p></div></a>
-      <button class="br-lvl" id="br-lvl" type="button"></button>${BGX.progress ? BGX.progress.headerLink() : ""}${BGX.community ? BGX.community.headerButton() : ""}
-      <div class="br-stat"><span class="br-streaks"><div class="br-streak" id="br-streakbox" title="Correct answers in a row">streak <b id="br-streak">${BGX.streak}</b></div><span id="br-best" hidden>${BGX.bestStreak}</span></span><button class="br-day" id="br-day" type="button" hidden></button><button class="br-sound" id="br-sound" aria-pressed="false">Sound off</button><button class="br-sound br-textbtn" id="br-text" type="button">Aa</button><button class="br-sound br-unitbtn" id="br-units" type="button">US</button></div>`;
+      <div class="br-stat"><span class="br-streaks"><div class="br-streak" id="br-streakbox" title="Correct answers in a row">${HDR_ICON.bolt}<b id="br-streak">${BGX.streak}</b><small>in a row</small></div><span id="br-best" hidden>${BGX.bestStreak}</span></span></div>
+      <div class="br-hud" role="group" aria-label="Your progress"><button class="br-day" id="br-day" type="button" hidden></button><button class="br-lvl" id="br-lvl" type="button"></button>${BGX.progress ? BGX.progress.headerLink() : ""}</div>
+      <div class="br-tools">${BGX.community ? BGX.community.headerButton() : ""}<button class="br-iconbtn br-gear" id="br-gear" type="button" aria-expanded="false" aria-controls="br-setpanel" aria-label="Settings: sound, text size, units" data-tip="Settings">${HDR_ICON.sliders}</button>
+        <div class="br-setpanel" id="br-setpanel" role="dialog" aria-label="Settings" hidden>
+          <div class="row"><span class="lb" id="br-soundlbl">Sound</span><button class="br-sound br-switch" id="br-sound" type="button" aria-labelledby="br-soundlbl" aria-pressed="false"></button></div>
+          <div class="row"><span class="lb" id="br-textlbl">Text size</span><div class="br-segm br-textbtn" id="br-text" role="group" aria-labelledby="br-textlbl">${["Normal", "Large", "Extra large"].map((t, i) => `<button type="button" data-ts="${i}" aria-label="${t} text" style="font-size:${13 + i * 2.5}px">Aa</button>`).join("")}</div></div>
+          <div class="row br-unitrow"><span class="lb" id="br-unitlbl">Units and drug names</span><div class="br-segm br-unitbtn" id="br-units" role="group" aria-labelledby="br-unitlbl"><button type="button" data-u="us" title="US units and drug names (mg/dL, °F, acetaminophen)">US</button><button type="button" data-u="uk" title="UK units and drug names (mmol/L, °C, paracetamol)">UK</button></div></div>
+          ${BGX.community ? `<button class="br-setlink" type="button" data-bgx-invite>${BGX.icon ? BGX.icon("gift") : ""}<span>Invite a friend</span></button>` : ""}
+        </div></div>`;
     /* a first-time visitor sees no row of zeros: the stats appear after the first answer */
     const fresh = () => BGX.xp && BGX.xp.total === 0 && !BGX.bestStreak;
     document.documentElement.classList.toggle("bgx-new", fresh());
@@ -75,14 +86,26 @@
     const s = document.getElementById("br-sound");
     if (s) { BGX.paintSound(); s.onclick = () => { BGX.soundOn = !BGX.soundOn; BGX.store.set("sound", BGX.soundOn); BGX.paintSound(); if (BGX.soundOn) BGX.tone([660], .08); }; }
     const tb = document.getElementById("br-text");
-    if (tb) { const paintT = () => { tb.innerHTML = `Aa<small>${["", "+", "++"][BGX.textSize]}</small>`; tb.setAttribute("aria-label", `Text size: ${["normal", "large", "extra large"][BGX.textSize]}. Change text size`); };
-      paintT(); tb.onclick = () => { BGX.setTextSize((BGX.textSize + 1) % 3); paintT(); if (BGX.toast) BGX.toast(["Normal text", "Large text", "Extra-large text"][BGX.textSize]); }; }
+    if (tb) { const paintT = () => tb.querySelectorAll("[data-ts]").forEach(x => x.setAttribute("aria-pressed", +x.dataset.ts === BGX.textSize));
+      paintT(); tb.onclick = e => { const x = e.target.closest("[data-ts]"); if (!x || +x.dataset.ts === BGX.textSize) return;
+        BGX.setTextSize(+x.dataset.ts); paintT(); if (BGX.toast) BGX.toast(["Normal text", "Large text", "Extra-large text"][BGX.textSize]); }; }
     const ub = document.getElementById("br-units");
-    if (ub) { const uk = BGX.units === "uk"; ub.textContent = uk ? "UK" : "US";
-      ub.setAttribute("aria-label", uk ? "Units: UK. Switch to US units and names" : "Units: US. Switch to UK units and names");
-      ub.title = uk ? "UK units and drug names (mmol/L, °C, paracetamol)" : "US units and drug names (mg/dL, °F, acetaminophen)";
-      ub.onclick = () => { BGX.setUnits(uk ? "us" : "uk"); ub.disabled = true; if (BGX.toast) BGX.toast(uk ? "US units and drug names" : "UK units and drug names");
+    if (ub) { ub.querySelectorAll("[data-u]").forEach(x => x.setAttribute("aria-pressed", x.dataset.u === BGX.units));
+      ub.onclick = e => { const x = e.target.closest("[data-u]"); if (!x || x.dataset.u === BGX.units) return; const uk = x.dataset.u === "uk";
+        BGX.setUnits(x.dataset.u); ub.querySelectorAll("[data-u]").forEach(y => { y.setAttribute("aria-pressed", y === x); y.disabled = true; });
+        if (BGX.toast) BGX.toast(uk ? "UK units and drug names" : "US units and drug names");
         setTimeout(() => location.reload(), 700); }; }
+    /* settings pop-over: opens under the sliders button; Esc, a click outside or the button again closes it */
+    const gear = document.getElementById("br-gear"), panel = document.getElementById("br-setpanel");
+    if (gear && panel) {
+      const close = refocus => { if (panel.hidden) return; panel.hidden = true; gear.setAttribute("aria-expanded", "false"); if (refocus) gear.focus(); };
+      gear.onclick = () => { if (!panel.hidden) return close(); if (BGX.sfx) BGX.sfx.tap(); panel.hidden = false; gear.setAttribute("aria-expanded", "true");
+        const f = panel.querySelector("button:not([disabled])"); if (f) f.focus(); };
+      panel.addEventListener("click", e => { if (e.target.closest("[data-bgx-invite]")) close(); });
+      document.addEventListener("keydown", e => { if (e.key === "Escape" && !panel.hidden) { e.stopPropagation(); close(true); } }, true);
+      document.addEventListener("pointerdown", e => { if (!panel.hidden && !panel.contains(e.target) && !gear.contains(e.target)) close(); });
+      panel.addEventListener("focusout", e => { if (e.relatedTarget && !panel.contains(e.relatedTarget) && e.relatedTarget !== gear) close(); });
+    }
     BGX.paintStreak();
     if (BGX.study) BGX.study.paintHeader();
     const lv = document.getElementById("br-lvl");
@@ -108,7 +131,8 @@
     const b = document.getElementById("br-streak"), best = document.getElementById("br-best"), box = document.getElementById("br-streakbox");
     if (!b) return;
     b.textContent = BGX.streak; best.textContent = BGX.bestStreak;
-    box.classList.toggle("is-hot", BGX.streak >= 3);
+    box.classList.toggle("is-hot", BGX.streak >= 3); box.classList.toggle("is-zero", !BGX.streak);
+    box.setAttribute("aria-label", `${BGX.streak} correct answer${BGX.streak === 1 ? "" : "s"} in a row`);
     if (bump) { b.classList.remove("bump"); void b.offsetWidth; b.classList.add("bump"); }
   };
   BGX.scoreStreak = correct => {
@@ -127,7 +151,7 @@
   /* ---------- sound ---------- */
   BGX.soundOn = BGX.store.get("sound", false);   // off until switched on: quiet in class, on the bus, in the library
   let actx = null;
-  BGX.paintSound = () => { const b = document.getElementById("br-sound"); if (!b) return; b.textContent = BGX.soundOn ? "Sound on" : "Sound off"; b.setAttribute("aria-pressed", BGX.soundOn); };
+  BGX.paintSound = () => { const b = document.getElementById("br-sound"); if (!b) return; b.innerHTML = `<i aria-hidden="true"></i><span>${BGX.soundOn ? "On" : "Off"}</span>`; b.setAttribute("aria-pressed", BGX.soundOn); };
   BGX.tone = (freqs, dur = .12, type = "sine", gap = .09, vol = .08) => {
     if (!BGX.soundOn) return;
     try {
@@ -362,8 +386,14 @@
     const el = document.getElementById("br-lvl"); if (!el) return;
     const lv = BGX.xp.level();
     el.setAttribute("aria-label", `Level ${lv.n}, ${lv.name}. ${BGX.xp.total} XP${lv.next ? `, ${lv.next.xp - BGX.xp.total} to level ${lv.n + 1}` : ""}. See all levels`);
-    el.innerHTML = `${badge(lv)}<span class="tx"><b>Lv ${lv.n} <em>${BGX.esc(lv.name)}</em></b><i class="bar"><i style="width:${lv.pct.toFixed(1)}%"></i></i>
-      <small>${lv.next ? `${lv.into.toLocaleString("en-US")} / ${lv.need.toLocaleString("en-US")} XP` : `${BGX.xp.total.toLocaleString("en-US")} XP · top level`}</small></span>`;
+    /* the level badge is an atom: the XP to the next level is the orbit, the electron sits where it has reached */
+    const r = 21, c = 2 * Math.PI * r, k = lv.pct / 100, a = (k * 360 - 90) * Math.PI / 180;
+    el.innerHTML = `<span class="br-atom" style="--tier:var(--${lv.color})"><svg viewBox="0 0 48 48" aria-hidden="true"><defs><linearGradient id="br-xpg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" style="stop-color:var(--accent)"/><stop offset="1" style="stop-color:var(--logo-leaf)"/></linearGradient></defs><circle class="trk" cx="24" cy="24" r="${r}"/>
+      <circle class="arc" cx="24" cy="24" r="${r}" stroke-dasharray="${(c * k).toFixed(2)} ${c.toFixed(2)}" transform="rotate(-90 24 24)"/>
+      <circle class="e" cx="${(24 + r * Math.cos(a)).toFixed(2)}" cy="${(24 + r * Math.sin(a)).toFixed(2)}" r="3.2"/></svg>
+      <span class="nuc">${BGX.icon ? BGX.icon(lv.icon) : ""}</span></span>
+      <span class="tx"><b class="nm">${BGX.esc(lv.name)}</b><b class="n">Lv ${lv.n}</b><small>Lv ${lv.n} · ${lv.next ? `${lv.into.toLocaleString("en-US")}/${lv.need.toLocaleString("en-US")} XP` : `${BGX.xp.total.toLocaleString("en-US")} XP`}</small></span>`;
+    el.title = lv.next ? `Level ${lv.n} ${lv.name}: ${(lv.next.xp - BGX.xp.total).toLocaleString("en-US")} XP to ${lv.next.name}` : `Level ${lv.n} ${lv.name}: top level`;
     if (bump) { el.classList.remove("bump"); void el.offsetWidth; el.classList.add("bump"); }
   };
   BGX.levelUp = lv => {

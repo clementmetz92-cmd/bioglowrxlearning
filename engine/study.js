@@ -76,12 +76,21 @@
   };
   const flame = '<svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M12 2c1 3.5 5 5.5 5 10.5A5 5 0 0 1 7 12.5c0-2 1-3.5 2-4.5 0 2 1 3 2 3 0-3-1-5.5 1-9z" fill="#F08A4B"/><path d="M12 13c1 1.4 2 2.2 2 3.6a2 2 0 0 1-4 0c0-1 .6-1.8 1-2.3.1.8.5 1.2 1 1.2 0-1 0-1.6 0-2.5z" fill="#FBD08A"/></svg>';
 
+  const FLAME_D = "M12 2c1 3.5 5 5.5 5 10.5A5 5 0 0 1 7 12.5c0-2 1-3.5 2-4.5 0 2 1 3 2 3 0-3-1-5.5 1-9z";
+  const FLAME_CORE = "M12 13c1 1.4 2 2.2 2 3.6a2 2 0 0 1-4 0c0-1 .6-1.8 1-2.3.1.8.5 1.2 1 1.2 0-1 0-1.6 0-2.5z";
   function paintHeader() {
     const b = document.getElementById("br-day"); if (!b) return;
     const h = loadH(), s = streakNow(h), r = roundsToday(h);
     b.hidden = false;
-    b.innerHTML = `${ringSVG(r / h.goal)}<span>${flame}<b>${s.n}</b><small>day${s.n === 1 ? "" : "s"}</small></span>`;
-    b.classList.toggle("is-done", r >= h.goal); b.classList.toggle("is-cold", !s.alive || s.needToday);
+    /* the flame fills from the bottom like a measuring cylinder as today's rounds add up; it is fully lit once the goal is met */
+    const k = Math.max(0, Math.min(1, r / h.goal)), done = r >= h.goal, fy = (2 + 20 * (1 - k)).toFixed(2);
+    b.innerHTML = `<span class="br-flame" aria-hidden="true"><svg viewBox="0 0 24 24"><defs><clipPath id="br-flclip"><rect x="0" y="${fy}" width="24" height="24"/></clipPath></defs>
+      <path class="shell" d="${FLAME_D}"/><g clip-path="url(#br-flclip)"><path class="fill" d="${FLAME_D}"/><path class="core" d="${FLAME_CORE}"/></g></svg></span>
+      <span class="v"><b>${s.n}</b><small>day streak</small></span>`;
+    b.classList.toggle("is-done", done); b.classList.toggle("is-cold", !s.alive || s.needToday);
+    /* the flame lights up with a short flare once, the moment today's goal is reached */
+    if (done && BGX.store.get("flamelit", "") !== today()) { BGX.store.set("flamelit", today()); if (!BGX.RM) { b.classList.remove("is-lighting"); void b.offsetWidth; b.classList.add("is-lighting"); } }
+    b.title = `${s.n}-day streak · today ${Math.min(r, h.goal)} of ${h.goal} round${h.goal > 1 ? "s" : ""}${done ? " ✓" : ""}`;
     b.setAttribute("aria-label", `Day streak: ${s.n} day${s.n === 1 ? "" : "s"}. Today ${Math.min(r, h.goal)} of ${h.goal} rounds. Open your study plan`);
     b.onclick = () => { if (BGX.sfx) BGX.sfx.tap(); openHabit(); };
   }
