@@ -221,7 +221,7 @@
   function hubCard() {
     const f = fbDone(), invited = !!BGX.store.get("xponce", {}).invite;
     return `<section class="br-testers" id="br-testers"><div class="t"><p class="br-label" style="margin:0">Founding Testers · free beta</p>
-        <h3>Help us build BioglowRX</h3><p>Everything is free while we test. Invite friends, tell us what to fix and vote on what comes next.</p></div>
+        <h3>Help us build BioglowRX</h3><p>Free throughout the beta, and for all Founding Testers. Invite friends, tell us what to fix and vote on what comes next.</p></div>
       <div class="acts">
         <button class="br-next" type="button" data-bgx-invite>${BGX.icon("gift")} Invite a friend${invited ? "" : ` <em>+${INVITE_XP} XP</em>`}</button>
         ${on.feedback ? `<button class="br-ghost" type="button" data-bgx-vote>${BGX.icon("vote")} ${f.vote ? "Change my vote" : "Vote: what's next?"}</button>` : ""}

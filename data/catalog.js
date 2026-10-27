@@ -204,7 +204,7 @@ window.BGX_CATALOG = {
           tiles: [{corner: "1", icon: "shield", color: "cat-sky"}, {corner: "4", icon: "search", color: "cat-sage"}, {corner: "12", icon: "scale", color: "cat-lilac"}] },
         { ch: "Stats", label: "Statistics unit", title: "Probability and averages", icon: "chart", game: "Odds On", formats: ["Explore", "Quick Quiz", "Sort It", "Match Pairs", "True or Myth", "Case Files", "Calculator"], status: "live", url: "games/odds-on/index.html",
           tiles: [{corner: "1", icon: "steps", color: "cat-amber"}, {corner: "4", icon: "scale", color: "cat-sky"}, {corner: "6", icon: "question", color: "cat-peach"}] },
-        { ch: "Next", title: "Her next course", icon: "book", game: "To be planned", formats: [], status: "soon" }
+        { ch: "Next", label: "Next course", title: "Biochemistry", icon: "book", game: "Coming soon", formats: [], status: "soon" }
       ]
     }
   ]
