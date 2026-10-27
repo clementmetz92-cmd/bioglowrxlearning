@@ -130,7 +130,7 @@ BGX.registerGame({
     "q": "With a weight-related condition such as diabetes, from what BMI can weight-loss medicine be considered?", "answer": "BMI 27 or more (30 without a condition)",
     "claim": "Weight-loss medicines may be considered at BMI 27 if the person also has a condition such as type 2 diabetes.", "verdict": true,
     "summary": "Medicines are added to, not instead of, diet, activity and behaviour change.",
-    "facts": ["Threshold: BMI 30 or more, or 27 or more with a weight-related condition (diabetes, hypertension, sleep apnoea).", "Newer GLP-1-based medicines give larger losses than older drugs.", "Bariatric surgery thresholds are higher (traditionally BMI 40, or 35 with a comorbidity; 2022 guidance lowers these to 35, or 30 with metabolic disease)."],
+    "facts": ["Threshold: BMI 30 or more, or 27 or more with a weight-related condition (diabetes, hypertension, sleep apnoea).", "Newer GLP-1-based medicines give larger losses than older drugs.", "Bariatric surgery thresholds are higher: BMI 35, or 30 with metabolic disease (2022 ASMBS/IFSO guidance; the older rule was 40, or 35 with a comorbidity)."],
     "life": "A patient with BMI 28 and type 2 diabetes can be offered medicine alongside lifestyle support." },
 
   { "name": "Estimating energy needs", "cat": "energy", "icon": "flame", "spot": "energy",

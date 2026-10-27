@@ -83,7 +83,7 @@ BGX.registerGame({
     "key": "BMI 30+: classes I, II, III",
     "tells": "Obesity, graded by severity",
     "summary": "A BMI of 30 or more is obesity, split into three classes by how high the BMI is.",
-    "facts": ["Class I: 30–34.9. Class II: 35–39.9. Class III (severe): 40 or more.", "Each step up adds risk of type 2 diabetes, heart disease, sleep apnoea, fatty liver and some cancers.", "Bariatric surgery is considered from BMI 40, or from 35 with a serious weight-related condition (2022 ASMBS/IFSO guidance lowers this to 35 alone, or 30–34.9 with metabolic disease such as type 2 diabetes; 27.5 or more in Asian populations).", "Obesity is treated as a chronic disease, not a lack of willpower."],
+    "facts": ["Class I: 30–34.9. Class II: 35–39.9. Class III (severe): 40 or more.", "Each step up adds risk of type 2 diabetes, heart disease, sleep apnoea, fatty liver and some cancers.", "Bariatric surgery is considered from BMI 35, or 30–34.9 with metabolic disease such as type 2 diabetes (2022 ASMBS/IFSO guidance; 27.5 or more in Asian populations). The older rule was BMI 40, or 35 with a serious weight-related condition.", "Obesity is treated as a chronic disease, not a lack of willpower."],
     "life": "BMI 36: class II obesity." },
   { "name": "Waist circumference", "cat": "anthro", "icon": "nutr-waist", "spot": ["waist"],
     "key": ">102 cm men, >88 cm women",

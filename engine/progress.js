@@ -436,7 +436,7 @@
       form.onsubmit = ev => { ev.preventDefault(); BGX.store.set("name", document.getElementById("br-name").value.trim().slice(0, 40)); BGX.sfx.tap(); draw(); const ok = document.getElementById("br-nameok"); if (ok) ok.textContent = "Saved: shown on every certificate."; };
     };
     draw();
-    if (location.hash === "#backup") { const b = document.getElementById("backup"); if (b) setTimeout(() => b.scrollIntoView({ block: "start" }), 50); }
+    if (location.hash === "#backup") { const b = document.getElementById("backup"); if (b) [50, 400, 1000].forEach(t => setTimeout(() => { if (Math.abs(b.getBoundingClientRect().top) > 40) b.scrollIntoView({ block: "start" }); }, t)); }
   }
 
   BGX.progress = { PASS, modePct, modePcts, gameState, chapterState, subjectState, findChapter, record, checkAwards, celebrate,
