@@ -98,7 +98,7 @@ const ITEMS = [
     "clue": "In every amino acid and DNA base; the liquid freezes off warts",
     "use": "In every amino acid and DNA base; liquid N₂ freezes off warts",
     "summary": "A colourless gas making up about 78% of air, held together by a strong triple bond.",
-    "facts": ["Group 15; configuration [He] 2s² 2p³.", "N₂ has a very strong N≡N triple bond, which makes it unreactive.", "Found in amino acids (the amine group) and DNA bases.", "Liquid nitrogen (−196 °C) is used in cryotherapy; nitroglycerin relieves angina."],
+    "facts": ["Group 15; configuration [He] 2s² 2p³.", "N₂ has a very strong N≡N triple bond, which makes it unreactive.", "Found in amino acids (the amine group) and DNA bases.", "Liquid nitrogen (−196 °C) is used in cryotherapy; {{us:nitroglycerin|uk:glyceryl trinitrate}} relieves angina."],
     "life": "Divers who surface too fast get 'the bends' as dissolved nitrogen forms bubbles in their blood.",
     "claim": "Nitrogen gas, N₂, is very reactive because of its triple bond.", "verdict": false,
     "why": "Myth. The N≡N triple bond is very strong, which makes N₂ quite unreactive." },

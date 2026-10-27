@@ -285,7 +285,7 @@ BGX.registerGame({
   { "id": "n3", "cat": "brain", "icon": "layers", "spot": "meninges", "title": "Stiff neck and fever",
     "who": "Ollie, 19, student",
     "story": "Ollie has a high fever, a severe headache and a stiff neck, and the light hurts his eyes. The doctor suspects bacterial meningitis and arranges a lumbar puncture.",
-    "data": [["Temperature", "39.4 °C"], ["Neck", "Stiff on bending"]],
+    "data": [["Temperature", "{{us:102.9 °F|uk:39.4 °C}}"], ["Neck", "Stiff on bending"]],
     "steps": [
       { "q": "What is inflamed in meningitis?", "options": ["The membranes around the brain and spinal cord", "The brain tissue itself, mainly the cortex", "The grey matter at the centre of the cord", "The fluid-filled ventricles deep in the brain"], "answer": 0, "why": "The meninges (dura, arachnoid and pia mater) are inflamed. The stiff neck comes from irritated meninges around the cord." },
       { "q": "Which space does the lumbar puncture needle sample?", "options": ["The subarachnoid space, which holds CSF", "The space inside the dura only, with no fluid", "The central canal of the cord", "The third ventricle"], "answer": 0, "why": "CSF flows in the subarachnoid space, between the arachnoid mater and the pia mater." },

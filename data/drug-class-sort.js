@@ -385,7 +385,7 @@ BGX.registerGame({
 "summary": "A cardiac glycoside that strengthens and slows the heartbeat."
 },
 {
-"name": "Nitroglycerin",
+"name": "{{us:Nitroglycerin|uk:Glyceryl trinitrate}}",
 "alsoOk": ["High blood pressure and angina"],
 "cat": "cardio",
 "cls": "Nitrate vasodilator",
@@ -399,7 +399,7 @@ BGX.registerGame({
 ],
 "facts": [
 "Releases nitric oxide, which widens veins and arteries and cuts the heart's oxygen demand.",
-"For chest pain: one dose under the tongue every 5 minutes, up to 3 doses; call 911 if the pain is not better 5 minutes after the first.",
+"For chest pain: one dose under the tongue every 5 minutes, up to 3 doses; call {{us:911|uk:999}} if the pain is not better 5 minutes after the first.",
 "Check blood pressure; headache and dizziness are common, so the patient should sit or lie down.",
 "Never used with sildenafil or tadalafil (PDE-5 inhibitors), as blood pressure can fall dangerously."
 ],
@@ -427,7 +427,7 @@ BGX.registerGame({
 "summary": "A class III antiarrhythmic for serious fast or irregular heart rhythms."
 },
 {
-"name": "Albuterol (salbutamol)",
+"name": "{{us:Albuterol (salbutamol)|uk:Salbutamol (albuterol)}}",
 "cat": "resp",
 "cls": "Short-acting bronchodilator",
 "use": "Quick relief of asthma attacks",
@@ -442,7 +442,7 @@ BGX.registerGame({
 "A beta-2 agonist: it switches on receptors that relax airway muscle.",
 "Albuterol is the US name; salbutamol is the UK name for the same drug.",
 "Shaky hands and a fast heartbeat are common short-lived side effects.",
-"Current asthma guidelines (GINA) advise against a short-acting reliever such as albuterol on its own: adults, teenagers and children aged 6 and over also need an inhaled steroid, and many adults now use one steroid-formoterol inhaler as their reliever."
+"Current asthma guidelines (GINA) advise against a short-acting reliever such as {{us:albuterol|uk:salbutamol}} on its own: adults, teenagers and children aged 6 and over also need an inhaled steroid, and many adults now use one steroid-formoterol inhaler as their reliever."
 ],
 "summary": "A fast-acting reliever inhaler that relaxes tight airways."
 },
@@ -1028,14 +1028,14 @@ BGX.registerGame({
 "id": "dcs-x5",
 "cat": "cns",
 "kind": "sata",
-"stem": "A patient taking haloperidol develops a temperature of 39.8 °C (103.6 °F), rigid muscles, heavy sweating, a fast heart rate and new confusion.",
+"stem": "A patient taking haloperidol develops a temperature of {{us:103.6 °F (39.8 °C)|uk:39.8 °C (103.6 °F)}}, rigid muscles, heavy sweating, a fast heart rate and new confusion.",
 "q": "Which actions should the nurse take? Select all that apply.",
 "options": [
 "Hold the next dose of haloperidol",
 "Notify the provider straight away",
 "Start cooling measures and check vital signs often",
 "Give a PRN dose of haloperidol for the confusion",
-"Give acetaminophen and recheck the temperature in 4 hours"
+"Give {{us:acetaminophen|uk:paracetamol}} and recheck the temperature in 4 hours"
 ],
 "answer": [0, 1, 2],
 "why": "Fever, rigid muscles, sweating, a fast pulse and confusion suggest neuroleptic malignant syndrome, a medical emergency. The antipsychotic is stopped, the provider is told at once, and the patient is cooled and closely monitored. More haloperidol would make it worse, and waiting 4 hours delays urgent care."
@@ -1074,7 +1074,7 @@ BGX.registerGame({
 "id": "dcs-x8",
 "cat": "endo",
 "kind": "first",
-"stem": "A patient with type 1 diabetes is due insulin lispro with lunch. Blood glucose is 62 mg/dL (3.4 mmol/L). The patient is alert, shaky and sweaty, and the lunch tray is 20 minutes away.",
+"stem": "A patient with type 1 diabetes is due insulin lispro with lunch. Blood glucose is {{us:62 mg/dL (3.4 mmol/L)|uk:3.4 mmol/L (62 mg/dL)}}. The patient is alert, shaky and sweaty, and the lunch tray is 20 minutes away.",
 "q": "What should the nurse do first?",
 "options": [
 "Give 15 g of fast-acting carbohydrate, such as juice",
@@ -1095,7 +1095,7 @@ BGX.registerGame({
 {
 "cat": "cardio",
 "title": "Heart and blood vessels",
-"about": "These medicines lower blood pressure, control heart rate, remove extra fluid, lower cholesterol or prevent clots. Blood pressure can be lowered in several ways: blocking the angiotensin hormone system (ACE inhibitors and ARBs), relaxing artery walls (calcium channel blockers), slowing the heart (beta blockers) or making the kidneys pass more water (diuretics). Statins work on cholesterol, not pressure. Anticoagulants such as warfarin stop clots forming; they do not dissolve clots that are already there. Heparin and enoxaparin are injected anticoagulants (heparin is adjusted to aPTT and reversed with protamine), and apixaban (-xaban) is a tablet that blocks factor Xa without routine blood tests. Digoxin strengthens and slows the heartbeat (count the apical pulse first), amiodarone calms irregular rhythms, and nitroglycerin widens vessels to ease angina within minutes. The name ending is the fastest way to tell the classes apart.",
+"about": "These medicines lower blood pressure, control heart rate, remove extra fluid, lower cholesterol or prevent clots. Blood pressure can be lowered in several ways: blocking the angiotensin hormone system (ACE inhibitors and ARBs), relaxing artery walls (calcium channel blockers), slowing the heart (beta blockers) or making the kidneys pass more water (diuretics). Statins work on cholesterol, not pressure. Anticoagulants such as warfarin stop clots forming; they do not dissolve clots that are already there. Heparin and enoxaparin are injected anticoagulants (heparin is adjusted to aPTT and reversed with protamine), and apixaban (-xaban) is a tablet that blocks factor Xa without routine blood tests. Digoxin strengthens and slows the heartbeat (count the apical pulse first), amiodarone calms irregular rhythms, and {{us:nitroglycerin|uk:glyceryl trinitrate}} widens vessels to ease angina within minutes. The name ending is the fastest way to tell the classes apart.",
 "points": [
 "-pril = ACE inhibitor; -sartan = ARB; -olol = beta blocker; -dipine = calcium channel blocker; -statin = statin.",
 "Loop diuretic (furosemide) is strong and used for fluid overload; thiazide (hydrochlorothiazide) is milder and used for blood pressure.",
@@ -1107,7 +1107,7 @@ BGX.registerGame({
 {
 "cat": "resp",
 "title": "Breathing and allergy",
-"about": "Asthma medicines are split into relievers and preventers. A reliever (short-acting bronchodilator such as albuterol) opens tight airways within minutes during an attack. A preventer (inhaled corticosteroid such as fluticasone) is used every day to calm the swelling and inflammation that make attacks likely, and does not help an attack already happening. Current guidelines (GINA, since 2019) no longer recommend a short-acting reliever on its own: adults, teenagers and children aged 6 and over should also have an inhaled steroid, and many adults now use a single steroid-formoterol inhaler as both reliever and preventer. Montelukast is a tablet add-on that blocks leukotrienes, inflammatory messengers that narrow airways. Antihistamines such as cetirizine block histamine, the chemical behind sneezing, itching and hives. Tiotropium is a long-acting anticholinergic inhaler used once a day in COPD; like a preventer, it does not rescue a sudden attack.",
+"about": "Asthma medicines are split into relievers and preventers. A reliever (short-acting bronchodilator such as {{us:albuterol|uk:salbutamol}}) opens tight airways within minutes during an attack. A preventer (inhaled corticosteroid such as fluticasone) is used every day to calm the swelling and inflammation that make attacks likely, and does not help an attack already happening. Current guidelines (GINA, since 2019) no longer recommend a short-acting reliever on its own: adults, teenagers and children aged 6 and over should also have an inhaled steroid, and many adults now use a single steroid-formoterol inhaler as both reliever and preventer. Montelukast is a tablet add-on that blocks leukotrienes, inflammatory messengers that narrow airways. Antihistamines such as cetirizine block histamine, the chemical behind sneezing, itching and hives. Tiotropium is a long-acting anticholinergic inhaler used once a day in COPD; like a preventer, it does not rescue a sudden attack.",
 "points": [
 "Reliever = quick, used when needed; preventer = slow, used daily; a short-acting reliever alone is no longer advised.",
 "Rinse the mouth after an inhaled steroid to reduce the risk of oral thrush.",

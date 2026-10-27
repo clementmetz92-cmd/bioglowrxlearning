@@ -220,7 +220,7 @@ BGX.registerGame({
   "q": "Which statements about antiviral and antifungal drugs are correct? Select all that apply.",
   "options": [
    "Oseltamivir works best within 48 hours of flu symptoms",
-   "Aciclovir (acyclovir) removes herpes virus from the body",
+   "{{us:Acyclovir (aciclovir)|uk:Aciclovir (acyclovir)}} removes herpes virus from the body",
    "Fluconazole can raise the levels of other drugs",
    "Oseltamivir is used to treat the common cold",
    "A course of antibiotics can trigger thrush",
@@ -231,7 +231,7 @@ BGX.registerGame({
    2,
    4
   ],
-  "why": "Oseltamivir works on influenza and should start early. Azole antifungals slow the liver's breakdown of many drugs, raising their levels. Antibiotics can kill helpful bacteria and let Candida grow. Aciclovir calms outbreaks but the virus stays in the body, and metronidazole is an antibiotic despite its name."
+  "why": "Oseltamivir works on influenza and should start early. Azole antifungals slow the liver's breakdown of many drugs, raising their levels. Antibiotics can kill helpful bacteria and let Candida grow. {{us:Acyclovir|uk:Aciclovir}} calms outbreaks but the virus stays in the body, and metronidazole is an antibiotic despite its name."
  },
  {
   "id": "bd-x7",
@@ -242,11 +242,11 @@ BGX.registerGame({
   "options": [
    "Call the rapid response team",
    "Stop the antibiotic infusion",
-   "Prepare IM epinephrine as ordered",
+   "Prepare IM {{us:epinephrine|uk:adrenaline}} as ordered",
    "Check blood pressure and SpO₂"
   ],
   "answer": 1,
-  "why": "Safety first: stopping the infusion takes seconds and stops more allergen entering the blood. The nurse then calls for help, gives epinephrine as ordered and monitors vital signs. Each of those is needed, but none should happen while the drug keeps running."
+  "why": "Safety first: stopping the infusion takes seconds and stops more allergen entering the blood. The nurse then calls for help, gives {{us:epinephrine|uk:adrenaline}} as ordered and monitors vital signs. Each of those is needed, but none should happen while the drug keeps running."
  },
  {
   "id": "bd-x8",
@@ -313,14 +313,14 @@ BGX.registerGame({
 {
 "name": "Cephalosporins",
 "cat": "wall",
-"example": "Cefalexin",
+"example": "{{us:Cephalexin|uk:Cefalexin}}",
 "life": "Close cousins of penicillins, used for skin and urinary infections.",
 "icon": "pharm-rod-crack",
 "num": 2,
 "spot": "wall",
 "facts": [
 "Also beta-lactams, with a structure related to penicillins.",
-"Names usually start with cef- or ceph-, such as cefalexin.",
+"Names usually start with cef- or ceph-, such as {{us:cephalexin|uk:cefalexin}}.",
 "Grouped in 'generations'; later ones cover more gram-negative bacteria."
 ],
 "summary": "Beta-lactam antibiotics related to penicillins that break the cell wall."
@@ -432,7 +432,7 @@ BGX.registerGame({
 "facts": [
 "Stop bacteria making folate, which they need to build DNA.",
 "Trimethoprim targets an enzyme humans also have, but it binds the bacterial version thousands of times more tightly.",
-"Trimethoprim is often combined with sulfamethoxazole as co-trimoxazole.",
+"Trimethoprim is often combined with sulfamethoxazole as {{us:TMP-SMX (Bactrim)|uk:co-trimoxazole}}.",
 "A common treatment for urinary tract infections."
 ],
 "summary": "Antibiotics that stop bacteria making folate, which they need for DNA."
@@ -487,13 +487,13 @@ BGX.registerGame({
 {
 "name": "Herpes antivirals",
 "cat": "virus",
-"example": "Aciclovir",
+"example": "{{us:Acyclovir|uk:Aciclovir}}",
 "life": "Used for cold sores, chickenpox and shingles.",
 "icon": "pharm-capsid",
 "num": 13,
 "spot": "vdna",
 "facts": [
-"Aciclovir (acyclovir in the US) blocks the virus copying its DNA.",
+"{{us:Acyclovir (aciclovir)|uk:Aciclovir (acyclovir)}} blocks the virus copying its DNA.",
 "A viral enzyme activates it, so it acts mainly in infected cells.",
 "Treats herpes simplex (cold sores) and varicella-zoster (chickenpox and shingles).",
 "Calms outbreaks but does not remove the virus from the body."
@@ -535,7 +535,7 @@ BGX.registerGame({
 "about": "These drugs stop bacteria copying their DNA or making folate, a vitamin they need to build DNA. Fluoroquinolones (-floxacin) block the enzymes that unwind and copy bacterial DNA. Folate blockers such as trimethoprim block the bacterial enzyme that turns folate into its working form; our own version of that enzyme binds the drug far less tightly, so we are much less affected. Nitroimidazoles such as metronidazole damage the DNA of germs that live without oxygen (anaerobes) and some parasites.",
 "points": [
 "-floxacin = fluoroquinolone (boxed warnings: tendons, nerves, mood).",
-"Trimethoprim is often paired with sulfamethoxazole as co-trimoxazole.",
+"Trimethoprim is often paired with sulfamethoxazole as {{us:TMP-SMX (Bactrim)|uk:co-trimoxazole}}.",
 "Metronidazole: anaerobic germs; avoid alcohol."
 ],
 "tip": "No blueprint, no new bugs: these drugs tear up or starve the DNA."
@@ -553,13 +553,13 @@ BGX.registerGame({
 {
 "cat": "virus",
 "title": "Antivirals",
-"about": "Viruses live and copy themselves inside our cells, so they are harder to target without harming us. Antivirals block a step that only the virus uses. Neuraminidase inhibitors such as oseltamivir stop new flu viruses cutting themselves free from the infected cell, so the infection cannot spread as fast. Herpes antivirals such as aciclovir are switched on by a viral enzyme and then stop the virus copying its DNA. Antivirals work best when started early.",
+"about": "Viruses live and copy themselves inside our cells, so they are harder to target without harming us. Antivirals block a step that only the virus uses. Neuraminidase inhibitors such as oseltamivir stop new flu viruses cutting themselves free from the infected cell, so the infection cannot spread as fast. Herpes antivirals such as {{us:acyclovir|uk:aciclovir}} are switched on by a viral enzyme and then stop the virus copying its DNA. Antivirals work best when started early.",
 "points": [
 "-vir ending usually means antiviral.",
-"Oseltamivir = influenza; aciclovir = herpes viruses (cold sores, chickenpox, shingles).",
+"Oseltamivir = influenza; {{us:acyclovir|uk:aciclovir}} = herpes viruses (cold sores, chickenpox, shingles).",
 "Best started within about 48 hours of flu symptoms."
 ],
-"tip": "Oseltamivir locks the exit; aciclovir jams the copier."
+"tip": "Oseltamivir locks the exit; {{us:acyclovir|uk:aciclovir}} jams the copier."
 }
 ],
 "outro": "Learn the example drug's ending first; it usually points straight to the group and therefore to how it attacks. For learning only, not medical advice."

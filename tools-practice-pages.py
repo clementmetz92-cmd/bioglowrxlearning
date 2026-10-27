@@ -11,7 +11,9 @@ esc = html.escape
 
 def game_data(gid):
     js = "const fs=require('fs');let G;global.BGX={registerGame:g=>G=g};eval(fs.readFileSync(process.argv[1],'utf8'));console.log(JSON.stringify(G));"
-    return json.loads(subprocess.check_output(["node", "-e", js, str(ROOT / "data" / f"{gid}.js")]))
+    raw = subprocess.check_output(["node", "-e", js, str(ROOT / "data" / f"{gid}.js")]).decode()
+    # static pages show the default (US) side of {{us:…|uk:…}} unit and drug-name marks
+    return json.loads(re.sub(r"\{\{us:([^|{}]*)\|uk:[^{}]*\}\}", r"\1", raw))
 
 # ---------- the pages ----------
 # rows(G) returns (column headings, list of rows) for the "a taste of what's inside" table.

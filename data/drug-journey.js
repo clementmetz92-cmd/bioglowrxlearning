@@ -234,7 +234,7 @@ BGX.registerGame({
   "kind": "sata",
   "q": "Which statements about agonists and antagonists are correct? Select all that apply.",
   "options": [
-   "Albuterol is an agonist at beta-2 receptors",
+   "{{us:Albuterol|uk:Salbutamol}} is an agonist at beta-2 receptors",
    "Naloxone is an antagonist at opioid receptors",
    "Metoprolol is an antagonist at beta-1 receptors",
    "An antagonist switches the receptor on weakly",
@@ -245,7 +245,7 @@ BGX.registerGame({
    1,
    2
   ],
-  "why": "Albuterol activates beta-2 receptors to open the airways, and metoprolol blocks beta-1 receptors in the heart. Naloxone blocks opioid receptors, so it does not reverse benzodiazepines, which act on a different receptor. An antagonist binds without switching the receptor on; a weak activator is a partial agonist."
+  "why": "{{us:Albuterol|uk:Salbutamol}} activates beta-2 receptors to open the airways, and metoprolol blocks beta-1 receptors in the heart. Naloxone blocks opioid receptors, so it does not reverse benzodiazepines, which act on a different receptor. An antagonist binds without switching the receptor on; a weak activator is a partial agonist."
  },
  {
   "id": "dj-x8",
@@ -281,7 +281,7 @@ BGX.registerGame({
   "id": "dj-x10",
   "cat": "pk",
   "kind": "first",
-  "stem": "A patient has chest pain. Sublingual nitroglycerin (glyceryl trinitrate) is ordered.",
+  "stem": "A patient has chest pain. Sublingual {{us:nitroglycerin (glyceryl trinitrate)|uk:glyceryl trinitrate (nitroglycerin)}} is ordered.",
   "q": "What should the nurse do first?",
   "options": [
    "Place the tablet under the tongue",
@@ -290,7 +290,7 @@ BGX.registerGame({
    "Recheck the chest pain in 5 minutes"
   ],
   "answer": 1,
-  "why": "Assess before acting: nitroglycerin widens blood vessels and can drop the blood pressure sharply, so it is checked first. The tablet then goes under the tongue to avoid the first pass, with teaching not to swallow it, and the pain is rechecked after 5 minutes."
+  "why": "Assess before acting: {{us:nitroglycerin|uk:glyceryl trinitrate}} widens blood vessels and can drop the blood pressure sharply, so it is checked first. The tablet then goes under the tongue to avoid the first pass, with teaching not to swallow it, and the pain is rechecked after 5 minutes."
  },
  {
   "id": "dj-x11",
@@ -390,7 +390,7 @@ BGX.registerGame({
 "facts": [
 "Blood from the gut goes to the liver first, through the hepatic portal vein.",
 "Routes like under the tongue, skin patches and IV bypass the first pass.",
-"Glyceryl trinitrate is given under the tongue because first pass would destroy most of it.",
+"{{us:Nitroglycerin|uk:Glyceryl trinitrate}} is given under the tongue because first pass would destroy most of it.",
 "A big first-pass effect means low oral bioavailability."
 ],
 "summary": "Some of a swallowed drug is broken down by the gut wall and liver before it reaches the rest of the body."
@@ -420,7 +420,7 @@ BGX.registerGame({
 "spot": "agonist",
 "facts": [
 "Binds the receptor and produces a response.",
-"Albuterol is an agonist at beta-2 receptors, opening the airways.",
+"{{us:Albuterol|uk:Salbutamol}} is an agonist at beta-2 receptors, opening the airways.",
 "Opposite of an antagonist, which binds but does not activate."
 ],
 "summary": "A drug that binds a receptor and activates it, copying the body's own messenger."

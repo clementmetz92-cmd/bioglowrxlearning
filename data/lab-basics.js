@@ -182,7 +182,7 @@ BGX.registerGame({
     "pair": "m = 10⁻³",
     "summary": "The prefix milli- means one thousandth of a unit.",
     "facts": ["1 mg = 0.001 g, so 1,000 mg = 1 g.", "1 mL = 0.001 L, so 1,000 mL = 1 L.", "To go from milli-units to base units, divide by 1,000."],
-    "life": "Most tablet strengths are in milligrams: paracetamol (acetaminophen) 500 mg = 0.5 g." },
+    "life": "Most tablet strengths are in milligrams: {{us:acetaminophen (paracetamol)|uk:paracetamol (acetaminophen)}} 500 mg = 0.5 g." },
   { "name": "micro- (µ)", "cat": "units", "icon": "chem-micro", "spot": "p-micro",
     "use": "Prefix meaning one millionth (10⁻⁶)",
     "pair": "µ = 10⁻⁶",
@@ -229,7 +229,7 @@ BGX.registerGame({
 "problems": [
   /* ---------- prefix conversions ---------- */
   { "id": "mg-g", "cat": "units", "title": "Milligrams to grams", "spot": "p-milli", "unit": "g", "dp": 3,
-    "make": () => pick([{ d: "aspirin", mg: 75 }, { d: "aspirin", mg: 325 }, { d: "ibuprofen", mg: 200 }, { d: "ibuprofen", mg: 400 }, { d: "paracetamol (acetaminophen)", mg: 500 }, { d: "amoxicillin", mg: 250 }, { d: "metformin", mg: 850 }]),
+    "make": () => pick([{ d: "aspirin", mg: 75 }, { d: "aspirin", mg: 325 }, { d: "ibuprofen", mg: 200 }, { d: "ibuprofen", mg: 400 }, { d: "{{us:acetaminophen (paracetamol)|uk:paracetamol (acetaminophen)}}", mg: 500 }, { d: "amoxicillin", mg: 250 }, { d: "metformin", mg: 850 }]),
     "text": "One {d} tablet contains {mg} mg of the drug. How many grams is that?",
     "answer": v => v.mg / 1000, "formula": "g = mg ÷ 1,000",
     "steps": ["1 g = 1,000 mg, so divide by 1,000", "= {mg} ÷ 1,000", "= {answer}"] },

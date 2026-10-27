@@ -197,7 +197,7 @@ BGX.registerGame({
   { "id": "c6", "cat": "organs", "icon": "ring", "spot": "nodes", "title": "Lumps in the neck",
     "who": "Hannah, 19",
     "story": "Hannah has a sore throat and a mild fever. She notices tender, pea-sized lumps under her jaw that were not there last week.",
-    "data": [["Temperature", "38.2 °C (100.8 °F)"], ["Throat", "Red tonsils"]],
+    "data": [["Temperature", "{{us:100.8 °F (38.2 °C)|uk:38.2 °C (100.8 °F)}}"], ["Throat", "Red tonsils"]],
     "steps": [
       { "q": "What are the lumps?", "options": ["Swollen lymph nodes", "The thyroid gland", "Salivary stones", "Muscle knots"], "answer": 0, "why": "Lymph nodes in the neck drain the throat. They swell during an infection." },
       { "q": "Why have they swollen?", "options": ["Lymphocytes inside them are multiplying", "They are filling with leaked blood", "Fat is building up around them", "They are making extra red blood cells"], "answer": 0, "why": "As lymph from the infected throat is filtered, lymphocytes that recognise the microbe multiply, and the node enlarges." },

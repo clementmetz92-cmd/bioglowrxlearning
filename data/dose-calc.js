@@ -80,7 +80,7 @@ BGX.registerGame({
     "use": "The order is 15 mg/kg and the child weighs 12 kg.",
     "summary": "Multiply the dose per kilogram by the person's weight in kilograms.",
     "facts": ["Used for most children's medicines and some adult drugs (for example enoxaparin, gentamicin).", "If the weight is in pounds, convert to kg first.", "The answer is a dose (mg), not a volume: use D ÷ H × V next if it is a liquid."],
-    "life": "Acetaminophen (paracetamol) 15 mg/kg for a 12 kg child = 180 mg." },
+    "life": "{{us:Acetaminophen (paracetamol)|uk:Paracetamol (acetaminophen)}} 15 mg/kg for a 12 kg child = 180 mg." },
   { "icon": "pharm-split3", "name": "Daily dose split into doses", "cat": "weight", "spot": "clock", "formula": "per dose = (mg/kg/day × kg) ÷ doses a day",
     "use": "The order is 30 mg/kg/day given in 3 divided doses.",
     "summary": "When an order says per day, work out the total for the day first, then share it between the doses.",
@@ -104,8 +104,8 @@ BGX.registerGame({
   { "icon": "pharm-weight", "name": "Safe dose range", "alsoOk": ["per dose = (mg/kg/day × kg) ÷ doses a day"], "cat": "safe", "spot": "scale", "formula": "safe range = low to high mg/kg/day × kg",
     "use": "The reference says 25–50 mg/kg/day; the child weighs 16 kg and the order is 200 mg every 6 hours.",
     "summary": "Multiply both ends of the reference range by the weight, work out what the order gives in a day, and compare.",
-    "facts": ["Safe range (mg/day) = low mg/kg/day × kg to high mg/kg/day × kg.", "Ordered per day = one dose × doses a day (every 6 hours = 4, every 8 hours = 3, every 12 hours = 2).", "Above the range: hold the dose and contact the prescriber. Below the range: it may not work, so check with the prescriber too.", "Acetaminophen (paracetamol): no more than 75 mg/kg/day, and never more than 4,000 mg/day."],
-    "life": "Cephalexin 25–50 mg/kg/day for 16 kg = 400–800 mg/day; 200 mg every 6 hours = 800 mg/day: safe." },
+    "facts": ["Safe range (mg/day) = low mg/kg/day × kg to high mg/kg/day × kg.", "Ordered per day = one dose × doses a day (every 6 hours = 4, every 8 hours = 3, every 12 hours = 2).", "Above the range: hold the dose and contact the prescriber. Below the range: it may not work, so check with the prescriber too.", "{{us:Acetaminophen (paracetamol)|uk:Paracetamol (acetaminophen)}}: no more than 75 mg/kg/day, and never more than 4,000 mg/day."],
+    "life": "{{us:Cephalexin|uk:Cefalexin}} 25–50 mg/kg/day for 16 kg = 400–800 mg/day; 200 mg every 6 hours = 800 mg/day: safe." },
   { "icon": "pharm-pump", "name": "Dose per kg per minute", "cat": "titrate", "spot": "pump", "formula": "mL/h = mcg/kg/min × kg × 60 ÷ mcg/mL",
     "use": "Dopamine 5 mcg/kg/min for an 80 kg patient; the bag is 400 mg in 250 mL.",
     "summary": "Turn the bag into mcg per mL, turn the order into mcg per hour, then divide.",
@@ -126,7 +126,7 @@ BGX.registerGame({
   /* ---------- tablets ---------- */
   { "id": "tab", "cat": "tablets", "title": "Tablets to give", "spot": "tablets", "unit": "tablets", "dp": 1,
     "make": () => { const m = pick([
-        { n: "metoprolol", h: 25, d: [12.5, 25, 50] }, { n: "acetaminophen (paracetamol)", h: 500, d: [500, 1000] },
+        { n: "metoprolol", h: 25, d: [12.5, 25, 50] }, { n: "{{us:acetaminophen (paracetamol)|uk:paracetamol (acetaminophen)}}", h: 500, d: [500, 1000] },
         { n: "furosemide", h: 20, d: [20, 40] }, { n: "atenolol", h: 50, d: [25, 50, 100] }, { n: "ibuprofen", h: 200, d: [200, 400] },
         { n: "prednisone", h: 5, d: [10, 15, 20] }, { n: "amlodipine", h: 5, d: [5, 10] }, { n: "metformin", h: 500, d: [500, 1000] }]);
       return { drug: m.n, h: m.h, d: pick(m.d) }; },
@@ -135,7 +135,7 @@ BGX.registerGame({
     "steps": ["Tablets = D ÷ H", "= {d} mg ÷ {h} mg", "= {answer}"],
     "hint": (v, x) => Math.abs(x - v.h / v.d) < 0.05 ? "You divided the wrong way round: it is what you want ÷ what one tablet has." : "" },
   { "id": "cap", "cat": "tablets", "title": "Capsules to give", "spot": "tablets", "unit": "capsules", "dp": 0,
-    "make": () => { const m = pick([{ n: "amoxicillin", h: 250, d: [250, 500] }, { n: "omeprazole", h: 20, d: [20, 40] }, { n: "doxycycline", h: 100, d: [100, 200] }, { n: "cephalexin", h: 250, d: [250, 500] }]);
+    "make": () => { const m = pick([{ n: "amoxicillin", h: 250, d: [250, 500] }, { n: "omeprazole", h: 20, d: [20, 40] }, { n: "doxycycline", h: 100, d: [100, 200] }, { n: "{{us:cephalexin|uk:cefalexin}}", h: 250, d: [250, 500] }]);
       return { drug: m.n, h: m.h, d: pick(m.d) }; },
     "text": "Order: {drug} {d} mg. Capsules on hand: {h} mg. How many capsules?",
     "answer": v => v.d / v.h,
@@ -144,7 +144,7 @@ BGX.registerGame({
   { "id": "tabconv", "formula": "convert, then D ÷ H", "cat": "convert", "title": "Convert, then count tablets", "spot": "convert", "unit": "tablets", "dp": 1,
     "make": () => pick([
       { drug: "amoxicillin", d: 0.5, du: "g", h: 250, hu: "mg", dc: 500, cu: "mg", how: "0.5 g × 1,000" },
-      { drug: "acetaminophen", d: 1, du: "g", h: 500, hu: "mg", dc: 1000, cu: "mg", how: "1 g × 1,000" },
+      { drug: "{{us:acetaminophen|uk:paracetamol}}", d: 1, du: "g", h: 500, hu: "mg", dc: 1000, cu: "mg", how: "1 g × 1,000" },
       { drug: "levothyroxine", d: 0.1, du: "mg", h: 50, hu: "mcg", dc: 100, cu: "mcg", how: "0.1 mg × 1,000" },
       { drug: "levothyroxine", d: 0.025, du: "mg", h: 50, hu: "mcg", dc: 25, cu: "mcg", how: "0.025 mg × 1,000" },
       { drug: "digoxin", d: 0.125, du: "mg", h: 62.5, hu: "mcg", dc: 125, cu: "mcg", how: "0.125 mg × 1,000" },
@@ -157,8 +157,8 @@ BGX.registerGame({
   /* ---------- liquids ---------- */
   { "id": "oral", "cat": "liquids", "title": "Oral liquid", "spot": "liquid", "unit": "mL", "dp": 1,
     "make": () => { const m = pick([
-        { n: "amoxicillin suspension", h: 250, vol: 5, d: [125, 250, 375, 500] }, { n: "acetaminophen suspension", h: 160, vol: 5, d: [80, 160, 240] },
-        { n: "ibuprofen suspension", h: 100, vol: 5, d: [100, 150, 200] }, { n: "cephalexin suspension", h: 125, vol: 5, d: [125, 250] },
+        { n: "amoxicillin suspension", h: 250, vol: 5, d: [125, 250, 375, 500] }, { n: "{{us:acetaminophen|uk:paracetamol}} suspension", h: 160, vol: 5, d: [80, 160, 240] },
+        { n: "ibuprofen suspension", h: 100, vol: 5, d: [100, 150, 200] }, { n: "{{us:cephalexin|uk:cefalexin}} suspension", h: 125, vol: 5, d: [125, 250] },
         { n: "lactulose solution", h: 10, vol: 15, d: [10, 20], u: "g" }]);
       return { drug: m.n, h: m.h, vol: m.vol, d: pick(m.d), u: m.u || "mg" }; },
     "text": "Order: {drug} {d} {u} by mouth. Label: {h} {u} in {vol} mL. How many mL do you give?",
@@ -184,7 +184,7 @@ BGX.registerGame({
       { drug: "digoxin", d: 0.25, du: "mg", h: 500, hu: "mcg", vol: 2, dc: 250, cu: "mcg", how: "0.25 mg × 1,000" },
       { drug: "cyanocobalamin (vitamin B12)", d: 1, du: "mg", h: 1000, hu: "mcg", vol: 1, dc: 1000, cu: "mcg", how: "1 mg × 1,000" },
       { drug: "ceftriaxone (after mixing)", d: 0.5, du: "g", h: 250, hu: "mg", vol: 1, dc: 500, cu: "mg", how: "0.5 g × 1,000" },
-      { drug: "epinephrine (adrenaline) IM", d: 300, du: "mcg", h: 1, hu: "mg", vol: 1, dc: 0.3, cu: "mg", how: "300 mcg ÷ 1,000" }]),
+      { drug: "{{us:epinephrine (adrenaline)|uk:adrenaline (epinephrine)}} IM", d: 300, du: "mcg", h: 1, hu: "mg", vol: 1, dc: 0.3, cu: "mg", how: "300 mcg ÷ 1,000" }]),
     "text": "Order: {drug} {d} {du}. Stock: {h} {hu} in {vol} mL. How many mL?",
     "answer": v => v.dc / v.h * v.vol,
     "steps": ["Same units first: {how} = {dc} {cu}", "Volume = D ÷ H × V = {dc} {cu} ÷ {h} {hu} × {vol} mL", "= {answer}"] },
@@ -216,7 +216,7 @@ BGX.registerGame({
   /* ---------- weight-based ---------- */
   { "id": "mgkg", "cat": "weight", "title": "Dose by weight", "spot": "scale", "unit": "mg", "dp": 0,
     "make": () => pick([
-      { drug: "acetaminophen", per: 15, kg: pick([8, 10, 12, 14, 16, 18, 20, 24]) },
+      { drug: "{{us:acetaminophen|uk:paracetamol}}", per: 15, kg: pick([8, 10, 12, 14, 16, 18, 20, 24]) },
       { drug: "ibuprofen", per: 10, kg: pick([9, 11, 13, 15, 17, 20, 22, 25]) },
       { drug: "enoxaparin", per: 1, kg: pick([58, 64, 70, 76, 82, 90]), adult: true }]),
     "derive": v => ({ who: v.adult ? "An adult" : "A child" }),
@@ -224,13 +224,13 @@ BGX.registerGame({
     "answer": v => v.per * v.kg,
     "steps": ["Dose = mg/kg × kg", "= {per} mg/kg × {kg} kg", "= {answer}"] },
   { "id": "lbdose", "formula": "kg = lb ÷ 2.2, then mg/kg × kg", "cat": "weight", "title": "Pounds, then dose", "spot": "scale", "unit": "mg", "dp": 0,
-    "make": () => { const lb = pick([22, 33, 44, 55, 66]), m = pick([{ drug: "ibuprofen", per: 10 }, { drug: "acetaminophen", per: 15 }]); return { lb, kg: lb / 2.2, drug: m.drug, per: m.per }; },
+    "make": () => { const lb = pick([22, 33, 44, 55, 66]), m = pick([{ drug: "ibuprofen", per: 10 }, { drug: "{{us:acetaminophen|uk:paracetamol}}", per: 15 }]); return { lb, kg: lb / 2.2, drug: m.drug, per: m.per }; },
     "text": "A child weighs {lb} lb. Order: {drug} {per} mg/kg. How many mg?",
     "answer": v => v.per * v.kg,
     "steps": ["Weight in kg = {lb} ÷ 2.2 = {kg} kg", "Dose = {per} mg/kg × {kg} kg", "= {answer}"],
     "hint": (v, x) => Math.abs(x - v.per * v.lb) < 1 ? "You used the weight in pounds: convert to kg first (÷ 2.2)." : "" },
   { "id": "mgkgml", "formula": "mg/kg × kg, then D ÷ H × V", "cat": "weight", "title": "Weight dose as a liquid", "spot": "liquid", "unit": "mL", "dp": 1,
-    "make": () => { const kg = pick([8, 12, 16, 20, 24]); return { kg, per: 15, drug: "acetaminophen", h: 160, vol: 5, mg: 15 * kg }; },
+    "make": () => { const kg = pick([8, 12, 16, 20, 24]); return { kg, per: 15, drug: "{{us:acetaminophen|uk:paracetamol}}", h: 160, vol: 5, mg: 15 * kg }; },
     "text": "A child weighs {kg} kg. Order: {drug} {per} mg/kg. Suspension: {h} mg in {vol} mL. How many mL?",
     "answer": v => v.mg / v.h * v.vol,
     "steps": ["Dose = {per} mg/kg × {kg} kg = {mg} mg", "Volume = D ÷ H × V = {mg} mg ÷ {h} mg × {vol} mL", "= {answer}"] },
@@ -289,7 +289,7 @@ BGX.registerGame({
 
   /* ---------- safe dose ranges (textbook ranges from product labels; always check the current reference) ---------- */
   { "id": "safemax", "cat": "safe", "title": "Maximum safe daily dose", "icon": "pharm-weight", "spot": "scale", "unit": "mg/day", "dp": 0,
-    "make": () => { const m = pick([{ drug: "cephalexin", lo: 25, hi: 50 }, { drug: "cefazolin", lo: 25, hi: 50 }, { drug: "erythromycin ethylsuccinate", lo: 30, hi: 50 }]);
+    "make": () => { const m = pick([{ drug: "{{us:cephalexin|uk:cefalexin}}", lo: 25, hi: 50 }, { drug: "cefazolin", lo: 25, hi: 50 }, { drug: "erythromycin ethylsuccinate", lo: 30, hi: 50 }]);
       return Object.assign({ kg: pick([8, 10, 12, 14, 15, 16, 18, 20, 22, 25, 28, 30]) }, m); },
     "text": "A child weighs {kg} kg. The safe range for {drug} is {lo}–{hi} mg/kg/day. What is the MAXIMUM safe daily dose?",
     "answer": v => v.hi * v.kg,
@@ -298,7 +298,7 @@ BGX.registerGame({
     "hint": (v, x) => Math.abs(x - v.lo * v.kg) < 0.5 ? "That is the minimum: the maximum uses the top of the range." : Math.abs(x - v.hi) < 0.5 ? "Multiply by the weight in kg." : "",
     "tip": "Any order whose daily total is above this number is unsafe: hold it and contact the prescriber." },
   { "id": "safeorder", "cat": "safe", "title": "Is the order safe?", "icon": "pharm-weight", "spot": "clock", "unit": "mg/day", "dp": 0,
-    "make": () => { const m = pick([{ drug: "cephalexin", lo: 25, hi: 50, q: 6 }, { drug: "cefazolin", lo: 25, hi: 50, q: 8 }, { drug: "erythromycin ethylsuccinate", lo: 30, hi: 50, q: 6 }]);
+    "make": () => { const m = pick([{ drug: "{{us:cephalexin|uk:cefalexin}}", lo: 25, hi: 50, q: 6 }, { drug: "cefazolin", lo: 25, hi: 50, q: 8 }, { drug: "erythromycin ethylsuccinate", lo: 30, hi: 50, q: 6 }]);
       const kg = pick([8, 10, 12, 14, 15, 16, 18, 20, 22, 25, 28, 30]), n = 24 / m.q, t = pick([0.6 * m.lo, m.lo, (m.lo + m.hi) / 2, m.hi, 1.5 * m.hi, 2 * m.hi]);
       const dose = Math.max(25, Math.round(t * kg / n / 25) * 25), day = dose * n, min = m.lo * kg, max = m.hi * kg;
       const verdict = day > max ? "above the safe range, so it is NOT safe. Hold the dose and contact the prescriber"
@@ -311,22 +311,22 @@ BGX.registerGame({
     "steps": ["Safe range = {lo}–{hi} mg/kg/day × {kg} kg = {min}–{max} mg/day", "Every {q} hours = {n} doses a day", "Ordered per day = {dose} mg × {n}", "= {answer}, which is {verdict}"],
     "hint": (v, x) => Math.abs(x - v.dose) < 0.5 ? "That is one dose: multiply by the number of doses in 24 hours." : Math.abs(x - v.max) < 0.5 ? "That is the maximum safe dose: the question asks what the order gives in a day." : "",
     "tip": "Safe-range check: work out the range for this child, work out the order's daily total, then compare. Above the range: hold and call. Below the range: check too." },
-  { "id": "apapmax", "cat": "safe", "title": "Acetaminophen daily maximum", "icon": "pharm-weight", "spot": "scale", "unit": "mg/day", "dp": 0,
+  { "id": "apapmax", "cat": "safe", "title": "{{us:Acetaminophen|uk:Paracetamol}} daily maximum", "icon": "pharm-weight", "spot": "scale", "unit": "mg/day", "dp": 0,
     "vars": { "kg": [10, 12, 14, 16, 18, 20, 24, 28, 30, 36, 40, 56, 60, 64] },
     "derive": v => ({ raw: 75 * v.kg, one: 15 * v.kg, which: 75 * v.kg > 4000 ? "that is more than 4,000 mg, so the cap applies" : "that is under the cap, so it stands" }),
-    "text": "A child weighs {kg} kg. Acetaminophen (paracetamol): no more than 75 mg/kg/day, and never more than 4,000 mg/day. What is the most this child may have in 24 hours?",
+    "text": "A child weighs {kg} kg. {{us:Acetaminophen (paracetamol)|uk:Paracetamol (acetaminophen)}}: no more than 75 mg/kg/day, and never more than 4,000 mg/day. What is the most this child may have in 24 hours?",
     "answer": v => Math.min(75 * v.kg, 4000),
     "formula": "the smaller of 75 mg/kg/day × kg and 4,000 mg",
     "steps": ["75 mg/kg/day × {kg} kg = {raw} mg", "Compare with the 4,000 mg/day cap: {which}", "= {answer}"],
     "hint": (v, x) => Math.abs(x - v.raw) < 0.5 && v.raw > 4000 ? "That is over the 4,000 mg/day cap: the cap always wins." : Math.abs(x - v.one) < 0.5 ? "That is one 15 mg/kg dose: the question asks for the whole day." : "",
-    "tip": "75 mg/kg/day is 15 mg/kg up to 5 times in 24 hours. Count acetaminophen in every product the child takes, including combination cold medicines." },
+    "tip": "75 mg/kg/day is 15 mg/kg up to 5 times in 24 hours. Count {{us:acetaminophen|uk:paracetamol}} in every product the child takes, including combination cold medicines." },
 
   /* ---------- mcg/kg/min infusions ---------- */
   { "id": "mcgkg", "cat": "titrate", "title": "mcg/kg/min to pump rate", "icon": "pharm-pump", "spot": "pump", "unit": "mL/h", "dp": 1,
     "make": () => { const m = pick([
         { drug: "dopamine", mg: 400, ml: 250, d: [2, 3, 5, 8, 10, 15, 20] }, { drug: "dopamine", mg: 800, ml: 500, d: [2, 5, 10, 15, 20] },
         { drug: "dobutamine", mg: 250, ml: 250, d: [2.5, 5, 7.5, 10, 15, 20] }, { drug: "dobutamine", mg: 500, ml: 250, d: [2.5, 5, 10, 15, 20] },
-        { drug: "norepinephrine", mg: 4, ml: 250, d: [0.05, 0.1, 0.15, 0.2, 0.25, 0.3] }, { drug: "norepinephrine", mg: 8, ml: 250, d: [0.05, 0.1, 0.2, 0.3, 0.4] },
+        { drug: "{{us:norepinephrine|uk:noradrenaline}}", mg: 4, ml: 250, d: [0.05, 0.1, 0.15, 0.2, 0.25, 0.3] }, { drug: "{{us:norepinephrine|uk:noradrenaline}}", mg: 8, ml: 250, d: [0.05, 0.1, 0.2, 0.3, 0.4] },
         { drug: "nitroprusside", mg: 50, ml: 250, d: [0.5, 1, 2, 3] }]);
       const conc = m.mg * 1000 / m.ml;
       for (let t = 0; ; t++) { const kg = pick([50, 56, 60, 64, 70, 72, 75, 80, 84, 88, 90, 96, 100]), dose = pick(m.d), rate = dose * kg * 60 / conc;
@@ -340,8 +340,8 @@ BGX.registerGame({
   { "id": "mcgkgrev", "cat": "titrate", "title": "Pump rate to mcg/kg/min", "icon": "pharm-pump", "spot": "pump", "unit": "mcg/kg/min", "dp": 2,
     "make": () => { const m = pick([
         { drug: "dopamine", mg: 400, ml: 250, d: [2, 3, 5, 8, 10, 15] }, { drug: "dobutamine", mg: 250, ml: 250, d: [2.5, 5, 7.5, 10] },
-        { drug: "dobutamine", mg: 500, ml: 250, d: [2.5, 5, 10, 15] }, { drug: "norepinephrine", mg: 4, ml: 250, d: [0.05, 0.1, 0.15, 0.2, 0.25] },
-        { drug: "norepinephrine", mg: 8, ml: 250, d: [0.1, 0.2, 0.3] }]);
+        { drug: "dobutamine", mg: 500, ml: 250, d: [2.5, 5, 10, 15] }, { drug: "{{us:norepinephrine|uk:noradrenaline}}", mg: 4, ml: 250, d: [0.05, 0.1, 0.15, 0.2, 0.25] },
+        { drug: "{{us:norepinephrine|uk:noradrenaline}}", mg: 8, ml: 250, d: [0.1, 0.2, 0.3] }]);
       const conc = m.mg * 1000 / m.ml;
       for (let t = 0; ; t++) { const kg = pick([50, 56, 60, 64, 70, 72, 75, 80, 84, 88, 90, 96, 100]), dose = pick(m.d), rate = dose * kg * 60 / conc;
         if (Math.abs(rate * 10 - Math.round(rate * 10)) < 1e-6 || t > 200) { const rt = r(rate, 1); return { drug: m.drug, mg: m.mg, ml: m.ml, conc, kg, rate: rt, mcgh: r(rt * conc, 2), mcgmin: r(rt * conc / 60, 3) }; } } },
@@ -356,7 +356,7 @@ BGX.registerGame({
   /* ---------- reconstitution ---------- */
   { "id": "recon", "cat": "recon", "title": "Draw up a mixed powder", "icon": "pharm-vial", "spot": "vial", "unit": "mL", "dp": 1,
     "make": () => { const m = pick([
-        { drug: "ceftriaxone", vial: "1 g", amt: 1000, dil: 3.6, diluent: "1% lidocaine without epinephrine (IM use only, never IV)", conc: 250, u: "mg", d: [250, 500] },
+        { drug: "ceftriaxone", vial: "1 g", amt: 1000, dil: 3.6, diluent: "1% lidocaine without {{us:epinephrine|uk:adrenaline}} (IM use only, never IV)", conc: 250, u: "mg", d: [250, 500] },
         { drug: "ceftriaxone", vial: "1 g", amt: 1000, dil: 9.6, diluent: "sterile water (for IV use)", conc: 100, u: "mg", d: [250, 500, 750, 1000] },
         { drug: "ampicillin", vial: "500 mg", amt: 500, dil: 1.8, diluent: "sterile water", conc: 250, u: "mg", d: [125, 250, 500] },
         { drug: "ampicillin", vial: "1 g", amt: 1000, dil: 3.5, diluent: "sterile water", conc: 250, u: "mg", d: [500, 750] },
@@ -456,10 +456,10 @@ BGX.registerGame({
       "points": ["1,000 mL over 8 h with 15 gtt/mL: 1,000 × 15 ÷ 480 = 31 gtt/min.", "Always change hours to minutes for drip rates.", "Round drops to a whole number."],
       "tip": "Drops need minutes; pumps need hours." },
     { "cat": "safe", "about": "Before giving a weight-based medicine, check the order against the safe range in the drug reference. Multiply both ends of the range by the weight to get the safe range in mg per day, work out what the order gives in 24 hours (one dose × doses a day), and compare. Above the range: hold it and contact the prescriber. Below the range: it may not work, so check with the prescriber too.",
-      "points": ["25–50 mg/kg/day × 16 kg = 400–800 mg/day.", "200 mg every 6 hours = 4 doses = 800 mg/day: within the range.", "Acetaminophen (paracetamol): no more than 75 mg/kg/day and never over 4,000 mg/day."],
+      "points": ["25–50 mg/kg/day × 16 kg = 400–800 mg/day.", "200 mg every 6 hours = 4 doses = 800 mg/day: within the range.", "{{us:Acetaminophen (paracetamol)|uk:Paracetamol (acetaminophen)}}: no more than 75 mg/kg/day and never over 4,000 mg/day."],
       "tip": "Range × kg, then order × doses a day, then compare." },
-    { "cat": "titrate", "about": "Drips such as dopamine, dobutamine and norepinephrine are ordered in mcg/kg/min, but the pump runs in mL/h. Change the bag to mcg per mL (mg × 1,000 ÷ mL), change the order to mcg per hour (mcg/kg/min × kg × 60), then divide. To check a running drip, go backwards: mL/h × mcg/mL ÷ 60 ÷ kg.",
-      "points": ["Dopamine 400 mg in 250 mL = 1,600 mcg/mL.", "5 mcg/kg/min × 80 kg × 60 = 24,000 mcg/h ÷ 1,600 = 15 mL/h.", "Norepinephrine 4 mg in 250 mL = 16 mcg/mL."],
+    { "cat": "titrate", "about": "Drips such as dopamine, dobutamine and {{us:norepinephrine|uk:noradrenaline}} are ordered in mcg/kg/min, but the pump runs in mL/h. Change the bag to mcg per mL (mg × 1,000 ÷ mL), change the order to mcg per hour (mcg/kg/min × kg × 60), then divide. To check a running drip, go backwards: mL/h × mcg/mL ÷ 60 ÷ kg.",
+      "points": ["Dopamine 400 mg in 250 mL = 1,600 mcg/mL.", "5 mcg/kg/min × 80 kg × 60 = 24,000 mcg/h ÷ 1,600 = 15 mL/h.", "{{us:Norepinephrine|uk:Noradrenaline}} 4 mg in 250 mL = 16 mcg/mL."],
       "tip": "mg to mcg, minutes to hours, and don't forget the kilos." },
     { "cat": "recon", "about": "Some medicines come as a powder. The label says how much diluent to add and the concentration you get. The powder takes up space, so the final volume is more than the diluent: always use the label's concentration (or drug ÷ final volume), then D ÷ H × V.",
       "points": ["Ceftriaxone 1 g + 9.6 mL sterile water = 100 mg/mL (final volume 10 mL).", "Order 500 mg: 500 ÷ 100 = 5 mL.", "Label the vial: date, time, concentration, initials."],

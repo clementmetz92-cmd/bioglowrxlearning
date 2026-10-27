@@ -35,6 +35,7 @@
   /* ---------- registration ---------- */
   BGX.formats = {};
   BGX.registerGame = g => {
+    if (BGX.uDeep) BGX.uDeep(g);   // US or UK units and drug names, chosen in the header
     G = BGX.game = g;
     g.catMap = {}; (g.categories || []).forEach(c => g.catMap[c.id] = c);
     g.items.forEach((it, i) => { if (it.num == null) it.num = i + 1; it._i = i; });
@@ -712,7 +713,7 @@
     }
     throw new Error("calculator: no valid numbers for " + p.id);
   }
-  const ctext = (tpl, v, p) => esc(String(tpl)).replace(/\{(\w+)\}/g, (mm, k) => k === "answer" ? `<b>${nfd(roundTo(v.answer, p.dp || 0), p.dp)} ${esc(p.unit || "")}</b>` : (v[k] == null ? mm : nf(v[k])));
+  const ctext = (tpl, v, p) => esc(BGX.u(String(tpl))).replace(/\{(\w+)\}/g, (mm, k) => k === "answer" ? `<b>${nfd(roundTo(v.answer, p.dp || 0), p.dp)} ${esc(p.unit || "")}</b>` : (v[k] == null ? mm : esc(BGX.u(nf(v[k])))));
   const parseNum = s => { s = String(s).trim().replace(/\s/g, "").replace(/^[−–]/, "-"); if (/^-?\d{1,3}(,\d{3})+(\.\d+)?$/.test(s)) s = s.replace(/,/g, ""); else s = s.replace(",", "."); return s === "" || isNaN(+s) ? NaN : +s; };
   const calcPool = m => (G.problems || []).filter(p => !m.only || m.only.indexOf(p.cat) >= 0);
   const probItem = p => p._item || (p._item = { name: p.title, cat: p.cat, icon: p.icon, num: "", spot: p.spot, _i: -1 });
@@ -771,7 +772,7 @@
         if (near(1000) || near(0.001)) nudge = "You're out by 1,000: check the unit conversion (" + (p.thousand || G.thousand || "× or ÷ 1,000: g ↔ mg ↔ mcg, L ↔ mL, J ↔ kJ") + ").";
         else if (p.signed && near(-1)) nudge = "Right size, wrong sign: check whether the answer should be negative.";
         else if (near(10) || near(0.1) || near(100) || near(0.01)) nudge = "Your answer is off by a power of ten: check the decimal point.";
-        else if (p.hint) nudge = p.hint(v, x) || "";
+        else if (p.hint) nudge = BGX.u(p.hint(v, x) || "");
       }
       const verdict = correct ? BGX.pick(["Correct!", "Spot on.", "Nailed it.", "Yes!"]) + (q.helped ? " (with help)" : "") : `Not quite: you said ${nf(x)} ${esc(p.unit || "")}.`;
       return `<span class="${correct ? "ok" : "no"}">${verdict}</span> Answer: <b>${nfd(roundTo(a, p.dp || 0), p.dp)} ${esc(p.unit || "")}</b>

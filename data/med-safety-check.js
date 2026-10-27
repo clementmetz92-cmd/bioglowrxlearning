@@ -249,10 +249,10 @@ BGX.registerGame({
   "kind": "first",
   "q": "Which patient should the nurse see first?",
   "options": [
-   "On insulin, sweaty and shaky, glucose 58 mg/dL",
+   "On insulin, sweaty and shaky, glucose {{us:58 mg/dL|uk:3.2 mmol/L}}",
    "Due for metoprolol at 09:00, pulse 72 at 08:30",
    "Wants to talk about stopping her statin",
-   "Asking for acetaminophen, headache 3/10"
+   "Asking for {{us:acetaminophen|uk:paracetamol}}, headache 3/10"
   ],
   "answer": 0,
   "why": "Unstable over stable: symptomatic low blood sugar can quickly lead to confusion and seizures, and needs treatment now. The scheduled dose, the conversation and the mild headache can wait a few minutes."

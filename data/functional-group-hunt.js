@@ -83,7 +83,7 @@ BGX.registerGame({
     "feature": "A flat ring of six carbons with electrons shared all round it (drawn as a hexagon with a circle)", "pair": "Benzene, C₆H₆",
     "summary": "A flat six-carbon ring whose electrons are spread evenly round the ring, making it unusually stable.",
     "facts": ["Benzene is C₆H₆; drawn as a hexagon with alternating double bonds or a circle inside.", "All six C–C bonds are the same length: the electrons are delocalised.", "Named as benzene, or phenyl- when the ring is a branch (phenylalanine).", "Prefers substitution reactions to addition, unlike alkenes."],
-    "life": "Aspirin, paracetamol, ibuprofen and the amino acids phenylalanine and tyrosine all contain a benzene ring." },
+    "life": "Aspirin, {{us:acetaminophen|uk:paracetamol}}, ibuprofen and the amino acids phenylalanine and tyrosine all contain a benzene ring." },
 
   /* ---------- oxygen groups ---------- */
   { "name": "Alcohol", "cat": "oxy", "icon": "chem-alcohol", "spot": "alcohol", "ending": "-ol", "formula": "R–OH", "key": "–OH on a chain carbon · -ol",
@@ -119,7 +119,7 @@ BGX.registerGame({
   { "name": "Phenol", "cat": "oxy", "icon": "chem-phenol", "spot": "phenol", "ending": "phenol, or hydroxy- on a ring", "formula": "Ar–OH", "key": "–OH on a benzene ring · phenol",
     "feature": "An –OH group joined directly to a benzene ring", "pair": "Lister's carbolic antiseptic",
     "summary": "An –OH group fixed directly to a benzene ring. It behaves differently from an ordinary alcohol.",
-    "facts": ["Written Ar–OH (Ar = aromatic ring); named phenol, or hydroxy- with other groups.", "Weakly acidic, more acidic than an alcohol, because the ring stabilises the negative ion.", "An –OH on a chain carbon is an alcohol, not a phenol.", "Found in tyrosine, adrenaline, salbutamol and paracetamol."],
+    "facts": ["Written Ar–OH (Ar = aromatic ring); named phenol, or hydroxy- with other groups.", "Weakly acidic, more acidic than an alcohol, because the ring stabilises the negative ion.", "An –OH on a chain carbon is an alcohol, not a phenol.", "Found in tyrosine, adrenaline, {{us:albuterol|uk:salbutamol}} and {{us:acetaminophen|uk:paracetamol}}."],
     "life": "Joseph Lister used phenol ('carbolic acid') in the 1860s as one of the first surgical antiseptics." },
 
   /* ---------- nitrogen, halogen, sulfur ---------- */
@@ -132,7 +132,7 @@ BGX.registerGame({
     "feature": "A C=O whose carbon is also bonded to a nitrogen (–CONH–)", "pair": "Peptide bonds in proteins",
     "summary": "A carbonyl group (C=O) bonded directly to a nitrogen. It is the link that holds proteins together.",
     "facts": ["Written R–CONH₂ (or –CONH–); ending -amide (ethanamide).", "Formed from a carboxylic acid and an amine, losing water.", "Not basic, unlike amines: the C=O pulls on the nitrogen's lone pair.", "The peptide bond between amino acids is an amide link."],
-    "life": "Paracetamol contains an amide group (and a phenol); penicillins contain one in their four-membered β-lactam ring." },
+    "life": "{{us:Acetaminophen|uk:Paracetamol}} contains an amide group (and a phenol); penicillins contain one in their four-membered β-lactam ring." },
   { "name": "Haloalkane", "cat": "nit", "icon": "chem-haloalkane", "spot": "halo", "ending": "fluoro-, chloro-, bromo- or iodo-", "formula": "R–X (X = F, Cl, Br, I)", "key": "C–halogen bond · chloro-, bromo-…",
     "feature": "A halogen atom (F, Cl, Br or I) bonded to a chain carbon", "pair": "Chloroethane cold spray",
     "summary": "An alkane in which a halogen has replaced a hydrogen. Also called an alkyl halide.",
@@ -171,13 +171,13 @@ BGX.registerGame({
   "intro": "Organic compounds are built on carbon, which forms four bonds and long chains and rings. A functional group is the small part of the molecule that reacts and gives the compound its family. Names have two parts: the stem gives the number of carbons in the main chain (meth- 1, eth- 2, prop- 3, but- 4, pent- 5, hex- 6, hept- 7, oct- 8, non- 9, dec- 10), and the ending or prefix gives the functional group (-ane, -ene, -yne, -ol, -al, -one, -oic acid, -oate, -amine, -amide, -thiol; chloro- etc.). So ethanol = 2 carbons + alcohol. Most drug molecules carry several groups at once.",
   "sections": [
     { "cat": "hc", "about": "Hydrocarbons contain only carbon and hydrogen. Alkanes have only single bonds (saturated, -ane). Alkenes have a C=C double bond (-ene) and alkynes a C≡C triple bond (-yne); both are unsaturated and can add other atoms across the multiple bond. Aromatic compounds contain a benzene ring: six carbons in a flat hexagon with electrons shared round the whole ring, drawn with a circle inside.",
-      "points": ["Alkane CₙH₂ₙ₊₂, -ane · alkene CₙH₂ₙ, -ene · alkyne CₙH₂ₙ₋₂, -yne.", "Bromine water: decolourised by alkenes, not by alkanes.", "Benzene C₆H₆; as a branch it is called phenyl-.", "Unsaturated fats = C=C in the chains; aspirin, paracetamol and ibuprofen all have a benzene ring."],
+      "points": ["Alkane CₙH₂ₙ₊₂, -ane · alkene CₙH₂ₙ, -ene · alkyne CₙH₂ₙ₋₂, -yne.", "Bromine water: decolourised by alkenes, not by alkanes.", "Benzene C₆H₆; as a branch it is called phenyl-.", "Unsaturated fats = C=C in the chains; aspirin, {{us:acetaminophen|uk:paracetamol}} and ibuprofen all have a benzene ring."],
       "tip": "Count the lines: one line -ane, two lines -ene, three lines -yne (a, e, y in alphabetical order)." },
     { "cat": "oxy", "about": "Oxygen groups are the most common in the body and in drugs. –OH on a chain is an alcohol (-ol); –OH on a benzene ring is a phenol. An O between two carbons is an ether. A C=O (carbonyl) at the end of a chain is an aldehyde (-al), in the middle a ketone (-one). C=O plus –OH on the same carbon is a carboxylic acid (-oic acid). C=O plus –O–C is an ester (-oate), made from an acid and an alcohol.",
-      "points": ["Alcohol R–OH -ol (ethanol) · phenol Ar–OH (paracetamol, tyrosine) · ether R–O–R' (anaesthetics).", "Aldehyde –CHO -al (formaldehyde) · ketone –CO– -one (acetone).", "Carboxylic acid –COOH -oic acid (vinegar, amino acids) · ester –COO– -oate (fats, aspirin).", "Aspirin = benzene ring + ester + carboxylic acid."],
+      "points": ["Alcohol R–OH -ol (ethanol) · phenol Ar–OH ({{us:acetaminophen|uk:paracetamol}}, tyrosine) · ether R–O–R' (anaesthetics).", "Aldehyde –CHO -al (formaldehyde) · ketone –CO– -one (acetone).", "Carboxylic acid –COOH -oic acid (vinegar, amino acids) · ester –COO– -oate (fats, aspirin).", "Aspirin = benzene ring + ester + carboxylic acid."],
       "tip": "ALdehyde = At the Last carbon (C=O at the end); ketONE = C=O inside the chain, between two carbons." },
     { "cat": "nit", "about": "Nitrogen groups: an amine has N joined by single bonds to carbon (–NH₂, -amine) and is a weak base. An amide has N joined to a C=O (–CONH₂, -amide) and is not basic; the peptide bond in proteins is an amide. Halogens on a chain make a haloalkane, named with a prefix (chloro-, bromo-). Sulfur in place of oxygen in an alcohol gives a thiol (–SH, -thiol), which can pair up into disulfide bridges.",
-      "points": ["Amine –NH₂ (adrenaline, dopamine, amino acids) · amide –CONH– (proteins, paracetamol, penicillin).", "Amino acid = amine + carboxylic acid on the same carbon.", "Haloalkane R–X: fluoro-, chloro-, bromo-, iodo- (chloroethane spray).", "Thiol R–SH (cysteine, gas odorant); 2 R–SH → R–S–S–R."],
+      "points": ["Amine –NH₂ (adrenaline, dopamine, amino acids) · amide –CONH– (proteins, {{us:acetaminophen|uk:paracetamol}}, penicillin).", "Amino acid = amine + carboxylic acid on the same carbon.", "Haloalkane R–X: fluoro-, chloro-, bromo-, iodo- (chloroethane spray).", "Thiol R–SH (cysteine, gas odorant); 2 R–SH → R–S–S–R."],
       "tip": "AmiDe: a Double-bonded O right next to the N. AmiNe: Nothing but carbons and hydrogens on the N." },
     { "cat": "name", "about": "The stem says how many carbons are in the longest chain that holds the functional group. The first four (meth-, eth-, prop-, but-) are old names that must be learned; from five upwards they are number words: pent-, hex-, hept-, oct-, non-, dec-. To name a molecule, find the group, find the longest chain containing it, number from the end nearest the group, add any branches, then the ending.",
       "points": ["1 meth · 2 eth · 3 prop · 4 but · 5 pent · 6 hex · 7 hept · 8 oct · 9 non · 10 dec.", "Propan-2-ol: 3 carbons, –OH on carbon 2.", "Branches are named like stems with -yl: methyl-, ethyl-."],

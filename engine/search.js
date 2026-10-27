@@ -29,7 +29,8 @@
       s.src = (BGX.root || "") + "data/search-index.js" + ((v.match(/\?v=\d+/) || [""])[0]);
       s.onload = () => {
         const D = window.BGX_SEARCH;
-        idx = D.items.map(([type, name, subj, detail, url, kw, body]) => ({ type, name, subj, detail, url, n: norm(name), d: norm(detail), k: norm(kw), b: norm(body || "") }));
+        const U = BGX.u || (t => t);   // US or UK side of {{us:…|uk:…}} marks (the keywords hold both sides)
+        idx = D.items.map(([type, name, subj, detail, url, kw, body]) => { name = U(name); detail = U(detail); return { type, name, subj, detail, url, n: norm(name), d: norm(detail), k: norm(kw), b: norm(body || "") }; });
         idx.subjects = D.subjects; ok(idx);
       };
       s.onerror = () => { loading = null; bad(new Error("index")); };

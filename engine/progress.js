@@ -386,7 +386,7 @@
       const medals = labs.filter(x => x.ls.tier).length;
       const dipTile = ss => {
         const s = ss.s, d = a.d[s.id];
-        if (d) return `<button class="br-frame is-diploma is-won" type="button" data-dip="${s.id}" aria-label="${esc(s.name)} subject award, ${esc(tier(d.cls))} level">${diplomaSVG(s.id)}<span class="cap"><b>${esc(s.name)}</b><small>${esc(d.cls)} · ${d.pct}%</small></span></button>`;
+        if (d) return `<button class="br-frame is-diploma is-won" type="button" data-dip="${s.id}" aria-label="${esc(s.name)} subject award, ${esc(tier(d.cls))} level">${diplomaSVG(s.id)}<span class="cap"><b>${esc(s.name)}</b><small>${esc(tier(d.cls))} · ${d.pct}%</small></span></button>`;
         return `<a class="br-frame is-diploma is-locked" href="${R}subjects/${s.id}/index.html" aria-label="${esc(s.name)} subject award, locked: ${ss.doneCount} of ${ss.chaps.length} chapters">
           <span class="lock" style="--c:var(--${s.color})">${ring(ss.pct, 64)}<em>${ss.doneCount}/${ss.chaps.length} chapters</em></span>
           <span class="cap"><b>${esc(s.name)}</b><small>Subject award · locked</small></span></a>`;

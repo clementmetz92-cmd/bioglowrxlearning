@@ -87,7 +87,7 @@ BGX.registerGame({
   "id": "fr-x1",
   "cat": "fight",
   "kind": "sata",
-  "stem": "A patient receives IM epinephrine (adrenaline) for anaphylaxis.",
+  "stem": "A patient receives IM {{us:epinephrine (adrenaline)|uk:adrenaline (epinephrine)}} for anaphylaxis.",
   "q": "Which effects should the nurse expect? Select all that apply.",
   "options": [
    "Faster heart rate",
@@ -103,13 +103,13 @@ BGX.registerGame({
    2,
    5
   ],
-  "why": "Epinephrine copies fight or flight: beta-1 speeds the heart, beta-2 opens the airways and alpha-1 narrows blood vessels, raising blood pressure. Tremor and anxiety are common adverse effects. It widens the pupils and raises blood glucose."
+  "why": "{{us:Epinephrine|uk:Adrenaline}} copies fight or flight: beta-1 speeds the heart, beta-2 opens the airways and alpha-1 narrows blood vessels, raising blood pressure. Tremor and anxiety are common adverse effects. It widens the pupils and raises blood glucose."
  },
  {
   "id": "fr-x2",
   "cat": "fight",
   "kind": "sata",
-  "stem": "A patient with asthma uses an albuterol (salbutamol) inhaler.",
+  "stem": "A patient with asthma uses an {{us:albuterol (salbutamol)|uk:salbutamol (albuterol)}} inhaler.",
   "q": "Which adverse effects should the nurse teach about? Select all that apply.",
   "options": [
    "Shaky hands (tremor)",
@@ -123,7 +123,7 @@ BGX.registerGame({
    1,
    2
   ],
-  "why": "Albuterol is a beta-2 agonist that copies the fight or flight effect on the airways. At higher doses it also stimulates the heart and muscles, causing a fast pulse, tremor and nervousness. A slow pulse and more saliva are rest and digest effects."
+  "why": "{{us:Albuterol|uk:Salbutamol}} is a beta-2 agonist that copies the fight or flight effect on the airways. At higher doses it also stimulates the heart and muscles, causing a fast pulse, tremor and nervousness. A slow pulse and more saliva are rest and digest effects."
  },
  {
   "id": "fr-x3",
@@ -156,14 +156,14 @@ BGX.registerGame({
    "Propranolol",
    "Phenylephrine",
    "Bethanechol",
-   "Albuterol (salbutamol)"
+   "{{us:Albuterol (salbutamol)|uk:Salbutamol (albuterol)}}"
   ],
   "answer": [
    0,
    1,
    2
   ],
-  "why": "Tamsulosin blocks alpha-1 receptors (relaxing the prostate and bladder neck), metoprolol blocks beta-1 and propranolol blocks beta-1 and beta-2. Phenylephrine (alpha-1) and albuterol (beta-2) are adrenergic agonists, and bethanechol copies acetylcholine."
+  "why": "Tamsulosin blocks alpha-1 receptors (relaxing the prostate and bladder neck), metoprolol blocks beta-1 and propranolol blocks beta-1 and beta-2. Phenylephrine (alpha-1) and {{us:albuterol|uk:salbutamol}} (beta-2) are adrenergic agonists, and bethanechol copies acetylcholine."
  },
  {
   "id": "fr-x5",
@@ -236,12 +236,12 @@ BGX.registerGame({
   "q": "What should the nurse do first?",
   "options": [
    "Give IV diphenhydramine as ordered",
-   "Give IM epinephrine as ordered",
+   "Give IM {{us:epinephrine|uk:adrenaline}} as ordered",
    "Insert a second IV line",
-   "Give nebulised albuterol as ordered"
+   "Give nebulised {{us:albuterol|uk:salbutamol}} as ordered"
   ],
   "answer": 1,
-  "why": "Epinephrine is the first-line treatment for anaphylaxis: it opens the airways, narrows blood vessels to raise blood pressure and reduces swelling. Antihistamines and albuterol only help some symptoms and act more slowly, and IV access can follow."
+  "why": "{{us:Epinephrine|uk:Adrenaline}} is the first-line treatment for anaphylaxis: it opens the airways, narrows blood vessels to raise blood pressure and reduces swelling. Antihistamines and {{us:albuterol|uk:salbutamol}} only help some symptoms and act more slowly, and IV access can follow."
  },
  {
   "id": "fr-x9",
@@ -298,7 +298,7 @@ BGX.registerGame({
 "life": "Your pupils grow large in a scary film or a dark room.",
 "icon": "pharm-eye-big",
 "num": 1,
-"messenger": "Norepinephrine (noradrenaline), plus adrenaline from the adrenal glands",
+"messenger": "{{us:Norepinephrine (noradrenaline)|uk:Noradrenaline (norepinephrine)}}, plus {{us:epinephrine|uk:adrenaline}} from the adrenal glands",
 "spot": "eyes",
 "facts": [
 "The medical word is dilation (mydriasis); a radial muscle in the iris pulls the pupil open.",
@@ -330,10 +330,10 @@ BGX.registerGame({
 "life": "Your heart pounds before a speech or a race.",
 "icon": "pharm-heart-fast",
 "num": 3,
-"messenger": "Norepinephrine (noradrenaline), plus adrenaline from the adrenal glands",
+"messenger": "{{us:Norepinephrine (noradrenaline)|uk:Noradrenaline (norepinephrine)}}, plus {{us:epinephrine|uk:adrenaline}} from the adrenal glands",
 "spot": "heart",
 "facts": [
-"Norepinephrine acts on beta-1 receptors in the heart to raise rate and force.",
+"{{us:Norepinephrine|uk:Noradrenaline}} acts on beta-1 receptors in the heart to raise rate and force.",
 "Pumps more blood to muscles and brain for action.",
 "Beta blockers such as metoprolol block this effect.",
 "Opposite of 'Heart rate slows', which is the parasympathetic effect."
@@ -363,15 +363,15 @@ BGX.registerGame({
 "life": "Asthma relievers copy this effect to open the airways.",
 "icon": "pharm-bronchus-open",
 "num": 5,
-"messenger": "Adrenaline (epinephrine) from the adrenal glands, acting on beta-2 receptors",
+"messenger": "{{us:Epinephrine (adrenaline)|uk:Adrenaline (epinephrine)}} from the adrenal glands, acting on beta-2 receptors",
 "spot": [
 "lungs",
 "airways"
 ],
 "facts": [
-"Adrenaline acts on beta-2 receptors, relaxing smooth muscle in the airways.",
+"{{us:Epinephrine|uk:Adrenaline}} acts on beta-2 receptors, relaxing smooth muscle in the airways.",
 "The medical word is bronchodilation; it lets more oxygen in for effort.",
-"Albuterol (salbutamol) inhalers copy this beta-2 effect.",
+"{{us:Albuterol (salbutamol)|uk:Salbutamol (albuterol)}} inhalers copy this beta-2 effect.",
 "Opposite of 'Airways narrow' (rest and digest)."
 ]
 },
@@ -402,7 +402,7 @@ BGX.registerGame({
 "life": "Butterflies or a lost appetite when you are nervous.",
 "icon": "pharm-snail",
 "num": 7,
-"messenger": "Norepinephrine (noradrenaline), plus adrenaline from the adrenal glands",
+"messenger": "{{us:Norepinephrine (noradrenaline)|uk:Noradrenaline (norepinephrine)}}, plus {{us:epinephrine|uk:adrenaline}} from the adrenal glands",
 "spot": [
 "stomach",
 "intestines"
@@ -440,7 +440,7 @@ BGX.registerGame({
 "life": "A dry mouth before an exam or interview.",
 "icon": "pharm-nodrop",
 "num": 9,
-"messenger": "Norepinephrine (noradrenaline), plus adrenaline from the adrenal glands",
+"messenger": "{{us:Norepinephrine (noradrenaline)|uk:Noradrenaline (norepinephrine)}}, plus {{us:epinephrine|uk:adrenaline}} from the adrenal glands",
 "spot": "salivary",
 "facts": [
 "Saliva becomes scant and thick under stress.",
@@ -472,7 +472,7 @@ BGX.registerGame({
 "life": "The energy surge in a sudden emergency.",
 "icon": "pharm-liver",
 "num": 11,
-"messenger": "Norepinephrine (noradrenaline), plus adrenaline from the adrenal glands",
+"messenger": "{{us:Norepinephrine (noradrenaline)|uk:Noradrenaline (norepinephrine)}}, plus {{us:epinephrine|uk:adrenaline}} from the adrenal glands",
 "spot": "liver",
 "facts": [
 "The liver breaks down stored glycogen into glucose (glycogenolysis).",
@@ -492,7 +492,7 @@ BGX.registerGame({
 "spot": "skin",
 "facts": [
 "Sweat glands are controlled only by the sympathetic side.",
-"Unusually, these sympathetic nerves release acetylcholine, not norepinephrine.",
+"Unusually, these sympathetic nerves release acetylcholine, not {{us:norepinephrine|uk:noradrenaline}}.",
 "Sweating cools the body during effort; it is fight or flight despite the acetylcholine."
 ]
 },
@@ -504,7 +504,7 @@ BGX.registerGame({
 "life": "You rarely need the toilet in the middle of a sprint.",
 "icon": "pharm-bladder-hold",
 "num": 13,
-"messenger": "Norepinephrine (noradrenaline), plus adrenaline from the adrenal glands",
+"messenger": "{{us:Norepinephrine (noradrenaline)|uk:Noradrenaline (norepinephrine)}}, plus {{us:epinephrine|uk:adrenaline}} from the adrenal glands",
 "spot": "bladder",
 "facts": [
 "The bladder wall muscle (detrusor) relaxes and the internal sphincter tightens.",
@@ -537,12 +537,12 @@ BGX.registerGame({
 {
 "cat": "fight",
 "title": "Fight or flight (sympathetic)",
-"about": "The sympathetic side gets the body ready for action. It sends more blood and oxygen to the muscles, raises blood sugar for fuel, and widens the pupils and airways. Anything not urgent, like digesting food, making saliva or emptying the bladder, is put on hold. Its nerve endings mostly release norepinephrine (noradrenaline), and the adrenal glands add adrenaline (epinephrine) to the blood, which spreads the effect across the whole body. Sweat glands are the exception: they are sympathetic but use acetylcholine.",
+"about": "The sympathetic side gets the body ready for action. It sends more blood and oxygen to the muscles, raises blood sugar for fuel, and widens the pupils and airways. Anything not urgent, like digesting food, making saliva or emptying the bladder, is put on hold. Its nerve endings mostly release {{us:norepinephrine (noradrenaline)|uk:noradrenaline (norepinephrine)}}, and the adrenal glands add {{us:epinephrine (adrenaline)|uk:adrenaline (epinephrine)}} to the blood, which spreads the effect across the whole body. Sweat glands are the exception: they are sympathetic but use acetylcholine.",
 "points": [
 "Speeds up: heart, breathing, glucose release, sweating.",
 "Widens: pupils, airways.",
 "Slows or holds: digestion, saliva, bladder emptying.",
-"Messenger: norepinephrine plus adrenaline; sweat glands use acetylcholine."
+"Messenger: {{us:norepinephrine|uk:noradrenaline}} plus {{us:epinephrine|uk:adrenaline}}; sweat glands use acetylcholine."
 ],
 "tip": "Picture running from a bear: big eyes, pounding heart, dry mouth, no time to eat or wee."
 },

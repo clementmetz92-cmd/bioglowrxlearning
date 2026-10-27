@@ -248,7 +248,7 @@ BGX.registerGame({
   { "id": "c1", "cat": "abdomen", "icon": "stomach", "spot": "rlq", "title": "Pain that moved",
     "who": "Sam, 19, student",
     "story": "Sam's pain began as a dull ache around his navel last night. This morning it has moved and is sharp, low on his right side. He winces when the doctor presses there.",
-    "data": [["Temperature", "38.1 °C"], ["Tender", "Low right abdomen"]],
+    "data": [["Temperature", "{{us:100.6 °F|uk:38.1 °C}}"], ["Tender", "Low right abdomen"]],
     "steps": [
       { "q": "Which quadrant is now tender?", "options": ["Right lower quadrant", "Left lower quadrant", "Right upper quadrant", "Left upper quadrant"], "answer": 0, "why": "Low on the patient's own right is the right lower quadrant, whatever side it appears on to the examiner." },
       { "q": "In the nine-region system, which region is this?", "options": ["Right inguinal (iliac) region", "Right hypochondriac region", "Hypogastric region", "Left lateral (lumbar) region"], "answer": 0, "why": "The lower outer region on the right, next to the hip bone, is the right inguinal (iliac) region, where the caecum and appendix sit." },
@@ -283,8 +283,8 @@ BGX.registerGame({
     "takeaway": "Serous membranes have two layers, parietal and visceral, with a slippery fluid film between them." },
   { "id": "c5", "cat": "feedback", "icon": "sun", "spot": "negative", "title": "Marathon in the heat",
     "who": "Lena, 31, runner",
-    "story": "Halfway through a summer marathon, Lena's core temperature has risen to 38.6 °C. She is sweating heavily and her skin looks flushed.",
-    "data": [["Core temperature", "38.6 °C"], ["Skin", "Flushed, sweaty"]],
+    "story": "Halfway through a summer marathon, Lena's core temperature has risen to {{us:101.5 °F|uk:38.6 °C}}. She is sweating heavily and her skin looks flushed.",
+    "data": [["Core temperature", "{{us:101.5 °F|uk:38.6 °C}}"], ["Skin", "Flushed, sweaty"]],
     "steps": [
       { "q": "What acts as the control centre?", "options": ["Hypothalamus", "Sweat glands", "Skin blood vessels", "Thermoreceptors in the skin"], "answer": 0, "why": "The hypothalamus compares body temperature with its set point and sends out commands." },
       { "q": "What role do the sweat glands play?", "options": ["Effector", "Receptor", "Control centre", "Stimulus"], "answer": 0, "why": "Effectors carry out the response. Sweat evaporates and removes heat." },

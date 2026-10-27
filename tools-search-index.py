@@ -11,8 +11,15 @@ def js_eval(code, *args):
 CAT = js_eval("const fs=require('fs');global.window={};eval(fs.readFileSync(process.argv[1],'utf8'));console.log(JSON.stringify(window.BGX_CATALOG))", ROOT / "data/catalog.js")
 GAME = "const fs=require('fs');let G;global.BGX={registerGame:g=>G=g};eval(fs.readFileSync(process.argv[1],'utf8'));console.log(JSON.stringify(G))"
 
+# {{us:…|uk:…}} unit and drug-name marks: names and details keep the mark (engine/search.js shows the chosen side);
+# the words searched include both sides, so "paracetamol" and "acetaminophen" both find the card
+UNITS = re.compile(r"\{\{us:([^|{}]*)\|uk:([^{}]*)\}\}")
+def both(t): return UNITS.sub(lambda m: m.group(1) + " " + m.group(2), str(t or ""))
 def short(t, n=70):
     t = re.sub(r"\s+", " ", str(t or "")).strip()
+    if UNITS.search(t):   # never cut inside a mark: shorten using the longer side's length
+        L = len(UNITS.sub(lambda m: max(m.group(1), m.group(2), key=len), t))
+        return t if L <= n else UNITS.sub(lambda m: m.group(1), t)[: n - 1].rsplit(" ", 1)[0] + "…"
     return t if len(t) <= n else t[: n - 1].rsplit(" ", 1)[0] + "…"
 
 out = []   # [type, name, subject id, detail line, url, extra keywords, (cards) words from the card's text]
@@ -36,13 +43,14 @@ for s in CAT["subjects"]:
         for it in G["items"]:
             detail = next((it[k] for k in ("job", "use", "where", "cls", "lack", "formula", "summary") if it.get(k)), "")
             extra = " ".join(str(it[k]) for k in ("symbol", "code", "cls", "eq") if it.get(k))
-            body = " ".join([str(it.get("summary", ""))] + [str(x) for x in (it.get("facts") or [])] + [str(it.get(k, "")) for k in ("life", "job", "use", "where", "lack", "foods") if it.get(k)])
-            seen = set(re.findall(r"[a-z0-9]+", (it["name"] + " " + str(detail)).lower()))
+            body = both(" ".join([str(it.get("summary", ""))] + [str(x) for x in (it.get("facts") or [])] + [str(it.get(k, "")) for k in ("life", "job", "use", "where", "lack", "foods") if it.get(k)]))
+            seen = set(re.findall(r"[a-z0-9]+", both(it["name"] + " " + str(detail)).lower()))
             words = []
             for w in re.findall(r"[A-Za-z][A-Za-z0-9\-]+", body):
                 lw = w.lower()
                 if len(lw) >= 4 and lw not in STOP and lw not in seen: seen.add(lw); words.append(lw)
-            out.append(["card", it["name"], s["id"], short(detail), base, f"{G['title']} {extra}", " ".join(words[:45])])
+            alt = both(it["name"]) if UNITS.search(it["name"]) else ""
+            out.append(["card", it["name"], s["id"], short(detail), base, f"{G['title']} {both(extra)} {alt}".strip(), " ".join(words[:45])])
 
 pp = ROOT / "tools-practice-pages.py"
 if pp.exists():

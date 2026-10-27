@@ -153,7 +153,7 @@ BGX.registerGame({
     "inwater": "Ionises completely: bright bulb", "rule": "Strong acid: ionises 100% into H⁺ and NO₃⁻",
     "summary": "A strong acid that ionises completely; it also attacks many metals.",
     "facts": ["HNO₃(aq) → H⁺(aq) + NO₃⁻(aq).", "Its salts, the nitrates, are all soluble.", "Stains skin yellow by reacting with proteins."],
-    "life": "Nitric acid is used to make fertilisers and the heart drug nitroglycerin." },
+    "life": "Nitric acid is used to make fertilisers and the heart drug {{us:nitroglycerin|uk:glyceryl trinitrate}}." },
   { "name": "Sodium hydroxide", "formula": "NaOH", "cat": "strong", "icon": "chem-sink", "spot": "strong",
     "inwater": "Dissociates completely: bright bulb", "rule": "Strong base: soluble group 1 hydroxide",
     "summary": "Caustic soda. An ionic base that dissolves and splits completely into Na⁺ and OH⁻.",

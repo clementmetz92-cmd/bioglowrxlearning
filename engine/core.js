@@ -20,6 +20,20 @@
   BGX.setTextSize = n => { BGX.textSize = n; BGX.store.set("text", n); const h = document.documentElement; h.classList.remove("bgx-t1", "bgx-t2"); if (n) h.classList.add("bgx-t" + n); if (BGX.track) BGX.track("text_size", { size: n }); };
   if (BGX.textSize) document.documentElement.classList.add("bgx-t" + BGX.textSize);
 
+  /* ---------- units and drug names: "us" (default: mg/dL, °F, acetaminophen) or "uk" (mmol/L, °C, paracetamol), set from the US/UK chip in the header.
+     Data text marks the two versions as {{us:58 mg/dL|uk:3.2 mmol/L}}; BGX.u(text) keeps the chosen side. Text with no marks is returned unchanged. ---------- */
+  BGX.units = BGX.store.get("units", "us") === "uk" ? "uk" : "us";
+  const UNIT_RE = /\{\{us:([^|{}]*)\|uk:([^{}]*)\}\}/g;
+  BGX.u = t => typeof t === "string" && t.indexOf("{{") >= 0 ? t.replace(UNIT_RE, (m, us, uk) => BGX.units === "uk" ? uk : us) : t;
+  /* every string inside a game's data (items, cases, exam items, notes…), resolved once when the game registers; functions are left alone */
+  BGX.uDeep = o => {
+    if (typeof o === "string") return BGX.u(o);
+    if (Array.isArray(o)) { for (let i = 0; i < o.length; i++) o[i] = BGX.uDeep(o[i]); return o; }
+    if (o && typeof o === "object") { Object.keys(o).forEach(k => { o[k] = BGX.uDeep(o[k]); }); return o; }
+    return o;
+  };
+  BGX.setUnits = u => { BGX.units = u === "uk" ? "uk" : "us"; BGX.store.set("units", BGX.units); if (BGX.track) BGX.track("units", { units: BGX.units }); };
+
   /* ---------- helpers ---------- */
   /* how a chapter is named on screen: "Ch. 7–8" for textbook chapters, or its own label (catalog label, e.g. "Statistics unit") */
   BGX.chLabel = c => c ? (c.label || (/^\d/.test(String(c.ch)) ? "Ch. " + c.ch : String(c.ch || ""))) : "";
@@ -51,7 +65,7 @@
       <a class="br-brand" href="${BGX.root}index.html" aria-label="BioglowRX Sciences Learning home">${BGX.logo()}
         <div class="br-word"><div class="br-word-name">Bioglow<span>RX</span></div><p>Sciences Learning</p></div></a>
       <button class="br-lvl" id="br-lvl" type="button"></button>${BGX.progress ? BGX.progress.headerLink() : ""}${BGX.community ? BGX.community.headerButton() : ""}
-      <div class="br-stat"><span class="br-streaks"><div class="br-streak" id="br-streakbox" title="Correct answers in a row">streak <b id="br-streak">${BGX.streak}</b></div><span id="br-best" hidden>${BGX.bestStreak}</span></span><button class="br-day" id="br-day" type="button" hidden></button><button class="br-sound" id="br-sound" aria-pressed="false">Sound off</button><button class="br-sound br-textbtn" id="br-text" type="button">Aa</button></div>`;
+      <div class="br-stat"><span class="br-streaks"><div class="br-streak" id="br-streakbox" title="Correct answers in a row">streak <b id="br-streak">${BGX.streak}</b></div><span id="br-best" hidden>${BGX.bestStreak}</span></span><button class="br-day" id="br-day" type="button" hidden></button><button class="br-sound" id="br-sound" aria-pressed="false">Sound off</button><button class="br-sound br-textbtn" id="br-text" type="button">Aa</button><button class="br-sound br-unitbtn" id="br-units" type="button">US</button></div>`;
     /* a first-time visitor sees no row of zeros: the stats appear after the first answer */
     const fresh = () => BGX.xp && BGX.xp.total === 0 && !BGX.bestStreak;
     document.documentElement.classList.toggle("bgx-new", fresh());
@@ -63,6 +77,12 @@
     const tb = document.getElementById("br-text");
     if (tb) { const paintT = () => { tb.innerHTML = `Aa<small>${["", "+", "++"][BGX.textSize]}</small>`; tb.setAttribute("aria-label", `Text size: ${["normal", "large", "extra large"][BGX.textSize]}. Change text size`); };
       paintT(); tb.onclick = () => { BGX.setTextSize((BGX.textSize + 1) % 3); paintT(); if (BGX.toast) BGX.toast(["Normal text", "Large text", "Extra-large text"][BGX.textSize]); }; }
+    const ub = document.getElementById("br-units");
+    if (ub) { const uk = BGX.units === "uk"; ub.textContent = uk ? "UK" : "US";
+      ub.setAttribute("aria-label", uk ? "Units: UK. Switch to US units and names" : "Units: US. Switch to UK units and names");
+      ub.title = uk ? "UK units and drug names (mmol/L, °C, paracetamol)" : "US units and drug names (mg/dL, °F, acetaminophen)";
+      ub.onclick = () => { BGX.setUnits(uk ? "us" : "uk"); ub.disabled = true; if (BGX.toast) BGX.toast(uk ? "US units and drug names" : "UK units and drug names");
+        setTimeout(() => location.reload(), 700); }; }
     BGX.paintStreak();
     if (BGX.study) BGX.study.paintHeader();
     const lv = document.getElementById("br-lvl");

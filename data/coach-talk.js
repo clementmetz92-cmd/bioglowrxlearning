@@ -133,7 +133,7 @@ BGX.registerGame({
     "key": "Give clear, personal advice",
     "says": "\"Cutting your cola to one can a day would really help your blood sugar.\"",
     "summary": "Second A: give clear, specific advice linked to the patient's own health.",
-    "facts": ["Link the advice to the patient's results: 'Your HbA1c is 6.2%…'.", "Clear and specific beats vague: 'walk 30 minutes' beats 'move more'.", "Done respectfully and, in MI style, with permission.", "Advice alone rarely changes behaviour; it starts the conversation."],
+    "facts": ["Link the advice to the patient's results: 'Your HbA1c is {{us:6.2%|uk:44 mmol/mol}}…'.", "Clear and specific beats vague: 'walk 30 minutes' beats 'move more'.", "Done respectfully and, in MI style, with permission.", "Advice alone rarely changes behaviour; it starts the conversation."],
     "life": "'With your blood pressure, using less salt in cooking would make a real difference.'" },
   { "name": "Agree", "cat": "tools", "icon": "nutr-handshake", "spot": "a3",
     "key": "Choose goals together",
@@ -201,7 +201,7 @@ BGX.registerGame({
     "key": "Plan meds, suhoor and glucose checks",
     "says": "Patient: \"I have diabetes, but I want to fast this Ramadan.\"",
     "summary": "During the month of Ramadan, Muslims fast from dawn to sunset, eating a pre-dawn meal (suhoor) and breaking the fast at sunset (iftar).",
-    "facts": ["The ill, pregnant, travelling and others are exempt, but many people with diabetes still choose to fast.", "Plan 1–2 months before: assess risk, adjust doses and timing of insulin and sulfonylureas (hypoglycaemia risk).", "Checking blood glucose does not break the fast. Break the fast if glucose falls below 70 mg/dL (3.9 mmol/L) or rises above 300 mg/dL (16.6 mmol/L), or if unwell.", "Eat suhoor as late as possible, choose slow carbs and fluids, and avoid a huge sugary iftar."],
+    "facts": ["The ill, pregnant, travelling and others are exempt, but many people with diabetes still choose to fast.", "Plan 1–2 months before: assess risk, adjust doses and timing of insulin and sulfonylureas (hypoglycaemia risk).", "Checking blood glucose does not break the fast. Break the fast if glucose falls below {{us:70 mg/dL|uk:3.9 mmol/L}} or rises above {{us:300 mg/dL|uk:16.7 mmol/L}}, or if unwell.", "Eat suhoor as late as possible, choose slow carbs and fluids, and avoid a huge sugary iftar."],
     "life": "Moving most of a diabetes dose to the iftar meal after talking it over before Ramadan." },
   { "name": "Hindu vegetarianism", "cat": "culture", "icon": "nutr-lotus", "spot": "hindu",
     "key": "Often lacto-vegetarian; no beef",
@@ -255,7 +255,7 @@ BGX.registerGame({
   { "id": "c2", "cat": "stages", "icon": "steps", "spot": "con", "title": "One day, maybe",
     "who": "Rosa, 38, call-centre worker",
     "story": "Rosa has prediabetes. \"I know I should stop the two energy drinks a day. But without them I can't stay awake on my shift.\"",
-    "data": [["HbA1c", "6.1%"], ["Energy drinks", "2 a day"]],
+    "data": [["HbA1c", "{{us:6.1%|uk:43 mmol/mol}}"], ["Energy drinks", "2 a day"]],
     "steps": [
       { "q": "Which stage is Rosa in?", "options": ["Contemplation", "Precontemplation", "Action", "Maintenance"], "answer": 0, "why": "'I should… but…' is classic ambivalence: she is thinking about changing but has no plan." },
       { "q": "Which reply best reflects her ambivalence?", "options": ["\"Part of you wants to cut down; part of you needs them.\"", "\"So you've decided you're ready to give up energy drinks.\"", "\"Have you thought about switching to coffee on shift instead?\"", "\"You really need those drinks to get through your shift.\""], "answer": 0, "why": "A double-sided reflection shows both sides of her ambivalence and lets her explore it. Reflecting only one side, or jumping to advice, misses it." },
@@ -309,11 +309,11 @@ BGX.registerGame({
   { "id": "c8", "cat": "access", "icon": "apple", "spot": "foodsec", "title": "End of the month",
     "who": "Luis, 58, type 2 diabetes on insulin",
     "story": "Luis has frequent low blood sugars in the last week of each month. He looks down when you ask about meals and says he sometimes skips dinner \"to make it stretch\".",
-    "data": [["HbA1c", "8.3%"], ["Lows", "Last week of each month"]],
+    "data": [["HbA1c", "{{us:8.3%|uk:67 mmol/mol}}"], ["Lows", "Last week of each month"]],
     "steps": [
       { "q": "What should you screen for?", "options": ["Food insecurity, using the Hunger Vital Sign", "Missed insulin doses at the end of the month", "Lactose intolerance, using a food and symptom diary", "Nothing: simply lower his insulin dose for good"], "answer": 0, "why": "Running out of food before money comes in is food insecurity. The Hunger Vital Sign asks two questions about the last 12 months. Missed insulin would cause highs, not lows." },
       { "q": "Why are his lows linked to skipped meals?", "options": ["Insulin still lowers glucose when no food comes in", "Skipping meals makes his body resistant to insulin", "Insulin stops working when there is no food to act on", "Hunger releases stress hormones that lower blood sugar"], "answer": 0, "why": "On insulin (or sulfonylureas), missing meals can cause hypoglycaemia. His treatment plan may need adjusting too." },
-      { "q": "Which is the most helpful next step?", "options": ["Link him to SNAP and a food bank, and review his insulin", "Give him a meal plan based on fresh fish and salad", "Increase his insulin to bring his HbA1c below 7%", "Tell him to cut carbohydrates further to lower his HbA1c"], "answer": 0, "why": "Link him to food assistance and adapt the medical plan to his real food supply." }],
+      { "q": "Which is the most helpful next step?", "options": ["Link him to SNAP and a food bank, and review his insulin", "Give him a meal plan based on fresh fish and salad", "Increase his insulin to bring his HbA1c below {{us:7%|uk:53 mmol/mol}}", "Tell him to cut carbohydrates further to lower his HbA1c"], "answer": 0, "why": "Link him to food assistance and adapt the medical plan to his real food supply." }],
     "takeaway": "Ask about food insecurity: it explains poor control and is fixable with the right links." },
   { "id": "c9", "cat": "access", "icon": "baby", "spot": "wic", "title": "Baby on the way",
     "who": "Keisha, 24, 16 weeks pregnant",
@@ -327,11 +327,11 @@ BGX.registerGame({
   { "id": "c10", "cat": "culture", "icon": "moon", "spot": "ramadan", "title": "Fasting with diabetes",
     "who": "Amina, 51, type 2 diabetes",
     "story": "Amina takes metformin and a sulfonylurea (gliclazide). Ramadan starts in two months and she tells you she plans to fast as usual.",
-    "data": [["HbA1c", "7.2%"], ["Ramadan starts", "In 2 months"]],
+    "data": [["HbA1c", "{{us:7.2%|uk:55 mmol/mol}}"], ["Ramadan starts", "In 2 months"]],
     "steps": [
       { "q": "What is the best first response?", "options": ["Respect her choice and plan with her before Ramadan", "Tell her that people with diabetes are not allowed to fast", "Wait and review how she managed after Ramadan ends", "Tell her to stop all her diabetes tablets while fasting"], "answer": 0, "why": "A pre-Ramadan visit 1–2 months ahead lets you assess her risk and adapt the plan with her." },
       { "q": "Which medicine carries the main risk of low blood sugar while fasting?", "options": ["The sulfonylurea", "The metformin", "Both, equally", "Neither of them"], "answer": 0, "why": "Sulfonylureas (and insulin) cause hypoglycaemia; their dose and timing usually need changing. Metformin rarely causes lows on its own." },
-      { "q": "When must she break her fast?", "options": ["If glucose is under 70 or over 300 mg/dL, or she feels unwell", "Never: once started, the fast must be completed", "Only if she faints or becomes too unwell to stand", "If glucose falls under 50 mg/dL or rises over 400 mg/dL"], "answer": 0, "why": "Checking glucose does not break the fast. Lows below 70 or highs above 300 mg/dL mean she should stop fasting that day." }],
+      { "q": "When must she break her fast?", "options": ["If glucose is under {{us:70 or over 300 mg/dL|uk:3.9 or over 16.7 mmol/L}}, or she feels unwell", "Never: once started, the fast must be completed", "Only if she faints or becomes too unwell to stand", "If glucose falls under {{us:50 mg/dL|uk:2.8 mmol/L}} or rises over {{us:400 mg/dL|uk:22.2 mmol/L}}"], "answer": 0, "why": "Checking glucose does not break the fast. Lows below {{us:70 mg/dL|uk:3.9 mmol/L}} or highs above {{us:300 mg/dL|uk:16.7 mmol/L}} mean she should stop fasting that day." }],
     "takeaway": "Ramadan with diabetes: plan early, adjust risky medicines, check glucose and know when to break the fast." },
   { "id": "c11", "cat": "culture", "icon": "book", "spot": "teach", "title": "Did that make sense?",
     "who": "Walter, 70, new diabetes diagnosis",
@@ -345,7 +345,7 @@ BGX.registerGame({
   { "id": "c12", "cat": "culture", "icon": "chat", "spot": "interp", "title": "Lost in translation",
     "who": "Mrs Ruiz, 63, speaks Spanish only",
     "story": "Mrs Ruiz has high cholesterol. Her 14-year-old grandson offers to translate. She cooks traditional dishes: beans, rice, tortillas, often fried in lard.",
-    "data": [["LDL", "172 mg/dL"], ["Language", "Spanish"]],
+    "data": [["LDL", "{{us:172 mg/dL|uk:4.4 mmol/L}}"], ["Language", "Spanish"]],
     "steps": [
       { "q": "Who should interpret?", "options": ["A trained interpreter (in person, phone or video)", "Her grandson, as she trusts him and he's bilingual", "A bilingual receptionist who is free at the time", "No one: use simple English and a translation app"], "answer": 0, "why": "Family members, especially children, should not interpret medical conversations: errors and privacy problems are common." },
       { "q": "How should you speak during the visit?", "options": ["Speak directly to Mrs Ruiz, in short sentences", "Talk to the interpreter: 'Tell her that…'", "Give the whole explanation first, then let them translate", "Use medical terms so the interpreter gets them exactly"], "answer": 0, "why": "Address the patient in the first person and pause for the interpreter." },
@@ -368,7 +368,7 @@ BGX.registerGame({
       "points": ["Hunger Vital Sign: 'often' or 'sometimes true' to either question = positive.", "SNAP: groceries, any age; not alcohol, tobacco or supplements.", "WIC: pregnancy, breastfeeding, infants, children up to 5.", "Cheap healthy foods: dried or canned beans, frozen vegetables, oats, eggs."],
       "tip": "SNAP feeds the whole household; WIC is for Women, Infants and Children (under 5); school meals take over from age 5." },
     { "cat": "culture", "about": "Good advice fits the patient's culture, faith and language. Ask, don't assume: observance varies widely. Halal (Islam) excludes pork, alcohol and non-halal meat; kosher (Judaism) excludes pork and shellfish and keeps meat and dairy apart. During Ramadan Muslims fast from dawn to sunset; people with diabetes need a plan 1–2 months ahead. Many Hindus are lacto-vegetarian and avoid beef. In Lent many Christians avoid meat on Fridays; Orthodox fasts are stricter. Adapt traditional diets rather than replacing them. Use trained interpreters, not family, and check understanding with teach-back.",
-      "points": ["Hidden pork gelatin (capsules) and alcohol (syrups) matter for halal and kosher patients.", "Ramadan: glucose checks don't break the fast; break it if under 70 mg/dL (3.9 mmol/L) or over 300 mg/dL (16.6 mmol/L).", "Lacto-vegetarian: check B12 and iron.", "Teach-back: 'Tell me how you'll…', not 'Do you understand?'"],
+      "points": ["Hidden pork gelatin (capsules) and alcohol (syrups) matter for halal and kosher patients.", "Ramadan: glucose checks don't break the fast; break it if under {{us:70 mg/dL|uk:3.9 mmol/L}} or over {{us:300 mg/dL|uk:16.7 mmol/L}}.", "Lacto-vegetarian: check B12 and iron.", "Teach-back: 'Tell me how you'll…', not 'Do you understand?'"],
       "tip": "Ask about faith foods, adapt the family recipe, use a trained interpreter, finish with teach-back." }
   ]
 }

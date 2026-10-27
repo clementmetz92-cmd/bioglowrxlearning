@@ -200,7 +200,7 @@ BGX.registerGame({
   { "id": "k3", "cat": "tract", "icon": "bug", "spot": "bladder", "title": "Burning and often",
     "who": "Priya, 23, student",
     "story": "Priya has burning when she passes urine and needs to go every half hour, but only a little comes out. Her urine is cloudy and smells strong. She has no fever or back pain.",
-    "data": [["Dipstick", "Nitrites +, white cells +"], ["Temperature", "36.9 °C"]],
+    "data": [["Dipstick", "Nitrites +, white cells +"], ["Temperature", "{{us:98.4 °F|uk:36.9 °C}}"]],
     "steps": [
       { "q": "What is the most likely diagnosis?", "options": ["Cystitis (bladder infection)", "Pyelonephritis (kidney infection)", "Kidney stone in the ureter", "Glomerulonephritis"], "answer": 0, "why": "Burning, frequency and cloudy urine without fever are typical of a lower urinary tract infection. With no fever or loin pain, a kidney infection is unlikely." },
       { "q": "Why are women more prone to this than men?", "options": ["The female urethra is much shorter", "Women's ureters are wider and shorter", "Women's bladders are smaller", "Women's urine is more concentrated"], "answer": 0, "why": "A 3–4 cm urethra close to the anus lets gut bacteria such as E. coli reach the bladder easily." },
@@ -208,7 +208,7 @@ BGX.registerGame({
     "takeaway": "UTIs climb up from the urethra; the short female urethra is the main risk." },
   { "id": "k4", "cat": "acid", "icon": "ph", "spot": "acid", "title": "Fruity breath",
     "who": "Lily, 17, type 1 diabetes",
-    "story": "Lily has had a stomach bug and stopped taking her insulin. She is drowsy, vomiting, breathing very deeply and fast, and her breath smells of pear drops. Her blood glucose is 28 mmol/L and her urine has ketones.",
+    "story": "Lily has had a stomach bug and stopped taking her insulin. She is drowsy, vomiting, breathing very deeply and fast, and her breath smells of pear drops. Her blood glucose is {{us:504 mg/dL|uk:28 mmol/L}} and her urine has ketones.",
     "data": [["pH", "7.22 (7.35–7.45)"], ["PaCO₂", "25 mmHg / 3.3 kPa (35–45 / 4.7–6.0)"], ["HCO₃⁻", "10 mmol/L (22–26)"]],
     "steps": [
       { "q": "What acid–base problem does she have?", "options": ["Metabolic acidosis", "Respiratory acidosis", "Metabolic alkalosis", "Respiratory alkalosis"], "answer": 0, "why": "pH is low (acidosis) and HCO₃⁻ is low: the cause is metabolic, from ketone acids made without insulin." },

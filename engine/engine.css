@@ -1077,6 +1077,9 @@ html.bgx-t1 .br-wrap, html.bgx-t1 .br-sheet, html.bgx-t1 .br-milestone .box, htm
 html.bgx-t2 .br-wrap, html.bgx-t2 .br-sheet, html.bgx-t2 .br-milestone .box, html.bgx-t2 .br-toast { zoom: 1.3; }
 .br-textbtn { margin-left: 6px; min-width: 40px; }
 .br-textbtn small { font-size: 10px; margin-left: 1px; }
+.br-unitbtn { margin-left: 6px; min-width: 38px; }
+/* switching units reloads the page, so the chip is hidden during a round (a round would be lost) */
+html.bgx-playing .br-unitbtn { display: none; }
 .br-sound { min-height: 32px; }
 .br-count .q { color: var(--muted); }
 .br-prompt:focus { outline: none; }

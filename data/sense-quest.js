@@ -208,7 +208,7 @@ BGX.registerGame({
   { "id": "s5", "cat": "ear", "icon": "wave", "spot": "tube", "title": "Tugging at his ear",
     "who": "Noah, 2",
     "story": "After a week with a runny nose, Noah has a fever, is pulling at his right ear and will not sleep. The GP sees a red, bulging eardrum. He seems not to hear well on that side.",
-    "data": [["Temperature", "38.6 °C"], ["Right eardrum", "Red, bulging"]],
+    "data": [["Temperature", "{{us:101.5 °F|uk:38.6 °C}}"], ["Right eardrum", "Red, bulging"]],
     "steps": [
       { "q": "What is the likely diagnosis?", "options": ["Otitis media (middle ear infection)", "Otitis externa (ear canal infection)", "Earwax blocking the ear canal", "Labyrinthitis (inner ear infection)"], "answer": 0, "why": "Fever, ear pain and a red bulging eardrum after a cold are typical of a middle ear infection." },
       { "q": "How did the infection most likely reach the middle ear?", "options": ["Up the auditory tube from the throat", "Through the ear canal", "Through the blood from the gut", "Along the cochlear nerve"], "answer": 0, "why": "Young children have a short, horizontal auditory tube, so germs from the nose and throat spread up easily." },
