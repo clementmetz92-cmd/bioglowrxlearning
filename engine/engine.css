@@ -1083,3 +1083,11 @@ html.bgx-t2 .br-wrap, html.bgx-t2 .br-sheet, html.bgx-t2 .br-milestone .box, htm
 .br-prompt:focus-visible { outline: none; }
 /* during a round on a phone, the header shrinks to the essentials so the question starts higher */
 @media (max-width: 720px) { html.bgx-playing .br-lvl, html.bgx-playing .br-cab, html.bgx-playing .br-invbtn, html.bgx-playing .br-day, html.bgx-playing .br-brand .br-word p { display: none !important; } }
+/* Syringe Prep: hand hygiene, vial preparation and the bedside check */
+.sp-hands { justify-content: flex-start; margin-top: 12px; }
+.sp-hands .lab-btn.is-on { background: var(--good-tint); border-color: var(--good); color: var(--ink); }
+.sp-prep { display: grid; gap: 8px; margin-top: 8px; }
+.sp-prepbtn { text-align: left; justify-content: flex-start; min-height: var(--tap-min); }
+.sp-prepbtn.is-on { background: var(--good-tint); border-color: var(--good); }
+.sp-prepbtn.is-wrong { background: var(--bad-tint); border-color: var(--bad); }
+.sp-band { border-style: dashed; }

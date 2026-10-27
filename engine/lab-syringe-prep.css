@@ -77,3 +77,4 @@
   .sp-formula { gap: 6px; }
   .sp-term { min-width: 64px; padding: 6px 8px; }
 }
+.sp-cards .sp-band .sp-line { color: var(--ink); text-transform: none; letter-spacing: normal; background: none; }

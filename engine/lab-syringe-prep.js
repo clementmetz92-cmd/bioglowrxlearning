@@ -110,12 +110,13 @@
     { n: 3, title: "Convert and catch", desc: "Unit conversions (g, mg, mcg) and sometimes a wrong vial that you must reject.", bubbles: 0.85, trap: 0.45 }
   ];
   const STEPS = [
-    "<b>Check</b> the order against the vial label: right <b>drug</b>, right <b>strength</b> (as on the MAR), a <b>route</b> the label allows, and <b>in date</b>. Reject a wrong vial.",
+    "<b>Clean your hands</b>, then <b>check</b> the order against the vial label: right <b>drug</b>, right <b>strength</b> (as on the MAR), a <b>route</b> the label allows, and <b>in date</b>. Reject a wrong vial.",
     "<b>Calculate</b> the volume: <b>D ÷ H × V</b> (desired dose ÷ dose you have × the volume it comes in). Convert units first if they differ.",
     "<b>Pick the syringe</b>: the smallest one that holds the dose and has a line for it.",
+    "<b>Prepare the vial</b>: swab the rubber top with alcohol and let it dry, then inject <b>air equal to your dose</b> into the vial so the drug draws out easily.",
     "<b>Draw up</b>: drag the plunger down (or use <b>Pull / Push</b>) until the <b>top edge of the black rubber stopper</b> sits on your line.",
     "<b>Air bubbles?</b> <b>Tap the barrel</b> until they rise to the top, push the plunger up to squeeze the air out, then fix the level again.",
-    "<b>Confirm</b>: check the label a final time and press <b>Confirm dose</b>."
+    "<b>Confirm</b> and go to the bedside: check the label a final time, then match the patient's <b>name and date of birth</b> on the wristband with the order before giving."
   ];
   const STARTXT = "3 stars: the stopper within half of the smallest line of your syringe, no air left and no slips on the way. 2 stars: within one line. 1 star: within two lines.";
 
@@ -130,7 +131,7 @@
         <p>Then you work out how many millilitres hold the ordered dose:</p>
         <p class="lab-eq">volume = D ÷ H × V</p>
         <p><b>D</b> is the dose ordered (desired), <b>H</b> the dose the vial has, and <b>V</b> the volume that H comes in (1 mL here). Example: order 20 mg, vial 10 mg/mL → 20 ÷ 10 × 1 = <b>2 mL</b>.</p>
-        <p>Finally you draw that volume into the right syringe and read it where nurses do: at the <b>top edge of the rubber stopper</b>, the ring closest to the needle.</p>`,
+        <p>You draw that volume into the right syringe, after cleaning your hands and preparing the vial (swab the top, inject air), and read it where nurses do: at the <b>top edge of the rubber stopper</b>, the ring closest to the needle. Last, at the bedside, you check the patient's two identifiers against the order.</p>`,
       lifeHTML: `<p>Nurses do this many times every shift. The "rights" of medication administration (right patient, drug, dose, route and time, plus documentation) and checking the label three times are there because small slips, like a look-alike name or a misplaced decimal, cause real harm.</p>`,
       steps: STEPS, levels: LEVELS, onStart: start,
       controls: "drag the plunger, or hold <b>Pull ▼</b> / <b>Push ▲</b> to move one line at a time; tap the barrel (or the <b>Tap barrel</b> button) to raise bubbles. Keyboard: ↓ / ↑ move one line, T taps, Enter confirms.",
@@ -172,7 +173,10 @@
       phase: "check", c, good, vial: trap ? trap.vial : good, trap, target, accept: acc,
       looked: {}, slips: [], calcMiss: 0, calcOk: false, syrMiss: 0, syr: null, rejectedGood: false, caught: false,
       liquid: 0, air: 0, planAir: plannedAir, bubbles: [], spawned: false, risen: false, taps: 0, shake: 0, aired: false,
-      showRead: !!L.guided, done: false, t: performance.now()
+      showRead: !!L.guided, done: false, t: performance.now(),
+      hands: false, prep: [], bedside: null, ptOk: null,
+      /* level 3: sometimes the wristband doesn't match the order (a digit swapped in the date of birth, or a similar surname) */
+      ptTrap: L.trap && Math.random() < 0.25 ? BGX.pick(["dob", "name"]) : null
     };
     const D = () => qty(c.d, c.du), H = () => qty(good.s, good.su);
     K.begin(L, L.n === 1 ? [
@@ -246,11 +250,13 @@
     st.phase = "check"; K.setStep(0);
     panel().innerHTML = `<div class="sp-cards">${orderCard()}${vialCard()}</div>
       <p class="sp-tip" id="sp-tip" aria-live="polite"></p>
+      <div class="lab-controls sp-hands"><button class="lab-btn" id="sp-hands" type="button">🧼 Clean your hands</button></div>
       <p class="br-label sp-mt">Compare the order with the label${L.guided ? " (tap each check)" : ""}</p>
       <div class="sp-checks">${CHECKS.map(([k, t]) => `<button class="sp-chk" data-chk="${k}" type="button"><span class="dot"></span>${t}</button>`).join("")}</div>
       <div class="lab-controls"><button class="br-next sp-yes" id="sp-use">✓ Vial is right: use it</button><button class="br-ghost sp-no" id="sp-reject">✗ Wrong vial: reject</button></div>`;
-    tip(L.guided ? "<b>Step 1.</b> Tap each check. Both matching spots light up: compare them." : L.trap ? "<b>Step 1.</b> Check everything. On this level the pharmacy sometimes sends the <b>wrong vial</b>." : "<b>Step 1.</b> Check the label against the order, then decide.");
-    const gate = () => { const all = CHECKS.every(([k]) => st.looked[k]); if (L.guided) { $("#sp-use").disabled = !all; $("#sp-reject").disabled = !all; } };
+    tip(L.guided ? "<b>Step 1.</b> First <b>clean your hands</b>, then tap each check. Both matching spots light up: compare them." : L.trap ? "<b>Step 1.</b> Check everything. On this level the pharmacy sometimes sends the <b>wrong vial</b>." : "<b>Step 1.</b> Check the label against the order, then decide.");
+    const gate = () => { const all = CHECKS.every(([k]) => st.looked[k]) && st.hands; if (L.guided) { $("#sp-use").disabled = !all; $("#sp-reject").disabled = !all; } };
+    $("#sp-hands").onclick = () => { if (st.hands) return; st.hands = true; BGX.sfx.tap(); const b = $("#sp-hands"); b.classList.add("is-on"); b.textContent = "✓ Hands cleaned"; b.disabled = true; if (L.guided) tip("<b>Hands clean.</b> Hand hygiene comes before you touch any medicine. Now tap each check."); gate(); };
     view.querySelectorAll("[data-chk]").forEach(b => b.onclick = () => {
       const k = b.dataset.chk; st.looked[k] = true; BGX.sfx.tap();
       view.querySelectorAll(".sp-chk").forEach(x => x.classList.toggle("is-on", x === b));
@@ -300,6 +306,7 @@
       tip(`This vial <b>is</b> right: the name, the strength (${qty(st.vial.s, st.vial.su)}/mL), the route (${st.c.r}) and the date (EXP ${st.vial.exp}) all fit the order. Press <b>Use it</b>.`);
       return;
     }
+    if (!st.hands) { st.hands = "late"; slip("hands", "You handled the vial before cleaning your hands: hand hygiene comes first, every time."); }
     BGX.sfx.ok(); phaseCalc();
   }
 
@@ -372,14 +379,41 @@
     tip(L.guided ? `<b>Step 3.</b> Use the <b>smallest syringe that holds the dose</b>: it has the finest lines, so it's the most accurate. For ${mL(st.target)} that is the highlighted <b>${st.accept[0]} mL</b> syringe.` : "<b>Step 3.</b> Smallest syringe that holds the dose and has a line for it.");
     view.querySelectorAll("[data-syr]").forEach(b => b.onclick = () => {
       const ml = +b.dataset.syr, s = SYR.find(x => x.ml === ml);
-      if (st.accept.includes(ml)) { BGX.reward(true, b); st.syr = s; return phaseDraw(); }
+      if (st.accept.includes(ml)) { BGX.reward(true, b); st.syr = s; return phasePrep(); }
       st.syrMiss++; b.classList.add("is-wrong"); BGX.reward(false, null, { flash: b });
       if (st.syrMiss === 1) slip("syr", `Syringe: you first picked ${ml} mL; best for ${mL(st.target)} is the ${st.accept[0]} mL.`);
       tip(s.ml < st.target ? `The ${ml} mL syringe is too small to hold ${mL(st.target)}.` : !isMult(st.target, s.g) ? `The ${ml} mL syringe has lines every ${num(s.g)} mL, so there is no line for ${mL(st.target)}.` : `The ${ml} mL syringe would work, but a smaller one has finer lines and is more accurate. Pick the smallest that holds ${mL(st.target)}.`);
     });
   }
 
-  /* 4–6. draw up, bubbles, confirm */
+  /* 4. prepare the vial: swab the top, then inject air equal to the dose (one wrong option to resist) */
+  const PREP = [
+    { k: "swab", t: "Swab the rubber top with alcohol and let it dry" },
+    { k: "air", t: () => `Draw ${mL(st.target)} of air into the syringe and inject it into the vial` },
+    { k: "blow", t: "Blow on the swabbed top so it dries faster", bad: "Blowing or fanning puts germs back on the clean top. Let the alcohol air-dry instead." }
+  ];
+  function phasePrep() {
+    st.phase = "prep"; K.setStep(3);
+    const opts = BGX.shuffle(PREP);
+    panel().innerHTML = orderCard(true) + `<p class="br-label sp-mt">Step 4 · Prepare the vial</p>
+      <div class="sp-prep">${opts.map(o => `<button class="lab-btn sp-prepbtn" data-prep="${o.k}" type="button">${typeof o.t === "function" ? o.t() : o.t}</button>`).join("")}</div>
+      <p class="sp-tip" id="sp-tip" aria-live="polite"></p>`;
+    tip(L.guided ? "<b>Step 4.</b> Do the two right actions <b>in order</b>: clean the rubber top first, then put air into the vial. One option is a mistake." : "<b>Step 4.</b> Prepare the vial before you draw up: pick the right actions in the right order.");
+    view.querySelectorAll("[data-prep]").forEach(b => b.onclick = () => {
+      const o = PREP.find(x => x.k === b.dataset.prep);
+      if (o.bad) { if (!st.prep.includes("blow")) { st.prep.push("blow"); slip("blow", "You blew on the swabbed vial top: let alcohol air-dry so the top stays clean."); } BGX.reward(false, null, { flash: b }); b.classList.add("is-wrong"); b.disabled = true; return tip(`<b>Not that one.</b> ${o.bad}`); }
+      if (o.k === "air" && !st.prep.includes("swab")) {
+        if (!st.prep.includes("order")) { st.prep.push("order"); slip("prep", "You put the needle into the vial before swabbing the top: clean it first."); }
+        BGX.reward(false, null, { flash: b });
+        return tip("<b>Swab first.</b> The needle must only go through a clean rubber top. Swab it and let it dry, then add the air.");
+      }
+      st.prep.push(o.k); b.classList.add("is-on"); b.disabled = true; BGX.sfx.ok();
+      if (o.k === "swab") tip("<b>Clean.</b> Now add air: it replaces the liquid you'll take out, so the plunger isn't sucked back.");
+      if (st.prep.includes("swab") && st.prep.includes("air")) { tip("<b>Vial ready.</b> Turn it upside down and draw up your dose."); setTimeout(phaseDraw, BGX.RM ? 0 : 700); }
+    });
+  }
+
+  /* 5–7. draw up, bubbles, confirm */
   const Y0 = 176, YH = 300, BX = 78, BW = 44, CX = BX + BW / 2;   // barrel: zero line, length for full capacity, left x, width
   const px = () => YH / st.syr.ml;
   const content = () => st.liquid + st.air;
@@ -446,7 +480,7 @@
     </svg>`;
   }
   function phaseDraw() {
-    st.phase = "draw"; K.setStep(3);
+    st.phase = "draw"; K.setStep(4);
     const s = st.syr;
     panel().innerHTML = orderCard(true) + `
       <div class="sp-stage">
@@ -581,12 +615,12 @@
     if (st.showRead) { if (lb.hidden) lb.hidden = false; $("#sp-live").textContent = num(Math.round(content() / g * 2) / 2 * g); $("#sp-livesub").textContent = st.air > 0 ? `mL (includes ${st.risen ? "an air pocket" : "air bubbles"})` : "mL (top edge of the stopper)"; }
     // step tracker + tips
     const c = content(), onLine = Math.abs(c - st.target) <= g / 2 + 1e-9;
-    let i = 3, t;
+    let i = 4, t;
     if (st.air > 0) {
-      i = 4;
+      i = 5;
       t = !st.risen ? (st.taps ? "<b>Keep tapping</b> the barrel until all the bubbles reach the top." : "<b>Air bubbles!</b> They take up space, so you would give less drug. <b>Tap the barrel</b> to make them rise.")
         : "<b>Bubbles at the top.</b> Now <b>Push ▲</b> (or drag the plunger up) to squeeze the air out through the needle.";
-    } else if (onLine) { i = 5; t = `<b>On the line!</b> The top edge of the stopper is at ${mL(st.target)}${st.aired ? " and the air is out" : ""}. Check the label one last time, then <b>Confirm dose</b>.`; }
+    } else if (onLine) { i = 6; t = `<b>On the line!</b> The top edge of the stopper is at ${mL(st.target)}${st.aired ? " and the air is out" : ""}. Check the label one last time, then <b>Confirm dose</b> and take it to the patient.`; }
     else if (c < st.target) t = L.guided ? `<b>Step 4.</b> Drag the plunger <b>down</b> (or hold <b>Pull ▼</b>) until the top edge of the black stopper reaches the <b>${num(st.target)}</b> line.` : "Draw up your dose: read at the <b>top edge</b> of the stopper. Use the magnifier for the last lines.";
     else t = st.aired ? "Air out. Now set the stopper exactly on your line again." : `Too far: <b>Push ▲</b> back to the ${num(st.target)} line.`;
     K.setStep(i);
@@ -597,8 +631,35 @@
   function disableAll() { view.querySelectorAll("#sp-panel button, #lab-hintbtn, #sp-in").forEach(b => b.disabled = true); }
   function confirmDose() {
     if (!st || st.done || st.phase !== "draw") return;
-    st.done = true; st.phase = "done"; cancelAnimationFrame(raf); draw(0); K.setStep(6);
+    cancelAnimationFrame(raf); draw(0); st.phase = "bedside"; K.setStep(6);
+    phaseBedside();
+  }
+  /* 7. at the bedside: two identifiers on the wristband against the order */
+  function phaseBedside() {
+    const band = st.ptTrap === "dob" ? { name: "Alex Morgan", dob: "14 Mar 1986" } : st.ptTrap === "name" ? { name: "Alex Morgen", dob: "14 Mar 1968" } : { name: "Alex Morgan", dob: "14 Mar 1968" };
+    panel().innerHTML = orderCard(true) + `<p class="br-label sp-mt">Step 7 · At the bedside</p>
+      <div class="sp-cards"><div class="sp-order"><p class="br-label">Order says</p><p class="sp-line"><b>Alex Morgan</b></p><p class="sp-line">DOB 14 Mar 1968</p></div>
+        <div class="sp-order sp-band"><p class="br-label">Wristband says</p><p class="sp-line"><b>${esc(band.name)}</b></p><p class="sp-line">DOB ${esc(band.dob)}</p></div></div>
+      <div class="lab-controls"><button class="br-next sp-yes" id="sp-give">✓ Name and date of birth match: give</button><button class="br-ghost sp-no" id="sp-stop">✗ They don't match: stop and check</button></div>
+      <p class="sp-tip" id="sp-tip" aria-live="polite"></p>`;
+    tip(L.guided ? "<b>Step 7.</b> Ask the patient to say their full name and date of birth, and check both against the order and the wristband. Never use the bed number." : "<b>Step 7.</b> Check two identifiers before you give anything.");
+    $("#sp-give").onclick = () => { st.ptOk = !st.ptTrap; if (st.ptTrap) return finishRun("wrongpt"); finishRun(); };
+    $("#sp-stop").onclick = () => {
+      if (st.ptTrap) { st.ptOk = true; st.ptCaught = true; BGX.reward(true, $("#sp-stop")); tip("<b>Well caught.</b> The wristband doesn't match the order. You stop, check with the team and find the right patient."); setTimeout(() => finishRun(), BGX.RM ? 0 : 1400); return; }
+      if (!st.ptStopped) { st.ptStopped = true; slip("pt", "At the bedside you stopped although the name and date of birth matched (a delay, not harm, but a slip)."); }
+      BGX.reward(false, null, { flash: $("#sp-tip") });
+      tip("Look again: the name <b>and</b> the date of birth on the wristband match the order exactly. Give the dose.");
+    };
+  }
+  function finishRun(why) {
+    if (st.done) return;
+    st.done = true; st.phase = "done"; K.setStep(7);
     disableAll();
+    if (why === "wrongpt") {
+      BGX.reward(false, null, { flash: view });
+      return K.result({ n: 0, verdict: "Wrong patient.", levels: LEVELS, onLevel: start, onMenu: menu,
+        why: `The wristband ${st.ptTrap === "dob" ? "date of birth (14 Mar 1986)" : "surname (Morgen)"} doesn't match the order (Alex Morgan, 14 Mar 1968). A perfect dose given to the wrong person is still a serious error: always match two identifiers before giving.`, extraHTML: rightsHTML() });
+    }
     const g = st.syr.g, err = st.liquid - st.target, abs = Math.abs(err);
     let n0 = abs <= g / 2 + 1e-9 ? 3 : abs <= g + 1e-9 ? 2 : abs <= 2 * g + 1e-9 ? 1 : 0;
     const notes = [];
@@ -635,10 +696,13 @@
     const c = st.c, g = st.good, ok = b => b ? `<span class="sp-ok">✓</span>` : `<span class="sp-x">✗</span>`;
     const conv = c.du !== g.su && g.su !== "units";
     const rows = [
+      [st.hands === true, "Clean hands", st.hands === true ? "Hands cleaned before touching the medicine." : "Clean your hands before you touch the vial."],
       [st.trap ? st.caught : true, "Right drug & vial", st.trap ? (st.caught ? `You caught the wrong vial (${st.trap.kind === "expired" ? "expired" : st.trap.kind === "strength" ? "wrong strength" : st.trap.kind === "route" ? "look-alike drug, IM only" : "look-alike name"}).` : `The vial was wrong: ${trapWhy(st.trap)}`) : `${esc(g.name)} ${qty(g.s, g.su)}/mL, in date (EXP ${g.exp}).`],
       [st.calcMiss === 0, "Right dose (calculation)", `${workingText()}${conv ? " Converting first avoids 10× and 1000× errors." : ""}`],
       [true, "Right route", `${c.r}: the label allows "${esc(g.routeTxt)}".`],
       [st.syr ? st.syrMiss === 0 : false, "Right syringe", st.syr ? `${st.accept[0]} mL: the smallest that holds ${mL(st.target)} has the finest lines.` : `${st.accept[0]} mL for ${mL(st.target)}.`],
+      [st.prep.includes("swab") && st.prep.includes("air") && !st.prep.includes("order") && !st.prep.includes("blow"), "Vial prepared", st.prep.includes("air") ? "Top swabbed and left to dry, then air equal to the dose injected." : "Not reached."],
+      [st.ptOk === true && !st.ptStopped, "Right patient", st.ptOk == null ? "Not reached." : st.ptCaught ? "You caught a wristband that didn't match the order." : st.ptOk ? "Name and date of birth matched the order." : "The wristband didn't match the order."],
       [st.phase === "done" ? st.air === 0 : false, "Air out", st.phase === "done" ? (st.planAir ? (st.air === 0 ? "Bubbles tapped up and pushed out." : "Air was still in the syringe.") : "No bubbles this time: still always look for them.") : "Not reached."]
     ];
     return `<div class="sp-rights"><p class="br-label">Your checks</p><ul>${rows.map(([b, h, t]) => `<li>${ok(b)}<span><b>${h}.</b> ${t}</span></li>`).join("")}</ul>
